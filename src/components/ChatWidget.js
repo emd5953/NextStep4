@@ -7,7 +7,7 @@ import "../styles/ChatWidget.css";
 
 // Initialize the AI client with your API key.
 // IMPORTANT: For production, secure your API key in environment variables.
-const ai = new GoogleGenAI({ apiKey: "AIzaSyAVuQ5LDp8CFQ0gzHiWf7rjkrlHxsZQxvs" });
+const ai = new GoogleGenAI({ apiKey: "" });
 
 const ChatWidget = () => {
   const [isMinimized, setIsMinimized] = useState(false); // Toggle for showing/hiding the chat body
