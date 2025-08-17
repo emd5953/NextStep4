@@ -1,0 +1,16 @@
+@startuml Send Profile Match Notification Activity Diagram
+title Send Profile Match Notification Activity Diagram
+
+start
+:New job posted;
+:Match job properties with profiles;
+if (Match found?) then (yes)
+    :Notify job seekers;
+    :Send notification about new job 
+    (email/text/push-notification);
+else (no)
+    :No action needed;
+endif
+stop
+
+@enduml

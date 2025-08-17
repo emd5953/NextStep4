@@ -1,0 +1,208 @@
+.details-container {
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+  width: 100%;
+  color: #fff;
+  padding: 40px 20px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.details-content {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 40px;
+  width: 100%;
+  max-width: 800px;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #fff;
+  cursor: pointer;
+  padding: 5px 10px;
+  transition: transform 0.2s;
+}
+
+.close-button:hover {
+  transform: scale(1.1);
+}
+
+.job-header {
+  margin-bottom: 30px;
+}
+
+.job-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  background: linear-gradient(90deg, #fff, #c9658e);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.company-info {
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+  margin-right: 23px;
+}
+
+.company-info a {
+  color: #c9658e;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.company-info a:hover {
+  color: #ff758c;
+}
+
+.job-location {
+  color: rgba(80, 79, 79, 0.7);
+}
+
+.job-location2 {
+  color: rgb(169 166 166 / 70%);
+}
+
+.job-overview {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.overview-item {
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.overview-item:last-child {
+  margin-bottom: 0;
+}
+
+.detailed-section {
+  margin-bottom: 30px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.detailed-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #c9658e;
+}
+
+.detailed-section p {
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.detailed-section ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.detailed-section ul li {
+  margin-bottom: 10px;
+  padding-left: 20px;
+  position: relative;
+}
+
+.detailed-section ul li:before {
+  content: "•";
+  color: #c9658e;
+  position: absolute;
+  left: 0;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.back-button, .apply-button {
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.back-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.apply-button {
+  background: linear-gradient(90deg, #ff758c, #c9658e);
+  border: none;
+  color: white;
+  box-shadow: 0 5px 15px rgba(255, 118, 136, 0.4);
+}
+
+.apply-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 118, 136, 0.6);
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.error-message {
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  color: #ff6b6b;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .details-content {
+    padding: 20px;
+  }
+
+  .job-header h1 {
+    font-size: 2rem;
+  }
+
+  .company-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .back-button, .apply-button {
+    width: 100%;
+  }
+}
