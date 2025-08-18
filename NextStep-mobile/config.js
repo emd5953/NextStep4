@@ -14,4 +14,4 @@ export const API_BASE_URL = IS_DEV
 // Other configuration constants
 export const APP_NAME = 'NextStep';
 export const APP_VERSION = '1.0.0';
-export const GOOGLE_CLIENT_ID = '681971948277-sghsen822vlul0c98ffs8mqrnn4u8god.apps.googleusercontent.com';
+export const GOOGLE_CLIENT_ID = '111102334744-e38cutqqecmlshks99bpeieb529bvs5i.apps.googleusercontent.com';
