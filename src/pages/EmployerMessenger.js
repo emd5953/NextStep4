@@ -51,18 +51,6 @@ const EmployerMessenger = () => {
     }
   }, [token]);
 
-  const refreshMessages = useCallback(async () => {
-//console.log('refreshMessages');
-    await fetchEmployerMessages();
-    if (selectedContact?._id) {
-      const currentContact = contacts.find(c => c._id === selectedContact._id);
-      if (currentContact?.countOfUnreadMessages > 0) {
-        setTimeout(() => {
-          markMessagesAsRead(selectedContact._id);
-        }, timedDelay);
-      }
-    }
-  }, [fetchEmployerMessages, selectedContact, contacts]);
 
   const fetchApplicantsFromJobs = async () => {
 //console.log('fetchApplicantsFromJobs');

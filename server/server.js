@@ -91,6 +91,9 @@ client
        *        ROUTES DEFINITION START         *
        ******************************************/
 
+      // Create API router for /api prefixed routes
+      const apiRouter = express.Router();
+
       /* ------------------
          Tracks Apply(right-swipe), Skip, and Ignore Jobs
          mode: 1 for apply, 2 for skip, 3 for ignore
@@ -99,21 +102,21 @@ client
       const APPLY = 1;
       const IGNORE = 2;
 
-      app.post("/jobsTracker", verifyToken, applicationsController.trackApplication);
+      apiRouter.post("/jobsTracker", verifyToken, applicationsController.trackApplication);
 
       /* ------------------
          Sign In
          (Email+Password or Phone+Verification)
       ------------------ */
-      app.post("/signin", authController.signin);
+      apiRouter.post("/signin", authController.signin);
 
       /* ------------------
          Sign Up (Phone verification optional)
       ------------------ */
-      app.post("/signup", authController.signup);
+      apiRouter.post("/signup", authController.signup);
 
       /* ------------------
-         Email Verification
+         Email Verification (keep on main app - no /api prefix needed)
       ------------------ */
       app.get("/verified", (req, res) => {
         // Serve the verification page
@@ -165,52 +168,52 @@ client
       /* ------------------
          Resend Verification Email
       ------------------ */
-      app.post("/resend-verification", authController.resendVerification);
+      apiRouter.post("/resend-verification", authController.resendVerification);
 
       /* ------------------
          Get Applications (for logged-in user)
       ------------------ */
-      app.get("/applications", verifyToken, applicationsController.getUserApplications);
+      apiRouter.get("/applications", verifyToken, applicationsController.getUserApplications);
 
       /* ------------------
          Get Single Job by ID
       ------------------ */
-      app.get("/jobs/:jobId", jobsController.getJobById);
+      apiRouter.get("/jobs/:jobId", jobsController.getJobById);
 
       /* ------------------
          Browse Jobs
       ------------------ */
-      app.get("/jobs", jobsController.getAllJobs);
+      apiRouter.get("/jobs", jobsController.getAllJobs);
 
       /* ------------------
          Get New Jobs (excluding already applied)
       ------------------ */
-      app.get("/newJobs", verifyToken, jobsController.getNewJobs);
+      apiRouter.get("/newJobs", verifyToken, jobsController.getNewJobs);
 
       /* ------------------
          Create New Job Posting
       ------------------ */
-      app.post("/jobs", verifyToken, filterJobContent, jobsController.createJob);
+      apiRouter.post("/jobs", verifyToken, filterJobContent, jobsController.createJob);
 
       /* ------------------
         Jobs to show in the homepage
       ------------------ */
-      app.get("/retrieveJobsForHomepage", jobsController.getHomepageJobsUsingSemanticSearch);
+      apiRouter.get("/retrieveJobsForHomepage", jobsController.getHomepageJobsUsingSemanticSearch);
 
       /* ------------------
          Get Profile (for logged-in user)
       ------------------ */
-      app.get("/profile", verifyToken, profileController.getProfile);
+      apiRouter.get("/profile", verifyToken, profileController.getProfile);
 
       /* ------------------
          Update Profile (for logged-in user)
       ------------------ */
-      app.post("/updateprofile", verifyToken, upload.fields([{ name: "photo" }, { name: "resume" }]), profileController.updateProfile);
+      apiRouter.post("/updateprofile", verifyToken, upload.fields([{ name: "photo" }, { name: "resume" }]), profileController.updateProfile);
 
       /* ------------------
          Analyze Resume
       ------------------ */
-      app.post("/analyze-resume", verifyToken, upload.single('pdf'), async (req, res) => {
+      apiRouter.post("/analyze-resume", verifyToken, upload.single('pdf'), async (req, res) => {
         try {
           if (!req.file) {
             return res.status(400).json({ error: 'No PDF file uploaded' });
@@ -236,108 +239,111 @@ client
       /* ------------------
          Logout
       ------------------ */
-      app.get("/logout", authController.logout);
+      apiRouter.get("/logout", authController.logout);
 
       /* ------------------
          Google OAuth
       ------------------ */
-      app.post("/auth/google", authController.googleAuth);
+      apiRouter.post("/auth/google", authController.googleAuth);
 
       /* ------------------
          Get All Users (for messenger)
       ------------------ */
-      app.get("/users", verifyToken, profileController.getAllUsers);
+      apiRouter.get("/users", verifyToken, profileController.getAllUsers);
 
       /* ------------------
          Get Messages
       ------------------ */
-      app.get("/messages", verifyToken, messagesController.getMessages);
+      apiRouter.get("/messages", verifyToken, messagesController.getMessages);
 
       /* ------------------
          Mark Messages as Read
       ------------------ */
-      app.put("/messages/read/:contactId", verifyToken, messagesController.markMessagesAsRead);
+      apiRouter.put("/messages/read/:contactId", verifyToken, messagesController.markMessagesAsRead);
 
       /* ------------------
          Mark Company Messages as Read
       ------------------ */
-      app.put("/messages/read/company/:companyId", verifyToken, messagesController.markCompanyMessagesAsRead);
+      apiRouter.put("/messages/read/company/:companyId", verifyToken, messagesController.markCompanyMessagesAsRead);
 
       /* ------------------
          Send Message
       ------------------ */
-      app.post("/messages", verifyToken, messagesController.sendMessage);
+      apiRouter.post("/messages", verifyToken, messagesController.sendMessage);
 
       /* ------------------
          Get Recent Contacts
       ------------------ */
-      app.get("/myRecentContacts", verifyToken, messagesController.getRecentContacts);
+      apiRouter.get("/myRecentContacts", verifyToken, messagesController.getRecentContacts);
 
       /* ------------------
          Get Recent Employer Contacts
       ------------------ */
-      app.get("/myRecentEmployerContacts", verifyToken, messagesController.getRecentEmployerContacts);
+      apiRouter.get("/myRecentEmployerContacts", verifyToken, messagesController.getRecentEmployerContacts);
 
       /* ------------------
          Get Employers from Applications
       ------------------ */
-      app.get("/employersFromApplications", verifyToken, messagesController.getEmployersFromApplications);
+      apiRouter.get("/employersFromApplications", verifyToken, messagesController.getEmployersFromApplications);
 
       /* ------------------
          Send Message to Company
       ------------------ */
-      app.post("/messages/company", verifyToken, messagesController.sendMessageToCompany);
+      apiRouter.post("/messages/company", verifyToken, messagesController.sendMessageToCompany);
 
       /* ------------------
          Employer Messaging Routes
       ------------------ */
-      app.get("/employer/messages", verifyToken, employerMessagingController.getEmployerMessages);
-      app.put("/employer/messages/read/:applicantId", verifyToken, employerMessagingController.markMessagesAsRead);
-      app.get("/employer/recent-applicant-contacts", verifyToken, employerMessagingController.getRecentApplicantContacts);
-      app.get("/employer/applicants", verifyToken, employerMessagingController.getApplicantsFromJobs);
-      app.post("/employer/messages", verifyToken, employerMessagingController.sendMessageToApplicant);
+      apiRouter.get("/employer/messages", verifyToken, employerMessagingController.getEmployerMessages);
+      apiRouter.put("/employer/messages/read/:applicantId", verifyToken, employerMessagingController.markMessagesAsRead);
+      apiRouter.get("/employer/recent-applicant-contacts", verifyToken, employerMessagingController.getRecentApplicantContacts);
+      apiRouter.get("/employer/applicants", verifyToken, employerMessagingController.getApplicantsFromJobs);
+      apiRouter.post("/employer/messages", verifyToken, employerMessagingController.sendMessageToApplicant);
 
       /* ------------------
          Get Employer's Applications with Details
       ------------------ */
-      app.get("/employer/applications", verifyToken, applicationsController.getEmployerApplications);
+      apiRouter.get("/employer/applications", verifyToken, applicationsController.getEmployerApplications);
 
       /* ------------------
          Update Application Status
       ------------------ */
-      app.put("/employer/applications/:applicationId", verifyToken, applicationsController.updateApplicationStatus);
+      apiRouter.put("/employer/applications/:applicationId", verifyToken, applicationsController.updateApplicationStatus);
 
       /* ------------------
          Get Application Details
       ------------------ */
-      app.get("/employer/applications/:applicationId", verifyToken, applicationsController.getApplicationDetails);
+      apiRouter.get("/employer/applications/:applicationId", verifyToken, applicationsController.getApplicationDetails);
 
       /* ------------------
          Get All Applications (unfiltered)
       ------------------ */
-      app.get("/getallappl", verifyToken, applicationsController.getAllApplications);
+      apiRouter.get("/getallappl", verifyToken, applicationsController.getAllApplications);
 
-      app.get("/userProfile/:userId", profileController.getUserProfile);
+      apiRouter.get("/userProfile/:userId", profileController.getUserProfile);
 
       /* ------------------
          Update Job Posting
       ------------------ */
-      app.put("/employer/jobs/:jobId", verifyToken, filterJobContent, jobsController.updateJob);
+      apiRouter.put("/employer/jobs/:jobId", verifyToken, filterJobContent, jobsController.updateJob);
 
       /* ------------------
          Delete Job Posting
       ------------------ */
-      app.delete("/employer/jobs/:jobId", verifyToken, jobsController.deleteJob);
+      apiRouter.delete("/employer/jobs/:jobId", verifyToken, jobsController.deleteJob);
 
       /* ------------------
          Search Employer's Job Postings
       ------------------ */
-      app.get("/employer/jobs/search", verifyToken, jobsController.searchEmployerJobs);
+      apiRouter.get("/employer/jobs/search", verifyToken, jobsController.searchEmployerJobs);
 
       /* ------------------
-         Get Company Profile
+         Get Company Profile (mount company routes on API router)
       ------------------ */
-      app.use('/', companyRoutes);
+      apiRouter.use('/', companyRoutes);
+
+      // Mount all API routes with /api prefix
+      app.use('/api', apiRouter);
 
       /******************************************
        *         ROUTES DEFINITION END          *

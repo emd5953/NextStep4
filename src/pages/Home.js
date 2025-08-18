@@ -8,7 +8,7 @@ import jwt_decode from 'jwt-decode';
 
 
 const Home = () => {
-  const { token, employerFlag } = useContext(TokenContext);
+  const { token } = useContext(TokenContext);
   const navigate = useNavigate();
   const decoded = token ? jwt_decode(token) : null;
   const isEmployer = decoded?.employerFlag || false;

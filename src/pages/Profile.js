@@ -159,39 +159,44 @@ const Profile = () => {
       formData.append("resume", resume);
     }
 
-    try {
-      await axios.post(`${API_SERVER}/updateprofile`, formData, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setMessage(
-        <span>
-          Profile Updated.{" "}
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              navigate('/');
-            }}
-            style={{ color: '#007bff', textDecoration: 'underline', cursor: 'pointer' }}
-          >
-            See matched jobs
-          </a>
-        </span>
-      );
-      triggerProfileUpdate(); // Trigger profile update after successful submission
-    } catch (error) {
-      console.error('Error updating profile:', error);
-      setError('Failed to update profile. Please try again.');
+  try {
+    await axios.post(`${API_SERVER}/updateprofile`, formData, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    setMessage(
+      <span>
+        Profile Updated.{" "}
+        <button
+          type="button"
+          onClick={() => navigate('/')}
+          style={{ 
+            color: '#007bff', 
+            textDecoration: 'underline', 
+            cursor: 'pointer',
+            background: 'none',
+            border: 'none',
+            padding: 0,
+            font: 'inherit'
+          }}
+        >
+          See matched jobs
+        </button>
+      </span>
+    );
+    triggerProfileUpdate();
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    setError('Failed to update profile. Please try again.');
     }
-  };
-
-  const handleViewResume = () => {
-    if (!resume) {
-      setError('No resume available');
-      return;
-    }
-    setShowResumeOverlay(true);
-  };
+  }
+  
+    const handleViewResume = () => {
+      if (!resume) {
+        setError('No resume available');
+        return;
+      }
+      setShowResumeOverlay(true);
+    };
 
   return (
     <div className="profile-container">
