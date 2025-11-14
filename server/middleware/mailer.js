@@ -7,6 +7,13 @@ const mj = require('node-mailjet').apiConnect(process.env.MJ_API_KEY, process.en
 
 // Function to send an email
 const sendEmail = async (fromAddress, fromName, toAddress, toName, subject, htmlBody) => {
+  console.log('=== EMAIL DEBUG ===');
+  console.log('fromAddress:', fromAddress);
+  console.log('fromName:', fromName);
+  console.log('toAddress:', toAddress);
+  console.log('EMAIL_FROM from .env:', process.env.EMAIL_FROM);
+  console.log('==================');
+  
   try {
     const request = await mj.post('send', { version: 'v3.1' }).request({
       Messages: [
@@ -34,4 +41,4 @@ const sendEmail = async (fromAddress, fromName, toAddress, toName, subject, html
 
 module.exports = {
   sendEmail
-}; 
+};

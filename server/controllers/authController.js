@@ -175,7 +175,7 @@ const authController = {
 
 
       await sendEmail(
-        process.env.EMAIL_FROM || "noreply@nextstep.com",
+        process.env.EMAIL_FROM,
         "NextStep",
         email,
         full_name,
@@ -330,7 +330,7 @@ const authController = {
       `;
       
       await sendEmail(
-        process.env.EMAIL_FROM || "noreply@nextstep.com",
+        process.env.EMAIL_FROM,
         "NextStep",
         email,
         user.full_name,

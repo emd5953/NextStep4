@@ -334,7 +334,7 @@ const applicationsController = {
       const appl_name = application[0].name;
       const company_name = application[0].companyDetails.name;
       const jobTitle = application[0].jobDetails.title;
-      const senderEmail = "bzm436@psu.edu";
+     const senderEmail = process.env.EMAIL_FROM;
 
       if (status === 'Offered') {
         sendEmail(
