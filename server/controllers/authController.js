@@ -317,7 +317,7 @@ const authController = {
       );
       
       // Send verification email
-      const verificationUrl = `${process.env.SERVER_HOST}/verified?token=${verificationToken}`;
+      const verificationUrl = `${process.env.SERVER_DOMAIN}/verified?token=${verificationToken}`;
       const emailSubject = "Verify your NextStep account";
       const emailBody = `
         <h1>Welcome to NextStep!</h1>

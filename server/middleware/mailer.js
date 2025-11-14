@@ -1,17 +1,28 @@
-// Import the 'dotenv' package to load environment variables from a .env file
-require('dotenv').config();
 
-// Import the Mailjet client
+require('dotenv').config();
 const mj = require('node-mailjet').apiConnect(process.env.MJ_API_KEY, process.env.MJ_PRIVATE_KEY);
 
-
-// Function to send an email
+/**
+ * Send an email using Mailjet
+ * @throws {Error} If email sending fails
+ */
 const sendEmail = async (fromAddress, fromName, toAddress, toName, subject, htmlBody) => {
+  // Validate required parameters
+  if (!fromAddress || !toAddress || !subject || !htmlBody) {
+    throw new Error('Missing required email parameters');
+  }
+
+  // Validate Mailjet credentials
+  if (!process.env.MJ_API_KEY || !process.env.MJ_PRIVATE_KEY) {
+    throw new Error('Mailjet credentials not configured');
+  }
+
   console.log('=== EMAIL DEBUG ===');
   console.log('fromAddress:', fromAddress);
   console.log('fromName:', fromName);
   console.log('toAddress:', toAddress);
-  console.log('EMAIL_FROM from .env:', process.env.EMAIL_FROM);
+  console.log('toName:', toName);
+  console.log('subject:', subject);
   console.log('==================');
   
   try {
@@ -34,8 +45,11 @@ const sendEmail = async (fromAddress, fromName, toAddress, toName, subject, html
       ],
     });
 
+    console.log('Email sent successfully:', request.body);
+    return request.body;
   } catch (error) {
-    console.error(error); 
+    console.error('Email sending failed:', error.message);
+    throw new Error(`Failed to send email: ${error.message}`);
   }
 };
 
