@@ -60,7 +60,6 @@ console.log("Environment check:", {
    server_domain: process.env.SERVER_DOMAIN,
 });
 
-console.log('Last updated: 4/25/2025');
 
 // Initialize Google OAuth client
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
