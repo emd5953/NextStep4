@@ -160,7 +160,7 @@ const authController = {
       await collection.insertOne(newUser);
       
       // Send verification email
-      const verificationUrl = `${process.env.SERVER_DOMAIN}/verified?token=${verificationToken}`;
+      const verificationUrl = `${process.env.SERVER_DOMAIN}/verify-email?token=${verificationToken}`;
       console.log(verificationUrl);
       const emailSubject = "Verify your NextStep account";
       const emailBody = `
@@ -317,7 +317,7 @@ const authController = {
       );
       
       // Send verification email
-      const verificationUrl = `${process.env.SERVER_DOMAIN}/verified?token=${verificationToken}`;
+      const verificationUrl = `${process.env.SERVER_DOMAIN}/verify-email?token=${verificationToken}`;
       const emailSubject = "Verify your NextStep account";
       const emailBody = `
         <h1>Welcome to NextStep!</h1>
