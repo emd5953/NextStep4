@@ -27,61 +27,92 @@ const authController = {
    * @throws {Error} 401 if credentials are invalid
    * @throws {Error} 500 if server error occurs
    */
-  signin: async (req, res) => {
-    try {
-      const collection = req.app.locals.db.collection("users");
-      const { email, password, phone, verificationCode } = req.body;
+  // Add this debugging to your authController.js signin function
+// Replace the existing signin function with this version
 
-      // Find user by email or phone
-      const user = await collection.findOne({
-        $or: [{ email }],
-      });
-      
-      if (!user) {
-        return res.status(401).json({ message: "No matching user found." });
-      }
+signin: async (req, res) => {
+  try {
+    const collection = req.app.locals.db.collection("users");
+    const { email, password, phone, verificationCode } = req.body;
 
-      // If signing in with phone, verify the code
-      if (phone && verificationCode) {
-        const verification = verifyCode(phone, verificationCode);
-        if (!verification.valid) {
-          return res.status(401).json({ message: verification.message });
-        }
-      } else {
-        // If signing in with email, verify password
-        const passwordMatch = await bcrypt.compare(password, user.password);
-        if (!passwordMatch) {
-          return res.status(401).json({ message: "Invalid credentials" });
-        }
-        
-        // Check if email is verified
-        if (!user.emailVerified) {
-          return res.status(401).json({ 
-            message: "Email not verified. Please check your email for a verification link.",
-            emailNotVerified: true
-          });
-        }
-      }
+    console.log("=== SIGNIN DEBUG START ===");
+    console.log("1. Login attempt for email:", email);
 
-      // Generate JWT
-      const token = jwt.sign(
-        { id: user._id, employerFlag: user.employerFlag },
-        process.env.JWT_SECRET,
-        { expiresIn: "1h" }
-      );
-
-      res.status(200).json({
-        token,
-        email,
-        full_name: user.full_name,
-        message: "Login success",
-        employerFlag: user.employerFlag,
-        companyId: user.companyId || null
-      });
-    } catch (err) {
-      res.status(500).json({ error: "Failed to retrieve users" });
+    // Find user by email or phone
+    const user = await collection.findOne({
+      $or: [{ email }],
+    });
+    
+    console.log("2. User found:", user ? "YES" : "NO");
+    
+    if (!user) {
+      console.log("ERROR: No matching user found");
+      return res.status(401).json({ message: "No matching user found." });
     }
-  },
+
+    console.log("3. User data:");
+    console.log("   - Email:", user.email);
+    console.log("   - emailVerified:", user.emailVerified);
+    console.log("   - verificationToken:", user.verificationToken);
+    console.log("   - verificationExpires:", user.verificationExpires);
+
+    // If signing in with phone, verify the code
+    if (phone && verificationCode) {
+      const verification = verifyCode(phone, verificationCode);
+      if (!verification.valid) {
+        return res.status(401).json({ message: verification.message });
+      }
+    } else {
+      // If signing in with email, verify password
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      console.log("4. Password match:", passwordMatch ? "YES" : "NO");
+      
+      if (!passwordMatch) {
+        console.log("ERROR: Invalid credentials");
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+      
+      // Check if email is verified
+      console.log("5. Checking email verification...");
+      console.log("   - emailVerified value:", user.emailVerified);
+      console.log("   - Type:", typeof user.emailVerified);
+      console.log("   - Is falsy?", !user.emailVerified);
+      
+      if (!user.emailVerified) {
+        console.log("ERROR: Email not verified - blocking login");
+        return res.status(401).json({ 
+          message: "Email not verified. Please check your email for a verification link.",
+          emailNotVerified: true
+        });
+      }
+      
+      console.log("6. Email verified - proceeding with login");
+    }
+
+    // Generate JWT
+    const token = jwt.sign(
+      { id: user._id, employerFlag: user.employerFlag },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    console.log("7. JWT generated successfully");
+    console.log("=== SIGNIN DEBUG END ===");
+
+    res.status(200).json({
+      token,
+      email,
+      full_name: user.full_name,
+      message: "Login success",
+      employerFlag: user.employerFlag,
+      companyId: user.companyId || null
+    });
+  } catch (err) {
+    console.error("=== SIGNIN ERROR ===");
+    console.error(err);
+    res.status(500).json({ error: "Failed to retrieve users" });
+  }
+},
 
   /**
    * Registers a new user with email/password or phone verification
@@ -160,7 +191,7 @@ const authController = {
       await collection.insertOne(newUser);
       
       // Send verification email
-      const verificationUrl = `${process.env.SERVER_DOMAIN}/verified?token=${verificationToken}`;
+      const verificationUrl = `${process.env.SERVER_DOMAIN}/api/auth/verify-email?token=${verificationToken}`;
       console.log(verificationUrl);
       const emailSubject = "Verify your NextStep account";
       const emailBody = `
@@ -317,7 +348,7 @@ const authController = {
       );
       
       // Send verification email
-      const verificationUrl = `${process.env.SERVER_DOMAIN}/verified?token=${verificationToken}`;
+      const verificationUrl = `${process.env.SERVER_DOMAIN}/api/auth/verify-email?token=${verificationToken}`;
       const emailSubject = "Verify your NextStep account";
       const emailBody = `
         <h1>Welcome to NextStep!</h1>

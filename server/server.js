@@ -117,51 +117,58 @@ client
       /* ------------------
          Email Verification (keep on main app - no /api prefix needed)
       ------------------ */
-      app.get("/verified", (req, res) => {
-        // Serve the verification page
-        res.sendFile(path.join(__dirname, 'public', 'verified.html'));
-      });
-
-      app.get("/verify-email", async (req, res) => {
-        try {
-          const { token } = req.query;
-          
-          if (!token) {
-            return res.status(400).json({ error: "Verification token is required" });
-          }
-          
-          const collection = req.app.locals.db.collection("users");
-          
-          // Find user with this verification token
-          const user = await collection.findOne({ verificationToken: token });
-          
-          if (!user) {
-            return res.status(400).json({ error: "Invalid verification token" });
-          }
-          
-          // Check if token has expired
-          if (user.verificationExpires < new Date()) {
-            return res.status(400).json({ error: "Verification token has expired" });
-          }
-          
-          // Update user to mark email as verified
-          await collection.updateOne(
-            { _id: user._id },
-            { 
-              $set: { 
-                emailVerified: true,
-                verificationToken: null,
-                verificationExpires: null
-              } 
+      apiRouter.get("/auth/verify-email", async (req, res) => {
+         try {
+            const { token } = req.query;
+            
+            console.log("=== VERIFICATION DEBUG START ===");
+            console.log("1. Token received:", token ? "YES" : "NO");
+            
+            if (!token) {
+               return res.send("ERROR: No verification token provided");
             }
-          );
-          
-          // Redirect to the verification success page
-          res.redirect('/verified?success=true');
-        } catch (error) {
-          console.error("Email verification error:", error);
-          res.status(500).json({ error: "Failed to verify email" });
-        }
+            
+            const collection = req.app.locals.db.collection("users");
+            const user = await collection.findOne({ verificationToken: token });
+            
+            console.log("2. User found:", user ? "YES" : "NO");
+            
+            if (!user) {
+               return res.send("ERROR: Invalid verification token");
+            }
+            
+            console.log("3. User email:", user.email);
+            console.log("4. emailVerified:", user.emailVerified);
+            
+            if (user.verificationExpires < new Date()) {
+               return res.send("ERROR: Token expired");
+            }
+            
+            // Update user
+            await collection.updateOne(
+               { _id: user._id },
+               { 
+               $set: { 
+                  emailVerified: true,
+                  verificationToken: null,
+                  verificationExpires: null
+               } 
+               }
+            );
+            
+            console.log("5. User updated successfully");
+            console.log("=== VERIFICATION DEBUG END ===");
+            
+            // Just send plain text instead of redirecting
+            res.send(`
+               <h1>SUCCESS!</h1>
+               <p>Your email has been verified.</p>
+               <p><a href="http://localhost:3000/login">Click here to login</a></p>
+            `);
+         } catch (error) {
+            console.error("ERROR:", error);
+            res.send("ERROR: " + error.message);
+         }
       });
 
       /* ------------------
