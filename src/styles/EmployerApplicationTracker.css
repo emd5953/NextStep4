@@ -1,90 +1,238 @@
+/* File: /src/styles/EmployerApplicationTracker.css */
+
 .employer-application-tracker-container {
-    padding: 20px;
-    color: #fff;
-    min-height: 100vh;
-    font-family: 'Poppins', sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .employer-application-tracker-container h1 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .employer-application-tracker-container p {
-    font-size: 1.2rem;
-    margin-bottom: 30px;
-  }
-  
+  padding: 32px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  color: #1a1a1a;
+  min-height: 100vh;
+  font-family: 'Inter', 'Poppins', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(180deg, #f8f9fb 0%, #ffffff 100%);
+}
+
+.employer-application-tracker-container h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  text-align: center;
+  color: #000;
+  letter-spacing: -1px;
+}
+
+.employer-application-tracker-container p {
+  font-size: 1.1rem;
+  margin-bottom: 40px;
+  color: #666;
+  text-align: center;
+}
+
+.employer-tracker-table {
+  width: 100%;
+  max-width: 1200px;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #ffffff;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.employer-tracker-table th,
+.employer-tracker-table td {
+  padding: 16px 20px;
+  text-align: left;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.employer-tracker-table th {
+  background: #f8f9fb;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.employer-tracker-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.employer-tracker-table tbody tr:hover {
+  background: #f8f9fb;
+}
+
+.employer-tracker-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.employer-tracker-table button {
+  background: #000;
+  border: none;
+  border-radius: 20px;
+  color: #fff;
+  padding: 8px 16px;
+  margin-right: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.employer-tracker-table button:hover {
+  background: #1a1a1a;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.employer-tracker-table button:disabled {
+  background: #e0e0e0;
+  color: #999;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.employer-tracker-table button.secondary {
+  background: transparent;
+  border: 2px solid #e8e8e8;
+  color: #1a1a1a;
+}
+
+.employer-tracker-table button.secondary:hover {
+  background: #f8f9fb;
+  border-color: #d0d0d0;
+}
+
+.employer-tracker-table input,
+.employer-tracker-table select {
+  border: 2px solid #e8e8e8;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  background: #ffffff;
+  color: #1a1a1a;
+  transition: all 0.2s ease;
+}
+
+.employer-tracker-table input:focus,
+.employer-tracker-table select:focus {
+  outline: none;
+  border-color: #00f5d4;
+  box-shadow: 0 0 0 3px rgba(0, 245, 212, 0.1);
+}
+
+.applicant-name-link {
+  color: #0073b1;
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  width: 100%;
+  transition: color 0.2s ease;
+}
+
+.applicant-name-link:hover {
+  color: #005582;
+  text-decoration: underline;
+}
+
+/* Status badges */
+.status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.status-badge.pending {
+  background: #fff7ed;
+  color: #ea580c;
+  border: 1px solid #fed7aa;
+}
+
+.status-badge.reviewing {
+  background: #eff6ff;
+  color: #2563eb;
+  border: 1px solid #dbeafe;
+}
+
+.status-badge.accepted {
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #dcfce7;
+}
+
+.status-badge.rejected {
+  background: #fff5f5;
+  color: #c41e3a;
+  border: 1px solid #fee;
+}
+
+/* Filter section */
+.filter-section {
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 24px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-section select,
+.filter-section input {
+  padding: 10px 16px;
+  border: 2px solid #e8e8e8;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #ffffff;
+  font-family: inherit;
+}
+
+@media (max-width: 1024px) {
   .employer-tracker-table {
-    width: 90%;
-    max-width: 1000px;
-    border-collapse: collapse;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    overflow: hidden;
+    font-size: 0.9rem;
   }
   
   .employer-tracker-table th,
   .employer-tracker-table td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 12px 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .employer-application-tracker-container {
+    padding: 24px 16px;
   }
   
-  .employer-tracker-table th {
-    background: rgba(255, 255, 255, 0.2);
-    font-size: 1.1rem;
+  .employer-application-tracker-container h1 {
+    font-size: 2rem;
   }
   
-  .employer-tracker-table tr:last-child td {
-    border-bottom: none;
+  .employer-tracker-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
   }
   
-  .employer-tracker-table tbody tr:hover {
-    background: rgba(255, 255, 255, 0.2);
-    cursor: pointer;
-  }
-  
-  .employer-tracker-table button {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 4px;
-    color: #fff;
-    padding: 4px 8px;
-    margin-right: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .employer-tracker-table button:hover {
-    background: rgba(255, 255, 255, 0.4);
-  }
-  
-  .employer-tracker-table input,
-  .employer-tracker-table select {
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 4px;
-    padding: 4px 8px;
-  }
-  
-  .applicant-name-link {
-    color: rgb(255 122 163);
-    text-decoration: underline;
-    cursor: pointer;
-    background: none;
-    border: none;
-    padding: 0;
-    font: inherit;
-    text-align: left;
+  .filter-section {
+    flex-direction: column;
     width: 100%;
   }
   
-  .applicant-name-link:hover {
-    opacity: 0.8;
+  .filter-section select,
+  .filter-section input {
+    width: 100%;
   }
-  
+}

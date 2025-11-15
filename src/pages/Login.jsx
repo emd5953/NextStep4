@@ -19,10 +19,6 @@ const Login = () => {
   // ======================
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const [loginPhone, setLoginPhone] = useState("");
-  const [loginMethod, setLoginMethod] = useState("email"); // 'email' or 'phone'
-  const [verificationCode, setVerificationCode] = useState("");
-  const [showVerification, setShowVerification] = useState(false);
 
   // ======================
   // Sign up form state
@@ -31,7 +27,6 @@ const Login = () => {
   const [signupPhone, setSignupPhone] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
-  const [setShowSignupVerification] = useState(false);
 
   // ======================
   // Context & Navigation
@@ -53,36 +48,13 @@ const Login = () => {
   }, [token, navigate, setToken, employerFlag]);
 
   // ======================
-  // Phone Verification
-  // ======================
-  const handleSendVerificationCode = async (phone, isSignup = false) => {
-    try {
-      await axios.post(`${API_SERVER}/send-verification`, {
-        phoneNumber: phone,
-      });
-      if (isSignup) {
-        setShowSignupVerification(true);
-      } else {
-        setShowVerification(true);
-      }
-      setError("You will receive a phone call with your verification code!");
-    } catch (error) {
-      console.error("Error initiating verification call:", error);
-      setError("Failed to initiate verification call. Please try again.");
-    }
-  };
-
-  // ======================
   // Login Submit
   // ======================
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setError("");
     try {
-      const loginData =
-        loginMethod === "email"
-          ? { email: loginEmail, password: loginPassword }
-          : { phone: loginPhone, verificationCode };
+      const loginData = { email: loginEmail, password: loginPassword };
 
       const response = await axios.post(`${API_SERVER}/signin`, loginData);
       setToken(response.data.token);
@@ -191,94 +163,28 @@ const Login = () => {
 
                           {/* Login Form */}
                           <form onSubmit={handleLoginSubmit}>
-                            {/* Radio Buttons for Login Method */}
-                            <div className="login-form-group text-left">
-                              <label>
-                                <input
-                                  type="radio"
-                                  name="loginMethod"
-                                  value="email"
-                                  checked={loginMethod === "email"}
-                                  onChange={(e) => setLoginMethod(e.target.value)}
-                                />{" "}
-                                Email Login
-                              </label>
-                              <label className="ml-3">
-                                <input
-                                  type="radio"
-                                  name="loginMethod"
-                                  value="phone"
-                                  checked={loginMethod === "phone"}
-                                  onChange={(e) => setLoginMethod(e.target.value)}
-                                />{" "}
-                                Phone Login
-                              </label>
+                            <div className="login-form-group mt-2">
+                              <input
+                                type="email"
+                                className="login-form-input"
+                                placeholder="Email"
+                                value={loginEmail}
+                                onChange={(e) => setLoginEmail(e.target.value)}
+                                required
+                              />
+                              <i className="login-form-icon uil uil-at"></i>
                             </div>
-
-                            {/* Conditional Fields for Email or Phone */}
-                            {loginMethod === "email" ? (
-                              <>
-                                <div className="login-form-group mt-2">
-                                  <input
-                                    type="email"
-                                    className="login-form-input"
-                                    placeholder="Email"
-                                    value={loginEmail}
-                                    onChange={(e) => setLoginEmail(e.target.value)}
-                                    required
-                                  />
-                                  <i className="login-form-icon uil uil-at"></i>
-                                </div>
-                                <div className="login-form-group mt-2">
-                                  <input
-                                    type="password"
-                                    className="login-form-input"
-                                    placeholder="Password"
-                                    value={loginPassword}
-                                    onChange={(e) => setLoginPassword(e.target.value)}
-                                    required
-                                  />
-                                  <i className="login-form-icon uil uil-lock-alt"></i>
-                                </div>
-                              </>
-                            ) : (
-                              <>
-                                <div className="login-form-group mt-2">
-                                  <input
-                                    type="tel"
-                                    className="login-form-input"
-                                    placeholder="Phone Number"
-                                    value={loginPhone}
-                                    onChange={(e) => setLoginPhone(e.target.value)}
-                                    required
-                                  />
-                                  <i className="login-form-icon uil uil-phone"></i>
-                                </div>
-                                {!showVerification ? (
-                                  <button
-                                    type="button"
-                                    className="login-btn mt-4"
-                                    onClick={() =>
-                                      handleSendVerificationCode(loginPhone, false)
-                                    }
-                                  >
-                                    Get Code via Call
-                                  </button>
-                                ) : (
-                                  <div className="login-form-group mt-2">
-                                    <input
-                                      type="text"
-                                      className="login-form-input"
-                                      placeholder="Verification Code"
-                                      value={verificationCode}
-                                      onChange={(e) => setVerificationCode(e.target.value)}
-                                      required
-                                    />
-                                    <i className="login-form-icon uil uil-key-skeleton"></i>
-                                  </div>
-                                )}
-                              </>
-                            )}
+                            <div className="login-form-group mt-2">
+                              <input
+                                type="password"
+                                className="login-form-input"
+                                placeholder="Password"
+                                value={loginPassword}
+                                onChange={(e) => setLoginPassword(e.target.value)}
+                                required
+                              />
+                              <i className="login-form-icon uil uil-lock-alt"></i>
+                            </div>
 
                             {/* Login Button */}
                             <button type="submit" className="login-btn mt-4">
@@ -351,33 +257,6 @@ const Login = () => {
                               />
                               <i className="login-form-icon uil uil-phone"></i>
                             </div>
-
-                            {/* Verification Call Button / Input */}
-                            {/* {!showSignupVerification ? (
-                              <button
-                                type="button"
-                                className="login-btn mt-2"
-                                onClick={() =>
-                                  handleSendVerificationCode(signupPhone, true)
-                                }
-                              >
-                                Verify via Call
-                              </button>
-                            ) : (
-                              <div className="login-form-group mt-2">
-                                <input
-                                  type="text"
-                                  className="login-form-input"
-                                  placeholder="Verification Code"
-                                  value={signupVerificationCode}
-                                  onChange={(e) =>
-                                    setSignupVerificationCode(e.target.value)
-                                  }
-                                  required
-                                />
-                                <i className="login-form-icon uil uil-key-skeleton"></i>
-                              </div>
-                            )} */}
 
                             <div className="login-form-group mt-2">
                               <input

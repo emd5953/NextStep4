@@ -2,7 +2,9 @@
 
 .home-content {
   text-align: center;
-  padding: 40px 20px;
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .home-branding {
@@ -10,29 +12,91 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 40vh;
+  min-height: 50vh;
   text-align: center;
+  padding: 80px 20px;
 }
 
 .home-branding__title {
-  font-size: 2.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  margin: 0;
-  background: linear-gradient(90deg, #fff, #c9658e);
-  background-clip: text;
+  font-size: 4rem;
+  font-weight: 800;
+  letter-spacing: -2px;
+  margin: 0 0 24px 0;
+  color: #000;
+  line-height: 1.1;
+  max-width: 900px;
+}
+
+.home-branding__title span {
+  background: linear-gradient(135deg, #00f5d4, #00ddc2);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .home-branding__subtitle {
-  font-size: 1.2rem;
-  opacity: 0.9;
-  margin: 10px 0 0;
-  letter-spacing: 1px;
+  font-size: 1.5rem;
+  color: #666;
+  margin: 0 0 40px 0;
+  font-weight: 400;
+  max-width: 600px;
+  line-height: 1.6;
 }
 
-.home-please-sign-in{
-  font-size: 1.5rem;
+.home-please-sign-in {
+  font-size: 1.25rem;
+  color: #666;
+  margin: 40px 0;
+  padding: 32px;
+  background: #f8f9fb;
+  border-radius: 12px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* CTA buttons */
+.home-cta-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.home-cta-buttons button {
+  padding: 16px 40px;
+  font-size: 1.1rem;
+  border-radius: 28px;
+}
+
+@media (max-width: 768px) {
+  .home-branding {
+    padding: 60px 20px;
+    min-height: 40vh;
+  }
+  
+  .home-branding__title {
+    font-size: 2.5rem;
+  }
+  
+  .home-branding__subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .home-please-sign-in {
+    font-size: 1.1rem;
+    padding: 24px;
+  }
+  
+  .home-cta-buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .home-cta-buttons button {
+    width: 100%;
+  }
 }

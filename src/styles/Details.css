@@ -1,8 +1,11 @@
+/* File: /src/styles/Details.css */
+
 .details-container {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', 'Poppins', sans-serif;
   min-height: 100vh;
   width: 100%;
-  color: #fff;
+  background: linear-gradient(180deg, #f8f9fb 0%, #ffffff 100%);
+  color: #1a1a1a;
   padding: 40px 20px;
   box-sizing: border-box;
   display: flex;
@@ -11,81 +14,112 @@
 }
 
 .details-content {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  padding: 40px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 48px;
   width: 100%;
-  max-width: 800px;
+  max-width: 900px;
   position: relative;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e8e8e8;
 }
 
 .close-button {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  background: none;
-  border: none;
-  font-size: 24px;
-  color: #fff;
+  top: 24px;
+  right: 24px;
+  background: #f8f9fb;
+  border: 1px solid #e8e8e8;
+  border-radius: 50%;
+  font-size: 20px;
+  color: #1a1a1a;
   cursor: pointer;
-  padding: 5px 10px;
-  transition: transform 0.2s;
+  padding: 8px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
 .close-button:hover {
-  transform: scale(1.1);
+  background: #000;
+  color: #fff;
+  border-color: #000;
+  transform: scale(1.05);
 }
 
 .job-header {
-  margin-bottom: 30px;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid #e8e8e8;
 }
 
 .job-header h1 {
   font-size: 2.5rem;
-  margin-bottom: 15px;
-  background: linear-gradient(90deg, #fff, #c9658e);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #000;
+  letter-spacing: -1px;
+  line-height: 1.2;
 }
 
 .company-info {
   display: flex;
   align-items: center;
+  gap: 12px;
   font-size: 1.1rem;
-  margin-right: 23px;
+  flex-wrap: wrap;
 }
 
 .company-info a {
-  color: #c9658e;
+  color: #0073b1;
   text-decoration: none;
+  font-weight: 600;
   transition: color 0.2s;
 }
 
 .company-info a:hover {
-  color: #ff758c;
+  color: #005582;
+  text-decoration: underline;
 }
 
 .job-location {
-  color: rgba(80, 79, 79, 0.7);
+  color: #666;
+}
+
+.job-location::before {
+  content: "•";
+  margin: 0 8px;
+  color: #d0d0d0;
 }
 
 .job-location2 {
-  color: rgb(169 166 166 / 70%);
+  color: #999;
 }
 
 .job-overview {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 30px;
+  background: #f8f9fb;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 32px;
+  border: 1px solid #e8e8e8;
 }
 
 .overview-item {
-  margin-bottom: 10px;
-  font-size: 1.1rem;
+  margin-bottom: 12px;
+  font-size: 1rem;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.overview-item strong {
+  color: #000;
+  font-weight: 600;
+  min-width: 120px;
 }
 
 .overview-item:last-child {
@@ -93,99 +127,141 @@
 }
 
 .detailed-section {
-  margin-bottom: 30px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  padding: 20px;
+  margin-bottom: 32px;
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
 }
 
 .detailed-section h2 {
   font-size: 1.5rem;
-  margin-bottom: 15px;
-  color: #c9658e;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #000;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #00f5d4;
 }
 
 .detailed-section p {
-  line-height: 1.6;
-  margin-bottom: 15px;
+  line-height: 1.7;
+  margin-bottom: 16px;
+  color: #444;
 }
 
 .detailed-section ul {
   list-style-type: none;
   padding: 0;
+  margin: 16px 0;
 }
 
 .detailed-section ul li {
-  margin-bottom: 10px;
-  padding-left: 20px;
+  margin-bottom: 12px;
+  padding-left: 28px;
   position: relative;
+  line-height: 1.6;
+  color: #444;
 }
 
 .detailed-section ul li:before {
-  content: "•";
-  color: #c9658e;
+  content: "✓";
+  color: #00f5d4;
+  font-weight: 700;
   position: absolute;
   left: 0;
+  font-size: 1.1rem;
 }
 
 .action-buttons {
   display: flex;
-  gap: 20px;
+  gap: 16px;
   margin-top: 40px;
+  padding-top: 32px;
+  border-top: 2px solid #e8e8e8;
 }
 
 .back-button, .apply-button {
-  padding: 12px 24px;
-  border-radius: 30px;
+  padding: 14px 32px;
+  border-radius: 28px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  flex: 1;
 }
 
 .back-button {
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  color: #fff;
+  background: transparent;
+  border: 2px solid #e8e8e8;
+  color: #1a1a1a;
 }
 
 .back-button:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
+  background: #f8f9fb;
+  border-color: #d0d0d0;
+  transform: translateY(-1px);
 }
 
 .apply-button {
-  background: linear-gradient(90deg, #ff758c, #c9658e);
+  background: #000;
   border: none;
   color: white;
-  box-shadow: 0 5px 15px rgba(255, 118, 136, 0.4);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .apply-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 118, 136, 0.6);
+  background: #1a1a1a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .loading {
   text-align: center;
   font-size: 1.2rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: #666;
+  padding: 60px 20px;
 }
 
 .error-message {
-  background: rgba(255, 0, 0, 0.1);
-  border: 1px solid rgba(255, 0, 0, 0.3);
-  color: #ff6b6b;
-  padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 20px;
+  background: #fff5f5;
+  border: 1px solid #fee;
+  color: #c41e3a;
+  padding: 20px 24px;
+  border-radius: 12px;
+  margin-bottom: 24px;
   text-align: center;
+  font-weight: 500;
+}
+
+/* Skills/Benefits tags */
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.tag {
+  background: #f8f9fb;
+  color: #1a1a1a;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid #e8e8e8;
+  transition: all 0.2s ease;
+}
+
+.tag:hover {
+  background: #00f5d4;
+  border-color: #00f5d4;
+  color: #000;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .details-content {
-    padding: 20px;
+    padding: 32px 24px;
+    border-radius: 12px;
   }
 
   .job-header h1 {
@@ -195,7 +271,11 @@
   .company-info {
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
+    gap: 8px;
+  }
+  
+  .job-location::before {
+    content: none;
   }
 
   .action-buttons {
@@ -204,5 +284,20 @@
 
   .back-button, .apply-button {
     width: 100%;
+    flex: none;
+  }
+  
+  .close-button {
+    top: 16px;
+    right: 16px;
+  }
+  
+  .overview-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .overview-item strong {
+    min-width: auto;
   }
 }

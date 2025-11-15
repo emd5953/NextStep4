@@ -10,7 +10,7 @@
 html, body, #root {
   width: 100%;
   min-height: 100%;
-  background: linear-gradient(135deg, rgb(129 2 131 / 95%), rgb(108 40 109 / 95%));
+  background: linear-gradient(180deg, #f8f9fb 0%, #ffffff 100%);
 }
 
 .container-fluid {
@@ -32,21 +32,106 @@ html, body, #root {
 }
 
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   text-align: center;
+  color: #1a1a1a;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* Button Base Styles */
 button {
-  padding: 10px 20px;
-  font-size: 18px;
-  background-color: #007bff;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: #000;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 24px;
   cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease;
 }
 
 button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(255, 118, 136, 0.6);
+  background-color: #1a1a1a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button:disabled {
+  background-color: #e0e0e0;
+  color: #999;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Primary button variant */
+button.primary {
+  background: #00f5d4;
+  color: #000;
+}
+
+button.primary:hover {
+  background: #00ddc2;
+}
+
+/* Secondary button variant */
+button.secondary {
+  background: transparent;
+  border: 2px solid #e8e8e8;
+  color: #1a1a1a;
+}
+
+button.secondary:hover {
+  background: #f8f9fb;
+  border-color: #d0d0d0;
+}
+
+/* Link styles */
+a {
+  color: #0073b1;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #005582;
+  text-decoration: underline;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d0d0d0;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b0b0b0;
+}
+
+/* Selection styling */
+::selection {
+  background: rgba(0, 245, 212, 0.3);
+  color: #000;
+}
+
+::-moz-selection {
+  background: rgba(0, 245, 212, 0.3);
+  color: #000;
 }
