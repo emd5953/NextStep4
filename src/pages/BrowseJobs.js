@@ -20,7 +20,7 @@ const BrowseJobs = () => {
   const [message, setMessage] = useState(null);
 
   useEffect(() => {
-    const fetchJobs = async () => {
+    const fetchJobs = async () => {k
       try {
         // Initial fetch without search query
         const response = await axios.get(`${API_SERVER}/jobs`, 

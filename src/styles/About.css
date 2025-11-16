@@ -104,26 +104,17 @@ body::-webkit-scrollbar {
   text-align: left;
   max-width: 800px;
   margin: 20px auto 0;
+  display: inline-block;
 }
 
 .about-section__list-item {
   font-size: 1rem;
   line-height: 1.8;
   margin-bottom: 16px;
-  display: flex;
-  align-items: flex-start;
   color: #444;
-  padding-left: 32px;
-  position: relative;
-}
-
-.about-section__list-item::before {
-  content: "✓";
-  position: absolute;
-  left: 0;
-  color: #00f5d4;
-  font-weight: 700;
-  font-size: 1.2rem;
+  text-align: left;
+  display: list-item;
+  list-style-position: inside;
 }
 
 @media (max-width: 768px) {
