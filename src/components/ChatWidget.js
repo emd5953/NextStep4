@@ -10,7 +10,8 @@ import "../styles/ChatWidget.css";
 const ai = new GoogleGenAI({ apiKey: "" });
 
 const ChatWidget = () => {
-  const [isMinimized, setIsMinimized] = useState(false); // Toggle for showing/hiding the chat body
+  const [isMinimized, setIsMinimized] = useState(true); // Start minimized
+  const [showPrompt, setShowPrompt] = useState(false); // Show "Ask me" prompt
   const [messages, setMessages] = useState([]); // Chat history
   const [input, setInput] = useState(""); // User input
   const [loading, setLoading] = useState(false);
@@ -24,6 +25,22 @@ const ChatWidget = () => {
       messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
     }
   }, [messages]);
+
+  // Show prompt after 3 seconds on page load, hide after 10 seconds
+  useEffect(() => {
+    const showTimer = setTimeout(() => {
+      setShowPrompt(true);
+    }, 3000);
+
+    const hideTimer = setTimeout(() => {
+      setShowPrompt(false);
+    }, 13000); // 3s + 10s = 13s total
+
+    return () => {
+      clearTimeout(showTimer);
+      clearTimeout(hideTimer);
+    };
+  }, []);
 
   // When the chatbox is opened and there are no messages, show a welcome message.
   useEffect(() => {
@@ -41,6 +58,7 @@ const ChatWidget = () => {
   // Toggle minimize state when header is clicked
   const toggleMinimize = () => {
     setIsMinimized(!isMinimized);
+    setShowPrompt(false); // Hide prompt when clicked
   };
 
   // Handle sending a message
@@ -94,60 +112,79 @@ const ChatWidget = () => {
   };
 
   return (
-    <div className={`${isMinimized ? 'chat-widget-hide' : 'chat-widget'}`}>
-      <div className="chat-widget-header" onClick={toggleMinimize}>
-        <span className="chat-title">Chat</span>
-      </div>
-      {!isMinimized && (
-        <div className="chat-widget-body">
-          <div className="chat-widget-messages" ref={messagesEndRef}>
-            {messages.map((msg, index) => (
-              <div key={index} className={`message ${msg.sender}`}>
-                {msg.sender === "bot" ? (
-                  <div className="bot-message">
-                    <img
-                      src="https://i.pravatar.cc/40?img=3"
-                      alt="NextStep Bot"
-                      className="bot-avatar"
-                    />
-                    <div className="bot-content">
-                      <div className="bot-name">NextStep Bot</div>
-                      <ReactMarkdown>{msg.text}</ReactMarkdown>
-                    </div>
-                  </div>
-                ) : (
-                  <ReactMarkdown>{msg.text}</ReactMarkdown>
-                )}
-              </div>
-            ))}
-            {loading && (
-              <div className="message bot">
-                <div className="bot-message">
-                  <img
-                    src="https://i.pravatar.cc/40?img=3"
-                    alt="NextStep Bot"
-                    className="bot-avatar"
-                  />
-                  <div className="bot-content">
-                    <div className="bot-name">NextStep Bot</div>
-                    Typing...
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-          <form onSubmit={handleSubmit} className="chat-widget-form">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Type a message..."
-            />
-            <button type="submit">Send</button>
-          </form>
+    <>
+      {/* Chat Prompt Notification */}
+      {showPrompt && isMinimized && (
+        <div className="chat-prompt" onClick={toggleMinimize}>
+          <span>Have questions? Ask me!</span>
         </div>
       )}
-    </div>
+
+      {/* Chat Widget */}
+      <div className={`${isMinimized ? 'chat-widget-hide' : 'chat-widget'}`} onClick={isMinimized ? toggleMinimize : undefined}>
+        {isMinimized ? (
+          <div className="chat-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </div>
+        ) : (
+          <>
+            <div className="chat-widget-header" onClick={toggleMinimize}>
+              <span className="chat-title">Chat</span>
+              <span className="close-icon">✕</span>
+            </div>
+            <div className="chat-widget-body">
+              <div className="chat-widget-messages" ref={messagesEndRef}>
+                {messages.map((msg, index) => (
+                  <div key={index} className={`message ${msg.sender}`}>
+                    {msg.sender === "bot" ? (
+                      <div className="bot-message">
+                        <img
+                          src="https://i.pravatar.cc/40?img=3"
+                          alt="NextStep Bot"
+                          className="bot-avatar"
+                        />
+                        <div className="bot-content">
+                          <div className="bot-name">NextStep Bot</div>
+                          <ReactMarkdown>{msg.text}</ReactMarkdown>
+                        </div>
+                      </div>
+                    ) : (
+                      <ReactMarkdown>{msg.text}</ReactMarkdown>
+                    )}
+                  </div>
+                ))}
+                {loading && (
+                  <div className="message bot">
+                    <div className="bot-message">
+                      <img
+                        src="https://i.pravatar.cc/40?img=3"
+                        alt="NextStep Bot"
+                        className="bot-avatar"
+                      />
+                      <div className="bot-content">
+                        <div className="bot-name">NextStep Bot</div>
+                        Typing...
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <form onSubmit={handleSubmit} className="chat-widget-form">
+                <input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Type a message..."
+                />
+                <button type="submit">Send</button>
+              </form>
+            </div>
+          </>
+        )}
+      </div>
+    </>
   );
 };
 

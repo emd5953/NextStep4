@@ -1,4 +1,4 @@
-/* File: /src/styles/JobDetailsPopup.css */
+/* JobDetailsPopup.css - Minimalistic Black & White */
 
 .popup-overlay {
   position: fixed;
@@ -6,13 +6,12 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 2000;
   padding: 20px;
-  backdrop-filter: blur(4px);
   animation: fadeIn 0.2s ease;
 }
 
@@ -26,30 +25,96 @@
 }
 
 .popup-content {
-  background-color: #ffffff;
+  background: #ffffff;
   border-radius: 16px;
-  padding: 40px;
   max-width: 700px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  border: 1px solid #e8e8e8;
+  padding: 48px;
+  font-family: 'Inter', 'Poppins', sans-serif;
   animation: slideUp 0.3s ease;
+  border: 1px solid #e0e0e0;
 }
 
 @keyframes slideUp {
   from {
-    transform: translateY(20px);
     opacity: 0;
+    transform: translateY(20px);
   }
   to {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  font-size: 32px;
+  color: #666666;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.close-button:hover {
+  background: #f5f5f5;
+  color: #000000;
+}
+
+.popup-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 32px 0;
+  letter-spacing: -0.5px;
+}
+
+.job-details {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.detail-section {
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 20px;
+}
+
+.detail-section:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.detail-section h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #000000;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-section p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #4a4a4a;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* Scrollbar styling */
 .popup-content::-webkit-scrollbar {
   width: 8px;
 }
@@ -67,207 +132,17 @@
   background: #b0b0b0;
 }
 
-.popup-title {
-  margin: 0 0 32px 0;
-  color: #000;
-  font-size: 2rem;
-  font-weight: 700;
-  text-align: center;
-  letter-spacing: -0.5px;
-  line-height: 1.2;
-  padding-right: 40px;
-}
-
-.close-button {
-  position: absolute;
-  top: 24px;
-  right: 24px;
-  background: #f8f9fb;
-  border: 1px solid #e8e8e8;
-  border-radius: 50%;
-  font-size: 20px;
-  cursor: pointer;
-  color: #1a1a1a;
-  padding: 0;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-}
-
-.close-button:hover {
-  background-color: #000;
-  color: #fff;
-  border-color: #000;
-  transform: scale(1.05);
-}
-
-.popup-content h2 {
-  margin: 0 0 20px 0;
-  color: #000;
-  font-size: 1.5rem;
-  font-weight: 600;
-  padding-bottom: 12px;
-  border-bottom: 2px solid #00f5d4;
-}
-
-.company-info {
-  margin-bottom: 32px;
-  padding: 20px;
-  background: #f8f9fb;
-  border-radius: 12px;
-  border: 1px solid #e8e8e8;
-}
-
-.company-info h3 {
-  margin: 0 0 8px 0;
-  color: #1a1a1a;
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-
-.company-info a {
-  color: #0073b1;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s;
-}
-
-.company-info a:hover {
-  color: #005582;
-  text-decoration: underline;
-}
-
-.job-details {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.detail-section {
-  padding-bottom: 24px;
-  border-bottom: 1px solid #e8e8e8;
-}
-
-.detail-section:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.detail-section h4 {
-  margin: 0 0 12px 0;
-  color: #000;
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-.detail-section p {
-  margin: 0;
-  color: #444;
-  line-height: 1.7;
-}
-
-.detail-section ul {
-  margin: 12px 0 0 0;
-  padding-left: 0;
-  list-style: none;
-}
-
-.detail-section li {
-  margin: 10px 0;
-  padding-left: 28px;
-  position: relative;
-  color: #444;
-  line-height: 1.6;
-}
-
-.detail-section li:before {
-  content: "✓";
-  position: absolute;
-  left: 0;
-  color: #00f5d4;
-  font-weight: 700;
-  font-size: 1.1rem;
-}
-
-/* Skills/tags styling */
-.tags-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.tag-item {
-  background: #f8f9fb;
-  color: #1a1a1a;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  border: 1px solid #e8e8e8;
-  transition: all 0.2s ease;
-}
-
-.tag-item:hover {
-  background: #00f5d4;
-  border-color: #00f5d4;
-  color: #000;
-}
-
-/* Action buttons in popup */
-.popup-actions {
-  display: flex;
-  gap: 12px;
-  margin-top: 32px;
-  padding-top: 24px;
-  border-top: 2px solid #e8e8e8;
-}
-
-.popup-button {
-  flex: 1;
-  padding: 14px 24px;
-  border-radius: 28px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: none;
-}
-
-.popup-button.primary {
-  background: #000;
-  color: #fff;
-}
-
-.popup-button.primary:hover {
-  background: #1a1a1a;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.popup-button.secondary {
-  background: transparent;
-  border: 2px solid #e8e8e8;
-  color: #1a1a1a;
-}
-
-.popup-button.secondary:hover {
-  background: #f8f9fb;
-  border-color: #d0d0d0;
-}
-
+/* Responsive */
 @media (max-width: 768px) {
   .popup-content {
     padding: 32px 24px;
+    max-height: 85vh;
   }
   
   .popup-title {
-    font-size: 1.75rem;
+    font-size: 24px;
     margin-bottom: 24px;
-    padding-right: 32px;
+    padding-right: 40px;
   }
   
   .close-button {
@@ -275,34 +150,7 @@
     right: 16px;
   }
   
-  .detail-section {
-    padding-bottom: 20px;
-  }
-  
-  .popup-actions {
-    flex-direction: column;
-  }
-  
-  .popup-button {
-    width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
-  .popup-content {
-    padding: 24px 20px;
-  }
-  
-  .popup-title {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-  }
-  
-  .company-info {
-    padding: 16px;
-  }
-  
-  .detail-section {
-    padding-bottom: 16px;
+  .job-details {
+    gap: 24px;
   }
 }

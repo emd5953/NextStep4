@@ -459,46 +459,70 @@ const jobsController = {
     }
   },
 
+// Replace the entire getHomepageJobsUsingSemanticSearch function in jobsController.js with this:
+
   getHomepageJobsUsingSemanticSearch: async (req, res) => {
     try {
-
-      let searchCriteria = req.query.q || "";
-      //const jobs = await searchJobs(queryText, 10);
-
-
-      const jobDetails = await parseSearchCriteria(searchCriteria);
-
-      console.log(jobDetails);
-
-      let processedCriteria = jobDetails.my_requirements ? jobDetails.my_requirements : "";
-
-      if (jobDetails.locations?.length > 0) {
-        processedCriteria += `\nLocations: ${jobDetails.locations?.join(', ')}`;
+      // Get user profile with cached embedding
+      const token = req.headers.authorization?.split(" ")[1];
+      let userId = null;
+      let queryEmbedding = null;
+      
+      if (token) {
+        try {
+          const decoded = jwt.verify(token, process.env.JWT_SECRET);
+          userId = decoded.id;
+          
+          // Get user's cached embedding
+          const usersCollection = req.app.locals.db.collection("users");
+          const user = await usersCollection.findOne(
+            { _id: ObjectId.createFromHexString(userId) },
+            { projection: { skillsEmbedding: 1, skills: 1, location: 1 } }
+          );
+          
+          if (user && user.skillsEmbedding) {
+            queryEmbedding = user.skillsEmbedding;
+            console.log("✓ Using cached embedding (FAST - no OpenAI call)");
+          } else if (user && (user.skills || user.location)) {
+            // Generate and cache if not exists
+            console.log("⚠ No cached embedding, generating once...");
+            let textToEmbed = '';
+            if (user.skills && user.skills.length > 0) {
+              textToEmbed = `skills: ${user.skills.join(', ')}`;
+            }
+            if (user.location) {
+              textToEmbed += ` location: ${user.location}`;
+            }
+            
+            if (textToEmbed) {
+              queryEmbedding = await generateEmbeddings(textToEmbed);
+              // Cache it for next time
+              await usersCollection.updateOne(
+                { _id: ObjectId.createFromHexString(userId) },
+                { $set: { skillsEmbedding: queryEmbedding, embeddingGeneratedAt: new Date() } }
+              );
+              console.log("✓ Embedding generated and cached");
+            }
+          }
+        } catch (error) {
+          console.error("Error getting user embedding:", error);
+        }
       }
 
-      if (jobDetails.salaryRange?.minimum || jobDetails.salaryRange?.maximum) {
-        processedCriteria += `\nSalary: ${jobDetails.salaryRange?.minimum} - ${jobDetails.salaryRange?.maximum}`;
+      if (!queryEmbedding) {
+        return res.status(400).json({ 
+          error: "Please add skills and location to your profile to get job recommendations" 
+        });
       }
 
-
-      if (jobDetails.company) {
-        processedCriteria += `\nCompany: ${jobDetails.company}`;
-      }
-
-      if (!processedCriteria) {
-        processedCriteria = searchCriteria;
-      }
-      // Generate embedding for the search query
-      const queryEmbedding = await generateEmbeddings(processedCriteria);
-
-      // Perform vector search
+      // Perform vector search using cached embedding
       const results = await req.app.locals.db.collection("Jobs").aggregate([
         {
           $vectorSearch: {
             queryVector: queryEmbedding,
             path: "embedding",
             numCandidates: 100,
-            limit: 10,
+            limit: 20,
             index: "js_vector_index",
           }
         },
@@ -533,54 +557,26 @@ const jobsController = {
         }
       ]).toArray();
 
-      // Filter results to only include those with a score greater than 0.62
-      const filteredResults = results.filter(result => result.score > 0.62);
+      // Filter out low-score results
+      let filteredResults = results.filter(result => result.score > 0.62);
 
-      //-------------------------------------
-      const token = req.headers.authorization?.split(" ")[1];
-
-      // Get user ID from token if available
-      let userId = null;
-      if (token) {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        userId = decoded.id;
-      }
-      const applicationsCollection = req.app.locals.db.collection("applications");
-
-      // If user is logged in, get their applied jobs and filter results
-      let finalResults = filteredResults;
+      // Filter out already applied jobs
       if (userId) {
+        const applicationsCollection = req.app.locals.db.collection("applications");
         const appliedJobs = await applicationsCollection
           .find({ user_id: ObjectId.createFromHexString(userId) })
           .project({ job_id: 1, _id: 0 })
           .toArray();
 
         const appliedJobIds = appliedJobs.map(app => app.job_id.toString());
-        finalResults = filteredResults.filter(job => !appliedJobIds.includes(job._id.toString()));
-      }
-      //-------------------------------------
-      console.log("MongoDB returned : ", finalResults.length);
-      if (jobDetails.skills?.length > 0) {
-        searchCriteria += `\nMatch one or more of these skills: (${jobDetails.skills?.join(', ')})`;
+        filteredResults = filteredResults.filter(job => !appliedJobIds.includes(job._id.toString()));
       }
 
-      console.log("Refining results with the following criteria: ", searchCriteria);
-      // use the criteria as specified by the user to refine the results
-      const enhancedJobs = await refineFoundPositions(finalResults, searchCriteria);
-
-      console.log("Enhanced jobs: ", enhancedJobs.length);
-
-      // Filter and sort to show "great" matches before "good" matches
-      const greatMatches = enhancedJobs
-        .filter(job => job.match === "great" || job.match === "good")
-        .sort((a, b) => b.match === "great" ? 1 : -1);
-
-      console.log("Refined matches: ", greatMatches.length);
-
-      res.status(200).json(greatMatches);
+      console.log("Matched jobs:", filteredResults.length);
+      res.status(200).json(filteredResults);
     } catch (error) {
       console.error("Error in getHomepageJobsUsingSemanticSearch:", error);
-      res.status(500).json({ error: "Failed to search jobs", details: error });
+      res.status(500).json({ error: "Failed to search jobs", details: error.message });
     }
   },
   // Get jobs for homepage

@@ -259,10 +259,10 @@ const Swipe = () => {
   const renderCard = (job, index, isCurrent = false) => {
     if (!job) return null;
 
-    const cardStyle = isCurrent ? {
-      transform: `translate(${currentX}px, ${currentY}px) rotate(${currentX * 0.05}deg)`,
-      transition: isSwiping ? 'none' : 'transform 0.3s ease-out',
-    } : {};
+  const cardStyle = isCurrent ? {
+    transform: `translate(${currentX}px, ${currentY}px) rotate(${currentX * 0.02}deg)`,
+    transition: isSwiping ? 'none' : 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+  } : {};
 
     // Determine swipe direction class
     let swipeClass = '';
