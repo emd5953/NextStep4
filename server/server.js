@@ -220,28 +220,40 @@ client
          Analyze Resume
       ------------------ */
       apiRouter.post("/analyze-resume", verifyToken, upload.single('pdf'), async (req, res) => {
-        try {
-          if (!req.file) {
+      try {
+         console.log("=== ANALYZE RESUME DEBUG ===");
+         console.log("1. File received:", !!req.file);
+         
+         if (!req.file) {
             return res.status(400).json({ error: 'No PDF file uploaded' });
-          }
+         }
 
-          // Create a temporary file path
-         /*  const tempFilePath = path.join(__dirname, 'public', 'uploads', `temp-${Date.now()}.pdf`);
-          fs.writeFileSync(tempFilePath, req.file.buffer);
+         console.log("2. File details:", {
+            name: req.file.originalname,
+            size: req.file.size,
+            mimetype: req.file.mimetype
+         });
 
-          const result = await analyzePDF(tempFilePath); */
-          const result = await analyzePDF(req.file.buffer.toString("base64"));
-          
-          // Clean up the temporary file
-          //fs.unlinkSync(tempFilePath);
-          
-          res.json(result);
-        } catch (error) {
-          console.error('Error analyzing PDF:', error);
-          res.status(500).json({ error: 'Error analyzing PDF', details: error.message });
-        }
+         const base64Data = req.file.buffer.toString("base64");
+         console.log("3. Base64 length:", base64Data.length);
+         
+         console.log("4. Calling OpenAI...");
+         const result = await analyzePDF(base64Data);
+         
+         console.log("5. OpenAI result:", result);
+         console.log("=== DEBUG END ===");
+         
+         res.json(result);
+      } catch (error) {
+         console.error('=== ANALYZE ERROR ===');
+         console.error('Error:', error);
+         console.error('Stack:', error.stack);
+         res.status(500).json({ 
+            error: 'Error analyzing PDF', 
+            details: error.message 
+         });
+      }
       });
-
       /* ------------------
          Logout
       ------------------ */

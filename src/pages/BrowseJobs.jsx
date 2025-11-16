@@ -7,7 +7,6 @@ import { TokenContext } from '../components/TokenContext';
 import NotificationBanner from '../components/NotificationBanner';
 import { API_SERVER } from '../config';
 
-// Define swipe mode constants
 const APPLY = 1;
 
 const BrowseJobs = () => {
@@ -20,9 +19,8 @@ const BrowseJobs = () => {
   const [message, setMessage] = useState(null);
 
   useEffect(() => {
-    const fetchJobs = async () => {k
+    const fetchJobs = async () => {
       try {
-        // Initial fetch without search query
         const response = await axios.get(`${API_SERVER}/jobs`, 
           token ? {
             headers: { Authorization: `Bearer ${token}` }
@@ -40,7 +38,7 @@ const BrowseJobs = () => {
   const handleSearch = async (e) => {
     e.preventDefault();
     setIsSearching(true);
-    setSearchQuery(searchInput); // Update the actual search query when button is clicked
+    setSearchQuery(searchInput);
     try {
       const response = await axios.get(`${API_SERVER}/jobs?q=` + searchInput, 
         token ? {
@@ -71,7 +69,6 @@ const BrowseJobs = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMessage("Applied successfully!");
-      // Refresh the jobs list after successful application
       const response = await axios.get(`${API_SERVER}/jobs?q=` + searchQuery, 
         token ? {
           headers: { Authorization: `Bearer ${token}` }
@@ -80,7 +77,6 @@ const BrowseJobs = () => {
       setJobs(response.data);
     } catch (error) {
       if (error.response && error.response.status === 409) {
-        console.log(error.response.data.error + jobId);
         setError(error.response.data.error);
       } else {
         setError('An unexpected error occurred. Please try again later.');
@@ -95,7 +91,6 @@ const BrowseJobs = () => {
       {isSearching && <div className="search-overlay" />}
       <h1>Browse Jobs</h1>
 
-      {/* Search Bar */}
       <form className="job-search-form" onSubmit={handleSearch}>
         <input
           type="text"
@@ -109,7 +104,6 @@ const BrowseJobs = () => {
         </button>
       </form>
 
-      {/* Job Count */}
       <div className="job-count-label">
         {jobs.length > 0 ? (
           <p>Found {jobs.length} {jobs.length === 1 ? 'job' : 'jobs'}</p>
@@ -118,7 +112,6 @@ const BrowseJobs = () => {
         )}
       </div>
 
-      {/* Job Listings */}
       <div className="jobs-list">
         {jobs.length > 0 ? (
           jobs.map((job) => (
@@ -138,9 +131,7 @@ const BrowseJobs = () => {
             />
           ))
         ) : (
-          <p className="placeholder-text">
-            
-          </p>
+          <p className="placeholder-text"></p>
         )}
       </div>
     </div>

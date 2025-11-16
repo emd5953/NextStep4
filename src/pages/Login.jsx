@@ -87,7 +87,11 @@ const Login = () => {
     try {
       await axios.post(`${API_SERVER}/signup`, signupData);
       setMessage("Account created. Please check your email for verification instructions.");
-      navigate("/login");
+      // Clear form
+      setSignupName("");
+      setSignupPhone("");
+      setSignupEmail("");
+      setSignupPassword("");
     } catch (error) {
       if (error.response && error.response.status === 409) {
         setError(error.response.data.error);
@@ -98,7 +102,7 @@ const Login = () => {
   };
 
   // ======================
-  // Google OAuth
+  // Google OAuth (Login)
   // ======================
   const handleGoogleSuccess = async (response) => {
     try {
@@ -159,11 +163,25 @@ const Login = () => {
                     <div className="login-card-front">
                       <div className="login-center-wrap">
                         <div className="login-section-content text-center">
-                          <h4 className="mb-4 pb-3">Log In</h4>
+                          <h4 className="login-form-title">Welcome Back</h4>
+
+                          {/* Google Login Button */}
+                          <div className="social-login">
+                            <GoogleLogin
+                              onSuccess={handleGoogleSuccess}
+                              onError={handleGoogleError}
+                              size="large"
+                              width="100%"
+                              text="continue_with"
+                              shape="pill"
+                            />
+                          </div>
+
+                          <div className="divider">or continue with email</div>
 
                           {/* Login Form */}
                           <form onSubmit={handleLoginSubmit}>
-                            <div className="login-form-group mt-2">
+                            <div className="login-form-group">
                               <input
                                 type="email"
                                 className="login-form-input"
@@ -174,7 +192,7 @@ const Login = () => {
                               />
                               <i className="login-form-icon uil uil-at"></i>
                             </div>
-                            <div className="login-form-group mt-2">
+                            <div className="login-form-group">
                               <input
                                 type="password"
                                 className="login-form-input"
@@ -187,22 +205,13 @@ const Login = () => {
                             </div>
 
                             {/* Login Button */}
-                            <button type="submit" className="login-btn mt-4">
-                              Login
+                            <button type="submit" className="login-btn">
+                              Sign In
                             </button>
                           </form>
 
-                          {/* Google Login */}
-                          <div className="mt-4">
-                            <GoogleLogin
-                              onSuccess={handleGoogleSuccess}
-                              onError={handleGoogleError}
-                              useOneTap
-                            />
-                          </div>
-
                           {/* Forgot Password Link */}
-                          <p className="mb-0 mt-4 text-center">
+                          <p className="helper-text">
                             <a href="#!" className="link">
                               Forgot your password?
                             </a>
@@ -218,23 +227,38 @@ const Login = () => {
                     <div className="login-card-back">
                       <div className="login-center-wrap">
                         <div className="login-section-content text-center">
-                          <h4 className="mb-3 pb-3">Sign Up</h4>
+                          <h4 className="login-form-title">Create Account</h4>
+
+                          {/* Employer Checkbox */}
+                          <div className="employer-checkbox-group">
+                            <input
+                              type="checkbox"
+                              id="employer-flag"
+                              checked={employerFlag}
+                              onChange={(e) => setEmployerFlag(e.target.checked)}
+                            />
+                            <label htmlFor="employer-flag">
+                              I'm an employer
+                            </label>
+                          </div>
+
+                          {/* Google Sign Up Button */}
+                          <div className="social-login">
+                            <GoogleLogin
+                              onSuccess={handleGoogleSuccess}
+                              onError={handleGoogleError}
+                              size="large"
+                              width="100%"
+                              text="signup_with"
+                              shape="pill"
+                            />
+                          </div>
+
+                          <div className="divider">or sign up with email</div>
 
                           {/* Sign Up Form */}
                           <form onSubmit={handleSignupSubmit}>
-                            {/* Employer Flag */}
-                            <div className="login-form-group text-left">
-                              <label>
-                                <input
-                                  type="checkbox"
-                                  checked={employerFlag}
-                                  onChange={(e) => setEmployerFlag(e.target.checked)}
-                                />{" "}
-                                Signup as an Employer
-                              </label>
-                            </div>
-
-                            <div className="login-form-group mt-2">
+                            <div className="login-form-group">
                               <input
                                 type="text"
                                 className="login-form-input"
@@ -246,7 +270,7 @@ const Login = () => {
                               <i className="login-form-icon uil uil-user"></i>
                             </div>
 
-                            <div className="login-form-group mt-2">
+                            <div className="login-form-group">
                               <input
                                 type="tel"
                                 className="login-form-input"
@@ -258,7 +282,7 @@ const Login = () => {
                               <i className="login-form-icon uil uil-phone"></i>
                             </div>
 
-                            <div className="login-form-group mt-2">
+                            <div className="login-form-group">
                               <input
                                 type="email"
                                 className="login-form-input"
@@ -270,7 +294,7 @@ const Login = () => {
                               <i className="login-form-icon uil uil-at"></i>
                             </div>
 
-                            <div className="login-form-group mt-2">
+                            <div className="login-form-group">
                               <input
                                 type="password"
                                 className="login-form-input"
@@ -282,10 +306,16 @@ const Login = () => {
                               <i className="login-form-icon uil uil-lock-alt"></i>
                             </div>
 
-                            <button type="submit" className="login-btn mt-4">
-                              Register
+                            <button type="submit" className="login-btn">
+                              Create Account
                             </button>
                           </form>
+
+                          <p className="helper-text">
+                            By signing up, you agree to our{" "}
+                            <a href="#!" className="link">Terms</a> and{" "}
+                            <a href="#!" className="link">Privacy Policy</a>
+                          </p>
                         </div>
                       </div>
                     </div>

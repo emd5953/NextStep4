@@ -1,5 +1,6 @@
 const OpenAI = require("openai");
 const fs = require('fs');
+const path = require('path');
 require('dotenv').config();
 
 const openai = new OpenAI({
@@ -7,82 +8,145 @@ const openai = new OpenAI({
 });
 
 async function analyzePDF(file_buffer) {
+    let tempFilePath = null;
+    
     try {
-        // Read the PDF file
-        //const pdfFile = fs.readFileSync(pdfPath);
+        // Convert base64 to buffer if needed
+        let pdfBuffer;
+        if (typeof file_buffer === 'string') {
+            pdfBuffer = Buffer.from(file_buffer, 'base64');
+        } else {
+            pdfBuffer = file_buffer;
+        }
 
-        // Encode PDF content to base64
-                // Validate that it's a Base64 string (basic check)
-        const base64Regex = /^([A-Za-z0-9+/=]){2,}$/;
-        if (!base64Regex.test(file_buffer)) {
-            return res.status(400).send('Invalid Base64 string');
+        // Create temporary file (Assistants API needs file path)
+        tempFilePath = path.join(__dirname, `temp-resume-${Date.now()}.pdf`);
+        fs.writeFileSync(tempFilePath, pdfBuffer);
+        
+        console.log("1. Uploading PDF to OpenAI...");
+        
+        // Upload the PDF to OpenAI
+        const file = await openai.files.create({
+            file: fs.createReadStream(tempFilePath),
+            purpose: "assistants"
+        });
+        
+        console.log("2. File uploaded:", file.id);
+        
+        // Create an assistant
+        console.log("3. Creating assistant...");
+        const assistant = await openai.beta.assistants.create({
+            name: "Resume Analyzer",
+            instructions: `You are an expert resume analyzer. Extract skills, work experiences, and suggest an appropriate job title from the resume. 
+            
+Return your response as a JSON object with this exact structure:
+{
+  "skills": ["skill1", "skill2", ...],
+  "experiences": ["Company - Job Title - Duration", ...],
+  "jobTitle": "Recommended Job Title"
+}`,
+            model: "gpt-4o",
+            tools: [{ type: "file_search" }]
+        });
+        
+        console.log("4. Assistant created:", assistant.id);
+        
+        // Create a thread
+        console.log("5. Creating thread...");
+        const thread = await openai.beta.threads.create({
+            messages: [
+                {
+                    role: "user",
+                    content: "Please analyze this resume and extract the skills, experiences, and recommend a job title. Return the data as JSON.",
+                    attachments: [
+                        {
+                            file_id: file.id,
+                            tools: [{ type: "file_search" }]
+                        }
+                    ]
+                }
+            ]
+        });
+        
+        console.log("6. Thread created:", thread.id);
+        
+        // Run the assistant
+        console.log("7. Running assistant...");
+        const run = await openai.beta.threads.runs.create(thread.id, {
+            assistant_id: assistant.id
+        });
+        
+        console.log("8. Run started:", run.id);
+        
+        // Wait for completion
+        let runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id);
+        
+        while (runStatus.status !== 'completed') {
+            if (runStatus.status === 'failed' || runStatus.status === 'cancelled' || runStatus.status === 'expired') {
+                throw new Error(`Run ${runStatus.status}: ${runStatus.last_error?.message || 'Unknown error'}`);
+            }
+            
+            console.log("9. Waiting for completion... Status:", runStatus.status);
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id);
         }
         
-        const encodedPdf = file_buffer;
-        const pdfContent = `data:application/pdf;base64,${encodedPdf}`
-
-        const extractionPrompt = `what job skills and experiences does this resume have. 
-provide the output as a json response. return a json document that 
-provides skills as an array and experiences array as well, 
-and a potential job title suitable for this candidate, regardless of any of their past job titles, in "jobTitle" field`
-
-        const response = await openai.responses.create({
-            model: "gpt-4o",
-            input: [
-                {
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "input_text",
-                            "text": extractionPrompt
-                        },
-                        {
-                            "type": "input_file",
-                            "filename": 'resume.pdf',
-                            "file_data": pdfContent
-                        }
-                    ]
-                },
-                {
-                    "role": "assistant",
-                    "content": [
-                        {
-                            "type": "output_text",
-                            "text": "```json\n{\n}\n```"
-                        }
-                    ]
-                }
-            ],
-            text: {
-                "format": {
-                    "type": "json_object"
-                }
-            },
-            reasoning: {},
-            tools: [],
-            temperature: 1,
-            max_output_tokens: 2048,
-            top_p: 1,
-        });
-
-        if (response && response?.status === "completed" && response.output_text) {
-            const generatedText = response.output_text;
-            try {
-                // Parse the generated text as JSON
-                const parsedJson = JSON.parse(generatedText);
-                return parsedJson;
-            } catch (parseError) {
-                console.error("Error parsing JSON:", parseError);
-                console.log("Raw generated text:", generatedText);
-                throw parseError;
-            }
-        } else {
-            throw new Error("Could not extract generated text from the response");
+        console.log("10. Run completed");
+        
+        // Get the messages
+        const messages = await openai.beta.threads.messages.list(thread.id);
+        const assistantMessage = messages.data.find(msg => msg.role === 'assistant');
+        
+        if (!assistantMessage || !assistantMessage.content[0]) {
+            throw new Error("No response from assistant");
         }
-
+        
+        const responseText = assistantMessage.content[0].text.value;
+        console.log("11. Response received");
+        
+        // Clean up
+        console.log("12. Cleaning up...");
+        await openai.beta.assistants.del(assistant.id);
+        await openai.files.del(file.id);
+        
+        // Parse JSON from response
+        try {
+            // Try to extract JSON from the response
+            const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+            if (!jsonMatch) {
+                throw new Error("No JSON found in response");
+            }
+            
+            const parsedJson = JSON.parse(jsonMatch[0]);
+            
+            // Validate structure
+            if (!parsedJson.skills || !parsedJson.experiences || !parsedJson.jobTitle) {
+                throw new Error("Invalid response structure");
+            }
+            
+            console.log("13. Success! Extracted:", {
+                skillsCount: parsedJson.skills.length,
+                experiencesCount: parsedJson.experiences.length,
+                jobTitle: parsedJson.jobTitle
+            });
+            
+            return parsedJson;
+            
+        } catch (parseError) {
+            console.error("Error parsing JSON:", parseError);
+            console.log("Raw response:", responseText);
+            throw new Error(`Failed to parse response: ${parseError.message}`);
+        }
+        
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error analyzing PDF:', error);
         throw error;
+    } finally {
+        // Clean up temp file
+        if (tempFilePath && fs.existsSync(tempFilePath)) {
+            fs.unlinkSync(tempFilePath);
+            console.log("Temp file deleted");
+        }
     }
 }
 

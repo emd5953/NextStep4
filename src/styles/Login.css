@@ -39,7 +39,7 @@ a:hover {
 
 p {
   font-weight: 400;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: #666;
 }
 
@@ -49,7 +49,7 @@ h4 {
 }
 
 h6 span {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 700;
   padding: 0 20px;
   color: #000;
@@ -59,7 +59,7 @@ h6 span {
   position: relative;
   width: 100%;
   display: block;
-  padding: 40px 20px;
+  padding: 20px;
 }
 
 .login-section,
@@ -73,10 +73,11 @@ h6 span {
 }
 
 .full-height {
-  min-height: 80vh;
+  min-height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 40px 0;
 }
 
 .login-checkbox {
@@ -91,7 +92,7 @@ h6 span {
   width: 60px;
   height: 32px;
   border-radius: 16px;
-  margin: 16px auto;
+  margin: 12px auto;
   cursor: pointer;
   background-color: #e8e8e8;
   transition: background-color 0.3s ease;
@@ -128,12 +129,13 @@ h6 span {
 
 .login-card-3d-wrap {
   position: relative;
-  width: 480px;
+  width: 420px;
   max-width: 100%;
-  min-height: 550px;
+  min-height: auto;
   transform-style: preserve-3d;
   perspective: 1000px;
-  margin-top: 40px;
+  margin-top: 16px;
+  margin-bottom: 40px;
   overflow: visible;
   background: transparent;
 }
@@ -150,7 +152,8 @@ h6 span {
 .login-card-front,
 .login-card-back {
   width: 100%;
-  height: 100%;
+  height: auto;
+  min-height: 460px;
   position: absolute;
   background: #ffffff;
   border-radius: 16px;
@@ -158,7 +161,7 @@ h6 span {
   backface-visibility: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
   border: 1px solid #e8e8e8;
-  padding: 48px 40px;
+  padding: 28px 32px 32px 32px;
 }
 
 .login-card-front {
@@ -168,6 +171,8 @@ h6 span {
 .login-card-back {
   background: #ffffff;
   transform: rotateY(180deg);
+  min-height: 580px;
+  padding-bottom: 40px;
 }
 
 .login-checkbox:checked ~ .login-card-3d-wrap .login-card-3d-wrapper {
@@ -186,10 +191,10 @@ h6 span {
 }
 
 .login-form-title {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 700;
   color: #000;
-  margin-bottom: 32px;
+  margin-bottom: 20px;
   text-align: center;
   letter-spacing: -0.5px;
 }
@@ -197,18 +202,18 @@ h6 span {
 .login-form-group {
   position: relative;
   display: block;
-  margin: 0 0 24px 0;
+  margin: 0 0 10px 0;
   padding: 0;
 }
 
 .login-form-input {
-  padding: 14px 20px;
-  padding-left: 52px;
-  height: 52px;
+  padding: 11px 18px;
+  padding-left: 42px;
+  height: 44px;
   width: 100%;
   font-weight: 500;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   line-height: 1.5;
   letter-spacing: 0;
   outline: none;
@@ -233,15 +238,16 @@ h6 span {
 .login-form-icon {
   position: absolute;
   top: 0;
-  left: 18px;
-  height: 52px;
-  font-size: 20px;
-  line-height: 52px;
+  left: 14px;
+  height: 44px;
+  font-size: 16px;
+  line-height: 44px;
   text-align: left;
   transition: all 0.2s ease;
   color: #666;
   display: flex;
   align-items: center;
+  font-style: normal;
 }
 
 .login-form-input:focus ~ .login-form-icon {
@@ -249,13 +255,13 @@ h6 span {
 }
 
 .login-btn {
-  border-radius: 28px;
-  height: 52px;
-  font-size: 1rem;
+  border-radius: 24px;
+  height: 44px;
+  font-size: 0.95rem;
   font-weight: 600;
   text-transform: none;
   transition: all 0.2s ease;
-  padding: 0 32px;
+  padding: 0 28px;
   letter-spacing: 0;
   display: inline-flex;
   align-items: center;
@@ -265,7 +271,8 @@ h6 span {
   border: none;
   cursor: pointer;
   width: 100%;
-  margin-top: 8px;
+  margin-top: 4px;
+  margin-bottom: 16px;
 }
 
 .login-btn:hover {
@@ -289,40 +296,48 @@ h6 span {
 
 /* Social login buttons */
 .social-login {
-  margin: 24px 0;
+  margin: 14px 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .social-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 12px 24px;
+  gap: 10px;
+  padding: 11px 20px;
   border: 2px solid #e8e8e8;
-  border-radius: 28px;
+  border-radius: 24px;
   background: #ffffff;
   color: #1a1a1a;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  height: 48px;
 }
 
 .social-btn:hover {
   background: #f8f9fb;
   border-color: #d0d0d0;
+  transform: translateY(-1px);
+}
+
+.social-btn svg,
+.social-btn img {
+  width: 20px;
+  height: 20px;
 }
 
 .divider {
   display: flex;
   align-items: center;
   text-align: center;
-  margin: 24px 0;
+  margin: 14px 0;
   color: #999;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .divider::before,
@@ -333,19 +348,20 @@ h6 span {
 }
 
 .divider::before {
-  margin-right: 16px;
+  margin-right: 14px;
 }
 
 .divider::after {
-  margin-left: 16px;
+  margin-left: 14px;
 }
 
 /* Helper text */
 .helper-text {
   text-align: center;
-  margin-top: 20px;
-  font-size: 0.9rem;
+  margin-top: 0;
+  font-size: 0.85rem;
   color: #666;
+  line-height: 1.4;
 }
 
 .helper-text a {
@@ -353,23 +369,71 @@ h6 span {
   font-weight: 600;
 }
 
+/* Employer checkbox */
+.employer-checkbox-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.employer-checkbox-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #00f5d4;
+}
+
+.employer-checkbox-group label {
+  font-size: 0.9rem;
+  color: #666;
+  cursor: pointer;
+  user-select: none;
+}
+
 @media (max-width: 768px) {
   .login-card-3d-wrap {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 12px;
+    margin-bottom: 20px;
   }
   
   .login-card-front,
   .login-card-back {
-    padding: 32px 24px;
+    padding: 24px 20px 32px 20px;
+    min-height: 440px;
+  }
+  
+  .login-card-back {
+    min-height: 540px;
   }
   
   .login-form-title {
-    font-size: 1.75rem;
-    margin-bottom: 24px;
+    font-size: 1.5rem;
+    margin-bottom: 16px;
   }
   
   .login-form-input {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    height: 46px;
+  }
+  
+  .login-form-group {
+    margin: 0 0 12px 0;
+  }
+  
+  .login-btn {
+    height: 46px;
+    font-size: 0.9rem;
+  }
+  
+  .social-btn {
+    height: 46px;
+    font-size: 0.85rem;
+  }
+  
+  .full-height {
+    padding: 20px 0;
   }
 }
