@@ -3,7 +3,7 @@ require('dotenv').config();
 const { sendEmail } = require('./middleware/mailer');
 
 sendEmail(
-  'nrndbrma@gmail.com.com',  // fromAddress - MUST be verified in Mailjet
+  'nrndbrma@gmail.com',  // fromAddress - MUST be verified in Mailjet
   'Your App Name',                         // fromName
   'recipient@example.com',                 // toAddress - where to send the test
   'Recipient Name',                        // toName
