@@ -32,6 +32,7 @@ const applicationsController = require("./controllers/applicationsController");
 const messagesController = require("./controllers/messagesController");
 const employerMessagingController = require("./controllers/employerMessagingController");
 const companyRoutes = require("./routes/companyRoutes");
+const chatRoutes = require("./routes/chatRoutes");
 
 // Import middleware
 const { verifyToken } = require("./middleware/auth");
@@ -58,6 +59,7 @@ console.log("Environment check:", {
    bad_words_api_key: !!process.env.BAD_WORDS_API_KEY,
    email_from: !!process.env.EMAIL_FROM,
    server_domain: process.env.SERVER_DOMAIN,
+   geminiConfigured: !!process.env.GEMINI_API_KEY,
 });
 
 
@@ -359,7 +361,8 @@ client
          Get Company Profile (mount company routes on API router)
       ------------------ */
       apiRouter.use('/', companyRoutes);
-
+      
+      apiRouter.use('/chat', chatRoutes);
       // Mount all API routes with /api prefix
       app.use('/api', apiRouter);
 

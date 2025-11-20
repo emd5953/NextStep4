@@ -1,13 +1,11 @@
 // src/components/ChatWidget.js
 
 import React, { useState, useEffect, useRef } from "react";
-import { GoogleGenAI } from "@google/genai";
 import ReactMarkdown from "react-markdown";
 import "../styles/ChatWidget.css";
 
-// Initialize the AI client with your API key.
-// IMPORTANT: For production, secure your API key in environment variables.
-const ai = new GoogleGenAI({ apiKey: "" });
+// REMOVE THIS - No more direct API initialization
+// const ai = new GoogleGenAI({ apiKey: "" });
 
 const ChatWidget = () => {
   const [isMinimized, setIsMinimized] = useState(true); // Start minimized
@@ -61,7 +59,6 @@ const ChatWidget = () => {
     setShowPrompt(false); // Hide prompt when clicked
   };
 
-  // Handle sending a message
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!input.trim()) return;
@@ -69,42 +66,34 @@ const ChatWidget = () => {
     // Add user's message to chat history
     const userMessage = { text: input, sender: "user" };
     setMessages((prev) => [...prev, userMessage]);
+    const currentInput = input; // Save input before clearing
     setInput("");
     setLoading(true);
 
-    // Prepend context instructions so the AI only answers about NextStep.
-    const context =
-      "You are an AI assistant for NextStep Help Chat, a job matching platform. Only answer questions about NextStep (job matching, swipe-based job discovery, application tracking, employer dashboard, etc.). Do not answer questions about coding, recipes, or other unrelated topics.";
-    const fullPrompt = `${context}\n\nUser: ${input}`;
-
     try {
-      // Send the full prompt to Gemini and await a response
-      const response = await ai.models.generateContent({
-        model: "gemini-2.0-flash",
-        contents: fullPrompt,
+      // Call your backend API instead of Gemini directly
+      const response = await fetch('http://localhost:4000/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: currentInput }),
       });
-      console.log("AI response:", response);
 
-      // Extract text from the candidate response
-      const candidate = response.candidates && response.candidates[0];
-      let botText = "No response";
-      if (candidate && candidate.content) {
-        if (Array.isArray(candidate.content.parts)) {
-          botText = candidate.content.parts.map((part) => part.text).join(" ");
-        } else if (typeof candidate.content === "string") {
-          botText = candidate.content;
-        } else if (candidate.content.text) {
-          botText = candidate.content.text;
-        }
-      } else if (response.text) {
-        botText = response.text;
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const botMessage = { text: botText, sender: "bot" };
+      const data = await response.json();
+      const botMessage = { text: data.response, sender: "bot" };
       setMessages((prev) => [...prev, botMessage]);
+
     } catch (error) {
-      console.error("Error fetching AI response", error);
-      const errorMessage = { text: "Error: Unable to fetch response", sender: "bot" };
+      console.error("Error fetching AI response:", error);
+      const errorMessage = { 
+        text: "Sorry, I'm having trouble connecting. Please try again later.", 
+        sender: "bot" 
+      };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setLoading(false);
