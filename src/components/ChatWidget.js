@@ -73,7 +73,7 @@ const ChatWidget = () => {
     try {
       // Call your backend API instead of Gemini directly
       const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000';
-      const response = await fetch(`${API_URL}/api/chat`, {
+      const response = await fetch(`${API_URL}/api/rag-chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
