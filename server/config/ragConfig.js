@@ -87,7 +87,7 @@ const ragConfig = {
 
   // Model Configuration
   embeddingModel: process.env.RAG_EMBEDDING_MODEL || 'text-embedding-004',
-  generationModel: process.env.RAG_GENERATION_MODEL || 'gemini-2.5-pro',
+  generationModel: process.env.RAG_GENERATION_MODEL || 'gemini-2.5-flash',
 
   // Conversation History Configuration
   maxConversationHistory: parseInt(process.env.RAG_MAX_HISTORY) || 5,
