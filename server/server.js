@@ -70,7 +70,16 @@ const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'https://nextstep4.com',
+    'https://www.nextstep4.com',
+    'https://next-step4.vercel.app'
+  ],
+  credentials: true
+}));
+
 
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
