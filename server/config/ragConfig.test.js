@@ -129,7 +129,8 @@ describe('RAG Configuration', () => {
       expect(config.embeddingModel).toBe('text-embedding-004');
       expect(config.generationModel).toBe('gemini-1.5-flash');
       expect(config.maxConversationHistory).toBe(5);
-      expect(config.vectorStorePath).toBe('./data/chroma');
+      expect(config.chromaHost).toBe('localhost');
+      expect(config.chromaPort).toBe(8000);
       expect(config.collectionName).toBe('nextstep_docs');
       expect(config.similarityThreshold).toBe(0.5);
     });

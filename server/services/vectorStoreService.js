@@ -150,7 +150,7 @@ class VectorStoreService {
       throw new Error('Query must be a non-empty string');
     }
 
-    const k = topK || ragConfig.retrievalCount;
+    const k = topK !== null && topK !== undefined ? topK : ragConfig.retrievalCount;
     if (k < 1 || k > 100) {
       throw new Error('topK must be between 1 and 100');
     }
@@ -172,12 +172,17 @@ class VectorStoreService {
 
       const formattedResults = [];
       for (let i = 0; i < results.ids[0].length; i++) {
+        const distance = results.distances[0][i];
+        // Convert distance to similarity score (0-1 range)
+        // For L2 distance, use 1 / (1 + distance) to ensure 0-1 range
+        const score = 1 / (1 + distance);
+        
         formattedResults.push({
           id: results.ids[0][i],
           document: results.documents[0][i],
           metadata: results.metadatas[0][i],
-          distance: results.distances[0][i],
-          score: 1 - results.distances[0][i] // Convert distance to similarity score
+          distance: distance,
+          score: score
         });
       }
 
