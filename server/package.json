@@ -7,7 +7,10 @@
     "dev": "npx nodemon server.js",
     "test": "jest --detectOpenHandles --forceExit",
     "test:coverage": "jest --coverage --detectOpenHandles --forceExit",
-    "docs": "jsdoc -c jsdoc.json"
+    "docs": "jsdoc -c jsdoc.json",
+    "ingest": "node scripts/ingest-documents.js",
+    "ingest:docs": "node scripts/ingest-documents.js ../docs",
+    "clear-vector-store": "node scripts/clear-vector-store.js"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +20,7 @@
     "@google/genai": "^1.30.0",
     "@google/generative-ai": "^0.24.1",
     "@langchain/google-genai": "^2.0.0",
+    "@langchain/textsplitters": "^1.0.1",
     "@react-oauth/google": "^0.12.1",
     "axios": "^1.8.4",
     "bcrypt": "^5.1.1",

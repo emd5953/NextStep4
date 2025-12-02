@@ -33,6 +33,8 @@ const messagesController = require("./controllers/messagesController");
 const employerMessagingController = require("./controllers/employerMessagingController");
 const companyRoutes = require("./routes/companyRoutes");
 const chatRoutes = require("./routes/chatRoutes");
+const ragChatRoutes = require("./routes/ragChatRoutes");
+const ragChatController = require("./controllers/ragChatController");
 
 // Import middleware
 const { verifyToken } = require("./middleware/auth");
@@ -363,8 +365,20 @@ client
       apiRouter.use('/', companyRoutes);
       
       apiRouter.use('/chat', chatRoutes);
+      apiRouter.use('/rag-chat', ragChatRoutes);
+      
       // Mount all API routes with /api prefix
       app.use('/api', apiRouter);
+
+      // Initialize RAG services after routes are set up
+      ragChatController.initializeRAGServices()
+         .then(() => {
+            console.log('✓ RAG chat services initialized successfully');
+         })
+         .catch((error) => {
+            console.error('✗ Failed to initialize RAG services:', error.message);
+            console.error('  RAG chat will not be available until services are initialized');
+         });
 
       /******************************************
        *         ROUTES DEFINITION END          *
