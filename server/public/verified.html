@@ -99,33 +99,45 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            console.log("verified.html loaded");
+            console.log("Current URL:", window.location.href);
+            
             const verificationContent = document.getElementById('verification-content');
             const urlParams = new URLSearchParams(window.location.search);
             const success = urlParams.get('success');
+            const error = urlParams.get('error');
+            
+            console.log("URL params - success:", success, "error:", error);
             
             if (success === 'true') {
+                console.log("Showing success message");
                 verificationContent.innerHTML = `
                     <div class="verification-message">
-                        <h2>Email Verified Successfully!</h2>
+                        <h2>✅ Email Verified Successfully!</h2>
                         <p>Your email has been verified. You can now log in to your NextStep account.</p>
                         <a href="/login" class="login-link">Go to Login</a>
                     </div>
                 `;
+            } else if (error) {
+                console.log("Showing error:", error);
+                verificationContent.innerHTML = `
+                    <div class="error-message">
+                        <h2>❌ Verification Failed</h2>
+                        <p>${decodeURIComponent(error)}</p>
+                        <a href="/login" class="login-link">Back to Login</a>
+                    </div>
+                `;
             } else {
-                // Check if there's a token in the URL
-                const token = urlParams.get('token');
-                if (token) {
-                    // Redirect to the verification endpoint
-                    window.location.href = `/verify-email?token=${token}`;
-                } else {
-                    verificationContent.innerHTML = `
-                        <div class="error-message">
-                            <p>Invalid verification link. Please try again or contact support.</p>
-                        </div>
-                    `;
-                }
+                console.log("No valid parameters");
+                verificationContent.innerHTML = `
+                    <div class="error-message">
+                        <h2>❌ Invalid Verification Link</h2>
+                        <p>This verification link is invalid or has expired. Please request a new verification email.</p>
+                        <a href="/login" class="login-link">Back to Login</a>
+                    </div>
+                `;
             }
         });
     </script>
 </body>
-</html> 
+</html>

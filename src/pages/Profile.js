@@ -282,18 +282,6 @@ const Profile = () => {
             {/* Name Fields Row */}
             <div className="profile-form-row">
               <div className="profile-form-group">
-                <label className="profile-label">Full Name</label>
-                <input
-                  type="text"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  placeholder="Enter your full name"
-                  required
-                  className="profile-input"
-                />
-              </div>
-
-              <div className="profile-form-group">
                 <label className="profile-label">First Name</label>
                 <input
                   type="text"

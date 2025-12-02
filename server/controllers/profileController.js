@@ -95,6 +95,33 @@ const profileController = {
         ...(skills != null && skills != "" && skills != "undefined" && { skills: JSON.parse(skills) }),
       };
 
+      // Generate and cache embedding if skills or location changed
+      if ((skills != null && skills != "" && skills != "undefined") || location) {
+        try {
+          const { generateEmbeddings } = require("../middleware/genAI");
+          
+          let textToEmbed = '';
+          if (skills != null && skills != "" && skills != "undefined") {
+            const parsedSkills = JSON.parse(skills);
+            textToEmbed = `skills: ${parsedSkills.join(', ')}`;
+          }
+          if (location) {
+            textToEmbed += ` location: ${location}`;
+          }
+          
+          if (textToEmbed) {
+            console.log("Generating embedding for profile...");
+            const skillsEmbedding = await generateEmbeddings(textToEmbed);
+            updatedProfileData.skillsEmbedding = skillsEmbedding;
+            updatedProfileData.embeddingGeneratedAt = new Date();
+            console.log("✓ Embedding cached in profile");
+          }
+        } catch (error) {
+          console.error("Error generating embedding:", error);
+          // Continue without embedding if it fails
+        }
+      }
+
       const result = await collection.updateOne(
         { _id: ObjectId.createFromHexString(req.user.id) },
         { $set: updatedProfileData }
@@ -168,4 +195,4 @@ const profileController = {
   }
 };
 
-module.exports = { profileController, upload }; 
+module.exports = { profileController, upload };

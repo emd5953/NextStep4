@@ -1,230 +1,206 @@
-/* JobCard.css */
+/* JobCard.css - Minimalistic Black & White */
 
-/* Container is positioned relative so the details window can be absolutely placed */
-.job-card-container {
-  position: relative;
-  margin-top: 20px;
-  overflow: visible; /* Allows the details window to appear outside the container */
+.job-card-compact {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 32px;
+  transition: all 0.3s ease;
+  font-family: 'Inter', 'Poppins', sans-serif;
 }
 
-/* Job card styles remain unchanged */
-.job-card-container .job-card {
-  background: #fff;
-  border: 1px solid #e1e4e8;
+.job-card-compact:hover {
+  border-color: #000000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.job-card-main {
+  display: flex;
+  gap: 24px;
+}
+
+.job-card-left {
+  flex-shrink: 0;
+}
+
+.company-logo {
+  width: 56px;
+  height: 56px;
+  background: #000000;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
-  margin: 20px auto;
-  font-family: 'Poppins', sans-serif;
-  color: #333;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.5s ease; /* Transition for sliding effect */
-  position: relative;
-  z-index: 2;
-  min-width: 800px;
-}
-
-/* When details are shown, slide the job card left by 400px */
-.slide-left {
-  transform: translateX(-400px);
-}
-
-.job-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  border-bottom: 1px solid #e1e4e8;
-  background: #f8f8f8;
-}
-
-.header-left {
-  display: flex;
-  flex-direction: column;
-}
-
-.job-title {
-  font-size: 1.5rem;
-  margin: 0 0 4px 0;
-  color: #0073b1;
-  text-align: left;
-}
-
-.company-info {
   display: flex;
   align-items: center;
-  font-size: 0.95rem;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 24px;
+  color: #ffffff;
 }
 
-.company-info a {
-  color: #555;
-  text-decoration: none;
-  margin-right: 8px;
-}
-
-.company-info a:hover {
-  text-decoration: underline;
-}
-
-.job-location {
-  color: #888;
-}
-
-.header-right .apply-button {
-  background-color: #0073b1;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 10px 16px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.header-right .apply-button:hover {
-  background-color: #005582;
-}
-
-.job-card-body {
-  padding: 20px;
-}
-
-.job-info-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.salary-range,
-.job-schedule {
+.job-card-content {
   flex: 1;
-  font-size: 1rem;
-  margin: 0;
-}
-
-.salary-range {
-  text-align: left;
-}
-
-.job-schedule {
-  text-align: right;
-}
-
-.job-benefits {
-  font-size: 0.95rem;
-  margin-bottom: 8px;
-  color: #555;
-}
-
-.job-description {
-  font-size: 1rem;
-  line-height: 1.6;
-  margin-bottom: 0px;
-  color: #444;
-  text-align: justify;
-}
-
-.job-details {
-  margin: 0px;
-}
-
-.job-description p{
-  text-align: justify;
-  margin-bottom: 0px;
-}
-
-.job-skills {
-  font-size: 0.95rem;
-  text-align: left;
-}
-
-.job-skills ul {
-  list-style: disc;
-  margin: 8px 0 0 20px;
-  padding-left: 0;
-}
-
-.job-card-footer {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  padding: 5px 20px;
-  border-top: 1px solid #e1e4e8;
-  background: #f8f8f8;
+  gap: 12px;
 }
 
-.details-button {
-  background-color: #0073b1;
-  color: #fff;
+.job-header-compact {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.job-title-compact {
+  font-size: 20px;
+  font-weight: 600;
+  color: #000000;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.apply-button-compact {
+  background: #000000;
+  color: #ffffff;
   border: none;
-  border-radius: 4px;
-  padding: 10px 16px;
-  font-size: 1rem;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s ease;
-  align-self: flex-end;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
-.details-button:hover {
-  background-color: #005582;
+.apply-button-compact:hover {
+  background: #1a1a1a;
+  transform: translateY(-1px);
 }
 
-/* Details window: absolutely positioned to the right of the job card, same size as the job card */
-.details-window {
-  position: absolute;
-  top: 0;
-  /* With the job card sliding left by 400px, its right edge is at 800 - 400 = 400px.
-     Setting left: 100px places the details window flush to the right of the job card. */
-  left: 100px;
-  width: 800px;
-  background: #fff;
-  border: 1px solid #e1e4e8;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  animation: slideIn 0.5s ease forwards;
-  font-family: 'Poppins', sans-serif;
-  color: #333;
-  z-index: 1;
+.company-name-compact {
+  color: #666666;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
-@keyframes slideIn {
-  from {
-    transform: translateX(50px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+.company-name-compact:hover {
+  color: #000000;
 }
 
-.close-button {
+.job-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #666666;
+}
+
+.job-location-compact,
+.job-schedule-compact {
+  font-weight: 400;
+}
+
+.meta-separator {
+  color: #d0d0d0;
+}
+
+.job-description-compact {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #4a4a4a;
+  margin: 8px 0;
+}
+
+.job-footer-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.job-details-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.salary-compact {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000000;
+}
+
+.skills-compact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-tag {
+  background: #f5f5f5;
+  color: #000000;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid #e0e0e0;
+  transition: all 0.2s ease;
+}
+
+.skill-tag:hover {
+  background: #000000;
+  color: #ffffff;
+  border-color: #000000;
+}
+
+.skill-tag.more {
+  background: #000000;
+  color: #ffffff;
+  border-color: #000000;
+}
+
+.details-link {
+  align-self: flex-start;
   background: transparent;
-  border: none;
-  font-size: 1.5rem;
+  color: #000000;
+  border: 1px solid #000000;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  float: right;
+  transition: all 0.2s ease;
 }
 
-/* Optional additional detailed description styling */
-.detailed-description {
-  margin-top: 16px;
-  font-size: 0.95rem;
-  color: #444;
-  width: 100%;
-  text-align: left;
+.details-link:hover {
+  background: #000000;
+  color: #ffffff;
 }
 
-/* Remove bullets from lists inside the details window */
-.details-window ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-/* Style headers in the details window to match blue (#0073b1) */
-.details-window h4 {
-  color: #0073b1;
+/* Responsive */
+@media (max-width: 768px) {
+  .job-card-compact {
+    padding: 24px;
+  }
+  
+  .job-card-main {
+    gap: 16px;
+  }
+  
+  .company-logo {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+  
+  .job-header-compact {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .apply-button-compact {
+    align-self: flex-start;
+  }
 }

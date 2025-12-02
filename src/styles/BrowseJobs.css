@@ -1,73 +1,83 @@
 /* File: /src/styles/BrowseJobs.css */
 .browse-jobs-container {
   padding: 20px;
-  color: #fff;
+  max-width: 1000px;
+  margin: 0 auto;
+  color: #1a1a1a;
+  min-height: 80vh;
+}
+
+.browse-jobs-container h1 {
   text-align: center;
+  margin-bottom: 24px;
+  font-size: 2rem;
 }
 
 .job-search-form {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .job-search-input {
-  padding: 10px 15px;
-  border: none;
-  border-radius: 30px;
-  width: 700px;
+  padding: 12px 20px;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  flex: 1;
   outline: none;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  background: #ffffff;
+  color: #1a1a1a;
   font-size: 1rem;
 }
 
-.job-search-input::placeholder {
-  color: #ddd;
+.job-search-input:focus {
+  border-color: #0073b1;
 }
 
 .job-search-button {
-  padding: 10px 20px;
+  padding: 12px 24px;
   border: none;
-  border-radius: 30px;
-  background: linear-gradient(90deg, #ff758c, #c9658e);
+  border-radius: 4px;
+  background: #000000;
   color: #fff;
   font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: background 0.2s;
 }
 
 .job-search-button:hover {
-  transform: scale(1.05);
+  background: #005582;
+}
+
+.job-search-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.job-count-label {
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+  color: #666;
 }
 
 .jobs-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;  /* Ensure your environment supports this property */
-  align-items: flex-start;  /* Left-align job postings */
+  gap: 16px;
+  width: 100%; 
 }
 
 .placeholder-text {
-  font-size: 1.2rem;
-  color: #ddd;
-  text-align: center;
-  margin: 20px auto;
-}
-
-.job-count-label {
-  position: absolute;
-  top: 237px;
-  height: 32px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #f0f0f0;
-  padding: 5px 15px;
-  border-radius: 15px;
-  font-size: 0.9em;
+  font-size: 1rem;
   color: #666;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin: 60px auto;
+  padding: 40px;
 }
 
 .search-overlay {
@@ -76,7 +86,16 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  pointer-events: none;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+
+@media (max-width: 768px) {
+  .browse-jobs-container {
+    padding: 16px;
+  }
+  
+  .job-search-form {
+    flex-direction: column;
+  }
 }

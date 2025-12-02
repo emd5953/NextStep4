@@ -1,0 +1,2 @@
+# This file ensures the chroma directory is tracked by git
+# ChromaDB will store vector embeddings and indices in this directory

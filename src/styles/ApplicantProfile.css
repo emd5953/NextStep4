@@ -1,27 +1,35 @@
+/* File: /src/styles/ApplicantProfile.css */
+
 .applicant-profile-container {
-  padding: 2rem;
+  padding: 32px 20px;
   max-width: 1200px;
   margin: 0 auto;
-  color: #fff;
-/*   background: linear-gradient(135deg, rgba(20,20,20,0.95), rgba(197,35,200,0.95));
- */  min-height: 100vh;
-  font-family: 'Poppins', sans-serif;
+  color: #1a1a1a;
+  background: linear-gradient(180deg, #f8f9fb 0%, #ffffff 100%);
+  min-height: 100vh;
+  font-family: 'Inter', 'Poppins', sans-serif;
 }
 
 .applicant-profile-container h1 {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
   font-size: 2.5rem;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: -1px;
 }
 
 .profile-header {
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  gap: 32px;
+  padding: 32px;
+  background: #ffffff;
+  border-radius: 16px;
   position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e8e8e8;
+  margin-bottom: 32px;
 }
 
 .profile-photo {
@@ -29,7 +37,8 @@
   height: 150px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid rgba(255, 255, 255, 0.2);
+  border: 4px solid #00f5d4;
+  flex-shrink: 0;
 }
 
 .profile-info {
@@ -38,68 +47,92 @@
 }
 
 .profile-info h2 {
-  margin: 0 0 10px 0;
+  margin: 0 0 12px 0;
   font-size: 2rem;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: -0.5px;
 }
 
 .profile-info p {
-  margin: 5px 0;
-  font-size: 1.1rem;
-  opacity: 0.9;
+  margin: 6px 0;
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.6;
 }
 
 .email-link, .phone-link {
-  display: block;
-  margin: 5px 0;
-  font-size: 1.1rem;
-  opacity: 0.9;
-  color: #ff7dad;
-  text-decoration: underline;
-  transition: opacity 0.2s;
+  display: inline-block;
+  margin: 6px 0;
+  font-size: 1rem;
+  color: #0073b1;
+  text-decoration: none;
+  transition: color 0.2s;
+  font-weight: 500;
 }
 
 .email-link:hover, .phone-link:hover {
-  opacity: 1;
+  color: #005582;
   text-decoration: underline;
 }
 
 .profile-sections-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  margin-top: 2rem;
+  gap: 24px;
+  margin-top: 32px;
 }
 
 .profile-section {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 30px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e8e8e8;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.profile-section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .profile-section h3 {
   margin: 0 0 20px 0;
-  font-size: 1.5rem;
-  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #000;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #00f5d4;
 }
 
 .skills-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 8px;
 }
 
 .skill-tag {
-  background: rgba(255, 255, 255, 0.2);
+  background: #f8f9fb;
+  color: #1a1a1a;
   padding: 8px 16px;
   border-radius: 20px;
   font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid #e8e8e8;
+  transition: all 0.2s ease;
+}
+
+.skill-tag:hover {
+  background: #00f5d4;
+  border-color: #00f5d4;
+  color: #000;
 }
 
 .experience-item, .education-item {
-  margin-bottom: 25px;
-  padding-bottom: 25px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #e8e8e8;
 }
 
 .experience-item:last-child,
@@ -111,58 +144,68 @@
 
 .experience-item h4,
 .education-item h4 {
-  color: #2c3e50;
-  margin-bottom: 0.5rem;
+  color: #000;
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
 }
 
 .company,
 .school {
-  color: #3498db;
-  font-weight: 500;
-  margin-bottom: 0.25rem;
+  color: #0073b1;
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 1rem;
 }
 
 .period {
-  color: #7f8c8d;
+  color: #999;
   font-size: 0.9rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 12px;
+  font-weight: 500;
 }
 
 .description {
-  color: #34495e;
+  color: #666;
   font-size: 0.95rem;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .view-resume-button {
-  padding: 12px 24px;
-  background-color: #2196f3;
+  padding: 12px 28px;
+  background-color: #000;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 24px;
   cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.2s;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
   white-space: nowrap;
   align-self: center;
 }
 
 .view-resume-button:hover {
-  background-color: #1976d2;
+  background-color: #1a1a1a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .loading {
   text-align: center;
-  padding: 40px;
+  padding: 60px 20px;
   font-size: 1.2rem;
-  color: #fff;
+  color: #666;
 }
 
 .error {
   text-align: center;
-  padding: 40px;
+  padding: 60px 20px;
   font-size: 1.2rem;
   color: #ff4444;
+  background: #fff5f5;
+  border-radius: 12px;
+  border: 1px solid #fee;
 }
 
 @media (max-width: 1024px) {
@@ -177,61 +220,74 @@
   }
   
   .applicant-profile-container {
-    padding: 1rem;
+    padding: 24px 16px;
+  }
+  
+  .applicant-profile-container h1 {
+    font-size: 2rem;
   }
   
   .profile-header {
     flex-direction: column;
     text-align: center;
+    padding: 24px;
+    gap: 20px;
   }
   
   .profile-photo {
-    margin-right: 0;
-    margin-bottom: 1rem;
+    margin: 0 auto;
   }
 
   .profile-info {
     margin-right: 0;
-    margin-bottom: 1rem;
+    text-align: center;
   }
 
   .view-resume-button {
     width: 100%;
-    max-width: 200px;
+    max-width: 280px;
+  }
+  
+  .profile-section {
+    padding: 20px;
   }
 }
 
+/* Resume Overlay */
 .resume-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  backdrop-filter: blur(4px);
 }
 
 .resume-overlay-content {
   position: relative;
   width: 90%;
   height: 90%;
+  max-width: 1200px;
   background-color: white;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  overflow: auto;
 }
 
 .close-overlay-button {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 30px;
-  height: 30px;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background-color: #f44336;
+  background-color: #000;
   color: white;
   border: none;
   font-size: 20px;
@@ -240,8 +296,10 @@
   align-items: center;
   justify-content: center;
   z-index: 1001;
+  transition: all 0.2s ease;
 }
 
 .close-overlay-button:hover {
-  background-color: #d32f2f;
-} 
+  background-color: #ff4444;
+  transform: scale(1.1);
+}

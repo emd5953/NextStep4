@@ -110,12 +110,12 @@ function App() {
                 </Link>
                 {token && (
                   <Link className="app-nav__link" to="/profile">
-                    Profile: {userName}
+                    Profile
                   </Link>
                 )}
                 {token && !employerFlag && (
                   <Link className="app-nav__link" to="/messenger">
-                    Messenger
+                    Inbox
                   </Link>
                 )}
                 {token && employerFlag && (

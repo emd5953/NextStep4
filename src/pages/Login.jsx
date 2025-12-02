@@ -1,0 +1,335 @@
+import React, { useState, useEffect, useContext } from "react";
+import "../styles/Login.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { TokenContext } from "../components/TokenContext";
+import { GoogleLogin } from "@react-oauth/google";
+import NotificationBanner from "../components/NotificationBanner";
+import { API_SERVER } from '../config';
+
+const Login = () => {
+  // ======================
+  // Error state
+  // ======================
+  const [error, setError] = useState(null);
+  const [message, setMessage] = useState(null);
+
+  // ======================
+  // Login form state
+  // ======================
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+
+  // ======================
+  // Sign up form state
+  // ======================
+  const [signupName, setSignupName] = useState("");
+  const [signupPhone, setSignupPhone] = useState("");
+  const [signupEmail, setSignupEmail] = useState("");
+  const [signupPassword, setSignupPassword] = useState("");
+
+  // ======================
+  // Context & Navigation
+  // ======================
+  const navigate = useNavigate();
+  const { token, setToken, employerFlag, setEmployerFlag, setEmail, setName, setCompanyId } =
+    useContext(TokenContext);
+
+  // If a token already exists, redirect to profile
+  useEffect(() => {
+    if (token) {
+      setToken(token);
+      if (employerFlag) {
+        navigate("/employer-dashboard");
+      } else {
+        navigate("/profile");
+      }
+    }
+  }, [token, navigate, setToken, employerFlag]);
+
+  // ======================
+  // Login Submit
+  // ======================
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      const loginData = { email: loginEmail, password: loginPassword };
+
+      const response = await axios.post(`${API_SERVER}/signin`, loginData);
+      setToken(response.data.token);
+      setEmployerFlag(response.data.employerFlag);
+      setName(response.data.full_name);
+      setEmail(response.data.email);
+
+      if (response.data.companyId) {
+        setCompanyId(response.data.companyId);
+      }
+      navigate("/");
+    } catch (err) {
+      setError(err.response?.data?.message || "An error occurred during login");
+    }
+  };
+
+  // ======================
+  // Sign Up Submit
+  // ======================
+  const handleSignupSubmit = async (e) => {
+    e.preventDefault();
+    const signupData = {
+      full_name: signupName,
+      phone: signupPhone,
+      email: signupEmail,
+      password: signupPassword,
+      employerFlag: employerFlag,
+    };
+
+    try {
+      await axios.post(`${API_SERVER}/signup`, signupData);
+      setMessage("Account created. Please check your email for verification instructions.");
+      // Clear form
+      setSignupName("");
+      setSignupPhone("");
+      setSignupEmail("");
+      setSignupPassword("");
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        setError(error.response.data.error);
+      } else {
+        setError('An unexpected error occurred. Please try again later.');
+      }
+    }
+  };
+
+  // ======================
+  // Google OAuth (Login)
+  // ======================
+  const handleGoogleSuccess = async (response) => {
+    try {
+      const res = await axios.post(`${API_SERVER}/auth/google`, {
+        token: response.credential,
+      });
+      setToken(res.data.token);
+      setEmployerFlag(res.data.employerFlag);
+      setName(res.data.full_name);
+      setEmail(res.data.email);
+      if (res.data.companyId) {
+        setCompanyId(res.data.companyId);
+      }
+      navigate("/");
+    } catch (err) {
+      setError(err.response?.data?.message || "An error occurred during Google login");
+    }
+  };
+
+  const handleGoogleError = () => {
+    console.error("Google login failed");
+    setError("Google login failed. Please try again.");
+  };
+
+  // ======================
+  // JSX Return
+  // ======================
+  return (
+    <div className="login-page">
+      {error && <NotificationBanner message={error} type="error" onDismiss={() => setError(null)} />}
+      {message && <NotificationBanner message={message} type="success" onDismiss={() => setMessage(null)} />}
+      <div className="login-section">
+        <div className="container-fluid">
+          <div className="row no-gutters full-height justify-content-center">
+            <div className="col-12 text-center align-self-center">
+              <div className="login-section pb-5 pt-5 pt-sm-2 text-center">
+                {/* Toggle Title */}
+                <h6 className="mb-0 pb-3">
+                  <span>Log In </span>
+                  <span>Sign Up</span>
+                </h6>
+
+                {/* This single checkbox toggles the 3D card (front/back) */}
+                <input
+                  className="login-checkbox"
+                  type="checkbox"
+                  id="reg-log"
+                  name="reg-log"
+                />
+                <label htmlFor="reg-log"></label>
+
+                {/* 3D Card Container */}
+                <div className="login-card-3d-wrap mx-auto">
+                  <div className="login-card-3d-wrapper">
+                    {/* =================== */}
+                    {/* Card Front – Login */}
+                    {/* =================== */}
+                    <div className="login-card-front">
+                      <div className="login-center-wrap">
+                        <div className="login-section-content text-center">
+                          <h4 className="login-form-title">Welcome Back</h4>
+
+                          {/* Google Login Button */}
+                          <div className="social-login">
+                            <GoogleLogin
+                              onSuccess={handleGoogleSuccess}
+                              onError={handleGoogleError}
+                              size="large"
+                              width="100%"
+                              text="continue_with"
+                              shape="pill"
+                            />
+                          </div>
+
+                          <div className="divider">or continue with email</div>
+
+                          {/* Login Form */}
+                          <form onSubmit={handleLoginSubmit}>
+                            <div className="login-form-group">
+                              <input
+                                type="email"
+                                className="login-form-input"
+                                placeholder="Email"
+                                value={loginEmail}
+                                onChange={(e) => setLoginEmail(e.target.value)}
+                                required
+                              />
+                              <i className="login-form-icon uil uil-at"></i>
+                            </div>
+                            <div className="login-form-group">
+                              <input
+                                type="password"
+                                className="login-form-input"
+                                placeholder="Password"
+                                value={loginPassword}
+                                onChange={(e) => setLoginPassword(e.target.value)}
+                                required
+                              />
+                              <i className="login-form-icon uil uil-lock-alt"></i>
+                            </div>
+
+                            {/* Login Button */}
+                            <button type="submit" className="login-btn">
+                              Sign In
+                            </button>
+                          </form>
+
+                          {/* Forgot Password Link */}
+                          <p className="helper-text">
+                            <a href="#!" className="link">
+                              Forgot your password?
+                            </a>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    {/* End Card Front */}
+
+                    {/* =================== */}
+                    {/* Card Back – Sign Up */}
+                    {/* =================== */}
+                    <div className="login-card-back">
+                      <div className="login-center-wrap">
+                        <div className="login-section-content text-center">
+                          <h4 className="login-form-title">Create Account</h4>
+
+                          {/* Employer Checkbox */}
+                          <div className="employer-checkbox-group">
+                            <input
+                              type="checkbox"
+                              id="employer-flag"
+                              checked={employerFlag}
+                              onChange={(e) => setEmployerFlag(e.target.checked)}
+                            />
+                            <label htmlFor="employer-flag">
+                              I'm an employer
+                            </label>
+                          </div>
+
+                          {/* Google Sign Up Button */}
+                          <div className="social-login">
+                            <GoogleLogin
+                              onSuccess={handleGoogleSuccess}
+                              onError={handleGoogleError}
+                              size="large"
+                              width="100%"
+                              text="signup_with"
+                              shape="pill"
+                            />
+                          </div>
+
+                          <div className="divider">or sign up with email</div>
+
+                          {/* Sign Up Form */}
+                          <form onSubmit={handleSignupSubmit}>
+                            <div className="login-form-group">
+                              <input
+                                type="text"
+                                className="login-form-input"
+                                placeholder="Full Name"
+                                value={signupName}
+                                onChange={(e) => setSignupName(e.target.value)}
+                                required
+                              />
+                              <i className="login-form-icon uil uil-user"></i>
+                            </div>
+
+                            <div className="login-form-group">
+                              <input
+                                type="tel"
+                                className="login-form-input"
+                                placeholder="Phone Number"
+                                value={signupPhone}
+                                onChange={(e) => setSignupPhone(e.target.value)}
+                                required
+                              />
+                              <i className="login-form-icon uil uil-phone"></i>
+                            </div>
+
+                            <div className="login-form-group">
+                              <input
+                                type="email"
+                                className="login-form-input"
+                                placeholder="Email"
+                                value={signupEmail}
+                                onChange={(e) => setSignupEmail(e.target.value)}
+                                required
+                              />
+                              <i className="login-form-icon uil uil-at"></i>
+                            </div>
+
+                            <div className="login-form-group">
+                              <input
+                                type="password"
+                                className="login-form-input"
+                                placeholder="Password"
+                                value={signupPassword}
+                                onChange={(e) => setSignupPassword(e.target.value)}
+                                required
+                              />
+                              <i className="login-form-icon uil uil-lock-alt"></i>
+                            </div>
+
+                            <button type="submit" className="login-btn">
+                              Create Account
+                            </button>
+                          </form>
+
+                          <p className="helper-text">
+                            By signing up, you agree to our{" "}
+                            <a href="#!" className="link">Terms</a> and{" "}
+                            <a href="#!" className="link">Privacy Policy</a>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    {/* End Card Back */}
+                  </div>
+                </div>
+                {/* End 3D Card Container */}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;

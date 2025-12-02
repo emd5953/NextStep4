@@ -1,14 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import "./styles/global.css"; // Global styles
+import "./styles/global.css";
 import { TokenProvider } from "./components/TokenContext";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
-// Debug: Log environment variables
-const clientId =
-  "681971948277-sghsen822vlul0c98ffs8mqrnn4u8god.apps.googleusercontent.com";
+// Get Client ID from environment variable
+const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+
+// Debug log
 console.log("Using Google Client ID:", clientId);
+
+if (!clientId) {
+  console.error("REACT_APP_GOOGLE_CLIENT_ID is not set in .env file!");
+}
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

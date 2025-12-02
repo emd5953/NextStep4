@@ -32,6 +32,9 @@ const applicationsController = require("./controllers/applicationsController");
 const messagesController = require("./controllers/messagesController");
 const employerMessagingController = require("./controllers/employerMessagingController");
 const companyRoutes = require("./routes/companyRoutes");
+const chatRoutes = require("./routes/chatRoutes");
+const ragChatRoutes = require("./routes/ragChatRoutes");
+const ragChatController = require("./controllers/ragChatController");
 
 // Import middleware
 const { verifyToken } = require("./middleware/auth");
@@ -58,9 +61,9 @@ console.log("Environment check:", {
    bad_words_api_key: !!process.env.BAD_WORDS_API_KEY,
    email_from: !!process.env.EMAIL_FROM,
    server_domain: process.env.SERVER_DOMAIN,
+   geminiConfigured: !!process.env.GEMINI_API_KEY,
 });
 
-console.log('Last updated: 4/25/2025');
 
 // Initialize Google OAuth client
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -118,51 +121,58 @@ client
       /* ------------------
          Email Verification (keep on main app - no /api prefix needed)
       ------------------ */
-      app.get("/verified", (req, res) => {
-        // Serve the verification page
-        res.sendFile(path.join(__dirname, 'public', 'verified.html'));
-      });
-
-      app.get("/verify-email", async (req, res) => {
-        try {
-          const { token } = req.query;
-          
-          if (!token) {
-            return res.status(400).json({ error: "Verification token is required" });
-          }
-          
-          const collection = req.app.locals.db.collection("users");
-          
-          // Find user with this verification token
-          const user = await collection.findOne({ verificationToken: token });
-          
-          if (!user) {
-            return res.status(400).json({ error: "Invalid verification token" });
-          }
-          
-          // Check if token has expired
-          if (user.verificationExpires < new Date()) {
-            return res.status(400).json({ error: "Verification token has expired" });
-          }
-          
-          // Update user to mark email as verified
-          await collection.updateOne(
-            { _id: user._id },
-            { 
-              $set: { 
-                emailVerified: true,
-                verificationToken: null,
-                verificationExpires: null
-              } 
+      apiRouter.get("/auth/verify-email", async (req, res) => {
+         try {
+            const { token } = req.query;
+            
+            console.log("=== VERIFICATION DEBUG START ===");
+            console.log("1. Token received:", token ? "YES" : "NO");
+            
+            if (!token) {
+               return res.send("ERROR: No verification token provided");
             }
-          );
-          
-          // Redirect to the verification success page
-          res.redirect('/verified?success=true');
-        } catch (error) {
-          console.error("Email verification error:", error);
-          res.status(500).json({ error: "Failed to verify email" });
-        }
+            
+            const collection = req.app.locals.db.collection("users");
+            const user = await collection.findOne({ verificationToken: token });
+            
+            console.log("2. User found:", user ? "YES" : "NO");
+            
+            if (!user) {
+               return res.send("ERROR: Invalid verification token");
+            }
+            
+            console.log("3. User email:", user.email);
+            console.log("4. emailVerified:", user.emailVerified);
+            
+            if (user.verificationExpires < new Date()) {
+               return res.send("ERROR: Token expired");
+            }
+            
+            // Update user
+            await collection.updateOne(
+               { _id: user._id },
+               { 
+               $set: { 
+                  emailVerified: true,
+                  verificationToken: null,
+                  verificationExpires: null
+               } 
+               }
+            );
+            
+            console.log("5. User updated successfully");
+            console.log("=== VERIFICATION DEBUG END ===");
+            
+            // Just send plain text instead of redirecting
+            res.send(`
+               <h1>SUCCESS!</h1>
+               <p>Your email has been verified.</p>
+               <p><a href="http://localhost:3000/login">Click here to login</a></p>
+            `);
+         } catch (error) {
+            console.error("ERROR:", error);
+            res.send("ERROR: " + error.message);
+         }
       });
 
       /* ------------------
@@ -214,28 +224,40 @@ client
          Analyze Resume
       ------------------ */
       apiRouter.post("/analyze-resume", verifyToken, upload.single('pdf'), async (req, res) => {
-        try {
-          if (!req.file) {
+      try {
+         console.log("=== ANALYZE RESUME DEBUG ===");
+         console.log("1. File received:", !!req.file);
+         
+         if (!req.file) {
             return res.status(400).json({ error: 'No PDF file uploaded' });
-          }
+         }
 
-          // Create a temporary file path
-         /*  const tempFilePath = path.join(__dirname, 'public', 'uploads', `temp-${Date.now()}.pdf`);
-          fs.writeFileSync(tempFilePath, req.file.buffer);
+         console.log("2. File details:", {
+            name: req.file.originalname,
+            size: req.file.size,
+            mimetype: req.file.mimetype
+         });
 
-          const result = await analyzePDF(tempFilePath); */
-          const result = await analyzePDF(req.file.buffer.toString("base64"));
-          
-          // Clean up the temporary file
-          //fs.unlinkSync(tempFilePath);
-          
-          res.json(result);
-        } catch (error) {
-          console.error('Error analyzing PDF:', error);
-          res.status(500).json({ error: 'Error analyzing PDF', details: error.message });
-        }
+         const base64Data = req.file.buffer.toString("base64");
+         console.log("3. Base64 length:", base64Data.length);
+         
+         console.log("4. Calling OpenAI...");
+         const result = await analyzePDF(base64Data);
+         
+         console.log("5. OpenAI result:", result);
+         console.log("=== DEBUG END ===");
+         
+         res.json(result);
+      } catch (error) {
+         console.error('=== ANALYZE ERROR ===');
+         console.error('Error:', error);
+         console.error('Stack:', error.stack);
+         res.status(500).json({ 
+            error: 'Error analyzing PDF', 
+            details: error.message 
+         });
+      }
       });
-
       /* ------------------
          Logout
       ------------------ */
@@ -341,9 +363,22 @@ client
          Get Company Profile (mount company routes on API router)
       ------------------ */
       apiRouter.use('/', companyRoutes);
-
+      
+      apiRouter.use('/chat', chatRoutes);
+      apiRouter.use('/rag-chat', ragChatRoutes);
+      
       // Mount all API routes with /api prefix
       app.use('/api', apiRouter);
+
+      // Initialize RAG services after routes are set up
+      ragChatController.initializeRAGServices()
+         .then(() => {
+            console.log('✓ RAG chat services initialized successfully');
+         })
+         .catch((error) => {
+            console.error('✗ Failed to initialize RAG services:', error.message);
+            console.error('  RAG chat will not be available until services are initialized');
+         });
 
       /******************************************
        *         ROUTES DEFINITION END          *

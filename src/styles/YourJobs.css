@@ -1,74 +1,307 @@
 /* File: /src/styles/YourJobs.css */
+
 .your-jobs-container {
-    padding: 20px;
-    color: #fff;
-    text-align: left;
-  }
-  
-  .your-jobs-container h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-  }
-  
+  padding: 32px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  color: #1a1a1a;
+  text-align: left;
+  min-height: 80vh;
+  background: linear-gradient(180deg, #f8f9fb 0%, #ffffff 100%);
+}
+
+.your-jobs-container h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: #000;
+  letter-spacing: -1px;
+  text-align: center;
+}
+
+.jobs-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 24px;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e8e8e8;
+}
+
+.jobs-table th,
+.jobs-table td {
+  padding: 16px 20px;
+  text-align: left;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.jobs-table th {
+  background: #f8f9fb;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.jobs-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.jobs-table tbody tr:hover {
+  background: #f8f9fb;
+}
+
+.jobs-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.jobs-table input {
+  padding: 8px 12px;
+  margin-right: 8px;
+  border-radius: 6px;
+  border: 2px solid #e8e8e8;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: #ffffff;
+  color: #1a1a1a;
+  transition: all 0.2s ease;
+}
+
+.jobs-table input:focus {
+  outline: none;
+  border-color: #00f5d4;
+  box-shadow: 0 0 0 3px rgba(0, 245, 212, 0.1);
+}
+
+/* Container for non-editing state: text on left, edit button on far right */
+.notes-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.notes-text {
+  flex: 1;
+  color: #444;
+  line-height: 1.5;
+}
+
+/* Container for editing state: input on left, save/cancel buttons on far right */
+.notes-edit {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.notes-edit input {
+  flex: 1;
+  margin-right: 0;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.jobs-table button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.jobs-table button:hover {
+  background: #1a1a1a;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.jobs-table button:disabled {
+  background: #e0e0e0;
+  color: #999;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.jobs-table button.secondary {
+  background: transparent;
+  border: 2px solid #e8e8e8;
+  color: #1a1a1a;
+}
+
+.jobs-table button.secondary:hover {
+  background: #f8f9fb;
+  border-color: #d0d0d0;
+}
+
+.jobs-table button.delete {
+  background: transparent;
+  color: #dc2626;
+  border: 2px solid #fee;
+}
+
+.jobs-table button.delete:hover {
+  background: #fff5f5;
+  border-color: #fecaca;
+}
+
+/* Job title link styling */
+.job-title-link {
+  color: #0073b1;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.job-title-link:hover {
+  color: #005582;
+  text-decoration: underline;
+}
+
+/* Status badges */
+.status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.status-badge.applied {
+  background: #eff6ff;
+  color: #0073b1;
+  border: 1px solid #dbeafe;
+}
+
+.status-badge.interviewing {
+  background: #fff7ed;
+  color: #ea580c;
+  border: 1px solid #fed7aa;
+}
+
+.status-badge.offered {
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #dcfce7;
+}
+
+.status-badge.rejected {
+  background: #fff5f5;
+  color: #c41e3a;
+  border: 1px solid #fee;
+}
+
+/* Filter section */
+.filter-section {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-section select,
+.filter-section input {
+  padding: 10px 16px;
+  border: 2px solid #e8e8e8;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #ffffff;
+  font-family: inherit;
+  color: #1a1a1a;
+  transition: all 0.2s ease;
+}
+
+.filter-section select:focus,
+.filter-section input:focus {
+  outline: none;
+  border-color: #00f5d4;
+  box-shadow: 0 0 0 3px rgba(0, 245, 212, 0.1);
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+}
+
+.empty-state-icon {
+  font-size: 4rem;
+  color: #e8e8e8;
+  margin-bottom: 16px;
+}
+
+.empty-state h3 {
+  color: #666;
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  color: #999;
+  font-size: 1rem;
+}
+
+@media (max-width: 1024px) {
   .jobs-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+    font-size: 0.9rem;
   }
   
   .jobs-table th,
   .jobs-table td {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 10px;
-    text-align: left;
+    padding: 12px 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .your-jobs-container {
+    padding: 24px 16px;
   }
   
-  .jobs-table th {
-    background: rgba(255, 255, 255, 0.1);
+  .your-jobs-container h1 {
+    font-size: 2rem;
   }
   
-  .jobs-table tr:nth-child(even) {
-    background: rgba(255, 255, 255, 0.05);
+  .jobs-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
   }
   
-  .jobs-table input {
-    padding: 5px;
-    margin-right: 5px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+  .filter-section {
+    flex-direction: column;
+    width: 100%;
   }
   
-  /* Container for non-editing state: text on left, edit button on far right */
-  .notes-display {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  .filter-section select,
+  .filter-section input {
+    width: 100%;
   }
   
-  /* Container for editing state: input on left, save/cancel buttons on far right */
+  .notes-display,
   .notes-edit {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
   }
   
   .edit-actions {
-    display: flex;
-    gap: 5px;
+    width: 100%;
+    justify-content: flex-end;
   }
-  
-  .jobs-table button {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 4px;
-    background: linear-gradient(90deg, #ff758c, #c9658e);
-    color: #fff;
-    cursor: pointer;
-    font-size: 0.8rem;
-    transition: background 0.3s ease;
-  }
-  
-  .jobs-table button:hover {
-    background: linear-gradient(90deg, #c9658e, #ff758c);
-  }
-  
+}
