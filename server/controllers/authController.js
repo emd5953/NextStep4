@@ -191,7 +191,7 @@ signin: async (req, res) => {
       await collection.insertOne(newUser);
       
       // Send verification email
-      const verificationUrl = `${process.env.SERVER_DOMAIN}/api/auth/verify-email?token=${verificationToken}`;
+      const verificationUrl = `${process.env.SERVER_DOMAIN}/verify-email?token=${verificationToken}`;
       console.log(verificationUrl);
       const emailSubject = "Verify your NextStep account";
       const emailBody = `
@@ -348,7 +348,7 @@ signin: async (req, res) => {
       );
       
       // Send verification email
-      const verificationUrl = `${process.env.SERVER_DOMAIN}/api/auth/verify-email?token=${verificationToken}`;
+      const verificationUrl = `${process.env.SERVER_DOMAIN}/verify-email?token=${verificationToken}`;
       const emailSubject = "Verify your NextStep account";
       const emailBody = `
         <h1>Welcome to NextStep!</h1>
