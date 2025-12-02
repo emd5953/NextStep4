@@ -370,16 +370,6 @@ client
       // Mount all API routes with /api prefix
       app.use('/api', apiRouter);
 
-      // Initialize RAG services after routes are set up
-      ragChatController.initializeRAGServices()
-         .then(() => {
-            console.log('✓ RAG chat services initialized successfully');
-         })
-         .catch((error) => {
-            console.error('✗ Failed to initialize RAG services:', error.message);
-            console.error('  RAG chat will not be available until services are initialized');
-         });
-
       /******************************************
        *         ROUTES DEFINITION END          *
        ******************************************/
@@ -389,6 +379,16 @@ client
          app.listen(PORT, (err) => {
             if (err) console.log("Error starting server:", err);
             console.log(`Server listening on PORT ${PORT}`);
+            
+            // Initialize RAG services after server starts (non-blocking)
+            ragChatController.initializeRAGServices()
+               .then(() => {
+                  console.log('✓ RAG chat services initialized successfully');
+               })
+               .catch((error) => {
+                  console.error('✗ Failed to initialize RAG services:', error.message);
+                  console.error('  RAG chat will not be available until services are initialized');
+               });
          });
       }
    })
