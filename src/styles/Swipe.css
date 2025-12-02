@@ -53,7 +53,8 @@
 
 .swipe-job-card.swiping-left {
   border-color: #000000;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border-width: 3px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .swipe-job-card.swiping-left::before {
@@ -61,17 +62,34 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 120px;
+  transform: translate(-50%, -50%) rotate(-15deg);
+  font-size: 180px;
   color: #000000;
-  opacity: 0.15;
+  opacity: 0.08;
   font-weight: 300;
-  z-index: -1;
+  z-index: 0;
+  animation: pulseReject 0.6s ease-in-out infinite;
+}
+
+.swipe-job-card.swiping-left::after {
+  content: 'REJECT';
+  position: absolute;
+  top: 32px;
+  left: 32px;
+  background: #000000;
+  color: #ffffff;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  z-index: 10;
 }
 
 .swipe-job-card.swiping-right {
   border-color: #000000;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border-width: 3px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .swipe-job-card.swiping-right::before {
@@ -79,17 +97,34 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 120px;
+  transform: translate(-50%, -50%) rotate(15deg);
+  font-size: 180px;
   color: #000000;
-  opacity: 0.15;
+  opacity: 0.08;
   font-weight: bold;
-  z-index: -1;
+  z-index: 0;
+  animation: pulseApply 0.6s ease-in-out infinite;
+}
+
+.swipe-job-card.swiping-right::after {
+  content: 'APPLY';
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  background: #000000;
+  color: #ffffff;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  z-index: 10;
 }
 
 .swipe-job-card.swiping-up {
-  border-color: #666666;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border-color: #4a4a4a;
+  border-width: 3px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
 }
 
 .swipe-job-card.swiping-up::before {
@@ -98,11 +133,61 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 120px;
-  color: #666666;
-  opacity: 0.15;
+  font-size: 180px;
+  color: #4a4a4a;
+  opacity: 0.08;
   font-weight: 300;
-  z-index: -1;
+  z-index: 0;
+  animation: pulseSkip 0.6s ease-in-out infinite;
+}
+
+.swipe-job-card.swiping-up::after {
+  content: 'SKIP';
+  position: absolute;
+  top: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4a4a4a;
+  color: #ffffff;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  z-index: 10;
+}
+
+@keyframes pulseApply {
+  0%, 100% {
+    opacity: 0.08;
+    transform: translate(-50%, -50%) rotate(15deg) scale(1);
+  }
+  50% {
+    opacity: 0.12;
+    transform: translate(-50%, -50%) rotate(15deg) scale(1.05);
+  }
+}
+
+@keyframes pulseReject {
+  0%, 100% {
+    opacity: 0.08;
+    transform: translate(-50%, -50%) rotate(-15deg) scale(1);
+  }
+  50% {
+    opacity: 0.12;
+    transform: translate(-50%, -50%) rotate(-15deg) scale(1.05);
+  }
+}
+
+@keyframes pulseSkip {
+  0%, 100% {
+    opacity: 0.08;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.12;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
 }
 
 .swipe-job-card h2 {
@@ -321,6 +406,23 @@
   .swipe-button {
     font-size: 10px;
     padding: 8px 16px;
+  }
+
+  /* Adjust label positioning for mobile */
+  .swipe-job-card.swiping-left::after,
+  .swipe-job-card.swiping-right::after,
+  .swipe-job-card.swiping-up::after {
+    top: 24px;
+    font-size: 12px;
+    padding: 6px 16px;
+  }
+
+  .swipe-job-card.swiping-left::after {
+    left: 24px;
+  }
+
+  .swipe-job-card.swiping-right::after {
+    right: 24px;
   }
 }
 
