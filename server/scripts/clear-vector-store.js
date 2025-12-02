@@ -3,88 +3,81 @@
 /**
  * Clear Vector Store Script
  * 
- * Utility script to clear all documents from the vector store.
- * Use this before re-ingesting documents to start fresh.
+ * Utility script to clear all documents from the RAG vector store.
  * 
  * Usage:
  *   node scripts/clear-vector-store.js
+ *   npm run clear-vector-store
  */
 
-require('dotenv').config();
 const VectorStoreService = require('../services/vectorStoreService');
+require('dotenv').config();
 
-/**
- * Main clear function
- */
-async function clearVectorStore() {
-  console.log('='.repeat(60));
-  console.log('  Clear Vector Store');
-  console.log('='.repeat(60));
-  console.log();
+// ANSI color codes
+const colors = {
+  reset: '\x1b[0m',
+  bright: '\x1b[1m',
+  green: '\x1b[32m',
+  yellow: '\x1b[33m',
+  blue: '\x1b[34m',
+  red: '\x1b[31m',
+  cyan: '\x1b[36m'
+};
 
-  let vectorStore;
+function print(message, color = 'reset') {
+  console.log(`${colors[color]}${message}${colors.reset}`);
+}
 
+async function main() {
   try {
+    console.log();
+    print('='.repeat(60), 'cyan');
+    print('Clear Vector Store', 'bright');
+    print('='.repeat(60), 'cyan');
+    console.log();
+
     // Initialize vector store
-    console.log('🔧 Initializing vector store...');
-    vectorStore = new VectorStoreService();
+    print('🔧 Connecting to vector store...', 'yellow');
+    const vectorStore = new VectorStoreService();
     await vectorStore.initialize();
-    console.log('✓ Vector store initialized');
+    print('✓ Connected', 'green');
     console.log();
 
     // Get current stats
-    const beforeStats = await vectorStore.getStats();
-    console.log('📊 Current Stats:');
-    console.log(`   Collection: ${beforeStats.collectionName}`);
-    console.log(`   Documents: ${beforeStats.count}`);
+    const stats = await vectorStore.getStats();
+    print(`📊 Current collection: ${stats.collectionName}`, 'blue');
+    print(`📊 Current chunks: ${stats.count}`, 'blue');
     console.log();
 
-    if (beforeStats.count === 0) {
-      console.log('ℹ️  Vector store is already empty. Nothing to clear.');
+    if (stats.count === 0) {
+      print('ℹ️  Vector store is already empty', 'blue');
       console.log();
       process.exit(0);
     }
 
-    // Clear the vector store
-    console.log('🗑️  Clearing vector store...');
+    // Clear the store
+    print(`⚠️  Clearing ${stats.count} chunks...`, 'yellow');
     await vectorStore.clear();
-    console.log('✓ Vector store cleared');
+    print('✓ Vector store cleared successfully', 'green');
     console.log();
 
     // Verify
     const afterStats = await vectorStore.getStats();
-    console.log('📊 Updated Stats:');
-    console.log(`   Documents: ${afterStats.count}`);
+    print(`📊 Chunks remaining: ${afterStats.count}`, 'green');
     console.log();
 
-    console.log('✅ Vector store cleared successfully!');
-    console.log();
-    console.log('Next steps:');
-    console.log('  Run ingestion: node scripts/ingest-documents.js <directory>');
+    print('✓ Done!', 'green');
     console.log();
 
     process.exit(0);
-
   } catch (error) {
     console.error();
-    console.error('❌ Failed to clear vector store:');
-    console.error(`   ${error.message}`);
+    print('❌ Failed to clear vector store:', 'red');
+    print(error.message, 'red');
     console.error();
-    
-    if (process.env.NODE_ENV === 'development') {
-      console.error('Stack trace:');
-      console.error(error.stack);
-      console.error();
-    }
-
-    console.log('Troubleshooting:');
-    console.log('  Ensure ChromaDB server is running:');
-    console.log('  python -m chromadb.cli.cli run --path ./data/chroma --port 8000');
-    console.log();
-
+    console.error(error.stack);
     process.exit(1);
   }
 }
 
-// Run the clear operation
-clearVectorStore();
+main();

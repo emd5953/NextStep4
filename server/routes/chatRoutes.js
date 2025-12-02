@@ -33,7 +33,7 @@ Keep responses helpful, concise, and friendly.`;
     const fullPrompt = `${context}\n\nUser: ${message}`;
 
     // Get the generative model
-    const model = genAI.getGenerativeModel({ model: "gemini-3-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     // Generate content
     const result = await model.generateContent(fullPrompt);

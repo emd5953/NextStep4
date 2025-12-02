@@ -3,153 +3,183 @@
 /**
  * Document Ingestion Script
  * 
- * Standalone script for ingesting documents into the RAG vector store.
+ * Standalone CLI script for ingesting documents into the RAG vector store.
  * Processes markdown and text files from a specified directory.
  * 
  * Usage:
- *   node scripts/ingest-documents.js <directory-path>
+ *   node scripts/ingest-documents.js [directory]
+ *   npm run ingest [directory]
+ * 
+ * Examples:
  *   node scripts/ingest-documents.js ../docs
+ *   npm run ingest:docs
  * 
  * Validates: Requirements 2.1, 2.2, 2.3, 2.4, 2.5
  */
 
-require('dotenv').config();
-const path = require('path');
-const VectorStoreService = require('../services/vectorStoreService');
 const DocumentIngestionService = require('../services/documentIngestionService');
+const VectorStoreService = require('../services/vectorStoreService');
+const path = require('path');
+require('dotenv').config();
+
+// ANSI color codes for terminal output
+const colors = {
+  reset: '\x1b[0m',
+  bright: '\x1b[1m',
+  green: '\x1b[32m',
+  yellow: '\x1b[33m',
+  blue: '\x1b[34m',
+  red: '\x1b[31m',
+  cyan: '\x1b[36m'
+};
+
+/**
+ * Print colored message to console
+ */
+function print(message, color = 'reset') {
+  console.log(`${colors[color]}${message}${colors.reset}`);
+}
+
+/**
+ * Print section header
+ */
+function printHeader(title) {
+  console.log();
+  print('='.repeat(60), 'cyan');
+  print(title, 'bright');
+  print('='.repeat(60), 'cyan');
+  console.log();
+}
 
 /**
  * Main ingestion function
  */
-async function ingestDocuments() {
-  console.log('='.repeat(60));
-  console.log('  NextStep RAG Document Ingestion');
-  console.log('='.repeat(60));
-  console.log();
-
-  // Get directory path from command line arguments
-  const args = process.argv.slice(2);
-  
-  if (args.length === 0) {
-    console.error('Error: No directory path provided');
-    console.log();
-    console.log('Usage:');
-    console.log('  node scripts/ingest-documents.js <directory-path>');
-    console.log();
-    console.log('Examples:');
-    console.log('  node scripts/ingest-documents.js ../docs');
-    console.log('  node scripts/ingest-documents.js ./data/knowledge-base');
-    console.log();
-    process.exit(1);
-  }
-
-  const directoryPath = path.resolve(args[0]);
-  console.log(`📁 Target Directory: ${directoryPath}`);
-  console.log();
-
-  let vectorStore;
-  let ingestionService;
-
+async function main() {
   try {
-    // Initialize vector store
-    console.log('🔧 Initializing vector store...');
-    vectorStore = new VectorStoreService();
+    // Parse command line arguments
+    const args = process.argv.slice(2);
+    const directoryPath = args[0] || '../docs';
+    const resolvedPath = path.resolve(__dirname, '..', directoryPath);
+
+    printHeader('NextStep RAG Document Ingestion');
+
+    print(`📁 Target directory: ${resolvedPath}`, 'blue');
+    print(`🔧 Collection: ${process.env.RAG_COLLECTION_NAME || 'nextstep_docs'}`, 'blue');
+    console.log();
+
+    // Initialize services
+    print('🚀 Initializing services...', 'yellow');
+    const vectorStore = new VectorStoreService();
     await vectorStore.initialize();
-    console.log('✓ Vector store initialized');
+    print('✓ Vector store connected', 'green');
+
+    const ingestionService = new DocumentIngestionService(vectorStore);
+    print('✓ Ingestion service ready', 'green');
     console.log();
 
     // Get current stats
     const beforeStats = await vectorStore.getStats();
-    console.log('📊 Current Vector Store Stats:');
-    console.log(`   Collection: ${beforeStats.collectionName}`);
-    console.log(`   Documents: ${beforeStats.count}`);
-    console.log(`   Embedding Model: ${beforeStats.embeddingModel}`);
+    print(`📊 Current vector store: ${beforeStats.count} chunks`, 'blue');
     console.log();
 
-    // Ask user if they want to clear existing documents
+    // Ask user if they want to clear existing data
     if (beforeStats.count > 0) {
-      console.log('⚠️  Warning: Vector store already contains documents');
-      console.log('   Continuing will add new documents without removing existing ones.');
-      console.log('   To clear the vector store first, use: node scripts/clear-vector-store.js');
+      print('⚠️  Vector store contains existing data', 'yellow');
+      print('   To clear and start fresh, run: npm run clear-vector-store', 'yellow');
       console.log();
     }
 
-    // Initialize ingestion service
-    console.log('🔧 Initializing ingestion service...');
-    ingestionService = new DocumentIngestionService(vectorStore);
-    console.log('✓ Ingestion service initialized');
-    console.log();
-
     // Start ingestion
-    console.log('📥 Starting document ingestion...');
-    console.log('-'.repeat(60));
-    console.log();
+    printHeader('Starting Document Ingestion');
 
     const startTime = Date.now();
-    const results = await ingestionService.ingestDirectory(directoryPath);
-    const endTime = Date.now();
-    const duration = ((endTime - startTime) / 1000).toFixed(2);
+    let lastProgress = 0;
 
-    // Display results
-    console.log();
-    console.log('='.repeat(60));
-    console.log('  Ingestion Complete');
-    console.log('='.repeat(60));
-    console.log();
-    console.log('📈 Results:');
-    console.log(`   ✓ Processed: ${results.processed} files`);
-    console.log(`   ✗ Failed: ${results.failed} files`);
-    console.log(`   📄 Total Chunks: ${results.totalChunks}`);
-    console.log(`   ⏱️  Duration: ${duration}s`);
+    const stats = await ingestionService.ingestDirectory(resolvedPath, {
+      recursive: true,
+      onProgress: (file, current, total) => {
+        const progress = Math.floor((current / total) * 100);
+        if (progress !== lastProgress) {
+          const bar = '█'.repeat(Math.floor(progress / 2)) + '░'.repeat(50 - Math.floor(progress / 2));
+          process.stdout.write(`\r[${bar}] ${progress}% (${current}/${total})`);
+          lastProgress = progress;
+        }
+      }
+    });
+
+    console.log(); // New line after progress bar
+    const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+
+    // Print results
+    printHeader('Ingestion Complete');
+
+    print(`✓ Files processed: ${stats.filesProcessed}`, 'green');
+    print(`✓ Total chunks created: ${stats.totalChunks}`, 'green');
+    print(`✓ Average chunks per file: ${stats.filesProcessed > 0 ? (stats.totalChunks / stats.filesProcessed).toFixed(1) : 0}`, 'green');
+    
+    if (stats.filesSkipped > 0) {
+      print(`⚠️  Files skipped: ${stats.filesSkipped}`, 'yellow');
+    }
+
+    print(`⏱️  Duration: ${duration}s`, 'blue');
     console.log();
 
-    // Display errors if any
-    if (results.errors.length > 0) {
-      console.log('❌ Errors:');
-      results.errors.forEach(error => {
-        console.log(`   ${error.file}: ${error.error}`);
+    // Print errors if any
+    if (stats.errors.length > 0) {
+      print('❌ Errors encountered:', 'red');
+      stats.errors.forEach(err => {
+        print(`   - ${path.basename(err.file)}: ${err.error}`, 'red');
       });
       console.log();
     }
 
-    // Get updated stats
+    // Get final stats
     const afterStats = await vectorStore.getStats();
-    console.log('📊 Updated Vector Store Stats:');
-    console.log(`   Documents: ${afterStats.count} (+${afterStats.count - beforeStats.count})`);
+    print(`📊 Vector store now contains: ${afterStats.count} chunks`, 'blue');
+    print(`📊 Embedding model: ${afterStats.embeddingModel}`, 'blue');
+    print(`📊 Embedding dimension: ${afterStats.embeddingDimension}`, 'blue');
     console.log();
 
-    console.log('✅ Ingestion completed successfully!');
-    console.log();
-    console.log('Next steps:');
-    console.log('  1. Start the server: npm start');
-    console.log('  2. Test the RAG chat: POST /api/rag-chat');
-    console.log('  3. Check status: GET /api/rag-chat/status');
+    // Test search
+    if (afterStats.count > 0) {
+      printHeader('Testing Search Functionality');
+      
+      const testQuery = 'What is NextStep?';
+      print(`🔍 Test query: "${testQuery}"`, 'blue');
+      
+      const results = await vectorStore.similaritySearch(testQuery, 3);
+      
+      if (results.length > 0) {
+        print(`✓ Found ${results.length} relevant chunks`, 'green');
+        console.log();
+        
+        results.forEach((result, i) => {
+          print(`Result ${i + 1}:`, 'cyan');
+          print(`  Score: ${result.score.toFixed(4)}`, 'blue');
+          print(`  Source: ${result.metadata.source}`, 'blue');
+          print(`  Preview: ${result.document.substring(0, 100)}...`, 'reset');
+          console.log();
+        });
+      } else {
+        print('⚠️  No results found for test query', 'yellow');
+      }
+    }
+
+    printHeader('Success!');
+    print('✓ Document ingestion completed successfully', 'green');
+    print('✓ RAG system is ready to use', 'green');
     console.log();
 
     process.exit(0);
-
   } catch (error) {
     console.error();
-    console.error('❌ Ingestion failed:');
-    console.error(`   ${error.message}`);
+    print('❌ Ingestion failed:', 'red');
+    print(error.message, 'red');
     console.error();
-    
-    if (process.env.NODE_ENV === 'development') {
-      console.error('Stack trace:');
-      console.error(error.stack);
-      console.error();
-    }
-
-    console.log('Troubleshooting:');
-    console.log('  1. Ensure ChromaDB server is running:');
-    console.log('     python -m chromadb.cli.cli run --path ./data/chroma --port 8000');
-    console.log('  2. Check that GEMINI_API_KEY is set in .env');
-    console.log('  3. Verify the directory path exists and contains .md or .txt files');
-    console.log();
-
+    console.error(error.stack);
     process.exit(1);
   }
 }
 
-// Run the ingestion
-ingestDocuments();
+// Run the script
+main();

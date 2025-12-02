@@ -40,16 +40,39 @@ class RAGService {
     }
 
     try {
-      // Retrieve relevant documents
+      // Retrieve relevant documents first
       console.log('Retrieving relevant documents...');
       const documents = await this.retrieveDocuments(query, ragConfig.retrievalCount);
 
       // Filter by similarity threshold
       const relevantDocs = documents.filter(doc => doc.score >= this.similarityThreshold);
 
+      // Smart fallback: If no relevant docs AND query is short/casual, treat as small talk
       if (relevantDocs.length === 0) {
+        const queryLength = query.trim().split(/\s+/).length;
+        const isShortQuery = queryLength <= 3;
+        const topScore = documents.length > 0 ? documents[0].score : 0;
+        const isLowRelevance = topScore < 0.35;
+
+        // If it's a short query with low relevance, likely small talk
+        if (isShortQuery && isLowRelevance) {
+          // Use AI to generate a friendly response
+          const smallTalkPrompt = `You are a friendly NextStep assistant. The user said: "${query}". 
+This seems like casual conversation, not a question about NextStep. 
+Respond naturally and friendly, then guide them to ask about NextStep features. Keep it brief (1-2 sentences).`;
+
+          const result = await this.model.generateContent(smallTalkPrompt);
+          const response = result.response.text();
+
+          return {
+            response: response,
+            sources: []
+          };
+        }
+
+        // Otherwise, it's a real question we can't answer
         return {
-          response: "I don't have enough information in my knowledge base to answer that question. Please try rephrasing or ask about NextStep's features, documentation, or functionality.",
+          response: "I don't have enough information in my knowledge base to answer that specific question. I'm designed to help with questions about NextStep's features, job matching, application tracking, and platform functionality. Could you rephrase your question or ask about something else related to NextStep?",
           sources: []
         };
       }
