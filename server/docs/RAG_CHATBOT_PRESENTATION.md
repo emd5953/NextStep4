@@ -36,7 +36,7 @@ Traditional AI chatbots can hallucinate or provide outdated information. RAG sol
 ┌─────────────────────────────────────────────────────────────┐
 │  Step 2: Search vector database for similar documents       │
 │  Technology: ChromaDB (vector database)                      │
-│  Returns: Top 4 most relevant document chunks                │
+│  Returns: Top 4 most relevant document chunks                │  = Top K most frequent algorithm
 └────────────────────────┬────────────────────────────────────┘
                          │
                          ▼
