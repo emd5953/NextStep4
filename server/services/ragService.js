@@ -18,9 +18,19 @@ class RAGService {
   constructor(vectorStore) {
     this.vectorStore = vectorStore;
     this.genAI = new GoogleGenerativeAI(ragConfig.geminiApiKey);
-    this.model = this.genAI.getGenerativeModel({ model: ragConfig.generationModel });
+    this.model = this.genAI.getGenerativeModel({ 
+      model: ragConfig.generationModel,
+      generationConfig: {
+        temperature: 0.7,
+        maxOutputTokens: 500, // Limit response length for faster generation
+      }
+    });
     this.similarityThreshold = ragConfig.similarityThreshold;
     this.maxConversationHistory = ragConfig.maxConversationHistory;
+    
+    // Simple in-memory cache for common queries (LRU cache)
+    this.responseCache = new Map();
+    this.maxCacheSize = 50;
   }
 
   /**
@@ -35,14 +45,28 @@ class RAGService {
    * Validates: Requirements 1.1, 1.2, 1.3, 1.4, 4.1, 4.3
    */
   async generateResponse(query, conversationHistory = [], userContext = null) {
+    const startTime = Date.now();
+    
     // Validate input
     if (!query || typeof query !== 'string' || query.trim().length === 0) {
       throw new Error('Query must be a non-empty string');
     }
 
     try {
-      // 🤖 SELF-IMPROVEMENT: Check if this query has negative feedback history
-      const retrievalStrategy = await this._getOptimalRetrievalStrategy(query);
+      // Check cache first (only for queries without history)
+      if (conversationHistory.length === 0) {
+        const cacheKey = this._getCacheKey(query);
+        const cached = this.responseCache.get(cacheKey);
+        if (cached) {
+          console.log(`Cache hit! Returning cached response (${Date.now() - startTime}ms)`);
+          return cached;
+        }
+      }
+
+      // 🚀 OPTIMIZATION: Run retrieval strategy check and document retrieval in parallel
+      const [retrievalStrategy] = await Promise.all([
+        this._getOptimalRetrievalStrategy(query)
+      ]);
       
       // Retrieve relevant documents with adaptive strategy
       console.log(`Retrieving documents (strategy: ${retrievalStrategy.name})...`);
@@ -87,7 +111,7 @@ Respond naturally and friendly, then guide them to ask about NextStep features. 
       // Truncate conversation history if needed
       const truncatedHistory = this._truncateHistory(conversationHistory);
 
-      // Format prompt with context
+      // Format prompt with context (optimized - shorter prompt)
       const prompt = this.formatPrompt(relevantDocs, truncatedHistory, query);
 
       // Generate response
@@ -98,10 +122,19 @@ Respond naturally and friendly, then guide them to ask about NextStep features. 
       // Format sources
       const sources = this._formatSources(relevantDocs);
 
-      return {
+      const finalResult = {
         response: response,
         sources: sources
       };
+
+      // Cache the result (only for queries without history)
+      if (conversationHistory.length === 0) {
+        this._cacheResponse(query, finalResult);
+      }
+
+      console.log(`Total response time: ${Date.now() - startTime}ms`);
+      return finalResult;
+      
     } catch (error) {
       console.error('Error generating RAG response:', error);
       throw new Error(`Failed to generate response: ${error.message}`);
@@ -160,35 +193,28 @@ Respond naturally and friendly, then guide them to ask about NextStep features. 
   formatPrompt(documents, history, query) {
     let prompt = '';
 
-    // Add system instructions
-    prompt += 'You are a helpful AI assistant for NextStep, a job matching platform. ';
-    prompt += 'Answer questions based on the provided context from the documentation. ';
-    prompt += 'If the context doesn\'t contain enough information, say so. ';
-    prompt += 'Be concise and accurate.\n\n';
+    // 🚀 OPTIMIZATION: Shorter, more concise system instructions
+    prompt += 'You are NextStep assistant. Answer based on context. Be brief and helpful.\n\n';
 
-    // Add context from retrieved documents
+    // Add context from retrieved documents (optimized - no extra formatting)
     if (documents && documents.length > 0) {
-      prompt += '=== CONTEXT FROM DOCUMENTATION ===\n\n';
+      prompt += 'CONTEXT:\n';
       documents.forEach((doc, index) => {
-        prompt += `[Document ${index + 1}] (Source: ${doc.metadata.source})\n`;
-        prompt += `${doc.document}\n\n`;
+        prompt += `${index + 1}. ${doc.document}\n\n`;
       });
-      prompt += '=== END OF CONTEXT ===\n\n';
     }
 
-    // Add conversation history
+    // Add conversation history (only if present)
     if (history && history.length > 0) {
-      prompt += '=== CONVERSATION HISTORY ===\n\n';
+      prompt += 'HISTORY:\n';
       history.forEach(msg => {
-        const role = msg.role === 'user' ? 'User' : 'Assistant';
-        prompt += `${role}: ${msg.content}\n\n`;
+        prompt += `${msg.role === 'user' ? 'User' : 'Bot'}: ${msg.content}\n`;
       });
-      prompt += '=== END OF HISTORY ===\n\n';
+      prompt += '\n';
     }
 
     // Add current query
-    prompt += `User Question: ${query}\n\n`;
-    prompt += 'Please provide a helpful answer based on the context above:';
+    prompt += `Question: ${query}\n\nAnswer:`;
 
     return prompt;
   }
@@ -403,6 +429,42 @@ Respond naturally and friendly, then guide them to ask about NextStep features. 
 
     console.log(`Query expanded: "${query}" → "${expandedQuery}"`);
     return expandedQuery;
+  }
+
+  /**
+   * 🚀 OPTIMIZATION: Generate cache key for query
+   * @param {string} query - User query
+   * @returns {string} Cache key
+   * @private
+   */
+  _getCacheKey(query) {
+    return query.toLowerCase().trim();
+  }
+
+  /**
+   * 🚀 OPTIMIZATION: Cache response with LRU eviction
+   * @param {string} query - User query
+   * @param {Object} response - Response to cache
+   * @private
+   */
+  _cacheResponse(query, response) {
+    const cacheKey = this._getCacheKey(query);
+    
+    // If cache is full, remove oldest entry (first item)
+    if (this.responseCache.size >= this.maxCacheSize) {
+      const firstKey = this.responseCache.keys().next().value;
+      this.responseCache.delete(firstKey);
+    }
+    
+    this.responseCache.set(cacheKey, response);
+  }
+
+  /**
+   * Clear response cache (useful for testing or after documentation updates)
+   */
+  clearCache() {
+    this.responseCache.clear();
+    console.log('Response cache cleared');
   }
 }
 

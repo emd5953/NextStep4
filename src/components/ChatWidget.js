@@ -167,23 +167,6 @@ const ChatWidget = () => {
                         <div className="bot-content">
                           <div className="bot-name">NextStep Bot</div>
                           <ReactMarkdown>{msg.text}</ReactMarkdown>
-                          {msg.sources && msg.sources.length > 0 && (
-                            <div className="sources-container">
-                              <div className="sources-header">📚 Sources:</div>
-                              {msg.sources.map((source, idx) => (
-                                <div key={idx} className="source-item">
-                                  <div className="source-title">
-                                    <span className="source-number">{idx + 1}.</span>
-                                    <span className="source-doc">{source.document}</span>
-                                    <span className="source-score">
-                                      {(source.score * 100).toFixed(0)}% match
-                                    </span>
-                                  </div>
-                                  <div className="source-preview">{source.chunk}</div>
-                                </div>
-                              ))}
-                            </div>
-                          )}
                           {msg.id && (
                             <div className="feedback-buttons">
                               {!feedbackGiven[msg.id] ? (

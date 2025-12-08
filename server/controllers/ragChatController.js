@@ -10,11 +10,13 @@
 const RAGService = require('../services/ragService');
 const VectorStoreService = require('../services/vectorStoreService');
 const FeedbackAnalyzer = require('../services/feedbackAnalyzer');
+const SmartChatHandler = require('../services/smartChatHandler');
 
 // Initialize services
 let ragService = null;
 let vectorStore = null;
 let feedbackAnalyzer = null;
+let smartChatHandler = null;
 
 /**
  * Initialize RAG services
@@ -52,11 +54,14 @@ function isInitialized() {
  * @param {Object} req - Express request object
  * @param {string} req.body.message - User's message
  * @param {Array} req.body.conversationHistory - Optional conversation history
+ * @param {boolean} req.body.stream - Optional streaming flag
  * @param {Object} res - Express response object
  * 
  * Validates: Requirements 1.1, 1.2, 1.3, 1.4, 4.1, 4.2, 4.3
  */
 async function handleChatMessage(req, res) {
+  const startTime = Date.now();
+  
   try {
     // Check if services are initialized
     if (!isInitialized()) {
@@ -67,7 +72,7 @@ async function handleChatMessage(req, res) {
     }
 
     // Validate request body
-    const { message, conversationHistory } = req.body;
+    const { message, conversationHistory, stream = false } = req.body;
 
     // Validate message
     if (!message || typeof message !== 'string' || message.trim().length === 0) {
@@ -109,18 +114,31 @@ async function handleChatMessage(req, res) {
 
     console.log(`Processing chat message: "${truncatedMessage.substring(0, 50)}..."`);
 
-    // Generate response using RAG service
-    const result = await ragService.generateResponse(truncatedMessage, limitedHistory);
+    // Initialize smart chat handler if not already done
+    if (!smartChatHandler) {
+      smartChatHandler = new SmartChatHandler(req.app.locals.db, ragService);
+    }
+
+    // Use smart handler to route to appropriate response
+    const result = await smartChatHandler.handleMessage(
+      truncatedMessage,
+      req.user?.id || null,
+      limitedHistory
+    );
+
+    const responseTime = Date.now() - startTime;
+    console.log(`Response generated (type: ${result.type}) in ${responseTime}ms`);
 
     // Format response
     const response = {
       response: result.response,
-      sources: result.sources,
-      timestamp: new Date().toISOString()
+      sources: result.sources || [],
+      type: result.type || 'documentation',
+      data: result.data || null,
+      actions: result.actions || [],
+      timestamp: new Date().toISOString(),
+      responseTime: responseTime
     };
-
-    // Log success
-    console.log(`Response generated with ${result.sources.length} sources`);
 
     // Return response
     return res.status(200).json(response);
