@@ -32,7 +32,15 @@ jobs:
       - name: Start ChromaDB
         run: |
           docker run -d --name chromadb -p 8000:8000 chromadb/chroma
-          sleep 5
+          echo "Waiting for ChromaDB to be ready..."
+          for i in {1..30}; do
+            if curl -s http://localhost:8000/api/v1/heartbeat > /dev/null 2>&1; then
+              echo "ChromaDB is ready!"
+              break
+            fi
+            echo "Waiting... ($i/30)"
+            sleep 2
+          done
           curl http://localhost:8000/api/v1/heartbeat
 
       - name: Run tests
