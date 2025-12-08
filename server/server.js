@@ -342,6 +342,11 @@ client
       ------------------ */
       apiRouter.get("/getallappl", verifyToken, applicationsController.getAllApplications);
 
+      /* ------------------
+         Withdraw Application
+      ------------------ */
+      apiRouter.delete("/applications/:applicationId", verifyToken, applicationsController.withdrawApplication);
+
       apiRouter.get("/userProfile/:userId", profileController.getUserProfile);
 
       /* ------------------

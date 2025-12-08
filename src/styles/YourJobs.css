@@ -159,6 +159,35 @@
   border-color: #fecaca;
 }
 
+.withdraw-btn {
+  background: transparent !important;
+  color: #dc2626 !important;
+  border: 2px solid #fee2e2 !important;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.withdraw-btn:hover:not(:disabled) {
+  background: #fff5f5 !important;
+  border-color: #fecaca !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.15);
+}
+
+.withdraw-btn:disabled {
+  background: #f5f5f5 !important;
+  color: #999 !important;
+  border-color: #e8e8e8 !important;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
 /* Job title link styling */
 .job-title-link {
   color: #0073b1;
