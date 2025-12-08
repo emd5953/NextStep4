@@ -19,26 +19,26 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const { OAuth2Client } = require("google-auth-library");
-const { sendEmail } = require('./middleware/mailer');
+const { sendEmail } = require('./middleware/mailer.jsx');
 const path = require('path');
 const fs = require('fs');
-const analyzePDF = require('./middleware/AnalyzePdf');
-const { profileController, upload } = require("./controllers/profileController");
+const analyzePDF = require('./middleware/AnalyzePdf.jsx');
+const { profileController, upload } = require("./controllers/profileController.jsx");
 
 // Import controllers
-const authController = require("./controllers/authController");
-const jobsController = require("./controllers/jobsController");
-const applicationsController = require("./controllers/applicationsController");
-const messagesController = require("./controllers/messagesController");
-const employerMessagingController = require("./controllers/employerMessagingController");
-const companyRoutes = require("./routes/companyRoutes");
-const chatRoutes = require("./routes/chatRoutes");
-const ragChatRoutes = require("./routes/ragChatRoutes");
-const ragChatController = require("./controllers/ragChatController");
+const authController = require("./controllers/authController.jsx");
+const jobsController = require("./controllers/jobsController.jsx");
+const applicationsController = require("./controllers/applicationsController.jsx");
+const messagesController = require("./controllers/messagesController.jsx");
+const employerMessagingController = require("./controllers/employerMessagingController.jsx");
+const companyRoutes = require("./routes/companyRoutes.jsx");
+const chatRoutes = require("./routes/chatRoutes.jsx");
+const ragChatRoutes = require("./routes/ragChatRoutes.jsx");
+const ragChatController = require("./controllers/ragChatController.jsx");
 
 // Import middleware
-const { verifyToken } = require("./middleware/auth");
-const { filterJobContent } = require("./middleware/contentFilter");
+const { verifyToken } = require("./middleware/auth.jsx");
+const { filterJobContent } = require("./middleware/contentFilter.jsx");
 
 /**
  * Express application instance

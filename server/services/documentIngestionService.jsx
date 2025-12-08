@@ -9,8 +9,8 @@
 
 const fs = require('fs').promises;
 const path = require('path');
-const ragConfig = require('../config/ragConfig');
-const VectorStoreService = require('./vectorStoreService');
+const ragConfig = require('../config/ragConfig.jsx');
+const VectorStoreService = require('./vectorStoreService.jsx');
 
 class DocumentIngestionService {
   /**
