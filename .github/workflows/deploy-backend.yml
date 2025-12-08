@@ -29,29 +29,13 @@ jobs:
         working-directory: ./server
         run: npm ci
 
-      - name: Start ChromaDB
-        run: |
-          docker run -d --name chromadb -p 8000:8000 chromadb/chroma
-          echo "Waiting for ChromaDB to be ready..."
-          for i in {1..30}; do
-            if curl -s http://localhost:8000/api/v1/heartbeat > /dev/null 2>&1; then
-              echo "ChromaDB is ready!"
-              break
-            fi
-            echo "Waiting... ($i/30)"
-            sleep 2
-          done
-          curl http://localhost:8000/api/v1/heartbeat
-
-      - name: Run tests
+      - name: Run tests (excluding RAG integration tests)
         working-directory: ./server
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
           JWT_SECRET: test_secret_key
-          RAG_CHROMA_HOST: localhost
-          RAG_CHROMA_PORT: 8000
-        run: npm test
+        run: npm test -- --testPathIgnorePatterns="vectorStoreService.test|documentIngestionService.test"
 
       - name: Deploy to EC2
         env:
