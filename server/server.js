@@ -107,6 +107,17 @@ client
       const apiRouter = express.Router();
 
       /* ------------------
+         Health Check Endpoint
+      ------------------ */
+      apiRouter.get("/health", (req, res) => {
+         res.status(200).json({ 
+            status: "healthy", 
+            timestamp: new Date().toISOString(),
+            uptime: process.uptime()
+         });
+      });
+
+      /* ------------------
          Tracks Apply(right-swipe), Skip, and Ignore Jobs
          mode: 1 for apply, 2 for skip, 3 for ignore
       ------------------ */
