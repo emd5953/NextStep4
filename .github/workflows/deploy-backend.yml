@@ -31,6 +31,10 @@ jobs:
 
       - name: Run tests
         working-directory: ./server
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          JWT_SECRET: test_secret_key
         run: npm test
 
       - name: Deploy to EC2
