@@ -42,4 +42,24 @@ router.post('/', ragChatController.handleChatMessage);
  */
 router.get('/status', ragChatController.getStatus);
 
+/**
+ * POST /api/rag-chat/feedback
+ * Submit feedback for a chat response
+ * 
+ * Request body:
+ * {
+ *   "messageId": "unique-message-id",
+ *   "feedback": "positive" | "negative",
+ *   "query": "original user query",
+ *   "comment": "optional user comment"
+ * }
+ * 
+ * Response:
+ * {
+ *   "message": "Thank you for your feedback!",
+ *   "success": true
+ * }
+ */
+router.post('/feedback', ragChatController.submitFeedback);
+
 module.exports = router;

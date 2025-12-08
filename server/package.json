@@ -9,8 +9,9 @@
     "test:coverage": "jest --coverage --detectOpenHandles --forceExit",
     "docs": "jsdoc -c jsdoc.json",
     "ingest": "node scripts/ingest-documents.js",
-    "ingest:docs": "node scripts/ingest-documents.js ../docs",
-    "clear-vector-store": "node scripts/clear-vector-store.js"
+    "ingest:docs": "node scripts/ingest-documents.js ./docs",
+    "clear-vector-store": "node scripts/clear-vector-store.js",
+    "feedback-report": "node scripts/feedback-report.js"
   },
   "keywords": [],
   "author": "",

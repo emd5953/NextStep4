@@ -13,6 +13,7 @@ NextStep is an **AI-powered job-matching platform** designed to simplify the job
 - [Configuration](#configuration)
 - [Running the Application](#running-the-application)
 - [API Endpoints](#api-endpoints)
+- [Documentation](#documentation)
 - [Contributing](#contributing)
 - [License](#license)
 ---
@@ -273,6 +274,47 @@ Frontend will run on http://localhost:3000
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | POST | /api/chat | Send message to AI chatbot, get response |
+| POST | /api/rag-chat | Send message to RAG chatbot with sources |
+| POST | /api/rag-chat/feedback | Submit feedback (👍/👎) for chatbot response |
+| GET | /api/rag-chat/status | Check RAG service status |
+
+---
+
+### **Documentation**
+
+📚 **All documentation is in [`server/docs/`](./server/docs/)** - This is what the RAG chatbot uses!
+
+#### For Users
+- **[FAQ](./server/docs/faq.md)** - Frequently asked questions
+- **[User Guides](./server/docs/user-guides/)** - How to use NextStep
+  - [How to Apply to Jobs](./server/docs/user-guides/how-to-apply-jobs.md)
+  - [How to Withdraw Application](./server/docs/user-guides/how-to-withdraw-application.md)
+  - [How to Create Profile](./server/docs/user-guides/how-to-create-profile.md)
+  - [How to Search Jobs](./server/docs/user-guides/how-to-search-jobs.md)
+  - [How to Message Employers](./server/docs/user-guides/how-to-message-employers.md)
+
+#### For Employers
+- **[Employer Guides](./server/docs/employer-guides/)** - How to hire on NextStep
+  - [How to Post Jobs](./server/docs/employer-guides/how-to-post-jobs.md)
+  - [How to Review Applications](./server/docs/employer-guides/how-to-review-applications.md)
+
+#### 🤖 RAG Chatbot
+- **[Self-Improving RAG System](./server/docs/SELF_IMPROVING_RAG.md)** ⭐ - How the chatbot learns from feedback
+- **[Recent Improvements](./server/docs/IMPROVEMENTS_COMPLETED.md)** - Latest features
+- **[RAG Improvements Roadmap](./server/docs/RAG_IMPROVEMENTS.md)** - Future enhancements
+- **[RAG System Guide](./server/docs/RAG_SYSTEM_GUIDE.md)** - Technical documentation
+
+#### For Developers
+- **[Quick Start Guide](./server/docs/QUICK_START.md)** - Get up and running
+- **[Project Structure](./server/docs/PROJECT_STRUCTURE.md)** - Codebase organization
+- **[Docker Setup](./server/docs/DOCKER_SETUP.md)** - Containerization
+- **[ChromaDB Setup](./server/docs/CHROMADB_SETUP.md)** - Vector database
+- **[AWS Deployment](./server/docs/AWS_DEPLOYMENT.md)** - Production deployment
+- **[Server README](./server/README.md)** - Backend documentation
+
+#### Reference
+- **[Requirements](./docs/requirements.md)** - Original project requirements
+- **[System Diagrams](./docs/all-diagrams-source-files/)** - Architecture diagrams
 
 ---
 

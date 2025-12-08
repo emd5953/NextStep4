@@ -9,10 +9,12 @@
 
 const RAGService = require('../services/ragService');
 const VectorStoreService = require('../services/vectorStoreService');
+const FeedbackAnalyzer = require('../services/feedbackAnalyzer');
 
 // Initialize services
 let ragService = null;
 let vectorStore = null;
+let feedbackAnalyzer = null;
 
 /**
  * Initialize RAG services
@@ -197,9 +199,73 @@ async function getStatus(req, res) {
   }
 }
 
+/**
+ * Submit user feedback for a chat response
+ * 
+ * @param {Object} req - Express request object
+ * @param {string} req.body.messageId - Unique message identifier
+ * @param {string} req.body.feedback - 'positive' or 'negative'
+ * @param {string} req.body.query - Original user query
+ * @param {string} req.body.comment - Optional user comment
+ * @param {Object} res - Express response object
+ */
+async function submitFeedback(req, res) {
+  try {
+    const { messageId, feedback, query, comment } = req.body;
+
+    // Validate feedback
+    if (!messageId || !feedback || !query) {
+      return res.status(400).json({
+        error: 'Invalid request',
+        message: 'messageId, feedback, and query are required'
+      });
+    }
+
+    if (!['positive', 'negative'].includes(feedback)) {
+      return res.status(400).json({
+        error: 'Invalid feedback',
+        message: 'Feedback must be "positive" or "negative"'
+      });
+    }
+
+    // Store feedback in database
+    const feedbackCollection = req.app.locals.db.collection('rag_feedback');
+    await feedbackCollection.insertOne({
+      messageId,
+      feedback,
+      query,
+      comment: comment || null,
+      timestamp: new Date(),
+      userId: req.user?.id || 'anonymous',
+      userAgent: req.headers['user-agent']
+    });
+
+    console.log(`Feedback recorded: ${feedback} for query "${query.substring(0, 50)}..."`);
+
+    // 🤖 SELF-IMPROVEMENT: Analyze feedback and trigger alerts
+    if (!feedbackAnalyzer) {
+      feedbackAnalyzer = new FeedbackAnalyzer(req.app.locals.db);
+    }
+    await feedbackAnalyzer.analyzeAndAlert(query, feedback);
+
+    return res.status(200).json({ 
+      message: 'Thank you for your feedback!',
+      success: true 
+    });
+
+  } catch (error) {
+    console.error('Error recording feedback:', error);
+    return res.status(500).json({
+      error: 'Failed to record feedback',
+      message: 'Please try again later'
+    });
+  }
+}
+
 module.exports = {
   handleChatMessage,
   getStatus,
   initializeRAGServices,
-  isInitialized
+  isInitialized,
+  submitFeedback
 };

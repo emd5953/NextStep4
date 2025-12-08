@@ -28,21 +28,28 @@ class RAGService {
    * 
    * @param {string} query - User's question
    * @param {Array} conversationHistory - Previous messages [{role, content}]
+   * @param {Object} userContext - Optional user context (isEmployer, etc.)
    * @returns {Promise<Object>} { response: string, sources: Array }
    * @throws {Error} If query is invalid or generation fails
    * 
    * Validates: Requirements 1.1, 1.2, 1.3, 1.4, 4.1, 4.3
    */
-  async generateResponse(query, conversationHistory = []) {
+  async generateResponse(query, conversationHistory = [], userContext = null) {
     // Validate input
     if (!query || typeof query !== 'string' || query.trim().length === 0) {
       throw new Error('Query must be a non-empty string');
     }
 
     try {
-      // Retrieve relevant documents first
-      console.log('Retrieving relevant documents...');
-      const documents = await this.retrieveDocuments(query, ragConfig.retrievalCount);
+      // 🤖 SELF-IMPROVEMENT: Check if this query has negative feedback history
+      const retrievalStrategy = await this._getOptimalRetrievalStrategy(query);
+      
+      // Retrieve relevant documents with adaptive strategy
+      console.log(`Retrieving documents (strategy: ${retrievalStrategy.name})...`);
+      const documents = await this.retrieveDocuments(
+        retrievalStrategy.expandedQuery || query, 
+        retrievalStrategy.documentCount
+      );
 
       // Filter by similarity threshold
       const relevantDocs = documents.filter(doc => doc.score >= this.similarityThreshold);
@@ -249,6 +256,153 @@ Respond naturally and friendly, then guide them to ask about NextStep features. 
    */
   getMaxConversationHistory() {
     return this.maxConversationHistory;
+  }
+
+  /**
+   * 🤖 SELF-IMPROVEMENT: Determine optimal retrieval strategy based on feedback history
+   * 
+   * @param {string} query - User's question
+   * @returns {Promise<Object>} Retrieval strategy configuration
+   * @private
+   */
+  async _getOptimalRetrievalStrategy(query) {
+    try {
+      // Try to get MongoDB connection from vector store
+      const db = this.vectorStore?.collection?.client?.db;
+      
+      if (!db) {
+        // No database access, use default strategy
+        return {
+          name: 'default',
+          documentCount: ragConfig.retrievalCount,
+          expandedQuery: null
+        };
+      }
+
+      const feedbackCollection = db.collection('rag_feedback');
+      
+      // Check for similar queries with negative feedback in last 30 days
+      const thirtyDaysAgo = new Date(Date.now() - 30*24*60*60*1000);
+      
+      const negativeFeedback = await feedbackCollection.findOne({
+        query: { $regex: this._createFuzzyRegex(query), $options: 'i' },
+        feedback: 'negative',
+        timestamp: { $gte: thirtyDaysAgo }
+      });
+
+      if (negativeFeedback) {
+        // This query (or similar) has gotten negative feedback
+        // Use enhanced retrieval strategy
+        console.log('⚠️  Query has negative feedback history - using enhanced retrieval');
+        
+        return {
+          name: 'enhanced',
+          documentCount: ragConfig.retrievalCount * 2, // Retrieve more documents
+          expandedQuery: this._expandQuery(query), // Expand query terms
+          reason: 'negative_feedback_history'
+        };
+      }
+
+      // Check overall success rate for this type of query
+      const totalFeedback = await feedbackCollection.countDocuments({
+        query: { $regex: this._createFuzzyRegex(query), $options: 'i' },
+        timestamp: { $gte: thirtyDaysAgo }
+      });
+
+      if (totalFeedback >= 3) {
+        const positiveFeedback = await feedbackCollection.countDocuments({
+          query: { $regex: this._createFuzzyRegex(query), $options: 'i' },
+          feedback: 'positive',
+          timestamp: { $gte: thirtyDaysAgo }
+        });
+
+        const successRate = positiveFeedback / totalFeedback;
+
+        if (successRate < 0.6) {
+          // Low success rate, use enhanced strategy
+          console.log(`⚠️  Query type has low success rate (${(successRate*100).toFixed(0)}%) - using enhanced retrieval`);
+          
+          return {
+            name: 'enhanced',
+            documentCount: ragConfig.retrievalCount * 2,
+            expandedQuery: this._expandQuery(query),
+            reason: 'low_success_rate',
+            successRate: successRate
+          };
+        }
+      }
+
+      // Default strategy - everything is working well
+      return {
+        name: 'default',
+        documentCount: ragConfig.retrievalCount,
+        expandedQuery: null
+      };
+
+    } catch (error) {
+      console.error('Error determining retrieval strategy:', error);
+      // Fallback to default on error
+      return {
+        name: 'default',
+        documentCount: ragConfig.retrievalCount,
+        expandedQuery: null
+      };
+    }
+  }
+
+  /**
+   * Create fuzzy regex for similar query matching
+   * @param {string} query - Original query
+   * @returns {string} Regex pattern
+   * @private
+   */
+  _createFuzzyRegex(query) {
+    // Extract key words (remove common words)
+    const stopWords = ['how', 'do', 'i', 'can', 'what', 'is', 'the', 'a', 'an', 'to', 'for'];
+    const words = query.toLowerCase()
+      .split(/\s+/)
+      .filter(word => word.length > 2 && !stopWords.includes(word));
+    
+    if (words.length === 0) {
+      return query;
+    }
+
+    // Create regex that matches if any key words are present
+    return words.join('|');
+  }
+
+  /**
+   * Expand query with synonyms and related terms
+   * @param {string} query - Original query
+   * @returns {string} Expanded query
+   * @private
+   */
+  _expandQuery(query) {
+    const expansions = {
+      'apply': 'apply application submit',
+      'job': 'job position role opening',
+      'profile': 'profile account settings information',
+      'search': 'search find browse discover look',
+      'message': 'message chat communicate contact',
+      'withdraw': 'withdraw cancel remove delete',
+      'swipe': 'swipe right left apply pass',
+      'employer': 'employer company recruiter hiring',
+      'resume': 'resume cv curriculum vitae',
+      'interview': 'interview meeting screening call',
+      'salary': 'salary pay compensation wage',
+      'remote': 'remote work from home distributed'
+    };
+
+    let expandedQuery = query.toLowerCase();
+    
+    for (const [key, expansion] of Object.entries(expansions)) {
+      if (expandedQuery.includes(key)) {
+        expandedQuery += ' ' + expansion;
+      }
+    }
+
+    console.log(`Query expanded: "${query}" → "${expandedQuery}"`);
+    return expandedQuery;
   }
 }
 
