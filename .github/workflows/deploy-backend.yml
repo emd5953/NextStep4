@@ -29,12 +29,20 @@ jobs:
         working-directory: ./server
         run: npm ci
 
+      - name: Start ChromaDB
+        run: |
+          docker run -d --name chromadb -p 8000:8000 chromadb/chroma
+          sleep 5
+          curl http://localhost:8000/api/v1/heartbeat
+
       - name: Run tests
         working-directory: ./server
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
           JWT_SECRET: test_secret_key
+          RAG_CHROMA_HOST: localhost
+          RAG_CHROMA_PORT: 8000
         run: npm test
 
       - name: Deploy to EC2
@@ -63,6 +71,14 @@ jobs:
             
             echo "Restarting ChromaDB if needed..."
             docker restart chromadb || docker start chromadb || echo "ChromaDB already running"
+            
+            echo "Checking if docs changed..."
+            if git diff HEAD@{1} HEAD --name-only 2>/dev/null | grep -q "server/docs/" || [ ! -d "data/chroma" ]; then
+              echo "Docs changed or first deployment - re-ingesting..."
+              npm run ingest:docs
+            else
+              echo "No doc changes detected"
+            fi
             
             echo "Restarting server with PM2..."
             pm2 restart nextstep-server || pm2 start server.js --name nextstep-server
