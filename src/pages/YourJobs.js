@@ -13,6 +13,7 @@ const YourJobs = () => {
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
   const [ myApplications, setMyApplications ] = useState([]);
+  const [withdrawingId, setWithdrawingId] = useState(null);
 
   const formatDate = (dateString) => {
     return moment(dateString).format("MMM D, YYYY");
@@ -60,6 +61,27 @@ const YourJobs = () => {
     setEditedNote("");
   };
 
+  const handleWithdraw = async (applicationId, jobTitle) => {
+    if (!window.confirm(`Are you sure you want to withdraw your application for "${jobTitle}"? This action cannot be undone.`)) {
+      return;
+    }
+
+    setWithdrawingId(applicationId);
+    try {
+      await axios.delete(`${API_SERVER}/applications/${applicationId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      setMyApplications(myApplications.filter(app => app._id !== applicationId));
+      setMessage("Application withdrawn successfully");
+    } catch (error) {
+      console.error('Error withdrawing application:', error);
+      setError(error.response?.data?.error || "Failed to withdraw application. Please try again.");
+    } finally {
+      setWithdrawingId(null);
+    }
+  };
+
   return (
     <div className="your-jobs-container">
       {error && <NotificationBanner message={error} type="error" onDismiss={() => setError(null)} />}
@@ -74,6 +96,7 @@ const YourJobs = () => {
             <th>Date Applied</th>
             <th>Status</th>
             <th>Notes</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -111,6 +134,15 @@ const YourJobs = () => {
                     <button onClick={() => handleEdit(job.jobDetails._id)}>Edit</button>
                   </div>
                 )}
+              </td>
+              <td>
+                <button 
+                  className="withdraw-btn"
+                  onClick={() => handleWithdraw(job._id, job.jobDetails.title)}
+                  disabled={withdrawingId === job._id}
+                >
+                  {withdrawingId === job._id ? 'Withdrawing...' : 'Withdraw'}
+                </button>
               </td>
             </tr>
           ))}

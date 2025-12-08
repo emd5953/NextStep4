@@ -1,40 +1,62 @@
-# NextStep Project Research Poster
+# Docs Folder (Reference Material)
 
-This repository contains the research poster for the NextStep project, a swipe-based job matching application developed as part of Penn State Capstone 2025.
+⚠️ **Note:** This folder contains **reference material only**. 
 
-## Poster Specifications
+## 📚 Active Documentation Location
 
-- Size: 36" high x 48" wide (with 12" wings for tri-fold)
-- Format: PowerPoint (.pptx)
-- Resolution: All images should be at least 150-200 DPI for print quality
+**All active, up-to-date documentation is in [`../server/docs/`](../server/docs/)**
 
-## File Structure
+That's where you'll find:
+- User guides
+- Employer guides
+- FAQ
+- RAG chatbot documentation
+- Developer guides
+- Setup instructions
 
-- `NextStep_Poster.pptx` - Main poster file
-- `images/` - Directory containing high-resolution screenshots and diagrams
+The RAG chatbot ingests documentation from `server/docs/`, not from this folder.
 
-## Printing Instructions
+---
 
-1. The poster is designed to be printed on a large-format printer
-2. Recommended paper: Semi-gloss or matte finish
-3. Preview at 100% zoom to check image quality
-4. Export as PDF for printing
+## 📁 What's in This Folder
 
-## Content Sections
+### Reference Material
+- **`requirements.md`** - Original project requirements and specifications
+- **`requirements.txt`** - Requirements summary
+- **`all-diagrams-source-files/`** - System architecture diagrams (Mermaid source)
+- **`all-diagrams-image-files/`** - Exported diagram images
+- **`Jest Test Cases Status.PNG`** - Test coverage screenshot
 
-1. Header with project title and team information
-2. Abstract
-3. Introduction/Background
-4. Methods and Materials
-5. Results/Discussion
-6. Conclusions
-7. Future Directions
-8. Contact Information
+### Purpose
+This folder contains:
+- Original project planning documents
+- Architecture diagrams for reference
+- Historical requirements
 
-## Contact
+---
 
-For any questions regarding the poster or project:
+## 🎯 Where to Go
 
-- Email: info@nextstep.com
-- Website: www.nextstep.com
-- Phone: (123) 456-7890
+**Looking for documentation?**
+→ Go to [`../server/docs/`](../server/docs/)
+
+**Want to use the chatbot?**
+→ It uses docs from `server/docs/` automatically
+
+**Need to add new docs?**
+→ Add them to `server/docs/` and run `npm run ingest:docs`
+
+---
+
+## 🔄 Documentation Workflow
+
+1. **Write docs** → Save in `server/docs/`
+2. **Ingest docs** → Run `cd server && npm run ingest:docs`
+3. **Test chatbot** → Ask questions in the app
+4. **Get feedback** → Users click 👍/👎
+5. **Improve docs** → Based on feedback
+6. **Repeat** → Continuous improvement!
+
+---
+
+**Main Documentation:** [`../server/docs/`](../server/docs/)

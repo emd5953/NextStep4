@@ -13,6 +13,7 @@ const ChatWidget = () => {
   const [messages, setMessages] = useState([]); // Chat history
   const [input, setInput] = useState(""); // User input
   const [loading, setLoading] = useState(false);
+  const [feedbackGiven, setFeedbackGiven] = useState({}); // Track feedback per message
   
   // Reference for auto-scrolling
   const messagesEndRef = useRef(null);
@@ -59,6 +60,28 @@ const ChatWidget = () => {
     setShowPrompt(false); // Hide prompt when clicked
   };
 
+  const handleFeedback = async (messageId, feedbackType, query) => {
+    try {
+      const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000';
+      await fetch(`${API_URL}/api/rag-chat/feedback`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          messageId: messageId.toString(),
+          feedback: feedbackType,
+          query: query
+        }),
+      });
+
+      // Mark feedback as given for this message
+      setFeedbackGiven(prev => ({ ...prev, [messageId]: feedbackType }));
+    } catch (error) {
+      console.error('Error submitting feedback:', error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!input.trim()) return;
@@ -87,9 +110,11 @@ const ChatWidget = () => {
 
       const data = await response.json();
       const botMessage = { 
+        id: Date.now() + Math.random(), // Unique ID for feedback
         text: data.response, 
         sender: "bot",
-        sources: data.sources || [] // Include sources from RAG response
+        sources: data.sources || [], // Include sources from RAG response
+        query: currentInput // Store original query for feedback
       };
       setMessages((prev) => [...prev, botMessage]);
 
@@ -142,21 +167,30 @@ const ChatWidget = () => {
                         <div className="bot-content">
                           <div className="bot-name">NextStep Bot</div>
                           <ReactMarkdown>{msg.text}</ReactMarkdown>
-                          {msg.sources && msg.sources.length > 0 && (
-                            <div className="sources-container">
-                              <div className="sources-header">📚 Sources:</div>
-                              {msg.sources.map((source, idx) => (
-                                <div key={idx} className="source-item">
-                                  <div className="source-title">
-                                    <span className="source-number">{idx + 1}.</span>
-                                    <span className="source-doc">{source.document}</span>
-                                    <span className="source-score">
-                                      {(source.score * 100).toFixed(0)}% match
-                                    </span>
-                                  </div>
-                                  <div className="source-preview">{source.chunk}</div>
-                                </div>
-                              ))}
+                          {msg.id && (
+                            <div className="feedback-buttons">
+                              {!feedbackGiven[msg.id] ? (
+                                <>
+                                  <button 
+                                    className="feedback-btn feedback-positive"
+                                    onClick={() => handleFeedback(msg.id, 'positive', msg.query)}
+                                    title="This was helpful"
+                                  >
+                                    👍 Helpful
+                                  </button>
+                                  <button 
+                                    className="feedback-btn feedback-negative"
+                                    onClick={() => handleFeedback(msg.id, 'negative', msg.query)}
+                                    title="This wasn't helpful"
+                                  >
+                                    👎 Not helpful
+                                  </button>
+                                </>
+                              ) : (
+                                <span className="feedback-thanks">
+                                  Thanks for your feedback! {feedbackGiven[msg.id] === 'positive' ? '👍' : '👎'}
+                                </span>
+                              )}
                             </div>
                           )}
                         </div>

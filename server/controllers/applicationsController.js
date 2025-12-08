@@ -608,6 +608,51 @@ const applicationsController = {
     } catch (error) {
       res.status(500).json({ error: `Error retrieving all applications. ${error.message}` });
     }
+  },
+
+  /**
+   * Withdraws a user's application from a job
+   * @async
+   * @param {Object} req - Express request object
+   * @param {Object} req.params - Route parameters
+   * @param {string} req.params.applicationId - Application ID
+   * @param {Object} req.user - User object from authentication middleware
+   * @param {string} req.user.id - User ID
+   * @param {Object} res - Express response object
+   * @returns {Promise<Object>} Success message or error response
+   * @throws {Error} 404 if application not found
+   * @throws {Error} 403 if user is not authorized
+   * @throws {Error} 500 if server error occurs
+   */
+  withdrawApplication: async (req, res) => {
+    try {
+      const { applicationId } = req.params;
+      const applicationsCollection = req.app.locals.db.collection("applications");
+
+      // Find the application and verify ownership
+      const application = await applicationsCollection.findOne({
+        _id: ObjectId.createFromHexString(applicationId),
+        user_id: ObjectId.createFromHexString(req.user.id)
+      });
+
+      if (!application) {
+        return res.status(404).json({ error: "Application not found or unauthorized" });
+      }
+
+      // Delete the application
+      const result = await applicationsCollection.deleteOne({
+        _id: ObjectId.createFromHexString(applicationId)
+      });
+
+      if (result.deletedCount === 0) {
+        return res.status(404).json({ error: "Application not found" });
+      }
+
+      res.status(200).json({ message: "Application withdrawn successfully" });
+    } catch (error) {
+      console.error("Error withdrawing application:", error);
+      res.status(500).json({ error: "Failed to withdraw application" });
+    }
   }
 };
 

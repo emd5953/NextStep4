@@ -9,10 +9,14 @@
 
 const RAGService = require('../services/ragService');
 const VectorStoreService = require('../services/vectorStoreService');
+const FeedbackAnalyzer = require('../services/feedbackAnalyzer');
+const SmartChatHandler = require('../services/smartChatHandler');
 
 // Initialize services
 let ragService = null;
 let vectorStore = null;
+let feedbackAnalyzer = null;
+let smartChatHandler = null;
 
 /**
  * Initialize RAG services
@@ -50,11 +54,14 @@ function isInitialized() {
  * @param {Object} req - Express request object
  * @param {string} req.body.message - User's message
  * @param {Array} req.body.conversationHistory - Optional conversation history
+ * @param {boolean} req.body.stream - Optional streaming flag
  * @param {Object} res - Express response object
  * 
  * Validates: Requirements 1.1, 1.2, 1.3, 1.4, 4.1, 4.2, 4.3
  */
 async function handleChatMessage(req, res) {
+  const startTime = Date.now();
+  
   try {
     // Check if services are initialized
     if (!isInitialized()) {
@@ -65,7 +72,7 @@ async function handleChatMessage(req, res) {
     }
 
     // Validate request body
-    const { message, conversationHistory } = req.body;
+    const { message, conversationHistory, stream = false } = req.body;
 
     // Validate message
     if (!message || typeof message !== 'string' || message.trim().length === 0) {
@@ -107,18 +114,31 @@ async function handleChatMessage(req, res) {
 
     console.log(`Processing chat message: "${truncatedMessage.substring(0, 50)}..."`);
 
-    // Generate response using RAG service
-    const result = await ragService.generateResponse(truncatedMessage, limitedHistory);
+    // Initialize smart chat handler if not already done
+    if (!smartChatHandler) {
+      smartChatHandler = new SmartChatHandler(req.app.locals.db, ragService);
+    }
+
+    // Use smart handler to route to appropriate response
+    const result = await smartChatHandler.handleMessage(
+      truncatedMessage,
+      req.user?.id || null,
+      limitedHistory
+    );
+
+    const responseTime = Date.now() - startTime;
+    console.log(`Response generated (type: ${result.type}) in ${responseTime}ms`);
 
     // Format response
     const response = {
       response: result.response,
-      sources: result.sources,
-      timestamp: new Date().toISOString()
+      sources: result.sources || [],
+      type: result.type || 'documentation',
+      data: result.data || null,
+      actions: result.actions || [],
+      timestamp: new Date().toISOString(),
+      responseTime: responseTime
     };
-
-    // Log success
-    console.log(`Response generated with ${result.sources.length} sources`);
 
     // Return response
     return res.status(200).json(response);
@@ -197,9 +217,73 @@ async function getStatus(req, res) {
   }
 }
 
+/**
+ * Submit user feedback for a chat response
+ * 
+ * @param {Object} req - Express request object
+ * @param {string} req.body.messageId - Unique message identifier
+ * @param {string} req.body.feedback - 'positive' or 'negative'
+ * @param {string} req.body.query - Original user query
+ * @param {string} req.body.comment - Optional user comment
+ * @param {Object} res - Express response object
+ */
+async function submitFeedback(req, res) {
+  try {
+    const { messageId, feedback, query, comment } = req.body;
+
+    // Validate feedback
+    if (!messageId || !feedback || !query) {
+      return res.status(400).json({
+        error: 'Invalid request',
+        message: 'messageId, feedback, and query are required'
+      });
+    }
+
+    if (!['positive', 'negative'].includes(feedback)) {
+      return res.status(400).json({
+        error: 'Invalid feedback',
+        message: 'Feedback must be "positive" or "negative"'
+      });
+    }
+
+    // Store feedback in database
+    const feedbackCollection = req.app.locals.db.collection('rag_feedback');
+    await feedbackCollection.insertOne({
+      messageId,
+      feedback,
+      query,
+      comment: comment || null,
+      timestamp: new Date(),
+      userId: req.user?.id || 'anonymous',
+      userAgent: req.headers['user-agent']
+    });
+
+    console.log(`Feedback recorded: ${feedback} for query "${query.substring(0, 50)}..."`);
+
+    // 🤖 SELF-IMPROVEMENT: Analyze feedback and trigger alerts
+    if (!feedbackAnalyzer) {
+      feedbackAnalyzer = new FeedbackAnalyzer(req.app.locals.db);
+    }
+    await feedbackAnalyzer.analyzeAndAlert(query, feedback);
+
+    return res.status(200).json({ 
+      message: 'Thank you for your feedback!',
+      success: true 
+    });
+
+  } catch (error) {
+    console.error('Error recording feedback:', error);
+    return res.status(500).json({
+      error: 'Failed to record feedback',
+      message: 'Please try again later'
+    });
+  }
+}
+
 module.exports = {
   handleChatMessage,
   getStatus,
   initializeRAGServices,
-  isInitialized
+  isInitialized,
+  submitFeedback
 };

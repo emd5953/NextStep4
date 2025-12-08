@@ -77,11 +77,12 @@ const ragConfig = {
 
   // Retrieval Configuration
   // Requirement 6.3: Retrieval count must be between 1 and 10 chunks
+  // 🚀 OPTIMIZATION: Reduced from 4 to 3 for faster retrieval
   retrievalCount: validateRange(
     process.env.RAG_RETRIEVAL_COUNT,
     1,
     10,
-    4,
+    3,
     'retrieval count'
   ),
 

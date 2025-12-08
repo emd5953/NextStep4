@@ -18,9 +18,19 @@ class RAGService {
   constructor(vectorStore) {
     this.vectorStore = vectorStore;
     this.genAI = new GoogleGenerativeAI(ragConfig.geminiApiKey);
-    this.model = this.genAI.getGenerativeModel({ model: ragConfig.generationModel });
+    this.model = this.genAI.getGenerativeModel({ 
+      model: ragConfig.generationModel,
+      generationConfig: {
+        temperature: 0.7,
+        maxOutputTokens: 500, // Limit response length for faster generation
+      }
+    });
     this.similarityThreshold = ragConfig.similarityThreshold;
     this.maxConversationHistory = ragConfig.maxConversationHistory;
+    
+    // Simple in-memory cache for common queries (LRU cache)
+    this.responseCache = new Map();
+    this.maxCacheSize = 50;
   }
 
   /**
@@ -28,21 +38,42 @@ class RAGService {
    * 
    * @param {string} query - User's question
    * @param {Array} conversationHistory - Previous messages [{role, content}]
+   * @param {Object} userContext - Optional user context (isEmployer, etc.)
    * @returns {Promise<Object>} { response: string, sources: Array }
    * @throws {Error} If query is invalid or generation fails
    * 
    * Validates: Requirements 1.1, 1.2, 1.3, 1.4, 4.1, 4.3
    */
-  async generateResponse(query, conversationHistory = []) {
+  async generateResponse(query, conversationHistory = [], userContext = null) {
+    const startTime = Date.now();
+    
     // Validate input
     if (!query || typeof query !== 'string' || query.trim().length === 0) {
       throw new Error('Query must be a non-empty string');
     }
 
     try {
-      // Retrieve relevant documents first
-      console.log('Retrieving relevant documents...');
-      const documents = await this.retrieveDocuments(query, ragConfig.retrievalCount);
+      // Check cache first (only for queries without history)
+      if (conversationHistory.length === 0) {
+        const cacheKey = this._getCacheKey(query);
+        const cached = this.responseCache.get(cacheKey);
+        if (cached) {
+          console.log(`Cache hit! Returning cached response (${Date.now() - startTime}ms)`);
+          return cached;
+        }
+      }
+
+      // 🚀 OPTIMIZATION: Run retrieval strategy check and document retrieval in parallel
+      const [retrievalStrategy] = await Promise.all([
+        this._getOptimalRetrievalStrategy(query)
+      ]);
+      
+      // Retrieve relevant documents with adaptive strategy
+      console.log(`Retrieving documents (strategy: ${retrievalStrategy.name})...`);
+      const documents = await this.retrieveDocuments(
+        retrievalStrategy.expandedQuery || query, 
+        retrievalStrategy.documentCount
+      );
 
       // Filter by similarity threshold
       const relevantDocs = documents.filter(doc => doc.score >= this.similarityThreshold);
@@ -80,7 +111,7 @@ Respond naturally and friendly, then guide them to ask about NextStep features. 
       // Truncate conversation history if needed
       const truncatedHistory = this._truncateHistory(conversationHistory);
 
-      // Format prompt with context
+      // Format prompt with context (optimized - shorter prompt)
       const prompt = this.formatPrompt(relevantDocs, truncatedHistory, query);
 
       // Generate response
@@ -91,10 +122,19 @@ Respond naturally and friendly, then guide them to ask about NextStep features. 
       // Format sources
       const sources = this._formatSources(relevantDocs);
 
-      return {
+      const finalResult = {
         response: response,
         sources: sources
       };
+
+      // Cache the result (only for queries without history)
+      if (conversationHistory.length === 0) {
+        this._cacheResponse(query, finalResult);
+      }
+
+      console.log(`Total response time: ${Date.now() - startTime}ms`);
+      return finalResult;
+      
     } catch (error) {
       console.error('Error generating RAG response:', error);
       throw new Error(`Failed to generate response: ${error.message}`);
@@ -153,35 +193,28 @@ Respond naturally and friendly, then guide them to ask about NextStep features. 
   formatPrompt(documents, history, query) {
     let prompt = '';
 
-    // Add system instructions
-    prompt += 'You are a helpful AI assistant for NextStep, a job matching platform. ';
-    prompt += 'Answer questions based on the provided context from the documentation. ';
-    prompt += 'If the context doesn\'t contain enough information, say so. ';
-    prompt += 'Be concise and accurate.\n\n';
+    // 🚀 OPTIMIZATION: Shorter, more concise system instructions
+    prompt += 'You are NextStep assistant. Answer based on context. Be brief and helpful.\n\n';
 
-    // Add context from retrieved documents
+    // Add context from retrieved documents (optimized - no extra formatting)
     if (documents && documents.length > 0) {
-      prompt += '=== CONTEXT FROM DOCUMENTATION ===\n\n';
+      prompt += 'CONTEXT:\n';
       documents.forEach((doc, index) => {
-        prompt += `[Document ${index + 1}] (Source: ${doc.metadata.source})\n`;
-        prompt += `${doc.document}\n\n`;
+        prompt += `${index + 1}. ${doc.document}\n\n`;
       });
-      prompt += '=== END OF CONTEXT ===\n\n';
     }
 
-    // Add conversation history
+    // Add conversation history (only if present)
     if (history && history.length > 0) {
-      prompt += '=== CONVERSATION HISTORY ===\n\n';
+      prompt += 'HISTORY:\n';
       history.forEach(msg => {
-        const role = msg.role === 'user' ? 'User' : 'Assistant';
-        prompt += `${role}: ${msg.content}\n\n`;
+        prompt += `${msg.role === 'user' ? 'User' : 'Bot'}: ${msg.content}\n`;
       });
-      prompt += '=== END OF HISTORY ===\n\n';
+      prompt += '\n';
     }
 
     // Add current query
-    prompt += `User Question: ${query}\n\n`;
-    prompt += 'Please provide a helpful answer based on the context above:';
+    prompt += `Question: ${query}\n\nAnswer:`;
 
     return prompt;
   }
@@ -249,6 +282,189 @@ Respond naturally and friendly, then guide them to ask about NextStep features. 
    */
   getMaxConversationHistory() {
     return this.maxConversationHistory;
+  }
+
+  /**
+   * 🤖 SELF-IMPROVEMENT: Determine optimal retrieval strategy based on feedback history
+   * 
+   * @param {string} query - User's question
+   * @returns {Promise<Object>} Retrieval strategy configuration
+   * @private
+   */
+  async _getOptimalRetrievalStrategy(query) {
+    try {
+      // Try to get MongoDB connection from vector store
+      const db = this.vectorStore?.collection?.client?.db;
+      
+      if (!db) {
+        // No database access, use default strategy
+        return {
+          name: 'default',
+          documentCount: ragConfig.retrievalCount,
+          expandedQuery: null
+        };
+      }
+
+      const feedbackCollection = db.collection('rag_feedback');
+      
+      // Check for similar queries with negative feedback in last 30 days
+      const thirtyDaysAgo = new Date(Date.now() - 30*24*60*60*1000);
+      
+      const negativeFeedback = await feedbackCollection.findOne({
+        query: { $regex: this._createFuzzyRegex(query), $options: 'i' },
+        feedback: 'negative',
+        timestamp: { $gte: thirtyDaysAgo }
+      });
+
+      if (negativeFeedback) {
+        // This query (or similar) has gotten negative feedback
+        // Use enhanced retrieval strategy
+        console.log('⚠️  Query has negative feedback history - using enhanced retrieval');
+        
+        return {
+          name: 'enhanced',
+          documentCount: ragConfig.retrievalCount * 2, // Retrieve more documents
+          expandedQuery: this._expandQuery(query), // Expand query terms
+          reason: 'negative_feedback_history'
+        };
+      }
+
+      // Check overall success rate for this type of query
+      const totalFeedback = await feedbackCollection.countDocuments({
+        query: { $regex: this._createFuzzyRegex(query), $options: 'i' },
+        timestamp: { $gte: thirtyDaysAgo }
+      });
+
+      if (totalFeedback >= 3) {
+        const positiveFeedback = await feedbackCollection.countDocuments({
+          query: { $regex: this._createFuzzyRegex(query), $options: 'i' },
+          feedback: 'positive',
+          timestamp: { $gte: thirtyDaysAgo }
+        });
+
+        const successRate = positiveFeedback / totalFeedback;
+
+        if (successRate < 0.6) {
+          // Low success rate, use enhanced strategy
+          console.log(`⚠️  Query type has low success rate (${(successRate*100).toFixed(0)}%) - using enhanced retrieval`);
+          
+          return {
+            name: 'enhanced',
+            documentCount: ragConfig.retrievalCount * 2,
+            expandedQuery: this._expandQuery(query),
+            reason: 'low_success_rate',
+            successRate: successRate
+          };
+        }
+      }
+
+      // Default strategy - everything is working well
+      return {
+        name: 'default',
+        documentCount: ragConfig.retrievalCount,
+        expandedQuery: null
+      };
+
+    } catch (error) {
+      console.error('Error determining retrieval strategy:', error);
+      // Fallback to default on error
+      return {
+        name: 'default',
+        documentCount: ragConfig.retrievalCount,
+        expandedQuery: null
+      };
+    }
+  }
+
+  /**
+   * Create fuzzy regex for similar query matching
+   * @param {string} query - Original query
+   * @returns {string} Regex pattern
+   * @private
+   */
+  _createFuzzyRegex(query) {
+    // Extract key words (remove common words)
+    const stopWords = ['how', 'do', 'i', 'can', 'what', 'is', 'the', 'a', 'an', 'to', 'for'];
+    const words = query.toLowerCase()
+      .split(/\s+/)
+      .filter(word => word.length > 2 && !stopWords.includes(word));
+    
+    if (words.length === 0) {
+      return query;
+    }
+
+    // Create regex that matches if any key words are present
+    return words.join('|');
+  }
+
+  /**
+   * Expand query with synonyms and related terms
+   * @param {string} query - Original query
+   * @returns {string} Expanded query
+   * @private
+   */
+  _expandQuery(query) {
+    const expansions = {
+      'apply': 'apply application submit',
+      'job': 'job position role opening',
+      'profile': 'profile account settings information',
+      'search': 'search find browse discover look',
+      'message': 'message chat communicate contact',
+      'withdraw': 'withdraw cancel remove delete',
+      'swipe': 'swipe right left apply pass',
+      'employer': 'employer company recruiter hiring',
+      'resume': 'resume cv curriculum vitae',
+      'interview': 'interview meeting screening call',
+      'salary': 'salary pay compensation wage',
+      'remote': 'remote work from home distributed'
+    };
+
+    let expandedQuery = query.toLowerCase();
+    
+    for (const [key, expansion] of Object.entries(expansions)) {
+      if (expandedQuery.includes(key)) {
+        expandedQuery += ' ' + expansion;
+      }
+    }
+
+    console.log(`Query expanded: "${query}" → "${expandedQuery}"`);
+    return expandedQuery;
+  }
+
+  /**
+   * 🚀 OPTIMIZATION: Generate cache key for query
+   * @param {string} query - User query
+   * @returns {string} Cache key
+   * @private
+   */
+  _getCacheKey(query) {
+    return query.toLowerCase().trim();
+  }
+
+  /**
+   * 🚀 OPTIMIZATION: Cache response with LRU eviction
+   * @param {string} query - User query
+   * @param {Object} response - Response to cache
+   * @private
+   */
+  _cacheResponse(query, response) {
+    const cacheKey = this._getCacheKey(query);
+    
+    // If cache is full, remove oldest entry (first item)
+    if (this.responseCache.size >= this.maxCacheSize) {
+      const firstKey = this.responseCache.keys().next().value;
+      this.responseCache.delete(firstKey);
+    }
+    
+    this.responseCache.set(cacheKey, response);
+  }
+
+  /**
+   * Clear response cache (useful for testing or after documentation updates)
+   */
+  clearCache() {
+    this.responseCache.clear();
+    console.log('Response cache cleared');
   }
 }
 
