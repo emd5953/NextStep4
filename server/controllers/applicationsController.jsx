@@ -1,5 +1,5 @@
 const { ObjectId } = require("mongodb");
-const { sendEmail } = require('../middleware/mailer');
+const { sendEmail } = require('../middleware/mailer.jsx');
 
 const APPLY = 1;
 const IGNORE = 2;

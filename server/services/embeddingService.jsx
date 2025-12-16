@@ -8,7 +8,7 @@
  */
 
 const { GoogleGenerativeAI } = require('@google/generative-ai');
-const ragConfig = require('../config/ragConfig');
+const ragConfig = require('../config/ragConfig.jsx');
 
 class EmbeddingService {
   /**

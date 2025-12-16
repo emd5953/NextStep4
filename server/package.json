@@ -1,17 +1,17 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "server.jsx",
   "scripts": {
-    "start": "npx nodemon server.js",
-    "dev": "npx nodemon server.js",
+    "start": "npx nodemon server.jsx",
+    "dev": "npx nodemon server.jsx",
     "test": "jest --detectOpenHandles --forceExit",
     "test:coverage": "jest --coverage --detectOpenHandles --forceExit",
     "docs": "jsdoc -c jsdoc.json",
-    "ingest": "node scripts/ingest-documents.js",
-    "ingest:docs": "node scripts/ingest-documents.js ./docs",
-    "clear-vector-store": "node scripts/clear-vector-store.js",
-    "feedback-report": "node scripts/feedback-report.js"
+    "ingest": "node scripts/ingest-documents.jsx",
+    "ingest:docs": "node scripts/ingest-documents.jsx ./docs",
+    "clear-vector-store": "node scripts/clear-vector-store.jsx",
+    "feedback-report": "node scripts/feedback-report.jsx"
   },
   "keywords": [],
   "author": "",

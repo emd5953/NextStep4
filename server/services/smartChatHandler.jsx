@@ -5,8 +5,8 @@
  * Similar to professional chatbots (LinkedIn, Facebook, etc.)
  */
 
-const IntentClassifier = require('./intentClassifier');
-const OffTopicDetector = require('./offTopicDetector');
+const IntentClassifier = require('./intentClassifier.jsx');
+const OffTopicDetector = require('./offTopicDetector.jsx');
 
 class SmartChatHandler {
   constructor(db, ragService) {

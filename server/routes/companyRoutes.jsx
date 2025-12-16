@@ -5,7 +5,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { verifyToken } = require('../middleware/auth');
+const { verifyToken } = require('../middleware/auth.jsx');
 const { 
   getCompanyProfile, 
   updateCompanyProfile,
@@ -13,7 +13,7 @@ const {
   getCompanyUsers,
   addUserToCompany,
   removeUserFromCompany
-} = require('../controllers/companyController');
+} = require('../controllers/companyController.jsx');
 
 // Company profile routes
 router.get('/companyProfile', verifyToken, getCompanyProfile);

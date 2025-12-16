@@ -1,6 +1,6 @@
 const { ObjectId } = require("mongodb");
 const jwt = require("jsonwebtoken");
-const { parseSearchCriteria, generateEmbeddings, refineFoundPositions } = require("../middleware/genAI");
+const { parseSearchCriteria, generateEmbeddings, refineFoundPositions } = require("../middleware/genAI.jsx");
 /**
  * Controller for handling job-related operations
  * @namespace jobsController
