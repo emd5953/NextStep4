@@ -8,8 +8,8 @@
  */
 
 const { ChromaClient } = require('chromadb');
-const ragConfig = require('../config/ragConfig');
-const EmbeddingService = require('./embeddingService');
+const ragConfig = require('../config/ragConfig.jsx');
+const EmbeddingService = require('./embeddingService.jsx');
 
 class VectorStoreService {
   /**

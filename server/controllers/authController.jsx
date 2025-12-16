@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const { OAuth2Client } = require("google-auth-library");
 const { ObjectId } = require("mongodb");
 const crypto = require("crypto");
-const { sendEmail } = require("../middleware/mailer");
+const { sendEmail } = require("../middleware/mailer.jsx");
 
 // Initialize Google OAuth client
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);

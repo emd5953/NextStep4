@@ -8,7 +8,7 @@
 
 const express = require('express');
 const router = express.Router();
-const ragChatController = require('../controllers/ragChatController');
+const ragChatController = require('../controllers/ragChatController.jsx');
 
 /**
  * POST /api/rag-chat

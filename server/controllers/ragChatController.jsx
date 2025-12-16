@@ -7,10 +7,10 @@
  * Validates: Requirements 1.1, 1.2, 1.3, 1.4, 4.1, 4.2, 4.3
  */
 
-const RAGService = require('../services/ragService');
-const VectorStoreService = require('../services/vectorStoreService');
-const FeedbackAnalyzer = require('../services/feedbackAnalyzer');
-const SmartChatHandler = require('../services/smartChatHandler');
+const RAGService = require('../services/ragService.jsx');
+const VectorStoreService = require('../services/vectorStoreService.jsx');
+const FeedbackAnalyzer = require('../services/feedbackAnalyzer.jsx');
+const SmartChatHandler = require('../services/smartChatHandler.jsx');
 
 // Initialize services
 let ragService = null;

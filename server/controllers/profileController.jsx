@@ -98,7 +98,7 @@ const profileController = {
       // Generate and cache embedding if skills or location changed
       if ((skills != null && skills != "" && skills != "undefined") || location) {
         try {
-          const { generateEmbeddings } = require("../middleware/genAI");
+          const { generateEmbeddings } = require("../middleware/genAI.jsx");
           
           let textToEmbed = '';
           if (skills != null && skills != "" && skills != "undefined") {

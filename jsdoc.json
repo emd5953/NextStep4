@@ -1,7 +1,7 @@
 {
   "source": {
-    "include": ["README.md", "server/controllers", "server/middleware", "server/server.js", "server/server.test.js"],
-    "includePattern": ".+\\.js$",
+    "include": ["README.md", "server/controllers", "server/middleware", "server/server.jsx", "server/server.test.jsx"],
+    "includePattern": ".+\\.jsx$",
     "excludePattern": "(node_modules/|Next-step-docs|server/node_modules/)"
   },
   "opts": {
