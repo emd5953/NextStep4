@@ -70,7 +70,16 @@ const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'https://nextstep4.com',
+    'https://www.nextstep4.com',
+    'https://next-step4.vercel.app'
+  ],
+  credentials: true
+}));
+
 
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
@@ -96,6 +105,17 @@ client
 
       // Create API router for /api prefixed routes
       const apiRouter = express.Router();
+
+      /* ------------------
+         Health Check Endpoint
+      ------------------ */
+      apiRouter.get("/health", (req, res) => {
+         res.status(200).json({ 
+            status: "healthy", 
+            timestamp: new Date().toISOString(),
+            uptime: process.uptime()
+         });
+      });
 
       /* ------------------
          Tracks Apply(right-swipe), Skip, and Ignore Jobs
@@ -375,16 +395,6 @@ client
       // Mount all API routes with /api prefix
       app.use('/api', apiRouter);
 
-      // Initialize RAG services after routes are set up
-      ragChatController.initializeRAGServices()
-         .then(() => {
-            console.log('✓ RAG chat services initialized successfully');
-         })
-         .catch((error) => {
-            console.error('✗ Failed to initialize RAG services:', error.message);
-            console.error('  RAG chat will not be available until services are initialized');
-         });
-
       /******************************************
        *         ROUTES DEFINITION END          *
        ******************************************/
@@ -394,6 +404,16 @@ client
          app.listen(PORT, (err) => {
             if (err) console.log("Error starting server:", err);
             console.log(`Server listening on PORT ${PORT}`);
+            
+            // Initialize RAG services after server starts (non-blocking)
+            ragChatController.initializeRAGServices()
+               .then(() => {
+                  console.log('✓ RAG chat services initialized successfully');
+               })
+               .catch((error) => {
+                  console.error('✗ Failed to initialize RAG services:', error.message);
+                  console.error('  RAG chat will not be available until services are initialized');
+               });
          });
       }
    })
