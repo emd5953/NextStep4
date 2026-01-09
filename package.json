@@ -2,7 +2,7 @@
   "overrides": {
     "nth-check": "^2.1.1",
     "postcss": "^8.4.31",
-    "webpack-dev-server": "$webpack-dev-server"
+    "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
     "@react-oauth/google": "^0.12.1",
@@ -31,7 +31,7 @@
     "react-router-dom": "^7.10.1",
     "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.4",
-    "webpack-dev-server": "^5.2.2"
+    "webpack-dev-server": "^4.15.1"
   },
   "scripts": {
     "start": "npx concurrently \"react-scripts start\" \"cd server && npm start\"",
