@@ -184,8 +184,9 @@ const jobsController = {
     }
   },
 
-// Replace the entire getHomepageJobsUsingSemanticSearch function in jobsController.js with this:
-
+  /**
+   * Get homepage jobs using semantic search
+   */
   getHomepageJobsUsingSemanticSearch: async (req, res) => {
     try {
       console.log("🏠 Homepage job matching started");

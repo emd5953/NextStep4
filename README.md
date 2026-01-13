@@ -2,7 +2,7 @@
 
 <img src="src/assets/NextStep_Logo.png">
 
-NextStep is an **AI-powered job-matching platform** designed to simplify the job search process using a **swipe-based** interface, **semantic search**, and **intelligent recommendations**. It leverages **vector embeddings**, **resume analysis**, and **real-time tracking** to connect job seekers with employers efficiently.
+NextStep is an **AI-powered job-matching platform** designed to simplify the job search process using a **swipe-based** interface, **semantic search**, and **intelligent recommendations**. It leverages **vector embeddings**, **resume analysis**, and **real-time tracking** to help job seekers find their next opportunity.
 
 ###  Table of Contents
 - [Overview](#overview)
@@ -29,7 +29,6 @@ NextStep is an **AI-powered job-matching platform** designed to simplify the job
 - **AI Resume Analysis** – Automatic skill extraction and job title recommendations from uploaded resumes
 - **One-Click Apply** – Apply instantly with stored profile and resume
 - **Real-Time Application Tracking** – Monitor job application statuses and updates
-- **Integrated Messaging** – Direct communication with employers
 - **Email Verification** – Secure account verification system
 - **Google OAuth** – Quick sign-in with Google accounts
 - **AI Help Chat** – Interactive chatbot for platform assistance
@@ -231,19 +230,6 @@ Frontend will run on http://localhost:3000
 | POST | /api/updateprofile | Update profile with photo/resume upload |
 | POST | /api/analyze-resume | AI-powered resume analysis (extracts skills) |
 | GET | /api/userProfile/:userId | Get public user profile |
-| GET | /api/users | Get all users (for messaging) |
-
-#### Messaging
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | /api/messages | Get messages between users |
-| POST | /api/messages | Send message to another user |
-| POST | /api/messages/company | Send message to company |
-| PUT | /api/messages/read/:contactId | Mark messages as read |
-| PUT | /api/messages/read/company/:companyId | Mark company messages as read |
-| GET | /api/myRecentContacts | Get recent message contacts |
-| GET | /api/myRecentEmployerContacts | Get recent employer contacts |
-| GET | /api/employersFromApplications | Get employers from applications |
 
 #### AI Chat
 | Method | Endpoint | Description |
@@ -266,7 +252,6 @@ Frontend will run on http://localhost:3000
   - [How to Withdraw Application](./server/docs/user-guides/how-to-withdraw-application.md)
   - [How to Create Profile](./server/docs/user-guides/how-to-create-profile.md)
   - [How to Search Jobs](./server/docs/user-guides/how-to-search-jobs.md)
-  - [How to Message Employers](./server/docs/user-guides/how-to-message-employers.md)
 
 
 

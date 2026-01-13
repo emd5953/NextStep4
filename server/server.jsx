@@ -28,7 +28,6 @@ const { profileController, upload } = require("./controllers/profileController.j
 const authController = require("./controllers/authController.jsx");
 const jobsController = require("./controllers/jobsController.jsx");
 const applicationsController = require("./controllers/applicationsController.jsx");
-const messagesController = require("./controllers/messagesController.jsx");
 const chatRoutes = require("./routes/chatRoutes.jsx");
 const ragChatRoutes = require("./routes/ragChatRoutes.jsx");
 const ragChatController = require("./controllers/ragChatController.jsx");
@@ -223,11 +222,6 @@ client
       apiRouter.get("/newJobs", verifyToken, jobsController.getNewJobs);
 
       /* ------------------
-         Create New Job Posting
-      ------------------ */
-      apiRouter.post("/jobs", verifyToken, filterJobContent, jobsController.createJob);
-
-      /* ------------------
         Jobs to show in the homepage
       ------------------ */
       apiRouter.get("/retrieveJobsForHomepage", jobsController.getHomepageJobsUsingSemanticSearch);
@@ -311,51 +305,6 @@ client
          Google OAuth
       ------------------ */
       apiRouter.post("/auth/google", authController.googleAuth);
-
-      /* ------------------
-         Get All Users (for messenger)
-      ------------------ */
-      apiRouter.get("/users", verifyToken, profileController.getAllUsers);
-
-      /* ------------------
-         Get Messages
-      ------------------ */
-      apiRouter.get("/messages", verifyToken, messagesController.getMessages);
-
-      /* ------------------
-         Mark Messages as Read
-      ------------------ */
-      apiRouter.put("/messages/read/:contactId", verifyToken, messagesController.markMessagesAsRead);
-
-      /* ------------------
-         Mark Company Messages as Read
-      ------------------ */
-      apiRouter.put("/messages/read/company/:companyId", verifyToken, messagesController.markCompanyMessagesAsRead);
-
-      /* ------------------
-         Send Message
-      ------------------ */
-      apiRouter.post("/messages", verifyToken, messagesController.sendMessage);
-
-      /* ------------------
-         Get Recent Contacts
-      ------------------ */
-      apiRouter.get("/myRecentContacts", verifyToken, messagesController.getRecentContacts);
-
-      /* ------------------
-         Get Recent Employer Contacts
-      ------------------ */
-      apiRouter.get("/myRecentEmployerContacts", verifyToken, messagesController.getRecentEmployerContacts);
-
-      /* ------------------
-         Get Employers from Applications
-      ------------------ */
-      apiRouter.get("/employersFromApplications", verifyToken, messagesController.getEmployersFromApplications);
-
-      /* ------------------
-         Send Message to Company
-      ------------------ */
-      apiRouter.post("/messages/company", verifyToken, messagesController.sendMessageToCompany);
 
       /* ------------------
          Get All Applications (unfiltered)

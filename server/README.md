@@ -26,7 +26,6 @@ Server runs on `http://localhost:4000`
 - **User Authentication** - JWT-based auth with Google OAuth
 - **Job Management** - Browse and search job postings
 - **Application Tracking** - Track job applications and status
-- **Messaging** - Real-time messaging with employers
 - **RAG Chatbot** - AI-powered help chat with document retrieval
 
 ## Project Structure
@@ -77,10 +76,6 @@ server/
 
 ### Chat (RAG)
 - `POST /api/chat` - Send message to AI chatbot
-
-### Messaging
-- `GET /api/messages/:userId` - Get user messages
-- `POST /api/messages` - Send message
 
 ## RAG Chatbot System
 

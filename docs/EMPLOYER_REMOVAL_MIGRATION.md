@@ -15,13 +15,16 @@ NextStep has been simplified to focus exclusively on the job seeker experience. 
 - `src/pages/ManageJobPostings.jsx` - Job posting CRUD interface
 - `src/pages/CompanyProfile.jsx` - Company profile management
 - `src/pages/EmployerMessenger.jsx` - Employer messaging interface
+- `src/pages/Messenger.jsx` - User messaging interface (user-to-employer)
 - `src/pages/ManageUsers.jsx` - Company user management
 - `src/styles/EmployerDashboard.css` - Dashboard styles
 - `src/styles/EmployerApplicationTracker.css` - Application tracker styles
+- `src/styles/Messenger.css` - Messaging interface styles
 - Employer checkbox styles from `src/styles/Login.css`
 
-### Backend Components (2 files)
+### Backend Components (3 files)
 - `server/controllers/employerMessagingController.jsx` - Employer messaging logic
+- `server/controllers/messagesController.jsx` - User messaging logic (user-to-employer)
 - `server/controllers/companyController.jsx` - Company profile management
 - `server/routes/companyRoutes.jsx` - Company API routes
 
@@ -45,13 +48,16 @@ NextStep has been simplified to focus exclusively on the job seeker experience. 
 - `GET /api/employer/recent-applicant-contacts` - Get applicant contacts
 - `GET /api/employer/applicants` - Get applicants from jobs
 
-#### Company Management
-- `GET /api/companyProfile` - Get company profile
-- `PUT /api/companyProfile` - Update company profile
-- `GET /api/company/users/search` - Search employer users
-- `GET /api/company/users` - Get company users
-- `POST /api/company/users` - Add user to company
-- `DELETE /api/company/users/:userId` - Remove user from company
+#### Messaging (All messaging removed)
+- `GET /api/messages` - Get messages
+- `POST /api/messages` - Send message
+- `POST /api/messages/company` - Send message to company
+- `PUT /api/messages/read/:contactId` - Mark messages as read
+- `PUT /api/messages/read/company/:companyId` - Mark company messages as read
+- `GET /api/myRecentContacts` - Get recent contacts
+- `GET /api/myRecentEmployerContacts` - Get recent employer contacts
+- `GET /api/employersFromApplications` - Get employers from applications
+- `GET /api/users` - Get all users (for messaging)
 
 ### Database Fields Removed
 
@@ -94,16 +100,7 @@ NextStep has been simplified to focus exclusively on the job seeker experience. 
 ✅ Withdraw applications  
 ✅ User profile management  
 ✅ Resume upload and AI analysis  
-✅ Messaging with employers (user-to-company)  
 ✅ AI chatbot assistance  
-
-### Messaging System
-The user-to-employer messaging system remains functional:
-- Users can message companies about jobs they've applied to
-- Users can view their message history with employers
-- Endpoints: `/api/messages/company`, `/api/myRecentEmployerContacts`, `/api/employersFromApplications`
-
-**Note:** Employers can no longer respond through the platform, but users can still initiate contact.
 
 ## Migration Steps for Existing Data
 

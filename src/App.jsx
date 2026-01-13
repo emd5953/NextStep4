@@ -10,7 +10,6 @@ import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import BrowseJobs from "./pages/BrowseJobs";
 import YourJobs from "./pages/YourJobs";
-import Messenger from "./pages/Messenger";
 import Details from "./pages/Details";
 import ApplicantProfile from "./pages/ApplicantProfile";
 import "./styles/global.css";
@@ -102,11 +101,6 @@ function App() {
                     Profile
                   </Link>
                 )}
-                {token && (
-                  <Link className="app-nav__link" to="/messenger">
-                    Inbox
-                  </Link>
-                )}
               </nav>
               <div className="auth-container">
                 {token && (
@@ -154,15 +148,6 @@ function App() {
                   My Jobs
                 </Link>
               )}
-              {token && (
-                <Link
-                  className="app-nav__link"
-                  to="/messenger"
-                  onClick={toggleNav}
-                >
-                  Messenger
-                </Link>
-              )}
               <Auth onClick={toggleNav} />
             </div>
           </div>
@@ -177,7 +162,6 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<Login />} />
             <Route path="/your-jobs" element={<YourJobs />} />
-            <Route path="/messenger" element={<Messenger />} />
             <Route path="/jobs/:jobId/:returnTo" element={<Details />} />
             <Route
               path="/applicant-profile/:userId"

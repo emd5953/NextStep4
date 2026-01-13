@@ -50,8 +50,6 @@ npm run cleanup-fake-jobs
 ### ✅ Migrated Collections
 - **users** - All user accounts and authentication data
 - **applications** - Job applications (will work with external jobs)
-- **messages** - User messaging and company communications
-- **companies** - Company profiles and information
 - **profiles** - Extended user profile data
 
 ### ❌ Skipped Collections
@@ -85,8 +83,7 @@ After migration, test these features:
 - ✅ User login/signup
 - ✅ Job browsing (should show real API jobs)
 - ✅ Job applications
-- ✅ User messaging
-- ✅ Company profiles
+- ✅ User profiles
 
 ## 🆘 Troubleshooting
 
