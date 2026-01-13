@@ -8,6 +8,7 @@
     "test": "jest --detectOpenHandles --forceExit",
     "test:coverage": "jest --coverage --detectOpenHandles --forceExit",
     "docs": "jsdoc -c jsdoc.json",
+    "create-indexes": "node scripts/createIndexes.js",
     "ingest": "node scripts/ingest-documents.jsx",
     "ingest:docs": "node scripts/ingest-documents.jsx ./docs",
     "clear-vector-store": "node scripts/clear-vector-store.jsx",

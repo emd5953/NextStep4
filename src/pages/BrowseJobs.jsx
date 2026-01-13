@@ -14,6 +14,7 @@ const BrowseJobs = () => {
   const [searchInput, setSearchInput] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
   const { token, name, email } = useContext(TokenContext);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
@@ -21,14 +22,23 @@ const BrowseJobs = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
+        setError(null); // Clear any previous errors
         const response = await axios.get(`${API_SERVER}/jobs`, 
           token ? {
-            headers: { Authorization: `Bearer ${token}` }
-          } : undefined
+            headers: { Authorization: `Bearer ${token}` },
+            timeout: 15000 // Increased timeout for initial load
+          } : { timeout: 15000 }
         );
         setJobs(response.data);
       } catch (error) {
         console.error('Error fetching jobs:', error);
+        if (error.code === 'ECONNABORTED') {
+          setError('Loading is taking longer than expected. The server might be starting up.');
+        } else {
+          setError('Failed to load jobs. Please refresh the page.');
+        }
+      } finally {
+        setIsInitialLoading(false);
       }
     };
 
@@ -39,18 +49,21 @@ const BrowseJobs = () => {
     e.preventDefault();
     setIsSearching(true);
     setSearchQuery(searchInput);
-    
-    // Show immediate feedback
-    setJobs([]);
+    setError(null); // Clear previous errors
     
     try {
       const response = await axios.get(`${API_SERVER}/jobs?q=` + searchInput, 
         token ? {
           headers: { Authorization: `Bearer ${token}` },
-          timeout: 10000 // 10 second timeout
-        } : { timeout: 10000 }
+          timeout: 15000 // Increased timeout
+        } : { timeout: 15000 }
       );
       setJobs(response.data);
+      
+      // Show message if no jobs found
+      if (response.data.length === 0) {
+        setError('No jobs found matching your search. Try different keywords or check back later.');
+      }
     } catch (error) {
       console.error('Error searching jobs:', error);
       if (error.code === 'ECONNABORTED') {
@@ -122,7 +135,13 @@ const BrowseJobs = () => {
       </div>
 
       <div className="jobs-list">
-        {isSearching ? (
+        {isInitialLoading ? (
+          <div className="loading-container">
+            <div className="loading-spinner"></div>
+            <p>Loading jobs...</p>
+            <small>Getting jobs from internal database and external sources</small>
+          </div>
+        ) : isSearching ? (
           <div className="loading-container">
             <div className="loading-spinner"></div>
             <p>Searching jobs from multiple sources...</p>
@@ -149,7 +168,10 @@ const BrowseJobs = () => {
             />
           ))
         ) : (
-          <p className="placeholder-text"></p>
+          <div className="no-jobs-container">
+            <p>No jobs available at the moment.</p>
+            <small>Try searching for specific roles or check back later.</small>
+          </div>
         )}
       </div>
     </div>

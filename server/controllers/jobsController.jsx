@@ -26,22 +26,33 @@ const jobsController = {
       const queryText = req.query.q || "";
       const includeExternal = req.query.includeExternal !== 'false'; // Default to true
       
-      // Get internal jobs
-      let internalJobs = []
-      if (!queryText) {
-        internalJobs = await jobsDirectSearch(req);
-      } else {
-        internalJobs = await jobsSemanticSearch(req);
+      // Get internal jobs first (always fast)
+      let internalJobs = [];
+      try {
+        if (!queryText) {
+          internalJobs = await jobsDirectSearch(req);
+        } else {
+          // Try semantic search first, fallback to direct search if it fails
+          try {
+            internalJobs = await jobsSemanticSearch(req);
+          } catch (semanticError) {
+            console.warn('Semantic search failed, falling back to direct search:', semanticError.message);
+            internalJobs = await jobsDirectSearch(req);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching internal jobs:', error.message);
+        internalJobs = []; // Continue with empty internal jobs
       }
 
-      // Get external jobs if enabled and query is specific enough
+      // Get external jobs asynchronously (non-blocking)
       let externalJobs = [];
-      if (includeExternal && queryText && queryText.length > 2) {
+      if (includeExternal && queryText && queryText.length > 2 && process.env.JSEARCH_API_KEY && process.env.JSEARCH_API_KEY !== 'your_jsearch_api_key_here') {
         try {
           const searchParams = {
             query: queryText,
             page: 1,
-            num_pages: 2 // Reduced from 5 to 2 for faster response
+            num_pages: 1 // Reduced to 1 for faster response
           };
           
           // Parse location from query if available
@@ -52,9 +63,9 @@ const jobsController = {
             }
           }
           
-          // Set timeout for external API call
+          // Reduced timeout for external API call
           const timeoutPromise = new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('External API timeout')), 5000)
+            setTimeout(() => reject(new Error('External API timeout')), 3000)
           );
           
           externalJobs = await Promise.race([
@@ -64,6 +75,7 @@ const jobsController = {
         } catch (error) {
           console.error('Error fetching external jobs:', error.message);
           // Continue with internal jobs only if external API fails
+          externalJobs = [];
         }
       }
 
