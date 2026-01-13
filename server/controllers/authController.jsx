@@ -90,7 +90,7 @@ signin: async (req, res) => {
 
     // Generate JWT
     const token = jwt.sign(
-      { id: user._id, employerFlag: user.employerFlag },
+      { id: user._id },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
@@ -102,9 +102,7 @@ signin: async (req, res) => {
       token,
       email,
       full_name: user.full_name,
-      message: "Login success",
-      employerFlag: user.employerFlag,
-      companyId: user.companyId || null
+      message: "Login success"
     });
   } catch (err) {
     console.error("=== SIGNIN ERROR ===");
@@ -180,7 +178,6 @@ signin: async (req, res) => {
         phone,
         email,
         password: hashedPassword,
-        employerFlag: employerFlag,
         phoneVerified: !!verificationCode,
         emailVerified: false,
         verificationToken,
@@ -249,7 +246,6 @@ signin: async (req, res) => {
           firstName: given_name,
           pictureUrl: picture,
           email,
-          employerFlag: false,
           emailVerified: true,
         };
         const result = await collection.insertOne(newUser);
@@ -258,7 +254,7 @@ signin: async (req, res) => {
 
       // Generate JWT token
       const jwtToken = jwt.sign(
-        { id: user._id, employerFlag: user.employerFlag },
+        { id: user._id },
         process.env.JWT_SECRET,
         { expiresIn: "1h" }
       );
@@ -266,8 +262,8 @@ signin: async (req, res) => {
       res.status(200).json({
         token: jwtToken,
         message: "Login success",
-        employerFlag: user.employerFlag,
-        companyId: user.companyId || null
+        full_name: user.full_name,
+        email: user.email
       });
     } catch (error) {
       res.status(401).json({ error: "Invalid Google token" });

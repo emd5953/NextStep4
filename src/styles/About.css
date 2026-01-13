@@ -526,3 +526,181 @@
     transform: none;
   }
 }
+
+/* Employer Features Section */
+.about-employer {
+  padding: var(--space-32) var(--container-padding);
+  background: var(--muted);
+  border-bottom: var(--border-thick);
+}
+
+.about-employer__content {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.about-employer__label {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted-foreground);
+  display: block;
+  margin-bottom: var(--space-4);
+}
+
+.about-employer__title {
+  font-family: var(--font-display);
+  font-size: var(--text-5xl);
+  font-weight: 800;
+  margin: 0 0 var(--space-4) 0;
+  letter-spacing: -0.025em;
+  color: var(--foreground);
+}
+
+.about-employer__subtitle {
+  font-size: var(--text-xl);
+  color: var(--muted-foreground);
+  margin: 0 0 var(--space-16) 0;
+  font-style: italic;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about-employer__features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8);
+  margin-bottom: var(--space-16);
+  text-align: left;
+}
+
+.about-employer-feature {
+  padding: var(--space-6);
+  border: var(--border-thin);
+  transition: all 0.3s ease;
+  background: var(--background);
+}
+
+.about-employer-feature:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-color: var(--foreground);
+}
+
+.about-employer-feature__icon {
+  width: 60px;
+  height: 60px;
+  border: var(--border-medium);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-4);
+  transition: all 0.3s ease;
+}
+
+.about-employer-feature__number {
+  font-family: var(--font-mono);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.about-employer-feature:hover .about-employer-feature__icon {
+  background: var(--foreground);
+}
+
+.about-employer-feature:hover .about-employer-feature__number {
+  color: var(--background);
+}
+
+.about-employer-feature__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  margin: 0 0 var(--space-3) 0;
+  color: var(--foreground);
+}
+
+.about-employer-feature__text {
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--muted-foreground);
+  margin: 0;
+}
+
+.about-employer__cta {
+  text-align: center;
+}
+
+.about-employer__btn {
+  padding: var(--space-4) var(--space-12);
+  font-size: var(--text-base);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: var(--foreground);
+  color: var(--background);
+  border: var(--border-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-employer__btn:hover {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.about-employer__btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.about-employer__btn:hover::before {
+  left: 100%;
+}
+
+/* Staggered animation for employer features */
+.animate-in .about-employer-feature {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: staggerIn 0.5s ease-out forwards;
+}
+
+.animate-in .about-employer-feature:nth-child(1) { animation-delay: 0.1s; }
+.animate-in .about-employer-feature:nth-child(2) { animation-delay: 0.2s; }
+.animate-in .about-employer-feature:nth-child(3) { animation-delay: 0.3s; }
+.animate-in .about-employer-feature:nth-child(4) { animation-delay: 0.4s; }
+.animate-in .about-employer-feature:nth-child(5) { animation-delay: 0.5s; }
+.animate-in .about-employer-feature:nth-child(6) { animation-delay: 0.6s; }
+
+/* Responsive for employer section */
+@media (max-width: 768px) {
+  .about-employer__title {
+    font-size: var(--text-3xl);
+  }
+
+  .about-employer__features {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  .about-employer-feature {
+    text-align: center;
+  }
+
+  .about-employer__btn {
+    width: 100%;
+    max-width: 280px;
+  }
+}

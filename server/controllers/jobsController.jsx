@@ -184,340 +184,12 @@ const jobsController = {
     }
   },
 
-  /**
-   * Creates a new job posting
-   * @async
-   * @param {Object} req - Express request object
-   * @param {Object} req.body - Request body
-   * @param {string} req.body.title - Job title
-   * @param {string} req.body.companyName - Company name
-   * @param {string} [req.body.companyWebsite] - Company website
-   * @param {string} [req.body.salaryRange] - Salary range
-   * @param {Array} [req.body.benefits] - Job benefits
-   * @param {Array|string} req.body.locations - Job locations
-   * @param {string} [req.body.schedule] - Work schedule
-   * @param {string} req.body.jobDescription - Job description
-   * @param {Array|string} req.body.skills - Required skills
-   * @param {Object} req.user - User object from authentication middleware
-   * @param {string} req.user.id - User ID
-   * @param {boolean} req.user.employerFlag - Whether user is an employer
-   * @param {Object} res - Express response object
-   * @returns {Promise<Object>} Created job details
-   * @throws {Error} 403 if user is not an employer
-   * @throws {Error} 400 if required fields are missing
-   * @throws {Error} 500 if server error occurs
-   */
-  createJob: async (req, res) => {
-    try {
-      if (!req.user.employerFlag) {
-        return res.status(403).json({ error: "Only employers can create job postings" });
-      }
-
-      const collection = req.app.locals.db.collection("Jobs");
-      const {
-        title,
-        companyName,
-        companyWebsite,
-        salaryRange,
-        benefits,
-        locations,
-        schedule,
-        jobDescription,
-        skills
-      } = req.body;
-
-      let companyId;
-      if (req.headers['x-company-id']) {
-        companyId = ObjectId.createFromHexString(req.headers['x-company-id']);
-      } else {
-        // Fallback to getting companyId from user's record
-        const usersCollection = req.app.locals.db.collection("users");
-        const user = await usersCollection.findOne({ _id: ObjectId.createFromHexString(req.user.id) });
-
-        if (!user || !user.companyId) {
-          return res.status(400).json({ error: "User not associated with any company" });
-        }
-        companyId = user.companyId;
-      }
-
-      //console.log(companyId);
-
-      if (!title || !jobDescription || !companyId) {
-        return res.status(400).json({ error: "Title and job description are required" });
-      }
-
-      const newJob = {
-        title,
-        companyName,
-        companyWebsite,
-        salaryRange,
-        benefits: benefits || [],
-        locations: Array.isArray(locations) ? locations : [locations],
-        schedule,
-        jobDescription,
-        skills: Array.isArray(skills) ? skills : [skills],
-        createdAt: new Date(),
-        employerId: ObjectId.createFromHexString(req.user.id),
-        companyId: companyId
-      };
-
-      const textToEmbed = `${newJob.title} ${newJob.jobDescription} ${newJob.skills.join(' ')} ${newJob.companyName ? newJob.companyName : ''} ${newJob.locations.join(' ')} ${newJob.salaryRange ? newJob.salaryRange : ''} ${newJob.benefits.join(' ')} ${newJob.schedule ? newJob.schedule : ''}`;
-      const embedding = await generateEmbeddings(textToEmbed);
-
-      const result = await collection.insertOne({ ...newJob, embedding });
-      res.status(201).json({
-        message: "Job posting created successfully",
-        jobId: result.insertedId
-      });
-    } catch (error) {
-      console.error("Error creating job posting:", error);
-      res.status(500).json({ error: "Failed to create job posting" });
-    }
-  },
-
-  /**
-   * Updates an existing job posting
-   * @async
-   * @param {Object} req - Express request object
-   * @param {Object} req.params - Route parameters
-   * @param {string} req.params.jobId - Job ID
-   * @param {Object} req.body - Request body
-   * @param {string} req.body.title - Job title
-   * @param {string} req.body.companyName - Company name
-   * @param {string} [req.body.companyWebsite] - Company website
-   * @param {string} [req.body.salaryRange] - Salary range
-   * @param {Array} [req.body.benefits] - Job benefits
-   * @param {Array|string} req.body.locations - Job locations
-   * @param {string} [req.body.schedule] - Work schedule
-   * @param {string} req.body.jobDescription - Job description
-   * @param {Array|string} req.body.skills - Required skills
-   * @param {Object} req.user - User object from authentication middleware
-   * @param {string} req.user.id - User ID
-   * @param {boolean} req.user.employerFlag - Whether user is an employer
-   * @param {Object} res - Express response object
-   * @returns {Promise<Object>} Success message
-   * @throws {Error} 403 if user is not an employer
-   * @throws {Error} 400 if required fields are missing
-   * @throws {Error} 404 if job not found
-   * @throws {Error} 500 if server error occurs
-   */
-  updateJob: async (req, res) => {
-    try {
-      if (!req.user.employerFlag) {
-        return res.status(403).json({ error: "Only employers can update jobs" });
-      }
-
-      const { jobId } = req.params;
-      const {
-        title,
-        companyName,
-        companyWebsite,
-        salaryRange,
-        benefits,
-        locations,
-        schedule,
-        jobDescription,
-        skills
-      } = req.body;
-
-      if (!title || !jobDescription) {
-        return res.status(400).json({ error: "Title and job description are required" });
-      }
-
-      const collection = req.app.locals.db.collection("Jobs");
-
-      // Verify job ownership
-      const job = await collection.findOne({
-        _id: ObjectId.createFromHexString(jobId),
-        employerId: ObjectId.createFromHexString(req.user.id)
-      });
-
-      if (!job) {
-        return res.status(404).json({ error: "Job not found or unauthorized" });
-      }
-
-      const textToEmbed = `${job.title} ${job.jobDescription} ${job.skills.join(' ')} ${job.companyName ? job.companyName : ''} ${job.locations.join(' ')} ${job.salaryRange ? job.salaryRange : ''} ${job.benefits.join(' ')} ${job.schedule ? job.schedule : ''}`;
-      const embedding = await generateEmbeddings(textToEmbed);
-
-      const result = await collection.updateOne(
-        { _id: ObjectId.createFromHexString(jobId) },
-        {
-          $set: {
-            title,
-            companyName,
-            companyWebsite,
-            salaryRange,
-            benefits: Array.isArray(benefits) ? benefits : [benefits],
-            locations: Array.isArray(locations) ? locations : [locations],
-            schedule,
-            jobDescription,
-            skills: Array.isArray(skills) ? skills : [skills],
-            embedding,
-            updatedAt: new Date()
-          }
-        }
-      );
-
-      if (result.modifiedCount === 0) {
-        return res.status(404).json({ error: "Job not found" });
-      }
-
-      res.status(200).json({ message: "Job updated successfully" });
-    } catch (error) {
-      res.status(500).json({ error: "Failed to update job" });
-    }
-  },
-
-  /**
-   * Deletes a job posting
-   * @async
-   * @param {Object} req - Express request object
-   * @param {Object} req.params - Route parameters
-   * @param {string} req.params.jobId - Job ID
-   * @param {Object} req.user - User object from authentication middleware
-   * @param {string} req.user.id - User ID
-   * @param {boolean} req.user.employerFlag - Whether user is an employer
-   * @param {Object} res - Express response object
-   * @returns {Promise<Object>} Success message
-   * @throws {Error} 403 if user is not an employer
-   * @throws {Error} 404 if job not found
-   * @throws {Error} 500 if server error occurs
-   */
-  deleteJob: async (req, res) => {
-    try {
-      if (!req.user.employerFlag) {
-        return res.status(403).json({ error: "Only employers can delete jobs" });
-      }
-
-      const { jobId } = req.params;
-      const collection = req.app.locals.db.collection("Jobs");
-
-      // Verify job ownership
-      const job = await collection.findOne({
-        _id: ObjectId.createFromHexString(jobId),
-        employerId: ObjectId.createFromHexString(req.user.id)
-      });
-
-      if (!job) {
-        return res.status(404).json({ error: "Job not found or unauthorized" });
-      }
-
-      const result = await collection.deleteOne({
-        _id: ObjectId.createFromHexString(jobId)
-      });
-
-      if (result.deletedCount === 0) {
-        return res.status(404).json({ error: "Job not found" });
-      }
-
-      res.status(200).json({ message: "Job deleted successfully" });
-    } catch (error) {
-      res.status(500).json({ error: "Failed to delete job" });
-    }
-  },
-
-  /**
-   * Searches jobs posted by the logged-in employer
-   * @async
-   * @param {Object} req - Express request object
-   * @param {Object} req.query - Query parameters
-   * @param {string} req.query.query - Search query string
-   * @param {Object} req.user - User object from authentication middleware
-   * @param {string} req.user.id - User ID
-   * @param {boolean} req.user.employerFlag - Whether user is an employer
-   * @param {Object} res - Express response object
-   * @returns {Promise<Array>} Array of matching jobs with application counts
-   * @throws {Error} 403 if user is not an employer
-   * @throws {Error} 500 if server error occurs
-   */
-  searchEmployerJobs: async (req, res) => {
-    try {
-      if (!req.user.employerFlag) {
-        return res.status(403).json({ error: "Only employers can search jobs" });
-      }
-
-      const { query } = req.query;
-      const jobsCollection = req.app.locals.db.collection("Jobs");
-      const applicationsCollection = req.app.locals.db.collection("applications");
-      const companiesCollection = req.app.locals.db.collection("companies");
-
-      // Get companyId from header or user's company
-      let companyId;
-      if (req.headers['x-company-id']) {
-        companyId = ObjectId.createFromHexString(req.headers['x-company-id']);
-      } else {
-        // Fallback to getting companyId from user's record
-        const usersCollection = req.app.locals.db.collection("users");
-        const user = await usersCollection.findOne({ _id: ObjectId.createFromHexString(req.user.id) });
-
-        if (!user || !user.companyId) {
-          return res.status(400).json({ error: "User not associated with any company" });
-        }
-        companyId = user.companyId;
-      }
-
-      const jobs = await jobsCollection.aggregate([
-        {
-          $match: {
-            companyId: companyId,
-            $or: [
-              { title: { $regex: query, $options: "i" } },
-              { jobDescription: { $regex: query, $options: "i" } },
-              { skills: { $regex: query, $options: "i" } },
-              { locations: { $regex: query, $options: "i" } }
-            ]
-          }
-        },
-        {
-          $lookup: {
-            from: "applications",
-            localField: "_id",
-            foreignField: "job_id",
-            as: "applications"
-          }
-        },
-        {
-          $lookup: {
-            from: "companies",
-            localField: "companyId",
-            foreignField: "_id",
-            as: "companyInfo"
-          }
-        },
-        {
-          $unwind: {
-            path: "$companyInfo",
-            preserveNullAndEmptyArrays: true
-          }
-        },
-        {
-          $project: {
-            _id: 1,
-            title: 1,
-            salaryRange: 1,
-            benefits: 1,
-            locations: 1,
-            schedule: 1,
-            jobDescription: 1,
-            skills: 1,
-            createdAt: 1,
-            applicationCount: { $size: "$applications" },
-            companyName: "$companyInfo.name",
-            companyWebsite: "$companyInfo.website"
-          }
-        }
-      ]).toArray();
-
-      res.status(200).json(jobs);
-    } catch (error) {
-      res.status(500).json({ error: "Failed to search jobs" });
-    }
-  },
-
 // Replace the entire getHomepageJobsUsingSemanticSearch function in jobsController.js with this:
 
   getHomepageJobsUsingSemanticSearch: async (req, res) => {
     try {
+      console.log("🏠 Homepage job matching started");
+      
       // Get user profile with cached embedding
       const token = req.headers.authorization?.split(" ")[1];
       let userId = null;
@@ -527,20 +199,29 @@ const jobsController = {
         try {
           const decoded = jwt.verify(token, process.env.JWT_SECRET);
           userId = decoded.id;
+          console.log("👤 User ID:", userId);
           
           // Get user's cached embedding
           const usersCollection = req.app.locals.db.collection("users");
           const user = await usersCollection.findOne(
             { _id: ObjectId.createFromHexString(userId) },
-            { projection: { skillsEmbedding: 1, skills: 1, location: 1 } }
+            { projection: { skillsEmbedding: 1, skills: 1, location: 1, email: 1 } }
           );
           
-          if (user && user.skillsEmbedding) {
+          console.log("📋 User profile:", {
+            email: user?.email,
+            hasSkills: !!(user?.skills && user.skills.length > 0),
+            hasLocation: !!user?.location,
+            hasEmbedding: !!user?.skillsEmbedding,
+            embeddingLength: user?.skillsEmbedding?.length
+          });
+          
+          if (user && user.skillsEmbedding && user.skillsEmbedding.length === 1536) {
             queryEmbedding = user.skillsEmbedding;
-            console.log("✓ Using cached embedding (FAST - no OpenAI call)");
+            console.log("✅ Using cached embedding (1536 dimensions)");
           } else if (user && (user.skills || user.location)) {
             // Generate and cache if not exists
-            console.log("⚠ No cached embedding, generating once...");
+            console.log("⚠️ No valid cached embedding, generating new one...");
             let textToEmbed = '';
             if (user.skills && user.skills.length > 0) {
               textToEmbed = `skills: ${user.skills.join(', ')}`;
@@ -549,71 +230,191 @@ const jobsController = {
               textToEmbed += ` location: ${user.location}`;
             }
             
-            if (textToEmbed) {
+            console.log("🎯 Text to embed:", textToEmbed);
+            
+            if (textToEmbed.trim()) {
               queryEmbedding = await generateEmbeddings(textToEmbed);
+              console.log("✅ Generated embedding with dimensions:", queryEmbedding.length);
+              
               // Cache it for next time
               await usersCollection.updateOne(
                 { _id: ObjectId.createFromHexString(userId) },
-                { $set: { skillsEmbedding: queryEmbedding, embeddingGeneratedAt: new Date() } }
+                { 
+                  $set: { 
+                    skillsEmbedding: queryEmbedding, 
+                    embeddingGeneratedAt: new Date(),
+                    embeddingModel: 'text-embedding-3-small'
+                  } 
+                }
               );
-              console.log("✓ Embedding generated and cached");
+              console.log("💾 Embedding cached for future use");
             }
+          } else {
+            console.log("❌ User has no skills or location");
           }
         } catch (error) {
-          console.error("Error getting user embedding:", error);
+          console.error("❌ Error getting user embedding:", error);
         }
+      } else {
+        console.log("❌ No authentication token provided");
       }
 
       if (!queryEmbedding) {
+        console.log("🚫 No query embedding available, returning error");
         return res.status(400).json({ 
           error: "Please add skills and location to your profile to get job recommendations" 
         });
       }
 
-      // Perform vector search using cached embedding
-      const results = await req.app.locals.db.collection("Jobs").aggregate([
-        {
-          $vectorSearch: {
-            queryVector: queryEmbedding,
-            path: "embedding",
-            numCandidates: 100,
-            limit: 20,
-            index: "js_vector_index",
-          }
-        },
-        {
-          $lookup: {
-            from: "companies",
-            localField: "companyId",
-            foreignField: "_id",
-            as: "companyInfo"
-          }
-        },
-        {
-          $unwind: {
-            path: "$companyInfo",
-            preserveNullAndEmptyArrays: true
-          }
-        },
-        {
-          $project: {
-            _id: 1,
-            title: 1,
-            companyName: "$companyInfo.name",
-            companyWebsite: "$companyInfo.website",
-            jobDescription: 1,
-            salaryRange: 1,
-            locations: 1,
-            benefits: 1,
-            schedule: 1,
-            skills: 1,
-            score: { $meta: "vectorSearchScore" }
-          }
-        }
-      ]).toArray();
+      console.log("🔍 Performing vector search...");
+      
+      // Check if vector index exists and jobs have embeddings
+      const jobsCollection = req.app.locals.db.collection("Jobs");
+      const sampleJob = await jobsCollection.findOne({ embedding: { $exists: true } });
+      
+      if (!sampleJob) {
+        console.log("⚠️ No jobs with embeddings found, falling back to regular search");
+        // Fallback to regular job search
+        const fallbackJobs = await jobsCollection.aggregate([
+          {
+            $lookup: {
+              from: "companies",
+              localField: "companyId",
+              foreignField: "_id",
+              as: "companyInfo"
+            }
+          },
+          {
+            $unwind: {
+              path: "$companyInfo",
+              preserveNullAndEmptyArrays: true
+            }
+          },
+          {
+            $project: {
+              _id: 1,
+              title: 1,
+              companyName: "$companyInfo.name",
+              companyWebsite: "$companyInfo.website",
+              jobDescription: 1,
+              salaryRange: 1,
+              locations: 1,
+              benefits: 1,
+              schedule: 1,
+              skills: 1
+            }
+          },
+          { $limit: 20 }
+        ]).toArray();
+        
+        console.log("📊 Fallback jobs found:", fallbackJobs.length);
+        return res.status(200).json(fallbackJobs);
+      }
 
-      // Filter out low-score results
-      let filteredResults = results.filter(result => result.score > 0.62);
+      console.log("✅ Sample job has embedding with dimensions:", sampleJob.embedding?.length);
+
+      // Perform vector search using cached embedding
+      let results = [];
+      try {
+        results = await jobsCollection.aggregate([
+          {
+            $vectorSearch: {
+              queryVector: queryEmbedding,
+              path: "embedding",
+              numCandidates: 100,
+              limit: 20,
+              index: "js_vector_index",
+            }
+          },
+          {
+            $lookup: {
+              from: "companies",
+              localField: "companyId",
+              foreignField: "_id",
+              as: "companyInfo"
+            }
+          },
+          {
+            $unwind: {
+              path: "$companyInfo",
+              preserveNullAndEmptyArrays: true
+            }
+          },
+          {
+            $project: {
+              _id: 1,
+              title: 1,
+              companyName: "$companyInfo.name",
+              companyWebsite: "$companyInfo.website",
+              jobDescription: 1,
+              salaryRange: 1,
+              locations: 1,
+              benefits: 1,
+              schedule: 1,
+              skills: 1,
+              score: { $meta: "vectorSearchScore" }
+            }
+          }
+        ]).toArray();
+        
+        console.log("🎯 Vector search returned:", results.length, "results");
+        if (results.length > 0) {
+          console.log("📊 Score range:", 
+            Math.min(...results.map(r => r.score)).toFixed(3), 
+            "to", 
+            Math.max(...results.map(r => r.score)).toFixed(3)
+          );
+        }
+      } catch (vectorError) {
+        console.error("❌ Vector search failed:", vectorError);
+        // Fallback to regular search
+        results = await jobsCollection.aggregate([
+          {
+            $lookup: {
+              from: "companies",
+              localField: "companyId",
+              foreignField: "_id",
+              as: "companyInfo"
+            }
+          },
+          {
+            $unwind: {
+              path: "$companyInfo",
+              preserveNullAndEmptyArrays: true
+            }
+          },
+          {
+            $project: {
+              _id: 1,
+              title: 1,
+              companyName: "$companyInfo.name",
+              companyWebsite: "$companyInfo.website",
+              jobDescription: 1,
+              salaryRange: 1,
+              locations: 1,
+              benefits: 1,
+              schedule: 1,
+              skills: 1
+            }
+          },
+          { $limit: 20 }
+        ]).toArray();
+        console.log("🔄 Fallback search returned:", results.length, "results");
+      }
+
+      // Filter out low-score results (only if we have scores)
+      let filteredResults = results;
+      if (results.length > 0 && results[0].score !== undefined) {
+        const originalCount = results.length;
+        filteredResults = results.filter(result => result.score > 0.55); // Lowered threshold
+        console.log(`🎯 Filtered from ${originalCount} to ${filteredResults.length} jobs (score > 0.55)`);
+        
+        // If too few high-quality results, include more
+        if (filteredResults.length < 5) {
+          filteredResults = results.slice(0, 10);
+          console.log("📈 Included more results due to low count:", filteredResults.length);
+        }
+      }
 
       // Filter out already applied jobs
       if (userId) {
@@ -624,13 +425,16 @@ const jobsController = {
           .toArray();
 
         const appliedJobIds = appliedJobs.map(app => app.job_id.toString());
+        const beforeFilter = filteredResults.length;
         filteredResults = filteredResults.filter(job => !appliedJobIds.includes(job._id.toString()));
+        console.log(`🚫 Filtered out ${beforeFilter - filteredResults.length} already applied jobs`);
       }
 
-      console.log("Matched jobs:", filteredResults.length);
+      console.log("✅ Final result count:", filteredResults.length);
       res.status(200).json(filteredResults);
+      
     } catch (error) {
-      console.error("Error in getHomepageJobsUsingSemanticSearch:", error);
+      console.error("❌ Error in getHomepageJobsUsingSemanticSearch:", error);
       res.status(500).json({ error: "Failed to search jobs", details: error.message });
     }
   },
@@ -868,43 +672,54 @@ async function jobsDirectSearch(req) {
 async function jobsSemanticSearch(req) {
   try {
     const searchCriteria = req.query.q || "";
+    
+    if (!searchCriteria.trim()) {
+      throw new Error("Search criteria cannot be empty");
+    }
+
+    console.log("🔍 Parsing search criteria:", searchCriteria);
     const jobDetails = await parseSearchCriteria(searchCriteria);
+    console.log("📋 Parsed criteria:", jobDetails);
 
-    console.log(jobDetails);
-
-    let processedCriteria = jobDetails.my_requirements ? jobDetails.my_requirements : "";
+    let processedCriteria = jobDetails.my_requirements || "";
 
     if (jobDetails.locations?.length > 0) {
-      processedCriteria += `\nLocations: ${jobDetails.locations?.join(', ')}`;
+      processedCriteria += `\nLocations: ${jobDetails.locations.join(', ')}`;
     }
 
     if (jobDetails.salaryRange?.minimum || jobDetails.salaryRange?.maximum) {
-      processedCriteria += `\nSalary: ${jobDetails.salaryRange?.minimum} - ${jobDetails.salaryRange?.maximum}`;
+      const min = jobDetails.salaryRange.minimum || 'Not specified';
+      const max = jobDetails.salaryRange.maximum || 'Not specified';
+      processedCriteria += `\nSalary: ${min} - ${max}`;
     }
 
     if (jobDetails.skills?.length > 0) {
-      processedCriteria += `\nSkills: ${jobDetails.skills?.join(', ')}`;
+      processedCriteria += `\nSkills: ${jobDetails.skills.join(', ')}`;
     }
 
     if (jobDetails.company) {
       processedCriteria += `\nCompany: ${jobDetails.company}`;
     }
 
-    if (!processedCriteria) {
+    // Use original search if no structured criteria found
+    if (!processedCriteria.trim()) {
       processedCriteria = searchCriteria;
     }
 
+    console.log("🎯 Final search criteria:", processedCriteria);
+
     // Generate embedding for the search query
     const queryEmbedding = await generateEmbeddings(processedCriteria);
+    console.log("✅ Generated query embedding");
 
-    // Perform vector search
+    // Perform vector search with error handling
     const results = await req.app.locals.db.collection("Jobs").aggregate([
       {
         $vectorSearch: {
           queryVector: queryEmbedding,
           path: "embedding",
-          numCandidates: 100,
-          limit: 50,
+          numCandidates: 150, // Increased for better recall
+          limit: 30, // Reduced for faster processing
           index: "js_vector_index",
         }
       },
@@ -939,27 +754,40 @@ async function jobsSemanticSearch(req) {
       }
     ]).toArray();
 
-    // Filter results to only include those with a score greater than 0.62
-    const filteredResults = results.filter(result => result.score > 0.62);
+    console.log(`📊 Vector search returned ${results.length} results`);
 
-    console.log("MongoDB returned : ", filteredResults.length);
-    console.log("Refining results with the following criteria: ", searchCriteria);
+    // Filter results with improved threshold
+    const filteredResults = results.filter(result => result.score > 0.65);
+    console.log(`🎯 Filtered to ${filteredResults.length} high-quality matches`);
 
-    // use the criteria as specified by the user to refine the results
-    const enhancedJobs = await refineFoundPositions(filteredResults, searchCriteria);
+    if (filteredResults.length === 0) {
+      console.log("⚠️ No high-quality matches found, returning top vector results");
+      return results.slice(0, 10); // Return top 10 even if scores are lower
+    }
 
-    console.log("Enhanced jobs: ", enhancedJobs.length);
+    // Only refine if we have a reasonable number of results
+    if (filteredResults.length <= 15) {
+      console.log("🔍 Refining matches with AI analysis...");
+      const enhancedJobs = await refineFoundPositions(filteredResults, searchCriteria);
+      
+      // Filter and sort to show "great" and "good" matches
+      const qualityMatches = enhancedJobs
+        .filter(job => job.match === "great" || job.match === "good")
+        .sort((a, b) => {
+          if (a.match === "great" && b.match !== "great") return -1;
+          if (b.match === "great" && a.match !== "great") return 1;
+          return b.score - a.score; // Sort by vector score within same match level
+        });
 
-    // Filter and sort to show "great" matches before "good" matches
-    const greatMatches = enhancedJobs
-      .filter(job => job.match === "great" || job.match === "good")
-      .sort((a, b) => b.match === "great" ? 1 : -1);
+      console.log(`✅ Final refined matches: ${qualityMatches.length}`);
+      return qualityMatches;
+    } else {
+      console.log("📈 Too many results for AI refinement, returning vector matches");
+      return filteredResults;
+    }
 
-    console.log("Refined matches: ", greatMatches.length);
-
-    return greatMatches;
   } catch (error) {
-    console.error("Error in jobsSemanticSearch:", error);
+    console.error("❌ Error in jobsSemanticSearch:", error);
     throw error;
   }
 };

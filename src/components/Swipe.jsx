@@ -39,10 +39,17 @@ const Swipe = () => {
         const location = response.data.location;
         const fetchJobs = async () => {
           try {
+            console.log("🔍 Fetching jobs with query:", searchQuery);
             const response = await axiosInstance.get(`${API_SERVER}/retrieveJobsForHomepage?q=${searchQuery}`);
+            console.log("✅ Jobs received:", response.data.length);
             setJobs(response.data);
           } catch (error) {
-            console.error('Error fetching jobs:', error);
+            console.error('❌ Error fetching jobs:', error);
+            if (error.response?.status === 400) {
+              setError(error.response.data.error || "Please complete your profile to get job recommendations.");
+            } else {
+              setError("Unable to load job recommendations. Please try again later.");
+            }
           } finally {
             setIsLoading(false);
           }

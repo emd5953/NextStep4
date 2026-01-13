@@ -32,20 +32,15 @@ const Login = () => {
   // Context & Navigation
   // ======================
   const navigate = useNavigate();
-  const { token, setToken, employerFlag, setEmployerFlag, setEmail, setName, setCompanyId } =
+  const { token, setToken, setEmail, setName } =
     useContext(TokenContext);
 
-  // If a token already exists, redirect to profile
+  // If a token already exists, redirect to home
   useEffect(() => {
     if (token) {
-      setToken(token);
-      if (employerFlag) {
-        navigate("/employer-dashboard");
-      } else {
-        navigate("/profile");
-      }
+      navigate("/");
     }
-  }, [token, navigate, setToken, employerFlag]);
+  }, [token, navigate]);
 
   // ======================
   // Login Submit
@@ -58,13 +53,8 @@ const Login = () => {
 
       const response = await axios.post(`${API_SERVER}/signin`, loginData);
       setToken(response.data.token);
-      setEmployerFlag(response.data.employerFlag);
       setName(response.data.full_name);
       setEmail(response.data.email);
-
-      if (response.data.companyId) {
-        setCompanyId(response.data.companyId);
-      }
       navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "An error occurred during login");
@@ -81,7 +71,6 @@ const Login = () => {
       phone: signupPhone,
       email: signupEmail,
       password: signupPassword,
-      employerFlag: employerFlag,
     };
 
     try {
@@ -102,7 +91,7 @@ const Login = () => {
   };
 
   // ======================
-  // Google OAuth (Login)
+  // Google OAuth (Login/Signup)
   // ======================
   const handleGoogleSuccess = async (response) => {
     try {
@@ -110,12 +99,8 @@ const Login = () => {
         token: response.credential,
       });
       setToken(res.data.token);
-      setEmployerFlag(res.data.employerFlag);
       setName(res.data.full_name);
       setEmail(res.data.email);
-      if (res.data.companyId) {
-        setCompanyId(res.data.companyId);
-      }
       navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "An error occurred during Google login");
@@ -228,19 +213,6 @@ const Login = () => {
                       <div className="login-center-wrap">
                         <div className="login-section-content text-center">
                           <h4 className="login-form-title">Create Account</h4>
-
-                          {/* Employer Checkbox */}
-                          <div className="employer-checkbox-group">
-                            <input
-                              type="checkbox"
-                              id="employer-flag"
-                              checked={employerFlag}
-                              onChange={(e) => setEmployerFlag(e.target.checked)}
-                            />
-                            <label htmlFor="employer-flag">
-                              I'm an employer
-                            </label>
-                          </div>
 
                           {/* Google Sign Up Button */}
                           <div className="social-login">

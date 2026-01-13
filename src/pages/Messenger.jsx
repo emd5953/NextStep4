@@ -18,15 +18,7 @@ const Messenger = () => {
   const { token } = useContext(TokenContext);
   const decoded = token ? jwt_decode(token) : null;
   const currentUserId = decoded?.id;
-  const isEmployer = decoded?.employerFlag || false;
   const messagesEndRef = useRef(null);
-
-  // Redirect if user is an employer
-  useEffect(() => {
-    if (isEmployer) {
-      navigate('/employer-dashboard');
-    }
-  }, [isEmployer, navigate]);
 
   const fetchMyExchanges = useCallback(async () => {
     if (!token) return;

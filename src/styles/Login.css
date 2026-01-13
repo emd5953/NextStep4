@@ -420,37 +420,6 @@ h6 span {
   font-weight: 600;
 }
 
-/* Employer checkbox */
-.employer-checkbox-group {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-3);
-  margin: var(--space-4) 0;
-  padding: var(--space-3);
-  border: var(--border-thin);
-  background: var(--muted);
-}
-
-.employer-checkbox-group input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  accent-color: var(--foreground);
-  border-radius: 0;
-}
-
-.employer-checkbox-group label {
-  font-size: var(--text-sm);
-  color: var(--foreground);
-  cursor: pointer;
-  user-select: none;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-family: var(--font-body);
-}
-
 @media (max-width: 768px) {
   .login-card-3d-wrap {
     width: 100%;

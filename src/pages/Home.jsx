@@ -11,19 +11,11 @@ import useScrollAnimation from '../utils/useScrollAnimation';
 const Home = () => {
   const { token } = useContext(TokenContext);
   const navigate = useNavigate();
-  const decoded = token ? jwt_decode(token) : null;
-  const isEmployer = decoded?.employerFlag || false;
 
   // Scroll animation refs (only used for non-logged-in users)
   const [featuresRef, featuresVisible] = useScrollAnimation({ threshold: 0.2 });
   const [statsRef, statsVisible] = useScrollAnimation({ threshold: 0.2 });
   const [ctaRef, ctaVisible] = useScrollAnimation({ threshold: 0.2 });
-
-  useEffect(() => {
-    if (isEmployer) {
-      navigate('/employer-dashboard');
-    }
-  }, [isEmployer, navigate]);
 
 
   const handleSignInClick = () => {
