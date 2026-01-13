@@ -38,6 +38,8 @@ const ragChatController = require("./controllers/ragChatController.jsx");
 // Import middleware
 const { verifyToken } = require("./middleware/auth.jsx");
 const { filterJobContent } = require("./middleware/contentFilter.jsx");
+const performanceMonitor = require("./middleware/performanceMonitor.jsx");
+const { rateLimitMiddleware } = require("./middleware/rateLimiter.jsx");
 
 /**
  * Express application instance
@@ -75,6 +77,12 @@ app.use(cors({
   ],
   credentials: true
 }));
+
+// Add performance monitoring
+app.use(performanceMonitor);
+
+// Add rate limiting for job search endpoints
+app.use('/api/jobs', rateLimitMiddleware);
 
 
 // Serve static files from the public directory

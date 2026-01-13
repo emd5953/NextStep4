@@ -34,14 +34,14 @@ const jobsController = {
         internalJobs = await jobsSemanticSearch(req);
       }
 
-      // Get external jobs if enabled
+      // Get external jobs if enabled and query is specific enough
       let externalJobs = [];
-      if (includeExternal) {
+      if (includeExternal && queryText && queryText.length > 2) {
         try {
           const searchParams = {
-            query: queryText || 'software developer',
+            query: queryText,
             page: 1,
-            num_pages: 1
+            num_pages: 2 // Reduced from 5 to 2 for faster response
           };
           
           // Parse location from query if available
@@ -52,9 +52,17 @@ const jobsController = {
             }
           }
           
-          externalJobs = await jobApiService.searchJobs(searchParams);
+          // Set timeout for external API call
+          const timeoutPromise = new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('External API timeout')), 5000)
+          );
+          
+          externalJobs = await Promise.race([
+            jobApiService.searchJobs(searchParams),
+            timeoutPromise
+          ]);
         } catch (error) {
-          console.error('Error fetching external jobs:', error);
+          console.error('Error fetching external jobs:', error.message);
           // Continue with internal jobs only if external API fails
         }
       }
@@ -884,7 +892,7 @@ async function jobsSemanticSearch(req) {
           queryVector: queryEmbedding,
           path: "embedding",
           numCandidates: 100,
-          limit: 10,
+          limit: 50,
           index: "js_vector_index",
         }
       },

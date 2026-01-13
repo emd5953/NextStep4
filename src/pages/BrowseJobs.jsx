@@ -39,16 +39,25 @@ const BrowseJobs = () => {
     e.preventDefault();
     setIsSearching(true);
     setSearchQuery(searchInput);
+    
+    // Show immediate feedback
+    setJobs([]);
+    
     try {
       const response = await axios.get(`${API_SERVER}/jobs?q=` + searchInput, 
         token ? {
-          headers: { Authorization: `Bearer ${token}` }
-        } : undefined
+          headers: { Authorization: `Bearer ${token}` },
+          timeout: 10000 // 10 second timeout
+        } : { timeout: 10000 }
       );
       setJobs(response.data);
     } catch (error) {
       console.error('Error searching jobs:', error);
-      setError('Failed to search jobs. Please try again.');
+      if (error.code === 'ECONNABORTED') {
+        setError('Search is taking longer than expected. Please try a more specific search term.');
+      } else {
+        setError('Failed to search jobs. Please try again.');
+      }
     } finally {
       setIsSearching(false);
     }
@@ -113,7 +122,13 @@ const BrowseJobs = () => {
       </div>
 
       <div className="jobs-list">
-        {jobs.length > 0 ? (
+        {isSearching ? (
+          <div className="loading-container">
+            <div className="loading-spinner"></div>
+            <p>Searching jobs from multiple sources...</p>
+            <small>This may take a few seconds for external job sources</small>
+          </div>
+        ) : jobs.length > 0 ? (
           jobs.map((job) => (
             <JobCard
               key={job._id}
