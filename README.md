@@ -20,7 +20,7 @@ NextStep is an **AI-powered job-matching platform** designed to simplify the job
 
 ### Overview 
 
-**NextStep** is an intelligent job-matching application with a **swipe-based** interface that helps job seekers efficiently browse and apply for jobs. The platform uses **AI-powered semantic search** to match candidates with relevant opportunities based on their skills, experience, and preferences. Employers can post job listings, track applications, and connect with candidates in real time.
+**NextStep** is an intelligent job-matching application with a **swipe-based** interface that helps job seekers efficiently browse and apply for jobs. The platform uses **AI-powered semantic search** to match candidates with relevant opportunities based on their skills, experience, and preferences.
 
 ### **Core Features** 
 - **Swipe-Based Job Discovery** – Browse jobs with an intuitive swipe/scroll experience inspired by popular apps
@@ -29,9 +29,7 @@ NextStep is an **AI-powered job-matching platform** designed to simplify the job
 - **AI Resume Analysis** – Automatic skill extraction and job title recommendations from uploaded resumes
 - **One-Click Apply** – Apply instantly with stored profile and resume
 - **Real-Time Application Tracking** – Monitor job application statuses and updates
-- **Employer Dashboard** – Post jobs, review candidates, and manage applications
-- **Integrated Messaging** – Direct communication between job seekers and employers
-- **Company Profiles** – Detailed company information and branding
+- **Integrated Messaging** – Direct communication with employers
 - **Email Verification** – Secure account verification system
 - **Google OAuth** – Quick sign-in with Google accounts
 - **AI Help Chat** – Interactive chatbot for platform assistance
@@ -217,19 +215,13 @@ Frontend will run on http://localhost:3000
 | GET | /api/jobs/:jobId | Get single job details with company info |
 | GET | /api/newJobs | Get jobs user hasn't applied to (requires auth) |
 | GET | /api/retrieveJobsForHomepage | AI-powered personalized job recommendations |
-| POST | /api/jobs | Create new job posting (employers only) |
-| PUT | /api/employer/jobs/:jobId | Update job posting (employers only) |
-| DELETE | /api/employer/jobs/:jobId | Delete job posting (employers only) |
-| GET | /api/employer/jobs/search | Search employer's own job postings |
 
 #### Applications
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | POST | /api/jobsTracker | Track job application (apply/skip/ignore) |
 | GET | /api/applications | Get user's applications with status |
-| GET | /api/employer/applications | Get applications for employer's jobs |
-| PUT | /api/employer/applications/:id | Update application status |
-| GET | /api/employer/applications/:id | Get detailed application info |
+| DELETE | /api/applications/:applicationId | Withdraw application |
 | GET | /api/getallappl | Get all applications (admin) |
 
 #### Profile & Resume
@@ -248,24 +240,10 @@ Frontend will run on http://localhost:3000
 | POST | /api/messages | Send message to another user |
 | POST | /api/messages/company | Send message to company |
 | PUT | /api/messages/read/:contactId | Mark messages as read |
+| PUT | /api/messages/read/company/:companyId | Mark company messages as read |
 | GET | /api/myRecentContacts | Get recent message contacts |
+| GET | /api/myRecentEmployerContacts | Get recent employer contacts |
 | GET | /api/employersFromApplications | Get employers from applications |
-
-#### Employer Messaging
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | /api/employer/messages | Get employer's messages |
-| POST | /api/employer/messages | Send message to applicant |
-| PUT | /api/employer/messages/read/:applicantId | Mark messages as read |
-| GET | /api/employer/recent-applicant-contacts | Get recent applicant contacts |
-| GET | /api/employer/applicants | Get applicants from jobs |
-
-#### Company
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | /api/company/:companyId | Get company profile |
-| POST | /api/company | Create company profile |
-| PUT | /api/company/:companyId | Update company profile |
 
 #### AI Chat
 | Method | Endpoint | Description |
@@ -290,10 +268,7 @@ Frontend will run on http://localhost:3000
   - [How to Search Jobs](./server/docs/user-guides/how-to-search-jobs.md)
   - [How to Message Employers](./server/docs/user-guides/how-to-message-employers.md)
 
-#### For Employers
-- **[Employer Guides](./server/docs/employer-guides/)** - How to hire on NextStep
-  - [How to Post Jobs](./server/docs/employer-guides/how-to-post-jobs.md)
-  - [How to Review Applications](./server/docs/employer-guides/how-to-review-applications.md)
+
 
 #### 🤖 RAG Chatbot
 - **[Self-Improving RAG System](./server/docs/SELF_IMPROVING_RAG.md)** ⭐ - How the chatbot learns from feedback

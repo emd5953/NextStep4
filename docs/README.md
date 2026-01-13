@@ -21,6 +21,7 @@ The RAG chatbot ingests documentation from `server/docs/`, not from this folder.
 ## 📁 What's in This Folder
 
 ### Reference Material
+- **`EMPLOYER_REMOVAL_MIGRATION.md`** - Guide for employer functionality removal (January 2026)
 - **`requirements.md`** - Original project requirements and specifications
 - **`requirements.txt`** - Requirements summary
 - **`all-diagrams-source-files/`** - System architecture diagrams (Mermaid source)

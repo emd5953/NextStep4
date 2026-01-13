@@ -24,9 +24,9 @@ Server runs on `http://localhost:4000`
 ## Features
 
 - **User Authentication** - JWT-based auth with Google OAuth
-- **Job Management** - CRUD operations for job postings
+- **Job Management** - Browse and search job postings
 - **Application Tracking** - Track job applications and status
-- **Messaging** - Real-time messaging between users and employers
+- **Messaging** - Real-time messaging with employers
 - **RAG Chatbot** - AI-powered help chat with document retrieval
 
 ## Project Structure
@@ -65,15 +65,15 @@ server/
 - `POST /auth/google` - Google OAuth login
 
 ### Jobs
-- `GET /api/jobs` - Get all jobs
-- `POST /api/jobs` - Create job posting
-- `PUT /api/jobs/:id` - Update job
-- `DELETE /api/jobs/:id` - Delete job
+- `GET /api/jobs` - Get all jobs with search
+- `GET /api/jobs/:id` - Get single job details
+- `GET /api/newJobs` - Get jobs user hasn't applied to
+- `GET /api/retrieveJobsForHomepage` - Get personalized recommendations
 
 ### Applications
-- `POST /api/applications` - Submit application
-- `GET /api/applications/user/:userId` - Get user applications
-- `PUT /api/applications/:id` - Update application status
+- `POST /api/jobsTracker` - Submit application (apply/skip/ignore)
+- `GET /api/applications` - Get user's applications
+- `DELETE /api/applications/:id` - Withdraw application
 
 ### Chat (RAG)
 - `POST /api/chat` - Send message to AI chatbot
