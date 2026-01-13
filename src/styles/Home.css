@@ -1,102 +1,482 @@
-/* File: /src/styles/Home.css */
+/* Minimalist Monochrome Home Page */
 
-.home-content {
+.home-container {
+  min-height: 100vh;
+  background: var(--background);
+}
+
+/* Hero Section */
+.home-hero {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-20) var(--container-padding);
+  border-bottom: var(--border-thick);
+}
+
+.home-hero__content {
   text-align: center;
-  padding: 60px 20px;
-  max-width: 1200px;
+  max-width: 800px;
+}
+
+.home-hero__title {
+  font-family: var(--font-display);
+  font-size: var(--text-9xl);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  margin: 0 0 var(--space-6) 0;
+  color: var(--foreground);
+}
+
+.home-hero__subtitle {
+  font-family: var(--font-body);
+  font-size: var(--text-2xl);
+  color: var(--muted-foreground);
+  margin: 0 0 var(--space-12) 0;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.home-hero__actions {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.home-hero__btn {
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--text-base);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 100ms ease;
+  min-width: 200px;
+}
+
+.home-hero__btn--primary {
+  background: var(--foreground);
+  color: var(--background);
+  border: var(--border-medium);
+}
+
+.home-hero__btn--primary:hover {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.home-hero__btn--secondary {
+  background: transparent;
+  color: var(--foreground);
+  border: var(--border-medium);
+}
+
+.home-hero__btn--secondary:hover {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+
+/* Features Section */
+.home-features {
+  padding: var(--space-24) var(--container-padding);
+  background: var(--foreground);
+  color: var(--background);
+}
+
+.home-features__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8);
+  max-width: var(--container-max-width);
   margin: 0 auto;
 }
 
-.home-branding {
+.home-feature {
+  padding: var(--space-8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.home-feature__number {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: rgba(255, 255, 255, 0.5);
+  display: block;
+  margin-bottom: var(--space-4);
+}
+
+.home-feature__title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  margin: 0 0 var(--space-4) 0;
+  color: var(--background);
+}
+
+.home-feature__text {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+/* Stats Section */
+.home-stats {
+  padding: var(--space-20) var(--container-padding);
+  border-bottom: var(--border-thick);
+}
+
+.home-stats__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8);
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.home-stat {
+  padding: var(--space-8);
+}
+
+.home-stat__number {
+  font-family: var(--font-display);
+  font-size: var(--text-6xl);
+  font-weight: 800;
+  color: var(--foreground);
+  display: block;
+  line-height: 1;
+  margin-bottom: var(--space-2);
+}
+
+.home-stat__label {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted-foreground);
+}
+
+/* CTA Section */
+.home-cta {
+  padding: var(--space-24) var(--container-padding);
+  text-align: center;
+  background: var(--muted);
+  border-bottom: var(--border-thick);
+}
+
+.home-cta__title {
+  font-family: var(--font-display);
+  font-size: var(--text-5xl);
+  font-weight: 800;
+  margin: 0 0 var(--space-4) 0;
+  color: var(--foreground);
+}
+
+.home-cta__text {
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  color: var(--muted-foreground);
+  margin: 0 0 var(--space-8) 0;
+  font-style: italic;
+}
+
+.home-cta__btn {
+  padding: var(--space-4) var(--space-12);
+  font-size: var(--text-base);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: var(--foreground);
+  color: var(--background);
+  border: var(--border-medium);
+  cursor: pointer;
+  transition: all 100ms ease;
+}
+
+.home-cta__btn:hover {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Swipe Section */
+.home-swipe-section {
+  padding: var(--space-16) var(--container-padding);
+}
+
+.home-swipe-section__title {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 var(--space-12) 0;
+  color: var(--foreground);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .home-hero {
+    min-height: 70vh;
+    padding: var(--space-16) var(--container-padding);
+  }
+
+  .home-hero__title {
+    font-size: var(--text-6xl);
+  }
+
+  .home-hero__subtitle {
+    font-size: var(--text-lg);
+  }
+
+  .home-hero__actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .home-hero__btn {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .home-features__grid,
+  .home-stats__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-stat__number {
+    font-size: var(--text-5xl);
+  }
+
+  .home-cta__title {
+    font-size: var(--text-3xl);
+  }
+}
+
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Hero Animations */
+.home-hero__title {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.home-hero__subtitle {
+  animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+.home-hero__actions {
+  animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+/* Button hover effects */
+.home-hero__btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.home-hero__btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease;
+}
+
+.home-hero__btn:hover::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* Feature cards animation */
+.home-feature {
+  animation: fadeInUp 0.6s ease-out both;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.home-feature:nth-child(1) { animation-delay: 0.1s; }
+.home-feature:nth-child(2) { animation-delay: 0.2s; }
+.home-feature:nth-child(3) { animation-delay: 0.3s; }
+
+.home-feature:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Stats counter animation */
+.home-stat {
+  animation: scaleIn 0.6s ease-out both;
+}
+
+.home-stat:nth-child(1) { animation-delay: 0.1s; }
+.home-stat:nth-child(2) { animation-delay: 0.2s; }
+.home-stat:nth-child(3) { animation-delay: 0.3s; }
+
+.home-stat__number {
+  transition: transform 0.3s ease;
+}
+
+.home-stat:hover .home-stat__number {
+  transform: scale(1.1);
+}
+
+/* CTA animation */
+.home-cta__title {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.home-cta__text {
+  animation: fadeInUp 0.8s ease-out 0.1s both;
+}
+
+.home-cta__btn {
+  animation: fadeInUp 0.8s ease-out 0.2s both;
+  position: relative;
+  overflow: hidden;
+}
+
+.home-cta__btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.home-cta__btn:hover::before {
+  left: 100%;
+}
+
+/* Scroll-triggered animations (using intersection observer in JS would be ideal, but CSS-only approach) */
+@media (prefers-reduced-motion: no-preference) {
+  .home-features,
+  .home-stats,
+  .home-cta {
+    animation: fadeIn 0.8s ease-out;
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* Scroll-triggered animation classes */
+.animate-hidden {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Staggered children animations when parent becomes visible */
+.animate-in .home-feature,
+.animate-in .home-stat {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: staggerFadeIn 0.6s ease-out forwards;
+}
+
+.animate-in .home-feature:nth-child(1),
+.animate-in .home-stat:nth-child(1) { animation-delay: 0.1s; }
+.animate-in .home-feature:nth-child(2),
+.animate-in .home-stat:nth-child(2) { animation-delay: 0.25s; }
+.animate-in .home-feature:nth-child(3),
+.animate-in .home-stat:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes staggerFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* CTA content stagger */
+.animate-in.home-cta .home-cta__title,
+.animate-in.home-cta .home-cta__text,
+.animate-in.home-cta .home-cta__btn {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: staggerFadeIn 0.6s ease-out forwards;
+}
+
+.animate-in.home-cta .home-cta__title { animation-delay: 0.1s; }
+.animate-in.home-cta .home-cta__text { animation-delay: 0.2s; }
+.animate-in.home-cta .home-cta__btn { animation-delay: 0.3s; }
+
+
+/* Logged-in user experience - clean swipe-only view */
+.home-container--logged-in {
+  min-height: calc(100vh - 80px);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 50vh;
-  text-align: center;
-  padding: 80px 20px;
 }
 
-.home-branding__title {
-  font-size: 4rem;
-  font-weight: 800;
-  letter-spacing: -2px;
-  margin: 0 0 24px 0;
-  color: #000;
-  line-height: 1.1;
-  max-width: 900px;
-}
-
-.home-branding__title span {
-  background: linear-gradient(135deg, #00f5d4, #00ddc2);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.home-branding__subtitle {
-  font-size: 1.5rem;
-  color: #666;
-  margin: 0 0 40px 0;
-  font-weight: 400;
-  max-width: 600px;
-  line-height: 1.6;
-}
-
-.home-please-sign-in {
-  font-size: 1.25rem;
-  color: #666;
-  margin: 40px 0;
-  padding: 32px;
-  background: #f8f9fb;
-  border-radius: 12px;
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* CTA buttons */
-.home-cta-buttons {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  margin-top: 32px;
-}
-
-.home-cta-buttons button {
-  padding: 16px 40px;
-  font-size: 1.1rem;
-  border-radius: 28px;
-}
-
-@media (max-width: 768px) {
-  .home-branding {
-    padding: 60px 20px;
-    min-height: 40vh;
-  }
-  
-  .home-branding__title {
-    font-size: 2.5rem;
-  }
-  
-  .home-branding__subtitle {
-    font-size: 1.2rem;
-  }
-  
-  .home-please-sign-in {
-    font-size: 1.1rem;
-    padding: 24px;
-  }
-  
-  .home-cta-buttons {
-    flex-direction: column;
-    width: 100%;
-    max-width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .home-cta-buttons button {
-    width: 100%;
-  }
+.home-swipe-section--full {
+  width: 100%;
+  padding: var(--space-8) var(--container-padding);
 }

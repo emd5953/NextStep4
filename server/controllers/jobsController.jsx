@@ -47,12 +47,12 @@ const jobsController = {
 
       // Get external jobs asynchronously (non-blocking)
       let externalJobs = [];
-      if (includeExternal && queryText && queryText.length > 2 && process.env.JSEARCH_API_KEY && process.env.JSEARCH_API_KEY !== 'your_jsearch_api_key_here') {
+      if (includeExternal && process.env.JSEARCH_API_KEY && process.env.JSEARCH_API_KEY !== 'your_jsearch_api_key_here') {
         try {
           const searchParams = {
-            query: queryText,
+            query: queryText || 'software developer', // Use default search if no query provided
             page: 1,
-            num_pages: 1 // Reduced to 1 for faster response
+            num_pages: 3 // Increased to get more jobs
           };
           
           // Parse location from query if available

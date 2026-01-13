@@ -1,58 +1,102 @@
-/* File: /src/styles/YourJobs.css */
+/* Minimalist Monochrome Your Jobs Page */
 
 .your-jobs-container {
-  padding: 32px 20px;
-  max-width: 1400px;
+  padding: var(--space-12) var(--container-padding);
+  max-width: var(--container-max-width);
   margin: 0 auto;
-  color: #1a1a1a;
+  color: var(--foreground);
   text-align: left;
   min-height: 80vh;
-  background: linear-gradient(180deg, #f8f9fb 0%, #ffffff 100%);
+  background: var(--background);
+  
+  /* Diagonal lines texture */
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 60px,
+    rgba(0,0,0,0.01) 60px,
+    rgba(0,0,0,0.01) 62px
+  );
+  opacity: 0.99;
 }
 
 .your-jobs-container h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 40px;
-  color: #000;
-  letter-spacing: -1px;
+  font-family: var(--font-display);
+  font-size: var(--text-6xl);
+  font-weight: 800;
+  margin-bottom: var(--space-16);
+  color: var(--foreground);
+  letter-spacing: -0.05em;
   text-align: center;
+  text-transform: uppercase;
+  
+  /* Box around title */
+  border: var(--border-medium);
+  padding: var(--space-8);
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.your-jobs-container p {
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  color: var(--muted-foreground);
+  margin-bottom: var(--space-12);
+  font-style: italic;
 }
 
 .jobs-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  margin-top: 24px;
-  background: #ffffff;
-  border-radius: 12px;
+  margin-top: var(--space-8);
+  background: var(--background);
+  border-radius: 0;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e8e8e8;
+  border: var(--border-thick);
 }
 
 .jobs-table th,
 .jobs-table td {
-  padding: 16px 20px;
+  padding: var(--space-4) var(--space-6);
   text-align: left;
-  border-bottom: 1px solid #e8e8e8;
+  border-bottom: var(--border-thin);
+  font-family: var(--font-body);
 }
 
 .jobs-table th {
-  background: #f8f9fb;
-  font-weight: 600;
-  font-size: 0.9rem;
-  color: #666;
+  background: var(--foreground);
+  color: var(--background);
+  font-weight: 700;
+  font-size: var(--text-xs);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.1em;
+  font-family: var(--font-mono);
+  
+  /* Vertical lines texture for header */
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 1px,
+    rgba(255,255,255,0.05) 1px,
+    rgba(255,255,255,0.05) 2px
+  );
+  background-size: 4px 100%;
 }
 
 .jobs-table tbody tr {
-  transition: background-color 0.2s ease;
+  transition: all 100ms ease;
 }
 
 .jobs-table tbody tr:hover {
-  background: #f8f9fb;
+  background: var(--foreground);
+  color: var(--background);
+}
+
+.jobs-table tbody tr:hover td {
+  color: var(--background);
 }
 
 .jobs-table tbody tr:last-child td {
@@ -60,21 +104,34 @@
 }
 
 .jobs-table input {
-  padding: 8px 12px;
-  margin-right: 8px;
-  border-radius: 6px;
-  border: 2px solid #e8e8e8;
-  font-size: 0.95rem;
-  font-family: inherit;
-  background: #ffffff;
-  color: #1a1a1a;
-  transition: all 0.2s ease;
+  padding: var(--space-2) var(--space-3);
+  margin-right: var(--space-2);
+  border-radius: 0;
+  border: none;
+  border-bottom: var(--border-medium);
+  font-size: var(--text-sm);
+  font-family: var(--font-body);
+  background: transparent;
+  color: var(--foreground);
+  transition: all 100ms ease;
 }
 
 .jobs-table input:focus {
   outline: none;
-  border-color: #00f5d4;
-  box-shadow: 0 0 0 3px rgba(0, 245, 212, 0.1);
+  border-bottom: 4px solid var(--foreground);
+  background: var(--muted);
+  padding-left: var(--space-2);
+}
+
+.jobs-table tbody tr:hover input {
+  color: var(--background);
+  border-bottom-color: var(--background);
+}
+
+.jobs-table tbody tr:hover input:focus {
+  background: var(--background);
+  color: var(--foreground);
+  border-bottom-color: var(--foreground);
 }
 
 /* Container for non-editing state: text on left, edit button on far right */
@@ -82,13 +139,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .notes-text {
   flex: 1;
-  color: #444;
+  color: var(--foreground);
   line-height: 1.5;
+  font-family: var(--font-body);
+}
+
+.jobs-table tbody tr:hover .notes-text {
+  color: var(--background);
 }
 
 /* Container for editing state: input on left, save/cancel buttons on far right */
@@ -96,7 +158,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .notes-edit input {
@@ -106,83 +168,113 @@
 
 .edit-actions {
   display: flex;
-  gap: 8px;
+  gap: var(--space-2);
   flex-shrink: 0;
 }
 
 .jobs-table button {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 20px;
-  background: #000;
-  color: #fff;
+  padding: var(--space-2) var(--space-4);
+  border: var(--border-thin);
+  border-radius: 0;
+  background: var(--foreground);
+  color: var(--background);
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: var(--text-xs);
   font-weight: 600;
-  transition: all 0.2s ease;
+  font-family: var(--font-body);
+  transition: all 100ms ease;
   white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  min-height: 32px;
 }
 
 .jobs-table button:hover {
-  background: #1a1a1a;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.jobs-table tbody tr:hover button {
+  background: var(--background);
+  color: var(--foreground);
+  border-color: var(--background);
+}
+
+.jobs-table tbody tr:hover button:hover {
+  background: var(--foreground);
+  color: var(--background);
+  border-color: var(--foreground);
 }
 
 .jobs-table button:disabled {
-  background: #e0e0e0;
-  color: #999;
+  background: var(--muted);
+  color: var(--muted-foreground);
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
+  border-color: var(--muted);
 }
 
 .jobs-table button.secondary {
   background: transparent;
-  border: 2px solid #e8e8e8;
-  color: #1a1a1a;
+  border: var(--border-medium);
+  color: var(--foreground);
 }
 
 .jobs-table button.secondary:hover {
-  background: #f8f9fb;
-  border-color: #d0d0d0;
+  background: var(--foreground);
+  color: var(--background);
 }
 
 .jobs-table button.delete {
   background: transparent;
-  color: #dc2626;
-  border: 2px solid #fee;
+  color: var(--foreground);
+  border: var(--border-medium);
 }
 
 .jobs-table button.delete:hover {
-  background: #fff5f5;
-  border-color: #fecaca;
+  background: var(--foreground);
+  color: var(--background);
 }
 
 .withdraw-btn {
   background: transparent !important;
-  color: #dc2626 !important;
-  border: 2px solid #fee2e2 !important;
-  padding: 8px 16px;
-  border-radius: 20px;
+  color: var(--foreground) !important;
+  border: var(--border-medium) !important;
+  padding: var(--space-2) var(--space-4);
+  border-radius: 0;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: var(--text-xs);
   font-weight: 600;
-  transition: all 0.2s ease;
+  font-family: var(--font-body);
+  transition: all 100ms ease;
   white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .withdraw-btn:hover:not(:disabled) {
-  background: #fff5f5 !important;
-  border-color: #fecaca !important;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.15);
+  background: var(--foreground) !important;
+  color: var(--background) !important;
+  border-color: var(--foreground) !important;
+}
+
+.jobs-table tbody tr:hover .withdraw-btn {
+  background: var(--background) !important;
+  color: var(--foreground) !important;
+  border-color: var(--background) !important;
+}
+
+.jobs-table tbody tr:hover .withdraw-btn:hover:not(:disabled) {
+  background: var(--foreground) !important;
+  color: var(--background) !important;
+  border-color: var(--foreground) !important;
 }
 
 .withdraw-btn:disabled {
-  background: #f5f5f5 !important;
-  color: #999 !important;
-  border-color: #e8e8e8 !important;
+  background: var(--muted) !important;
+  color: var(--muted-foreground) !important;
+  border-color: var(--muted) !important;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
@@ -190,121 +282,191 @@
 
 /* Job title link styling */
 .job-title-link {
-  color: #0073b1;
+  color: var(--foreground);
   text-decoration: none;
-  font-weight: 600;
-  transition: color 0.2s;
+  font-weight: 700;
+  transition: all 100ms ease;
+  border-bottom: 2px solid var(--foreground);
+  padding-bottom: 2px;
 }
 
 .job-title-link:hover {
-  color: #005582;
-  text-decoration: underline;
+  background: var(--foreground);
+  color: var(--background);
+  text-decoration: none;
 }
 
-/* Status badges */
+.jobs-table tbody tr:hover .job-title-link {
+  color: var(--background);
+  border-bottom-color: var(--background);
+}
+
+.jobs-table tbody tr:hover .job-title-link:hover {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Status badges - monochrome approach */
 .status-badge {
   display: inline-block;
-  padding: 6px 12px;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  font-weight: 600;
+  padding: var(--space-1) var(--space-3);
+  border-radius: 0;
+  font-size: var(--text-xs);
+  font-weight: 700;
   text-align: center;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: var(--border-thin);
 }
 
 .status-badge.applied {
-  background: #eff6ff;
-  color: #0073b1;
-  border: 1px solid #dbeafe;
+  background: var(--muted);
+  color: var(--foreground);
+  border-color: var(--foreground);
 }
 
 .status-badge.interviewing {
-  background: #fff7ed;
-  color: #ea580c;
-  border: 1px solid #fed7aa;
+  background: var(--foreground);
+  color: var(--background);
+  border-color: var(--foreground);
 }
 
 .status-badge.offered {
-  background: #f0fdf4;
-  color: #15803d;
-  border: 1px solid #dcfce7;
+  background: var(--foreground);
+  color: var(--background);
+  border-color: var(--foreground);
+  position: relative;
+}
+
+.status-badge.offered::before {
+  content: '★';
+  margin-right: var(--space-1);
 }
 
 .status-badge.rejected {
-  background: #fff5f5;
-  color: #c41e3a;
-  border: 1px solid #fee;
+  background: transparent;
+  color: var(--muted-foreground);
+  border-color: var(--muted-foreground);
+}
+
+.jobs-table tbody tr:hover .status-badge.applied {
+  background: var(--background);
+  color: var(--foreground);
+  border-color: var(--background);
+}
+
+.jobs-table tbody tr:hover .status-badge.interviewing {
+  background: var(--background);
+  color: var(--foreground);
+  border-color: var(--background);
+}
+
+.jobs-table tbody tr:hover .status-badge.offered {
+  background: var(--background);
+  color: var(--foreground);
+  border-color: var(--background);
+}
+
+.jobs-table tbody tr:hover .status-badge.rejected {
+  background: var(--background);
+  color: var(--muted-foreground);
+  border-color: var(--background);
 }
 
 /* Filter section */
 .filter-section {
   display: flex;
-  gap: 16px;
-  margin-bottom: 24px;
+  gap: 0;
+  margin-bottom: var(--space-8);
   align-items: center;
   flex-wrap: wrap;
+  border: var(--border-medium);
 }
 
 .filter-section select,
 .filter-section input {
-  padding: 10px 16px;
-  border: 2px solid #e8e8e8;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  background: #ffffff;
-  font-family: inherit;
-  color: #1a1a1a;
-  transition: all 0.2s ease;
+  padding: var(--space-3) var(--space-4);
+  border: none;
+  border-right: var(--border-thin);
+  border-radius: 0;
+  font-size: var(--text-sm);
+  background: var(--background);
+  font-family: var(--font-body);
+  color: var(--foreground);
+  transition: all 100ms ease;
+  flex: 1;
+}
+
+.filter-section select:last-child,
+.filter-section input:last-child {
+  border-right: none;
 }
 
 .filter-section select:focus,
 .filter-section input:focus {
   outline: none;
-  border-color: #00f5d4;
-  box-shadow: 0 0 0 3px rgba(0, 245, 212, 0.1);
+  background: var(--muted);
 }
 
 /* Empty state */
 .empty-state {
   text-align: center;
-  padding: 60px 20px;
-  color: #999;
+  padding: var(--space-24) var(--space-6);
+  color: var(--muted-foreground);
+  border: var(--border-thick);
+  background: var(--muted);
 }
 
 .empty-state-icon {
-  font-size: 4rem;
-  color: #e8e8e8;
-  margin-bottom: 16px;
+  font-size: var(--text-8xl);
+  color: var(--border-light);
+  margin-bottom: var(--space-6);
+  font-family: var(--font-mono);
 }
 
 .empty-state h3 {
-  color: #666;
-  font-size: 1.25rem;
-  margin-bottom: 8px;
+  color: var(--foreground);
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  margin-bottom: var(--space-3);
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
 }
 
 .empty-state p {
-  color: #999;
-  font-size: 1rem;
+  color: var(--muted-foreground);
+  font-size: var(--text-base);
+  font-family: var(--font-body);
+  font-style: italic;
 }
 
+/* Responsive Design */
 @media (max-width: 1024px) {
   .jobs-table {
-    font-size: 0.9rem;
+    font-size: var(--text-sm);
   }
   
   .jobs-table th,
   .jobs-table td {
-    padding: 12px 16px;
+    padding: var(--space-3) var(--space-4);
   }
 }
 
 @media (max-width: 768px) {
   .your-jobs-container {
-    padding: 24px 16px;
+    padding: var(--space-8) var(--space-4);
   }
   
   .your-jobs-container h1 {
-    font-size: 2rem;
+    font-size: var(--text-4xl);
+    margin-bottom: var(--space-12);
+  }
+  
+  .your-jobs-container h1::after {
+    width: 120px;
+    height: 3px;
   }
   
   .jobs-table {
@@ -321,12 +483,20 @@
   .filter-section select,
   .filter-section input {
     width: 100%;
+    border-right: none;
+    border-bottom: var(--border-thin);
+  }
+  
+  .filter-section select:last-child,
+  .filter-section input:last-child {
+    border-bottom: none;
   }
   
   .notes-display,
   .notes-edit {
     flex-direction: column;
     align-items: flex-start;
+    gap: var(--space-2);
   }
   
   .edit-actions {

@@ -19,6 +19,7 @@ import EmployerMessenger from "./pages/EmployerMessenger";
 import Details from "./pages/Details";
 import ApplicantProfile from "./pages/ApplicantProfile";
 import ManageUsers from "./pages/ManageUsers";
+import "./styles/global.css";
 import "./styles/App.css";
 import { TokenContext } from "./components/TokenContext";
 import axios from "axios";

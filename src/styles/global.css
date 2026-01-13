@@ -1,4 +1,6 @@
-/* File: /src/styles/global.css */
+/* Minimalist Monochrome Global Styles */
+@import './design-tokens.css';
+@import './minimalist-base.css';
 
 /* Global Reset */
 *, *::before, *::after {
@@ -10,7 +12,8 @@
 html, body, #root {
   width: 100%;
   min-height: 100%;
-  background: linear-gradient(180deg, #f8f9fb 0%, #ffffff 100%);
+  background: var(--background);
+  color: var(--foreground);
 }
 
 .container-fluid {
@@ -32,81 +35,94 @@ html, body, #root {
 }
 
 body {
-  font-family: 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-body);
   text-align: center;
-  color: #1a1a1a;
-  line-height: 1.6;
+  color: var(--foreground);
+  line-height: 1.625;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Button Base Styles */
+/* Override existing button styles with Minimalist Monochrome */
 button {
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-weight: 600;
-  background-color: #000;
-  color: white;
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  font-family: var(--font-body);
+  background-color: var(--foreground);
+  color: var(--background);
   border: none;
-  border-radius: 24px;
+  border-radius: 0;
   cursor: pointer;
-  font-family: inherit;
-  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 100ms ease;
+  min-height: 44px;
 }
 
 button:hover {
-  background-color: #1a1a1a;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: var(--background);
+  color: var(--foreground);
+  border: var(--border-medium);
 }
 
 button:active {
-  transform: translateY(0);
+  transform: none;
 }
 
 button:disabled {
-  background-color: #e0e0e0;
-  color: #999;
+  background-color: var(--muted);
+  color: var(--muted-foreground);
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
 
-/* Primary button variant */
+button:focus-visible {
+  outline: 3px solid var(--foreground);
+  outline-offset: 3px;
+}
+
+/* Remove old button variants - now using monochrome system */
 button.primary {
-  background: #00f5d4;
-  color: #000;
+  background: var(--foreground);
+  color: var(--background);
 }
 
 button.primary:hover {
-  background: #00ddc2;
+  background: var(--background);
+  color: var(--foreground);
+  border: var(--border-medium);
 }
 
-/* Secondary button variant */
 button.secondary {
   background: transparent;
-  border: 2px solid #e8e8e8;
-  color: #1a1a1a;
+  border: var(--border-medium);
+  color: var(--foreground);
 }
 
 button.secondary:hover {
-  background: #f8f9fb;
-  border-color: #d0d0d0;
+  background: var(--foreground);
+  color: var(--background);
 }
 
-/* Link styles */
+/* Link styles - monochrome */
 a {
-  color: #0073b1;
+  color: var(--foreground);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: all 100ms ease;
 }
 
 a:hover {
-  color: #005582;
   text-decoration: underline;
 }
 
-/* Scrollbar styling */
+a:focus-visible {
+  outline: 3px solid var(--foreground);
+  outline-offset: 2px;
+}
+
+/* Scrollbar styling - monochrome */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -117,21 +133,21 @@ a:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d0d0d0;
-  border-radius: 4px;
+  background: var(--muted-foreground);
+  border-radius: 0;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #b0b0b0;
+  background: var(--foreground);
 }
 
-/* Selection styling */
+/* Selection styling - inverted */
 ::selection {
-  background: rgba(0, 245, 212, 0.3);
-  color: #000;
+  background: var(--foreground);
+  color: var(--background);
 }
 
 ::-moz-selection {
-  background: rgba(0, 245, 212, 0.3);
-  color: #000;
+  background: var(--foreground);
+  color: var(--background);
 }

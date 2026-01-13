@@ -29,7 +29,7 @@ class JobApiService {
         query = 'software developer',
         location = 'United States',
         page = 1,
-        num_pages = 1,
+        num_pages = 3, // Increased from 1 to 3 to get more jobs (30 jobs instead of 10)
         employment_types = 'FULLTIME',
         job_requirements = null,
         remote_jobs_only = false

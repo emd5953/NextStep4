@@ -1,11 +1,11 @@
-/* File: /src/styles/App.css */
+/* Minimalist Monochrome App Layout */
 
 .app-container {
-  font-family: 'Inter', 'Poppins', sans-serif;
+  font-family: var(--font-body);
   min-height: 100vh;
   width: 100%;
-  background: linear-gradient(180deg, #f8f9fb 0%, #ffffff 100%);
-  color: #1a1a1a;
+  background: var(--background);
+  color: var(--foreground);
   padding: 0;
   position: relative;
 }
@@ -19,10 +19,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 32px;
-  background: #ffffff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  border-bottom: 1px solid #e8e8e8;
+  padding: var(--space-4) var(--space-8);
+  background: var(--background);
+  border-bottom: var(--border-thick);
 }
 
 .nav-container {
@@ -34,63 +33,83 @@
 
 .app-nav {
   display: flex;
-  gap: 8px;
+  gap: 0;
   align-items: center;
 }
 
 .app-nav__link,
 .auth__button {
-  padding: 10px 20px;
-  font-size: 0.95rem;
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--text-sm);
   font-weight: 500;
-  border-radius: 24px;
-  transition: all 0.2s ease;
+  font-family: var(--font-body);
+  border-radius: 0;
+  transition: all 100ms ease;
   cursor: pointer;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: var(--border-thin);
+  border-right: none;
+  min-height: 44px;
+}
+
+.app-nav__link:last-child {
+  border-right: var(--border-thin);
 }
 
 .app-nav__link {
   background: transparent;
-  color: #1a1a1a;
-  border: none;
+  color: var(--foreground);
 }
 
 .app-nav__link:hover {
-  background: #f0f0f0;
-  color: #000;
+  background: var(--foreground);
+  color: var(--background);
+}
+
+.app-nav__link:focus-visible {
+  outline: 3px solid var(--foreground);
+  outline-offset: 3px;
 }
 
 .auth__button {
-  background: #000;
-  color: #fff;
-  border: none;
+  background: var(--foreground);
+  color: var(--background);
+  border: var(--border-thin);
   font-weight: 600;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  margin-left: var(--space-4);
 }
 
 .auth__button:hover {
-  background: #1a1a1a;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.auth__button:focus-visible {
+  outline: 3px solid var(--foreground);
+  outline-offset: 3px;
 }
 
 .auth__button.signup {
-  background: #00f5d4;
-  color: #000;
+  background: var(--background);
+  color: var(--foreground);
+  border: var(--border-medium);
 }
 
 .auth__button.signup:hover {
-  background: #00ddc2;
+  background: var(--foreground);
+  color: var(--background);
 }
 
 .auth-container {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .app-main {
@@ -106,48 +125,51 @@
   justify-content: center;
   min-height: 40vh;
   text-align: center;
-  padding: 60px 20px;
+  padding: var(--space-16) var(--space-6);
 }
 
 .home-branding__title {
-  font-size: 3.5rem;
+  font-family: var(--font-display);
+  font-size: var(--text-8xl);
   font-weight: 800;
-  letter-spacing: -2px;
-  margin: 0 0 16px 0;
-  color: #000;
-  line-height: 1.1;
+  letter-spacing: -0.05em;
+  margin: 0 0 var(--space-4) 0;
+  color: var(--foreground);
+  line-height: 0.9;
 }
 
 .home-branding__subtitle {
-  font-size: 1.5rem;
-  color: #666;
+  font-family: var(--font-body);
+  font-size: var(--text-xl);
+  color: var(--muted-foreground);
   margin: 0;
   font-weight: 400;
   max-width: 600px;
+  font-style: italic;
 }
 
 .app-content {
   text-align: center;
-  padding: 40px 20px;
+  padding: var(--space-12) var(--space-6);
 }
 
-/* Hamburger button styling */
+/* Hamburger button styling - monochrome */
 .hamburger {
   display: none;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-1);
   background: transparent;
-  border: none;
+  border: var(--border-thin);
   cursor: pointer;
-  padding: 8px;
+  padding: var(--space-2);
 }
 
 .hamburger .bar {
   width: 24px;
   height: 2px;
-  background-color: #1a1a1a;
-  border-radius: 2px;
-  transition: all 0.3s ease;
+  background-color: var(--foreground);
+  border-radius: 0;
+  transition: all 100ms ease;
 }
 
 /* Responsive adjustments for small screens */
@@ -157,58 +179,87 @@
   }
   
   .app-header {
-    padding: 12px 20px;
+    padding: var(--space-3) var(--space-4);
   }
   
   .home-branding__title {
-    font-size: 2.5rem;
+    font-size: var(--text-6xl);
   }
   
   .home-branding__subtitle {
-    font-size: 1.2rem;
+    font-size: var(--text-lg);
+  }
+  
+  /* Stack nav links vertically on mobile */
+  .app-nav {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .app-nav__link {
+    border-right: var(--border-thin);
+    border-bottom: none;
+  }
+  
+  .app-nav__link:last-child {
+    border-bottom: var(--border-thin);
   }
 }
 
-/* Modal overlay for mobile nav */
+/* Modal overlay for mobile nav - monochrome */
 .nav-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  backdrop-filter: blur(4px);
 }
 
 .nav-overlay-content {
-  background-color: #ffffff;
-  padding: 32px;
-  border-radius: 16px;
+  background-color: var(--background);
+  padding: var(--space-8);
+  border: var(--border-thick);
   width: 90%;
   max-width: 400px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0;
   text-align: center;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.nav-overlay-content .app-nav__link {
+  border-right: var(--border-thin);
+  border-bottom: none;
+  width: 100%;
+}
+
+.nav-overlay-content .app-nav__link:last-child {
+  border-bottom: var(--border-thin);
 }
 
 .close-btn {
   background: none;
   border: none;
-  font-size: 2rem;
-  color: #1a1a1a;
+  font-size: var(--text-2xl);
+  color: var(--foreground);
   align-self: flex-end;
   cursor: pointer;
   line-height: 1;
   padding: 0;
-  margin: -8px -8px 8px auto;
+  margin: calc(-1 * var(--space-2)) calc(-1 * var(--space-2)) var(--space-2) auto;
+  font-family: var(--font-mono);
 }
 
 .close-btn:hover {
-  color: #666;
+  color: var(--muted-foreground);
+}
+
+.close-btn:focus-visible {
+  outline: 3px solid var(--foreground);
+  outline-offset: 2px;
 }

@@ -1,4 +1,4 @@
-/* File: /src/styles/NotificationBanner.css */
+/* Minimalist Monochrome Notification Banner */
 
 .notification-banner {
   position: fixed;
@@ -9,65 +9,88 @@
   display: flex;
   justify-content: center;
   padding: 0;
-  animation: slideDown 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: slideDown 100ms ease;
 }
 
 .notification-banner-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  padding: var(--space-4) var(--space-6);
+  border-radius: 0;
   max-width: 600px;
   min-width: 400px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: var(--border-thick);
+  font-family: var(--font-body);
 }
 
-/* Error message styling */
+/* Error message styling - monochrome */
 .notification-banner.error .notification-banner-content {
-  background-color: #fff5f5;
-  border-color: #fee;
-  color: #c41e3a;
+  background-color: var(--foreground);
+  border-color: var(--foreground);
+  color: var(--background);
+  
+  /* Vertical lines texture */
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 1px,
+    rgba(255,255,255,0.05) 1px,
+    rgba(255,255,255,0.05) 2px
+  );
+  background-size: 4px 100%;
 }
 
-/* Success message styling */
+/* Success message styling - monochrome */
 .notification-banner.success .notification-banner-content {
-  background-color: #f0fdf4;
-  border-color: #dcfce7;
-  color: #15803d;
+  background-color: var(--background);
+  border-color: var(--foreground);
+  color: var(--foreground);
 }
 
-/* Info message styling */
+/* Info message styling - monochrome */
 .notification-banner.info .notification-banner-content {
-  background-color: #eff6ff;
-  border-color: #dbeafe;
-  color: #1e40af;
+  background-color: var(--muted);
+  border-color: var(--foreground);
+  color: var(--foreground);
 }
 
 .notification-banner-message {
-  font-size: 0.95rem;
-  font-weight: 500;
-  margin-right: 16px;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  margin-right: var(--space-4);
   flex: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
 }
 
 .notification-banner-dismiss {
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: var(--text-xl);
   cursor: pointer;
-  padding: 0 4px;
+  padding: 0 var(--space-1);
   line-height: 1;
   opacity: 0.6;
-  transition: opacity 0.2s;
+  transition: opacity 100ms ease;
   color: inherit;
   flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-weight: 700;
 }
 
 .notification-banner-dismiss:hover {
   opacity: 1;
+}
+
+.notification-banner-dismiss:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* Error dismiss button */
+.notification-banner.error .notification-banner-dismiss {
+  color: var(--background);
 }
 
 @keyframes slideDown {
@@ -84,15 +107,16 @@
 @media (max-width: 768px) {
   .notification-banner {
     top: 70px;
-    width: calc(100% - 32px);
+    width: calc(100% - var(--space-8));
   }
   
   .notification-banner-content {
     min-width: auto;
     width: 100%;
+    padding: var(--space-3) var(--space-4);
   }
   
   .notification-banner-message {
-    font-size: 0.9rem;
+    font-size: var(--text-xs);
   }
 }
