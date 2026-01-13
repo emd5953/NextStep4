@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 const { OAuth2Client } = require("google-auth-library");
 const { ObjectId } = require("mongodb");
 const crypto = require("crypto");
-const { sendEmail } = require("../middleware/mailer.jsx");
 
 // Initialize Google OAuth client
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -204,18 +203,13 @@ signin: async (req, res) => {
         <p>Best regards,<br>The NextStep Team</p>
       `;
 
-
-      await sendEmail(
-        process.env.EMAIL_FROM,
-        "NextStep",
-        email,
-        full_name,
-        emailSubject,
-        emailBody
-      );
+      // Email sending removed - verification link will be logged instead
+      console.log(`Verification email would be sent to ${email}: ${verificationUrl}`);
+      
       res.status(201).json({ 
         message: "User created successfully. Please check your email to verify your account.",
-        userId: newUser._id
+        userId: newUser._id,
+        verificationUrl: verificationUrl // Include in response for testing
       });
     } catch (error) {
       res.status(400).json({ error: `Error creating user. ${error.message}` });
@@ -360,16 +354,13 @@ signin: async (req, res) => {
         <p>Best regards,<br>The NextStep Team</p>
       `;
       
-      await sendEmail(
-        process.env.EMAIL_FROM,
-        "NextStep",
-        email,
-        user.full_name,
-        emailSubject,
-        emailBody
-      );
+      // Email sending removed - verification link will be logged instead
+      console.log(`Verification email would be sent to ${email}: ${verificationUrl}`);
       
-      res.status(200).json({ message: "Verification email sent successfully" });
+      res.status(200).json({ 
+        message: "Verification email sent successfully",
+        verificationUrl: verificationUrl // Include in response for testing
+      });
     } catch (error) {
       console.error("Error resending verification email:", error);
       res.status(500).json({ error: "Failed to resend verification email" });

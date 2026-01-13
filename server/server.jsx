@@ -19,7 +19,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const { OAuth2Client } = require("google-auth-library");
-const { sendEmail } = require('./middleware/mailer.jsx');
 const path = require('path');
 const fs = require('fs');
 const analyzePDF = require('./middleware/AnalyzePdf.jsx');
@@ -56,10 +55,7 @@ console.log("Environment check:", {
    mongoConfigured: !!process.env.MONGODB_URI,
    googleConfigured: !!process.env.GOOGLE_CLIENT_ID,
    env: process.env.NODE_ENV || 'Production.Env',
-   mail_key: !!process.env.MJ_API_KEY && 
-   !!process.env.MJ_PRIVATE_KEY, 
    bad_words_api_key: !!process.env.BAD_WORDS_API_KEY,
-   email_from: !!process.env.EMAIL_FROM,
    server_domain: process.env.SERVER_DOMAIN,
    geminiConfigured: !!process.env.GEMINI_API_KEY,
 });

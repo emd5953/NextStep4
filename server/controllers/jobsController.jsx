@@ -1,6 +1,8 @@
 const { ObjectId } = require("mongodb");
 const jwt = require("jsonwebtoken");
 const { parseSearchCriteria, generateEmbeddings, refineFoundPositions } = require("../middleware/genAI.jsx");
+const jobApiService = require("../services/jobApiService.jsx");
+
 /**
  * Controller for handling job-related operations
  * @namespace jobsController
@@ -9,10 +11,12 @@ const jobsController = {
 
   /**
    * Retrieves all jobs with optional search functionality
+   * Combines internal jobs with external API jobs
    * @async
    * @param {Object} req - Express request object
    * @param {Object} req.query - Query parameters
    * @param {string} [req.query.q] - Search query string
+   * @param {boolean} [req.query.includeExternal] - Include external jobs (default: true)
    * @param {Object} res - Express response object
    * @returns {Promise<Array>} Array of matching jobs
    * @throws {Error} 500 if server error occurs
@@ -20,12 +24,43 @@ const jobsController = {
   getAllJobs: async (req, res) => {
     try {
       const queryText = req.query.q || "";
-      let jobs = []
+      const includeExternal = req.query.includeExternal !== 'false'; // Default to true
+      
+      // Get internal jobs
+      let internalJobs = []
       if (!queryText) {
-        jobs = await jobsDirectSearch(req);
+        internalJobs = await jobsDirectSearch(req);
       } else {
-        jobs = await jobsSemanticSearch(req);
+        internalJobs = await jobsSemanticSearch(req);
       }
+
+      // Get external jobs if enabled
+      let externalJobs = [];
+      if (includeExternal) {
+        try {
+          const searchParams = {
+            query: queryText || 'software developer',
+            page: 1,
+            num_pages: 1
+          };
+          
+          // Parse location from query if available
+          if (queryText && queryText.toLowerCase().includes('location:')) {
+            const locationMatch = queryText.match(/location:\s*([^,]+)/i);
+            if (locationMatch) {
+              searchParams.location = locationMatch[1].trim();
+            }
+          }
+          
+          externalJobs = await jobApiService.searchJobs(searchParams);
+        } catch (error) {
+          console.error('Error fetching external jobs:', error);
+          // Continue with internal jobs only if external API fails
+        }
+      }
+
+      // Combine internal and external jobs
+      let allJobs = [...internalJobs, ...externalJobs];
 
       //-------------------------------------
       const token = req.headers.authorization?.split(" ")[1];
@@ -39,7 +74,7 @@ const jobsController = {
       const applicationsCollection = req.app.locals.db.collection("applications");
 
       // If user is logged in, get their applied jobs and filter results
-      let finalResults = jobs;
+      let finalResults = allJobs;
       if (userId) {
         const appliedJobs = await applicationsCollection
           .find({ user_id: ObjectId.createFromHexString(userId) })
@@ -47,7 +82,7 @@ const jobsController = {
           .toArray();
 
         const appliedJobIds = appliedJobs.map(app => app.job_id.toString());
-        finalResults = jobs.filter(job => !appliedJobIds.includes(job._id.toString()));
+        finalResults = allJobs.filter(job => !appliedJobIds.includes(job._id.toString()));
       }
 
       res.status(200).json(finalResults);

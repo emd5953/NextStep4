@@ -28,7 +28,6 @@ Server runs on `http://localhost:4000`
 - **Application Tracking** - Track job applications and status
 - **Messaging** - Real-time messaging between users and employers
 - **RAG Chatbot** - AI-powered help chat with document retrieval
-- **Notifications** - Email notifications via Mailjet
 
 ## Project Structure
 
@@ -131,10 +130,8 @@ JWT_SECRET=your_jwt_secret
 GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
 
-# Email
-MJ_API_KEY=your_mailjet_api_key
-MJ_PRIVATE_KEY=your_mailjet_private_key
-EMAIL_FROM=your_email@example.com
+# Email (Optional - for notifications)
+# EMAIL_FROM=your_email@example.com
 
 # AI/RAG
 GEMINI_API_KEY=your_gemini_api_key
@@ -234,7 +231,6 @@ node test-rag-endpoint.js
 - **Vector Store:** ChromaDB
 - **AI Models:** Google Gemini 2.5 Pro, text-embedding-004
 - **Authentication:** JWT, Passport.js
-- **Email:** Mailjet
 - **Testing:** Jest, Supertest
 
 ## Contributing

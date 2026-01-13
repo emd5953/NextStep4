@@ -14,16 +14,30 @@ const JobCard = ({
   jobDescription,
   skills,
   onApplyClick,
+  isExternal = false,
+  jobUrl = null,
+  jobSource = null
 }) => {
   const navigate = useNavigate();
   const { employerFlag } = useContext(TokenContext);
 
   const handleApply = () => {
-    onApplyClick(job_id);
+    if (isExternal && jobUrl) {
+      // For external jobs, open the original job posting
+      window.open(jobUrl, '_blank');
+    } else {
+      // For internal jobs, use the existing apply logic
+      onApplyClick(job_id);
+    }
   };
 
   const handleDetails = () => {
-    navigate(`/jobs/${job_id}/jobs`);
+    if (isExternal) {
+      // For external jobs, show details in a modal or redirect to source
+      window.open(jobUrl, '_blank');
+    } else {
+      navigate(`/jobs/${job_id}/jobs`);
+    }
   };
 
   // Truncate description to ~150 characters
@@ -32,12 +46,17 @@ const JobCard = ({
     : "Join our team and work on exciting projects.";
 
   return (
-    <div className="job-card-compact">
+    <div className={`job-card-compact ${isExternal ? 'external-job' : ''}`}>
       <div className="job-card-main">
         <div className="job-card-left">
           <div className="company-logo">
             <span>{companyName?.[0] || "C"}</span>
           </div>
+          {isExternal && (
+            <div className="external-badge" title={`Source: ${jobSource}`}>
+              EXT
+            </div>
+          )}
         </div>
         
         <div className="job-card-content">
@@ -45,7 +64,7 @@ const JobCard = ({
             <h3 className="job-title-compact">{title}</h3>
             {!employerFlag && (
               <button onClick={handleApply} className="apply-button-compact">
-                Apply
+                {isExternal ? 'Apply on Site' : 'Apply'}
               </button>
             )}
           </div>
@@ -63,6 +82,12 @@ const JobCard = ({
             <span className="job-location-compact">{locations.join(", ")}</span>
             <span className="meta-separator">•</span>
             <span className="job-schedule-compact">{schedule}</span>
+            {isExternal && jobSource && (
+              <>
+                <span className="meta-separator">•</span>
+                <span className="job-source">via {jobSource}</span>
+              </>
+            )}
           </div>
           
           <p className="job-description-compact">{truncatedDescription}</p>
@@ -86,7 +111,7 @@ const JobCard = ({
             )}
             
             <button onClick={handleDetails} className="details-link">
-              View Details →
+              {isExternal ? 'View on Site →' : 'View Details →'}
             </button>
           </div>
         </div>

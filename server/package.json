@@ -11,7 +11,13 @@
     "ingest": "node scripts/ingest-documents.jsx",
     "ingest:docs": "node scripts/ingest-documents.jsx ./docs",
     "clear-vector-store": "node scripts/clear-vector-store.jsx",
-    "feedback-report": "node scripts/feedback-report.jsx"
+    "feedback-report": "node scripts/feedback-report.jsx",
+    "setup-migration": "node scripts/setup-migration.jsx",
+    "backup-db": "node scripts/backup-database.jsx",
+    "migrate-db": "node scripts/migrate-database.jsx",
+    "verify-migration": "node scripts/migrate-database.jsx verify",
+    "cleanup-fake-jobs": "node scripts/cleanup-fake-jobs.jsx",
+    "verify-job-api": "node scripts/cleanup-fake-jobs.jsx verify-api"
   },
   "keywords": [],
   "author": "",
@@ -38,7 +44,6 @@
     "langchain": "^1.1.1",
     "mongoose": "^8.10.0",
     "multer": "^2.0.2",
-    "node-mailjet": "^6.0.8",
     "openai": "^4.95.0",
     "passport": "^0.7.0",
     "twilio": "^5.4.5"

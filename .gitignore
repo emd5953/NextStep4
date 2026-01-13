@@ -6,6 +6,8 @@
 .pnp.js
 node_modules/
 # Ignore all .env files in any folder
+.env.development
+.env.production
 
 # testing
 /coverage
@@ -47,3 +49,7 @@ Thumbs.db
 # RAG ChromaDB data files
 data/chroma/*
 !data/chroma/.gitkeep 
+
+# Database backups and archives
+database-backups-*.zip
+server/backups/

@@ -46,3 +46,5 @@ Thumbs.db
 # RAG ChromaDB data files
 data/chroma/*
 !data/chroma/.gitkeep 
+
+.env.migration

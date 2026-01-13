@@ -128,6 +128,9 @@ const BrowseJobs = () => {
               jobDescription={job.jobDescription}
               skills={job.skills}
               onApplyClick={handleApply}
+              isExternal={job.isExternal}
+              jobUrl={job.jobUrl}
+              jobSource={job.jobSource}
             />
           ))
         ) : (

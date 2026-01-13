@@ -98,7 +98,6 @@ NextStep leverages multiple AI technologies to enhance the job matching experien
 - **MongoDB Vector Search** – Semantic similarity search with approximate nearest neighbor
 
 #### **Email & Authentication**
-- **Mailjet** – Transactional email service
 - **Google OAuth 2.0** – Social authentication
 - **Crypto** – Token generation for email verification
 
@@ -164,10 +163,8 @@ GOOGLE_CLIENT_ID=your_google_oauth_client_id
 OPENAI_API_KEY=your_openai_api_key
 GEMINI_API_KEY=your_google_gemini_api_key
 
-# Email Service (Mailjet)
-MJ_API_KEY=your_mailjet_api_key
-MJ_PRIVATE_KEY=your_mailjet_private_key
-EMAIL_FROM=noreply@nextstep.com
+# Email Service (Optional - for notifications)
+# EMAIL_FROM=noreply@nextstep.com
 
 # Optional Services
 TWILIO_ACCOUNT_SID=your_twilio_sid
