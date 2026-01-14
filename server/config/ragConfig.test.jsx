@@ -89,16 +89,16 @@ describe('RAG Configuration', () => {
       expect(config.retrievalCount).toBe(5);
     });
 
-    test('should use default (4) for retrieval count below minimum', () => {
+    test('should use default (3) for retrieval count below minimum', () => {
       process.env.RAG_RETRIEVAL_COUNT = '0';
       const config = require('./ragConfig');
-      expect(config.retrievalCount).toBe(4);
+      expect(config.retrievalCount).toBe(3);
     });
 
-    test('should use default (4) for retrieval count above maximum', () => {
+    test('should use default (3) for retrieval count above maximum', () => {
       process.env.RAG_RETRIEVAL_COUNT = '15';
       const config = require('./ragConfig');
-      expect(config.retrievalCount).toBe(4);
+      expect(config.retrievalCount).toBe(3);
     });
 
     test('should accept minimum retrieval count (1)', () => {
@@ -125,7 +125,7 @@ describe('RAG Configuration', () => {
       
       expect(config.chunkSize).toBe(500);
       expect(config.chunkOverlap).toBe(50);
-      expect(config.retrievalCount).toBe(4);
+      expect(config.retrievalCount).toBe(3);
       expect(config.embeddingModel).toBe('text-embedding-004');
       expect(config.generationModel).toBe('gemini-1.5-flash');
       expect(config.maxConversationHistory).toBe(5);

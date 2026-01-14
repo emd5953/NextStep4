@@ -24,13 +24,15 @@ describe('RAG Chat Controller', () => {
 
     // Mock request
     mockReq = {
-      body: {}
+      body: {},
+      user: { id: 'test-user' }
     };
 
     // Mock response
     mockRes = {
       status: jest.fn().mockReturnThis(),
-      json: jest.fn().mockReturnThis()
+      json: jest.fn().mockReturnThis(),
+      locals: {}
     };
 
     // Mock RAG service

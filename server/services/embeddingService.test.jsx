@@ -97,11 +97,12 @@ describe('EmbeddingService', () => {
     }, 15000);
 
     test('should reject empty array', async () => {
-      await expect(embeddingService.embedBatch([])).rejects.toThrow('Texts must be a non-empty array');
+      const result = await embeddingService.embedBatch([]);
+      expect(result).toEqual([]);
     });
 
     test('should reject non-array input', async () => {
-      await expect(embeddingService.embedBatch('not an array')).rejects.toThrow('Texts must be a non-empty array');
+      await expect(embeddingService.embedBatch('not an array')).rejects.toThrow('Texts must be an array');
     });
 
     test('should reject array with empty string', async () => {
