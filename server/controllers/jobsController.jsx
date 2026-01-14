@@ -398,12 +398,14 @@ const jobsController = {
           const jobsToRank = allJobs.slice(0, 30);
           console.log(`⚙️ Processing ${jobsToRank.length} jobs for ranking...`);
           
-          // Generate embeddings in parallel (batches of 5)
+          // 🚀 OPTIMIZATION: Generate and cache embeddings in DB
           const batchSize = 5;
           const jobsNeedingEmbeddings = jobsToRank.filter(job => !job.embedding);
           
           if (jobsNeedingEmbeddings.length > 0) {
             console.log(`⚙️ Generating embeddings for ${jobsNeedingEmbeddings.length} jobs in parallel...`);
+            
+            const jobsCollection = req.app.locals.db.collection("Jobs");
             
             for (let i = 0; i < jobsNeedingEmbeddings.length; i += batchSize) {
               const batch = jobsNeedingEmbeddings.slice(i, i + batchSize);
@@ -412,16 +414,29 @@ const jobsController = {
                 try {
                   let jobText = `${job.title} `;
                   if (job.jobDescription) {
-                    jobText += job.jobDescription.substring(0, 300) + ' '; // Reduced from 500
+                    jobText += job.jobDescription.substring(0, 300) + ' ';
                   }
                   if (job.skills && job.skills.length > 0) {
-                    jobText += `skills: ${job.skills.slice(0, 5).join(', ')} `; // Limit skills
+                    jobText += `skills: ${job.skills.slice(0, 5).join(', ')} `;
                   }
                   if (job.locations && job.locations.length > 0) {
-                    jobText += `location: ${job.locations[0]}`; // Just first location
+                    jobText += `location: ${job.locations[0]}`;
                   }
                   
                   job.embedding = await generateEmbeddings(jobText);
+                  
+                  // 💾 Cache embedding in DB for future use (only for internal jobs)
+                  if (!job.isExternal && ObjectId.isValid(job._id)) {
+                    await jobsCollection.updateOne(
+                      { _id: ObjectId.createFromHexString(job._id) },
+                      { 
+                        $set: { 
+                          embedding: job.embedding,
+                          embeddingGeneratedAt: new Date()
+                        } 
+                      }
+                    ).catch(err => console.error('Failed to cache job embedding:', err.message));
+                  }
                 } catch (embError) {
                   console.error(`❌ Failed to generate embedding for job ${job._id}:`, embError.message);
                   job.embedding = null;
@@ -807,21 +822,27 @@ async function jobsSemanticSearch(req) {
 
     if (filteredResults.length === 0) {
       console.log("⚠️ No high-quality matches found, returning top vector results");
-      return results.slice(0, 10); // Return top 10 even if scores are lower
+      return results.slice(0, 10);
     }
 
-    // Only refine if we have a reasonable number of results
+    // 🚀 OPTIMIZATION: Skip AI refinement if we have many high-score results
+    const highScoreResults = filteredResults.filter(result => result.score > 0.75);
+    if (highScoreResults.length >= 10) {
+      console.log(`⚡ Skipping AI refinement - ${highScoreResults.length} jobs already have high scores`);
+      return filteredResults.slice(0, 20);
+    }
+
+    // Only refine if we have a reasonable number of results and they need refinement
     if (filteredResults.length <= 15) {
       console.log("🔍 Refining matches with AI analysis...");
       const enhancedJobs = await refineFoundPositions(filteredResults, searchCriteria);
       
-      // Filter and sort to show "great" and "good" matches
       const qualityMatches = enhancedJobs
         .filter(job => job.match === "great" || job.match === "good")
         .sort((a, b) => {
           if (a.match === "great" && b.match !== "great") return -1;
           if (b.match === "great" && a.match !== "great") return 1;
-          return b.score - a.score; // Sort by vector score within same match level
+          return b.score - a.score;
         });
 
       console.log(`✅ Final refined matches: ${qualityMatches.length}`);

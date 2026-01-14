@@ -22,7 +22,7 @@ class RAGService {
       model: ragConfig.generationModel,
       generationConfig: {
         temperature: 0.7,
-        maxOutputTokens: 500, // Limit response length for faster generation
+        maxOutputTokens: 500,
       }
     });
     this.similarityThreshold = ragConfig.similarityThreshold;
@@ -31,6 +31,10 @@ class RAGService {
     // Simple in-memory cache for common queries (LRU cache)
     this.responseCache = new Map();
     this.maxCacheSize = 50;
+    
+    // 🚀 OPTIMIZATION: Track API usage
+    this.apiCallCount = 0;
+    this.cacheHitCount = 0;
   }
 
   /**
@@ -58,6 +62,7 @@ class RAGService {
         const cacheKey = this._getCacheKey(query);
         const cached = this.responseCache.get(cacheKey);
         if (cached) {
+          this.cacheHitCount++;
           console.log(`Cache hit! Returning cached response (${Date.now() - startTime}ms)`);
           return cached;
         }
@@ -114,10 +119,21 @@ Respond naturally and friendly, then guide them to ask about NextStep features. 
       // Format prompt with context (optimized - shorter prompt)
       const prompt = this.formatPrompt(relevantDocs, truncatedHistory, query);
 
-      // Generate response
+      // Generate response with timeout
       console.log('Generating AI response...');
-      const result = await this.model.generateContent(prompt);
+      this.apiCallCount++;
+      
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Gemini API timeout')), 15000)
+      );
+      
+      const result = await Promise.race([
+        this.model.generateContent(prompt),
+        timeoutPromise
+      ]);
+      
       const response = result.response.text();
+      console.log(`✅ Gemini API call #${this.apiCallCount} completed`);
 
       // Format sources
       const sources = this._formatSources(relevantDocs);
@@ -465,6 +481,20 @@ Respond naturally and friendly, then guide them to ask about NextStep features. 
   clearCache() {
     this.responseCache.clear();
     console.log('Response cache cleared');
+  }
+
+  /**
+   * Get API usage statistics
+   */
+  getApiStats() {
+    return {
+      geminiApiCalls: this.apiCallCount,
+      cacheHits: this.cacheHitCount,
+      cacheSize: this.responseCache.size,
+      hitRate: this.apiCallCount + this.cacheHitCount > 0 
+        ? ((this.cacheHitCount / (this.apiCallCount + this.cacheHitCount)) * 100).toFixed(1) + '%'
+        : '0%'
+    };
   }
 }
 
