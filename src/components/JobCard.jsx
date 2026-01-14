@@ -16,12 +16,14 @@ const JobCard = ({
   onApplyClick,
   isExternal = false,
   jobUrl = null,
-  jobSource = null
+  jobSource = null,
+  isDemo = false
 }) => {
   const navigate = useNavigate();
   const { employerFlag } = useContext(TokenContext);
 
   const handleApply = () => {
+    if (isDemo) return; // No apply for demo cards
     if (isExternal && jobUrl) {
       window.open(jobUrl, '_blank');
     } else {
@@ -30,6 +32,7 @@ const JobCard = ({
   };
 
   const handleDetails = () => {
+    if (isDemo) return; // No details for demo cards
     if (isExternal) {
       window.open(jobUrl, '_blank');
     } else {
@@ -42,7 +45,7 @@ const JobCard = ({
     : "Join our team and work on exciting projects.";
 
   return (
-    <div className={`job-card-compact ${isExternal ? 'external-job' : ''}`}>
+    <div className={`job-card-compact ${isExternal ? 'external-job' : ''} ${isDemo ? 'demo-card' : ''}`}>
       <div className="job-card-main">
         <div className="job-card-left">
           <div className="company-logo">

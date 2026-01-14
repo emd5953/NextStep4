@@ -391,3 +391,39 @@
   color: var(--foreground);
   border-color: var(--foreground);
 }
+
+/* Demo Card Styles */
+.job-card-compact.demo-card {
+  background: var(--muted);
+  border: var(--border-ultra);
+  opacity: 1;
+  position: relative;
+}
+
+.job-card-compact.demo-card::before {
+  content: '⚠️ DEMO';
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--muted-foreground);
+  letter-spacing: 0.1em;
+}
+
+.job-card-compact.demo-card .job-title-compact {
+  color: var(--foreground);
+}
+
+.job-card-compact.demo-card .apply-button-compact {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.job-card-compact.demo-card .details-link {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}

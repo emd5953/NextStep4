@@ -212,6 +212,7 @@ const BrowseJobs = () => {
               isExternal={job.isExternal}
               jobUrl={job.jobUrl}
               jobSource={job.jobSource}
+              isDemo={job.isDemo}
             />
           ))
         ) : (

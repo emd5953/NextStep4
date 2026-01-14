@@ -79,9 +79,22 @@ const jobsController = {
       // Combine internal and external jobs
       let allJobs = [...internalJobs, ...externalJobs];
       
-      // If no jobs at all, return message
+      // If no jobs at all, return demo card
       if (allJobs.length === 0) {
-        return res.status(200).json([]);
+        return res.status(200).json([{
+          _id: 'demo-rate-limit',
+          title: 'API Rate Limit Reached',
+          companyName: 'NextStep',
+          companyWebsite: 'https://nextstep4.com',
+          salaryRange: 'N/A',
+          locations: ['Worldwide'],
+          schedule: 'Full-time',
+          jobDescription: 'We\'ve hit our external job API rate limit. Fresh jobs will be available soon! Check back in an hour or try searching for specific roles.',
+          skills: ['Patience', 'Understanding'],
+          benefits: [],
+          isDemo: true,
+          isExternal: false
+        }]);
       }
 
       //-------------------------------------
@@ -346,7 +359,20 @@ const jobsController = {
 
       if (allJobs.length === 0) {
         console.log("⚠️ No jobs fetched from external API");
-        return res.status(200).json([]);
+        return res.status(200).json([{
+          _id: 'demo-rate-limit',
+          title: 'API Rate Limit Reached',
+          companyName: 'NextStep',
+          companyWebsite: 'https://nextstep4.com',
+          salaryRange: 'N/A',
+          locations: ['Worldwide'],
+          schedule: 'Full-time',
+          jobDescription: 'We\'ve hit our external job API rate limit. Don\'t worry - we\'ll fetch fresh jobs soon! In the meantime, check back in an hour or browse our internal job listings.',
+          skills: ['Patience', 'Understanding'],
+          benefits: [],
+          isDemo: true,
+          isExternal: false
+        }]);
       }
 
       // Filter out already-applied jobs

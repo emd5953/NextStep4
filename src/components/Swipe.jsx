@@ -17,13 +17,13 @@ const IGNORE = 2;
 // A simple single-card "infinite" swiping component
 const Swipe = () => {
   const navigate = useNavigate();
-  const [currentIndex, setCurrentIndex] = useState(0); // Which job we're on
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isSwiping, setIsSwiping] = useState(false);
   const [startX, setStartX] = useState(0);
   const [currentX, setCurrentX] = useState(0);
   const [startY, setStartY] = useState(0);
   const [currentY, setCurrentY] = useState(0);
-  const [swipeDirection, setSwipeDirection] = useState(null); // 'horizontal' or 'vertical'
+  const [swipeDirection, setSwipeDirection] = useState(null);
   const { token, setToken, email, name } = useContext(TokenContext);
   const [jobs, setJobs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
