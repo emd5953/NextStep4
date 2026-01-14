@@ -30,6 +30,7 @@ const jobsController = require("./controllers/jobsController.jsx");
 const applicationsController = require("./controllers/applicationsController.jsx");
 const chatRoutes = require("./routes/chatRoutes.jsx");
 const ragChatRoutes = require("./routes/ragChatRoutes.jsx");
+const apiStatsRoutes = require("./routes/apiStatsRoutes.jsx");
 const ragChatController = require("./controllers/ragChatController.jsx");
 
 // Import middleware
@@ -335,6 +336,7 @@ client
       
       apiRouter.use('/chat', chatRoutes);
       apiRouter.use('/rag-chat', ragChatRoutes);
+      apiRouter.use('/stats', apiStatsRoutes);
       
       // Mount all API routes with /api prefix
       app.use('/api', apiRouter);

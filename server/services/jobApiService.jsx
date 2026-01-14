@@ -9,9 +9,12 @@ class JobApiService {
     this.jsearchBaseUrl = 'https://jsearch.p.rapidapi.com';
     // Simple in-memory cache with TTL
     this.cache = new Map();
-    this.cacheTimeout = 10 * 60 * 1000; // 10 minutes
+    this.cacheTimeout = 30 * 60 * 1000; // 30 minutes (increased from 10)
     // Request timeout for faster failures
     this.requestTimeout = 8000; // 8 seconds
+    // 🚀 OPTIMIZATION: Track API usage
+    this.apiCallCount = 0;
+    this.cacheHitCount = 0;
   }
 
   /**
@@ -29,11 +32,17 @@ class JobApiService {
         query = 'software developer',
         location = 'United States',
         page = 1,
-        num_pages = 3, // Increased from 1 to 3 to get more jobs (30 jobs instead of 10)
+        num_pages = 2, // Optimized: 20 jobs (reduced from 3 pages/30 jobs)
         employment_types = 'FULLTIME',
         job_requirements = null,
         remote_jobs_only = false
       } = params;
+
+      // 🚀 OPTIMIZATION: Skip API call for very short queries
+      if (query && query.trim().length < 2) {
+        console.log('⚠️ Query too short, skipping JSearch API call');
+        return [];
+      }
 
       // Create cache key
       const cacheKey = JSON.stringify({ query, location, page, num_pages, employment_types, remote_jobs_only });
@@ -41,11 +50,14 @@ class JobApiService {
       // Check cache first
       const cached = this.cache.get(cacheKey);
       if (cached && Date.now() - cached.timestamp < this.cacheTimeout) {
-        console.log('Returning cached JSearch results');
+        this.cacheHitCount++;
+        console.log(`✅ JSearch cache hit (${this.cacheHitCount}/${this.apiCallCount + this.cacheHitCount} total)`);
         return cached.data;
       }
 
-      console.log('Fetching fresh JSearch results...');
+      this.apiCallCount++;
+      console.log(`🔄 JSearch API call #${this.apiCallCount} (cache hits: ${this.cacheHitCount})`);
+      
       const response = await axios.get(`${this.jsearchBaseUrl}/search`, {
         headers: {
           'X-RapidAPI-Key': this.jsearchApiKey,
@@ -175,8 +187,13 @@ class JobApiService {
    */
   getCacheStats() {
     return {
-      size: this.cache.size,
-      entries: Array.from(this.cache.keys())
+      apiCalls: this.apiCallCount,
+      cacheHits: this.cacheHitCount,
+      cacheSize: this.cache.size,
+      hitRate: this.apiCallCount + this.cacheHitCount > 0 
+        ? ((this.cacheHitCount / (this.apiCallCount + this.cacheHitCount)) * 100).toFixed(1) + '%'
+        : '0%',
+      cacheTimeout: `${this.cacheTimeout / 60000} minutes`
     };
   }
 
@@ -191,9 +208,14 @@ class JobApiService {
       const cached = this.cache.get(cacheKey);
       
       if (cached && Date.now() - cached.timestamp < this.cacheTimeout) {
+        this.cacheHitCount++;
+        console.log(`✅ JSearch job details cache hit`);
         return cached.data;
       }
 
+      this.apiCallCount++;
+      console.log(`🔄 JSearch API call #${this.apiCallCount} (job details)`);
+      
       const response = await axios.get(`${this.jsearchBaseUrl}/job-details`, {
         headers: {
           'X-RapidAPI-Key': this.jsearchApiKey,

@@ -5,7 +5,14 @@ dotenv.config();
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
+    timeout: 10000, // 10 second timeout
 });
+
+// 🚀 OPTIMIZATION: In-memory cache for embeddings (LRU with 100 entries)
+const embeddingCache = new Map();
+const MAX_CACHE_SIZE = 100;
+let apiCallCount = 0;
+let cacheHitCount = 0;
 
 // Function to generate embeddings using OpenAI (consistent model)
 async function generateEmbeddings(text) {
@@ -13,22 +20,64 @@ async function generateEmbeddings(text) {
         throw new Error("Text is required for generating embeddings");
     }
 
+    // Check cache first
+    const cacheKey = text.trim().toLowerCase().substring(0, 500); // Use first 500 chars as key
+    if (embeddingCache.has(cacheKey)) {
+        cacheHitCount++;
+        console.log(`✅ Embedding cache hit (${cacheHitCount}/${apiCallCount + cacheHitCount} total)`);
+        return embeddingCache.get(cacheKey);
+    }
+
     try {
+        apiCallCount++;
+        console.log(`🔄 OpenAI API call #${apiCallCount} (cache hits: ${cacheHitCount})`);
+        
         const response = await openai.embeddings.create({
             model: "text-embedding-3-small", // Consistent 1536-dimensional embeddings
             input: text,
             encoding_format: "float",
         });
-        return response.data[0].embedding;
+        
+        const embedding = response.data[0].embedding;
+        
+        // Cache the result (LRU eviction)
+        if (embeddingCache.size >= MAX_CACHE_SIZE) {
+            const firstKey = embeddingCache.keys().next().value;
+            embeddingCache.delete(firstKey);
+        }
+        embeddingCache.set(cacheKey, embedding);
+        
+        return embedding;
     } catch (error) {
         console.error("Error generating embeddings:", error);
         throw new Error(`Failed to generate embeddings: ${error.message}`);
     }
 }
 
+// Get API usage stats
+function getEmbeddingStats() {
+    return {
+        apiCalls: apiCallCount,
+        cacheHits: cacheHitCount,
+        cacheSize: embeddingCache.size,
+        hitRate: apiCallCount + cacheHitCount > 0 
+            ? (cacheHitCount / (apiCallCount + cacheHitCount) * 100).toFixed(1) + '%'
+            : '0%'
+    };
+}
+
+// Clear embedding cache
+function clearEmbeddingCache() {
+    embeddingCache.clear();
+    console.log('Embedding cache cleared');
+}
+
 
 async function parseSearchCriteria(text) {
     try {
+        apiCallCount++;
+        console.log(`🔄 OpenAI API call #${apiCallCount} (parseSearchCriteria)`);
+        
         const extractionPrompt = `Analyze the following search criteria for a job and extract any mentioned charachteristics of a job. 
 You must respond with a valid JSON object in the following format:
 {
@@ -56,7 +105,8 @@ Do not include any additional text or explanation, only return the JSON object.`
                 }
             ],
             temperature: 0.3,
-            max_tokens: 500
+            max_tokens: 500,
+            timeout: 8000 // 8 second timeout
         });
 
         if (response.choices && response.choices[0]?.message?.content) {
@@ -86,6 +136,9 @@ Do not include any additional text or explanation, only return the JSON object.`
 
 async function isThisAGoodMatch(description, criteria) {
     try {
+        apiCallCount++;
+        console.log(`🔄 OpenAI API call #${apiCallCount} (isThisAGoodMatch)`);
+        
         const answerPrompt = `Analyze the following job description and determine if it matches the search criteria. 
 You must respond with a valid JSON object in the following format:
 {
@@ -108,7 +161,8 @@ Do not include any additional text or explanation, only return the JSON object.`
                 }
             ],
             temperature: 0.3,
-            max_tokens: 500
+            max_tokens: 500,
+            timeout: 8000 // 8 second timeout
         });
 
         if (response.choices && response.choices[0]?.message?.content) {
@@ -137,6 +191,17 @@ Do not include any additional text or explanation, only return the JSON object.`
 }
 
 async function refineFoundPositions(results, basedOnThisCriteria) {
+    // 🚀 OPTIMIZATION: Skip AI refinement if vector scores are already good (>0.75)
+    const highScoreJobs = results.filter(job => job.score && job.score > 0.75);
+    if (highScoreJobs.length >= 5) {
+        console.log(`⚡ Skipping AI refinement - ${highScoreJobs.length} jobs already have high vector scores`);
+        return results.map(job => ({
+            ...job,
+            match: job.score > 0.75 ? 'great' : job.score > 0.65 ? 'good' : 'poor',
+            additionalInfo: 'Matched based on semantic similarity'
+        }));
+    }
+    
     // Batch process jobs for better performance
     const batchSize = 10;
     const enhancedJobs = [];
@@ -145,6 +210,9 @@ async function refineFoundPositions(results, basedOnThisCriteria) {
         const batch = results.slice(i, i + batchSize);
         
         try {
+            apiCallCount++;
+            console.log(`🔄 OpenAI API call #${apiCallCount} (refineFoundPositions batch ${Math.floor(i/batchSize) + 1})`);
+            
             // Create a single prompt for batch analysis
             const jobDescriptions = batch.map((job, index) => 
                 `Job ${index + 1}:
@@ -152,8 +220,8 @@ Title: ${job.title}
 Company: ${job.companyName || 'Not specified'}
 Location: ${job.locations?.join(', ') || 'Not specified'}
 Salary: ${job.salaryRange || 'Not specified'}
-Skills: ${job.skills?.join(', ') || 'Not specified'}
-Description: ${job.jobDescription}
+Skills: ${job.skills?.slice(0, 5).join(', ') || 'Not specified'}
+Description: ${job.jobDescription?.substring(0, 200) || 'Not specified'}
 ---`
             ).join('\n\n');
 
@@ -186,7 +254,8 @@ Only return the JSON array, no additional text.`;
                     }
                 ],
                 temperature: 0.3,
-                max_tokens: 1000
+                max_tokens: 1000,
+                timeout: 10000 // 10 second timeout
             });
 
             const content = response.choices[0].message.content;
@@ -236,4 +305,10 @@ Only return the JSON array, no additional text.`;
     return sortedJobs;
 }
 
-module.exports = { parseSearchCriteria, generateEmbeddings, refineFoundPositions };
+module.exports = { 
+    parseSearchCriteria, 
+    generateEmbeddings, 
+    refineFoundPositions,
+    getEmbeddingStats,
+    clearEmbeddingCache
+};
