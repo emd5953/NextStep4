@@ -25,7 +25,12 @@ describe('RAG Chat Controller', () => {
     // Mock request
     mockReq = {
       body: {},
-      user: { id: 'test-user' }
+      user: { id: 'test-user' },
+      app: {
+        locals: {
+          db: {}
+        }
+      }
     };
 
     // Mock response

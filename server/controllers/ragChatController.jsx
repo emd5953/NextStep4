@@ -116,7 +116,7 @@ async function handleChatMessage(req, res) {
 
     // Initialize smart chat handler if not already done
     if (!smartChatHandler) {
-      smartChatHandler = new SmartChatHandler(req.app.locals.db, ragService);
+      smartChatHandler = new SmartChatHandler(req.app?.locals?.db || null, ragService);
     }
 
     // Use smart handler to route to appropriate response

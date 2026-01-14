@@ -127,7 +127,7 @@ describe('RAG Configuration', () => {
       expect(config.chunkOverlap).toBe(50);
       expect(config.retrievalCount).toBe(3);
       expect(config.embeddingModel).toBe('text-embedding-004');
-      expect(config.generationModel).toBe('gemini-1.5-flash');
+      expect(config.generationModel).toBe('gemini-2.5-flash');
       expect(config.maxConversationHistory).toBe(5);
       expect(config.chromaHost).toBe('localhost');
       expect(config.chromaPort).toBe(8000);
