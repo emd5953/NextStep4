@@ -164,7 +164,7 @@ const YourJobs = () => {
                 ) : (
                   <div className="notes-display">
                     <span>{job.notes}</span>
-                    <button onClick={() => handleEdit(job.jobDetails._id)}>Edit</button>
+                    <button onClick={() => handleEdit(job.jobDetails._id)}>✏️</button>
                   </div>
                 )}
               </td>
@@ -174,7 +174,7 @@ const YourJobs = () => {
                   onClick={() => handleWithdraw(job._id, job.jobDetails.title)}
                   disabled={withdrawingId === job._id}
                 >
-                  {withdrawingId === job._id ? 'Withdrawing...' : 'Withdraw'}
+                  {withdrawingId === job._id ? 'Withdrawing...' : '🗑️'}
                 </button>
               </td>
             </tr>
