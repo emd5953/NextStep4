@@ -1,0 +1,270 @@
+/* Minimalist Monochrome Base Styles */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+/* Global Reset with Monochrome Foundation */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+body {
+  font-family: var(--font-body);
+  line-height: 1.625;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography System */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Text Sizes */
+.text-xs { font-size: var(--text-xs); }
+.text-sm { font-size: var(--text-sm); }
+.text-base { font-size: var(--text-base); }
+.text-lg { font-size: var(--text-lg); }
+.text-xl { font-size: var(--text-xl); }
+.text-2xl { font-size: var(--text-2xl); }
+.text-3xl { font-size: var(--text-3xl); }
+.text-4xl { font-size: var(--text-4xl); }
+.text-5xl { font-size: var(--text-5xl); }
+.text-6xl { font-size: var(--text-6xl); }
+.text-7xl { font-size: var(--text-7xl); }
+.text-8xl { font-size: var(--text-8xl); }
+.text-9xl { font-size: var(--text-9xl); }
+
+/* Typography Utilities */
+.tracking-tight { letter-spacing: -0.025em; }
+.tracking-tighter { letter-spacing: -0.05em; }
+.tracking-normal { letter-spacing: 0; }
+.tracking-wide { letter-spacing: 0.025em; }
+.tracking-wider { letter-spacing: 0.05em; }
+.tracking-widest { letter-spacing: 0.1em; }
+
+.leading-none { line-height: 1; }
+.leading-tight { line-height: 1.25; }
+.leading-snug { line-height: 1.375; }
+.leading-normal { line-height: 1.5; }
+.leading-relaxed { line-height: 1.625; }
+.leading-loose { line-height: 2; }
+
+.font-light { font-weight: 300; }
+.font-normal { font-weight: 400; }
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+.font-extrabold { font-weight: 800; }
+.font-black { font-weight: 900; }
+
+.uppercase { text-transform: uppercase; }
+.lowercase { text-transform: lowercase; }
+.capitalize { text-transform: capitalize; }
+
+.italic { font-style: italic; }
+
+/* Container System */
+.container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+/* Section Spacing */
+.section {
+  padding-top: var(--space-24);
+  padding-bottom: var(--space-24);
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding-top: var(--space-32);
+    padding-bottom: var(--space-32);
+  }
+}
+
+@media (min-width: 1024px) {
+  .section {
+    padding-top: var(--space-40);
+    padding-bottom: var(--space-40);
+  }
+}
+
+/* Section Dividers */
+.section-divider {
+  border: none;
+  height: 4px;
+  background: var(--foreground);
+  margin: 0;
+}
+
+.section-divider--ultra {
+  height: 8px;
+}
+
+/* Button System */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4) var(--space-8);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  transition: all 100ms ease;
+  min-height: 44px; /* Accessibility: minimum touch target */
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--foreground);
+  outline-offset: 3px;
+}
+
+.btn--primary {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+.btn--primary:hover {
+  background: var(--background);
+  color: var(--foreground);
+  border: var(--border-medium);
+}
+
+.btn--secondary {
+  background: transparent;
+  color: var(--foreground);
+  border: var(--border-medium);
+}
+
+.btn--secondary:hover {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--foreground);
+  border: none;
+  text-decoration: underline;
+}
+
+.btn--ghost:hover {
+  text-decoration: none;
+}
+
+/* Card System */
+.card {
+  background: var(--card);
+  color: var(--card-foreground);
+  border: var(--border-thin);
+  border-radius: 0;
+  padding: var(--space-6);
+}
+
+.card--large {
+  padding: var(--space-8);
+}
+
+.card--inverted {
+  background: var(--foreground);
+  color: var(--background);
+  border: none;
+}
+
+.card--borderless {
+  border: none;
+  background: transparent;
+}
+
+/* Input System */
+.input {
+  width: 100%;
+  padding: var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  background: var(--background);
+  color: var(--foreground);
+  border: none;
+  border-bottom: var(--border-medium);
+  border-radius: 0;
+  outline: none;
+}
+
+.input:focus {
+  border-bottom: 4px solid var(--foreground);
+}
+
+.input::placeholder {
+  color: var(--muted-foreground);
+  font-style: italic;
+}
+
+/* Utility Classes */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.bg-inverted {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+.border-none { border: none; }
+.border-thin { border: var(--border-thin); }
+.border-medium { border: var(--border-medium); }
+.border-thick { border: var(--border-thick); }
+
+/* Hover Effects */
+.hover-invert {
+  transition: all 100ms ease;
+}
+
+.hover-invert:hover {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+/* Focus States for Accessibility */
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--foreground);
+  outline-offset: 2px;
+}
+
+/* Selection Styling */
+::selection {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+::-moz-selection {
+  background: var(--foreground);
+  color: var(--background);
+}

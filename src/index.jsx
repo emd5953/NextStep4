@@ -6,13 +6,13 @@ import { TokenProvider } from "./components/TokenContext";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 // Get Client ID from environment variable
-const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 // Debug log
 console.log("Using Google Client ID:", clientId);
 
 if (!clientId) {
-  console.error("REACT_APP_GOOGLE_CLIENT_ID is not set in .env file!");
+  console.error("VITE_GOOGLE_CLIENT_ID is not set in .env file!");
 }
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

@@ -29,12 +29,10 @@ NextStep is an **AI-powered job-matching platform** designed to simplify the job
 - **AI Resume Analysis** – Automatic skill extraction and job title recommendations from uploaded resumes
 - **One-Click Apply** – Apply instantly with stored profile and resume
 - **Real-Time Application Tracking** – Monitor job application statuses and updates
-- **Employer Dashboard** – Post jobs, review candidates, and manage applications
-- **Integrated Messaging** – Direct communication between job seekers and employers
-- **Company Profiles** – Detailed company information and branding
+- **Real Job Listings** – Jobs sourced from JSearch API (real job boards)
 - **Email Verification** – Secure account verification system
 - **Google OAuth** – Quick sign-in with Google accounts
-- **AI Help Chat** – Interactive chatbot for platform assistance
+- **RAG-Powered AI Chatbot** – Interactive help system with document knowledge base and feedback learning
 
 ---
 
@@ -61,9 +59,12 @@ NextStep leverages multiple AI technologies to enhance the job matching experien
 - **Score-Based Filtering**: Only shows jobs with similarity scores above 0.62 threshold
 - **Performance Optimized**: No repeated API calls - embeddings cached in user profiles
 
-#### **AI Chat Assistant**
-- **Google Gemini Integration**: Powered by Gemini 1.5 Flash for fast, accurate responses
-- **Context-Aware**: Understands NextStep features and provides relevant help
+#### **RAG-Powered AI Chat Assistant**
+- **Google Gemini Integration**: Powered by Gemini 2.5 Flash for fast, accurate responses
+- **ChromaDB Vector Store**: Document embeddings for accurate knowledge retrieval
+- **Context-Aware**: Retrieves relevant documentation to answer questions
+- **Self-Improving**: Learns from user feedback (👍/👎) to improve responses
+- **Source Citations**: Shows which documents were used to generate answers
 - **Markdown Support**: Rich formatted responses for better readability
 
 ---
@@ -93,8 +94,11 @@ NextStep leverages multiple AI technologies to enhance the job matching experien
   - `text-embedding-3-small` – Vector embeddings (1536 dimensions)
   - `gpt-4o-mini` – Query parsing and match analysis
   - Assistants API with file search – Resume processing
-- **Google Gemini** – Chat assistant
-  - `gemini-1.5-flash` – Fast conversational AI
+- **Google Gemini** – RAG chat assistant
+  - `gemini-2.5-flash` – Fast conversational AI with document retrieval
+  - `text-embedding-004` – Document embeddings for RAG
+- **ChromaDB** – Vector database for RAG document storage
+- **LangChain** – RAG orchestration and document processing
 - **MongoDB Vector Search** – Semantic similarity search with approximate nearest neighbor
 
 #### **Email & Authentication**
@@ -103,6 +107,7 @@ NextStep leverages multiple AI technologies to enhance the job matching experien
 - **Crypto** – Token generation for email verification
 
 #### **DevOps & Deployment**
+- **Docker** – ChromaDB containerization
 - **Nodemon** – Development server with hot reload
 - **dotenv** – Environment variable management
 - **CORS** – Cross-origin resource sharing
@@ -164,6 +169,21 @@ GOOGLE_CLIENT_ID=your_google_oauth_client_id
 OPENAI_API_KEY=your_openai_api_key
 GEMINI_API_KEY=your_google_gemini_api_key
 
+# RAG Chatbot Configuration
+RAG_CHUNK_SIZE=500
+RAG_CHUNK_OVERLAP=50
+RAG_RETRIEVAL_COUNT=4
+RAG_EMBEDDING_MODEL=text-embedding-004
+RAG_GENERATION_MODEL=gemini-2.5-flash
+RAG_MAX_HISTORY=5
+RAG_CHROMA_HOST=localhost
+RAG_CHROMA_PORT=8000
+RAG_COLLECTION_NAME=nextstep_docs
+RAG_SIMILARITY_THRESHOLD=0.3
+
+# JSearch API (Real Jobs)
+JSEARCH_API_KEY=your_jsearch_api_key
+
 # Email Service (Mailjet)
 MJ_API_KEY=your_mailjet_api_key
 MJ_PRIVATE_KEY=your_mailjet_private_key
@@ -186,17 +206,22 @@ BAD_WORDS_API_KEY=your_content_filter_api_key
 
 ### **Running The Application**
 ```bash
-# 1 Start Backend
-cd server
+# 1 Start ChromaDB (for RAG chatbot)
+cd docker
+docker-compose up -d
+
+# 2 Ingest Documentation (first time only)
+cd ../server
+npm run ingest:docs
+
+# 3 Start Backend
 npm start
+# Server will run on http://localhost:5000
 
-Server will run on http://localhost:4000
-
-# 2 Start Frontend
+# 4 Start Frontend
 cd ..
 npm start
-
-Frontend will run on http://localhost:3000
+# Frontend will run on http://localhost:3000
 ```
 
 ---
@@ -217,22 +242,19 @@ Frontend will run on http://localhost:3000
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | /api/jobs | Browse all jobs with optional search (semantic or keyword) |
-| GET | /api/jobs/:jobId | Get single job details with company info |
+| GET | /api/jobs/:jobId | Get single job details |
 | GET | /api/newJobs | Get jobs user hasn't applied to (requires auth) |
 | GET | /api/retrieveJobsForHomepage | AI-powered personalized job recommendations |
-| POST | /api/jobs | Create new job posting (employers only) |
-| PUT | /api/employer/jobs/:jobId | Update job posting (employers only) |
-| DELETE | /api/employer/jobs/:jobId | Delete job posting (employers only) |
-| GET | /api/employer/jobs/search | Search employer's own job postings |
 
 #### Applications
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | POST | /api/jobsTracker | Track job application (apply/skip/ignore) |
 | GET | /api/applications | Get user's applications with status |
-| GET | /api/employer/applications | Get applications for employer's jobs |
-| PUT | /api/employer/applications/:id | Update application status |
-| GET | /api/employer/applications/:id | Get detailed application info |
+| DELETE | /api/applications/:applicationId | Withdraw application |
+| POST | /api/auto-apply | Auto-apply to job |
+| POST | /api/reject-job | Reject/ignore job |
+| GET | /api/rejected-jobs | Get rejected jobs |
 | GET | /api/getallappl | Get all applications (admin) |
 
 #### Profile & Resume
@@ -244,39 +266,12 @@ Frontend will run on http://localhost:3000
 | GET | /api/userProfile/:userId | Get public user profile |
 | GET | /api/users | Get all users (for messaging) |
 
-#### Messaging
+#### RAG AI Chat
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | /api/messages | Get messages between users |
-| POST | /api/messages | Send message to another user |
-| POST | /api/messages/company | Send message to company |
-| PUT | /api/messages/read/:contactId | Mark messages as read |
-| GET | /api/myRecentContacts | Get recent message contacts |
-| GET | /api/employersFromApplications | Get employers from applications |
-
-#### Employer Messaging
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | /api/employer/messages | Get employer's messages |
-| POST | /api/employer/messages | Send message to applicant |
-| PUT | /api/employer/messages/read/:applicantId | Mark messages as read |
-| GET | /api/employer/recent-applicant-contacts | Get recent applicant contacts |
-| GET | /api/employer/applicants | Get applicants from jobs |
-
-#### Company
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | /api/company/:companyId | Get company profile |
-| POST | /api/company | Create company profile |
-| PUT | /api/company/:companyId | Update company profile |
-
-#### AI Chat
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | /api/chat | Send message to AI chatbot, get response |
-| POST | /api/rag-chat | Send message to RAG chatbot with sources |
+| POST | /api/rag-chat | Send message to RAG chatbot, get response with sources |
 | POST | /api/rag-chat/feedback | Submit feedback (👍/👎) for chatbot response |
-| GET | /api/rag-chat/status | Check RAG service status |
+| GET | /api/rag-chat/status | Check RAG service status and document count |
 
 ---
 
@@ -286,23 +281,20 @@ Frontend will run on http://localhost:3000
 
 #### For Users
 - **[FAQ](./server/docs/faq.md)** - Frequently asked questions
+- **[Complete Feature Guide](./server/docs/user-guides/complete-feature-guide.md)** - Full platform guide
 - **[User Guides](./server/docs/user-guides/)** - How to use NextStep
   - [How to Apply to Jobs](./server/docs/user-guides/how-to-apply-jobs.md)
   - [How to Withdraw Application](./server/docs/user-guides/how-to-withdraw-application.md)
   - [How to Create Profile](./server/docs/user-guides/how-to-create-profile.md)
   - [How to Search Jobs](./server/docs/user-guides/how-to-search-jobs.md)
-  - [How to Message Employers](./server/docs/user-guides/how-to-message-employers.md)
-
-#### For Employers
-- **[Employer Guides](./server/docs/employer-guides/)** - How to hire on NextStep
-  - [How to Post Jobs](./server/docs/employer-guides/how-to-post-jobs.md)
-  - [How to Review Applications](./server/docs/employer-guides/how-to-review-applications.md)
+  - [How to Check Progress](./server/docs/user-guides/how-to-check-progress.md)
 
 #### 🤖 RAG Chatbot
 - **[Self-Improving RAG System](./server/docs/SELF_IMPROVING_RAG.md)** ⭐ - How the chatbot learns from feedback
-- **[Recent Improvements](./server/docs/IMPROVEMENTS_COMPLETED.md)** - Latest features
-- **[RAG Improvements Roadmap](./server/docs/RAG_IMPROVEMENTS.md)** - Future enhancements
 - **[RAG System Guide](./server/docs/RAG_SYSTEM_GUIDE.md)** - Technical documentation
+- **[RAG Improvements Roadmap](./server/docs/RAG_IMPROVEMENTS.md)** - Future enhancements
+- **[Ingestion Guide](./server/docs/INGESTION_GUIDE.md)** - How to add/update documentation
+- **[Recent Improvements](./server/docs/IMPROVEMENTS_COMPLETED.md)** - Latest features
 
 #### For Developers
 - **[Quick Start Guide](./server/docs/QUICK_START.md)** - Get up and running
@@ -312,8 +304,13 @@ Frontend will run on http://localhost:3000
 - **[AWS Deployment](./server/docs/AWS_DEPLOYMENT.md)** - Production deployment
 - **[Server README](./server/README.md)** - Backend documentation
 
+#### Migration & Cleanup
+- **[Employer Removal Migration](./docs/EMPLOYER_REMOVAL_MIGRATION.md)** - Employer feature deprecation (Jan 2026)
+- **[Final Cleanup Summary](./docs/FINAL_CLEANUP_SUMMARY.md)** - Platform simplification
+- **[Migration Guide](./docs/MIGRATION_GUIDE.md)** - Database migration guide
+- **[Real Jobs Setup](./docs/REAL_JOBS_SETUP.md)** - JSearch API integration
+
 #### Reference
-- **[Requirements](./docs/requirements.md)** - Original project requirements
 - **[System Diagrams](./docs/all-diagrams-source-files/)** - Architecture diagrams
 
 ---
@@ -335,9 +332,8 @@ This project is licensed under the MIT License.
 ---
 
 ### **Future Enhancements**
-- RAG-powered chatbot with document knowledge base
 - Enhanced real-time notifications
-- Interview scheduling integration
 - Mobile app (React Native)
 - Advanced analytics dashboard
-- Multi-language support
+- Job alerts and saved searches
+

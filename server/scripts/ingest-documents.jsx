@@ -17,8 +17,8 @@
  * Validates: Requirements 2.1, 2.2, 2.3, 2.4, 2.5
  */
 
-const DocumentIngestionService = require('../services/documentIngestionService');
-const VectorStoreService = require('../services/vectorStoreService');
+const DocumentIngestionService = require('../services/documentIngestionService.jsx');
+const VectorStoreService = require('../services/vectorStoreService.jsx');
 const path = require('path');
 require('dotenv').config();
 

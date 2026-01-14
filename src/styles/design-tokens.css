@@ -1,0 +1,96 @@
+/* Minimalist Monochrome Design Tokens */
+
+:root {
+  /* Colors - Strictly Monochrome */
+  --background: #FFFFFF;
+  --foreground: #000000;
+  --muted: #F5F5F5;
+  --muted-foreground: #525252;
+  --accent: #000000;
+  --accent-foreground: #FFFFFF;
+  --border: #000000;
+  --border-light: #E5E5E5;
+  --card: #FFFFFF;
+  --card-foreground: #000000;
+  --ring: #000000;
+
+  /* Typography */
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-body: "Source Serif 4", Georgia, serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Type Scale - Dramatic Range */
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 2rem;      /* 32px */
+  --text-4xl: 2.5rem;    /* 40px */
+  --text-5xl: 3.5rem;    /* 56px */
+  --text-6xl: 4.5rem;    /* 72px */
+  --text-7xl: 6rem;      /* 96px */
+  --text-8xl: 8rem;      /* 128px */
+  --text-9xl: 10rem;     /* 160px */
+
+  /* Borders & Lines */
+  --border-hairline: 1px solid var(--border-light);
+  --border-thin: 1px solid var(--border);
+  --border-medium: 2px solid var(--border);
+  --border-thick: 4px solid var(--border);
+  --border-ultra: 8px solid var(--border);
+
+  /* Spacing - Generous Scale */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-20: 5rem;     /* 80px */
+  --space-24: 6rem;     /* 96px */
+  --space-32: 8rem;     /* 128px */
+  --space-40: 10rem;    /* 160px */
+
+  /* Container */
+  --container-max-width: 72rem; /* 1152px */
+  --container-padding: var(--space-6);
+
+  /* Textures & Patterns */
+  --texture-horizontal-lines: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 1px,
+    var(--border) 1px,
+    var(--border) 2px
+  );
+  --texture-grid: 
+    linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+  --texture-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+  :root {
+    --container-padding: var(--space-4);
+    /* Reduce oversized typography on mobile */
+    --text-8xl: var(--text-6xl);
+    --text-9xl: var(--text-7xl);
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --container-padding: var(--space-8);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --container-padding: var(--space-12);
+  }
+}

@@ -22,12 +22,6 @@ axiosInstance.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
     
-    // Add companyId to headers if it exists in localStorage
-    const companyId = localStorage.getItem('companyId');
-    if (companyId) {
-      config.headers['X-Company-ID'] = companyId;
-    }
-    
     return config;
   },
   (error) => {

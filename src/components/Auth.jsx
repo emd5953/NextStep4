@@ -5,7 +5,7 @@ import { TokenContext } from "./TokenContext";
 
 const Auth = () => {
   const navigate = useNavigate();
-  const { token, setToken, setEmployerFlag } = useContext(TokenContext);
+  const { token, setToken } = useContext(TokenContext);
 
   const handleSignInClick = () => {
     // Redirect to /login
@@ -16,9 +16,7 @@ const Auth = () => {
     // Redirect to /login
     setToken(null);
     navigate('/login');
-    setEmployerFlag(false);
     localStorage.removeItem("token");
-    localStorage.removeItem("employerFlag");
     navigate("/login");
   };
 

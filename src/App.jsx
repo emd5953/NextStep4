@@ -10,15 +10,9 @@ import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import BrowseJobs from "./pages/BrowseJobs";
 import YourJobs from "./pages/YourJobs";
-import EmployerDashboard from "./pages/EmployerDashboard";
-import EmployerApplicationTracker from "./pages/EmployerApplicationTracker";
-import ManageJobPostings from "./pages/ManageJobPostings";
-import CompanyProfile from "./pages/CompanyProfile";
-import Messenger from "./pages/Messenger";
-import EmployerMessenger from "./pages/EmployerMessenger";
 import Details from "./pages/Details";
 import ApplicantProfile from "./pages/ApplicantProfile";
-import ManageUsers from "./pages/ManageUsers";
+import "./styles/global.css";
 import "./styles/App.css";
 import { TokenContext } from "./components/TokenContext";
 import axios from "axios";
@@ -26,7 +20,7 @@ import ChatWidget from "./components/ChatWidget"; // Import the global chat widg
 import { API_SERVER } from './config';
 
 function App() {
-  const { token, employerFlag, profileUpdateTrigger } = useContext(TokenContext);
+  const { token, profileUpdateTrigger } = useContext(TokenContext);
   const [userName, setUserName] = useState("");
 
   // Track whether the mobile nav overlay is open
@@ -93,15 +87,9 @@ function App() {
           ) : (
             <>
               <nav className="app-nav">
-                {token && employerFlag ? (
-                  <Link className="app-nav__link" to="/employer-dashboard">
-                    Home
-                  </Link>
-                ) : (
-                  <Link className="app-nav__link" to="/">
-                    Home
-                  </Link>
-                )}
+                <Link className="app-nav__link" to="/">
+                  Home
+                </Link>
                 <Link className="app-nav__link" to="/about">
                   About
                 </Link>
@@ -113,19 +101,9 @@ function App() {
                     Profile
                   </Link>
                 )}
-                {token && !employerFlag && (
-                  <Link className="app-nav__link" to="/messenger">
-                    Inbox
-                  </Link>
-                )}
-                {token && employerFlag && (
-                  <Link className="app-nav__link" to="/employer-messenger">
-                    Messenger
-                  </Link>
-                )}
               </nav>
               <div className="auth-container">
-                {token && !employerFlag && (
+                {token && (
                   <Link className="app-nav__link" to="/your-jobs">
                     My Jobs
                   </Link>
@@ -161,40 +139,13 @@ function App() {
                   {userName}
                 </Link>
               )}
-              {token && employerFlag && (
-                <Link
-                  className="app-nav__link"
-                  to="/employer-dashboard"
-                  onClick={toggleNav}
-                >
-                  Employer Dashboard
-                </Link>
-              )}
-              {token && !employerFlag && (
+              {token && (
                 <Link
                   className="app-nav__link"
                   to="/your-jobs"
                   onClick={toggleNav}
                 >
                   My Jobs
-                </Link>
-              )}
-              {token && !employerFlag && (
-                <Link
-                  className="app-nav__link"
-                  to="/messenger"
-                  onClick={toggleNav}
-                >
-                  Messenger
-                </Link>
-              )}
-              {token && employerFlag && (
-                <Link
-                  className="app-nav__link"
-                  to="/employer-messenger"
-                  onClick={toggleNav}
-                >
-                  Messenger
                 </Link>
               )}
               <Auth onClick={toggleNav} />
@@ -211,21 +162,11 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<Login />} />
             <Route path="/your-jobs" element={<YourJobs />} />
-            <Route path="/employer-dashboard" element={<EmployerDashboard />} />
-            <Route path="/manage-job-postings" element={<ManageJobPostings />} />
-            <Route
-              path="/employer-application-tracker"
-              element={<EmployerApplicationTracker />}
-            />
-            <Route path="/company-profile" element={<CompanyProfile />} />
-            <Route path="/messenger" element={<Messenger />} />
-            <Route path="/employer-messenger" element={<EmployerMessenger />} />
             <Route path="/jobs/:jobId/:returnTo" element={<Details />} />
             <Route
               path="/applicant-profile/:userId"
               element={<ApplicantProfile />}
             />
-            <Route path="/manage-users" element={<ManageUsers />} />
           </Routes>
         </main>
         {/* Global Chat Widget rendered at the bottom-right */}

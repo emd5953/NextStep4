@@ -30,7 +30,6 @@ You can withdraw your application from any job at any time through the "My Jobs"
 ## Important Notes
 
 - **Cannot be undone:** Once withdrawn, you'll need to reapply if you change your mind
-- **Employer notification:** Employers will see your application is no longer active
 - **Status doesn't matter:** You can withdraw at any stage (Pending, Interviewing, Offered, Rejected)
 - **Reapplying:** You can reapply to the same job after withdrawing
 

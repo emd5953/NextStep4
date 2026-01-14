@@ -24,11 +24,9 @@ Server runs on `http://localhost:4000`
 ## Features
 
 - **User Authentication** - JWT-based auth with Google OAuth
-- **Job Management** - CRUD operations for job postings
+- **Job Management** - Browse and search job postings
 - **Application Tracking** - Track job applications and status
-- **Messaging** - Real-time messaging between users and employers
 - **RAG Chatbot** - AI-powered help chat with document retrieval
-- **Notifications** - Email notifications via Mailjet
 
 ## Project Structure
 
@@ -66,22 +64,18 @@ server/
 - `POST /auth/google` - Google OAuth login
 
 ### Jobs
-- `GET /api/jobs` - Get all jobs
-- `POST /api/jobs` - Create job posting
-- `PUT /api/jobs/:id` - Update job
-- `DELETE /api/jobs/:id` - Delete job
+- `GET /api/jobs` - Get all jobs with search
+- `GET /api/jobs/:id` - Get single job details
+- `GET /api/newJobs` - Get jobs user hasn't applied to
+- `GET /api/retrieveJobsForHomepage` - Get personalized recommendations
 
 ### Applications
-- `POST /api/applications` - Submit application
-- `GET /api/applications/user/:userId` - Get user applications
-- `PUT /api/applications/:id` - Update application status
+- `POST /api/jobsTracker` - Submit application (apply/skip/ignore)
+- `GET /api/applications` - Get user's applications
+- `DELETE /api/applications/:id` - Withdraw application
 
 ### Chat (RAG)
 - `POST /api/chat` - Send message to AI chatbot
-
-### Messaging
-- `GET /api/messages/:userId` - Get user messages
-- `POST /api/messages` - Send message
 
 ## RAG Chatbot System
 
@@ -131,10 +125,8 @@ JWT_SECRET=your_jwt_secret
 GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
 
-# Email
-MJ_API_KEY=your_mailjet_api_key
-MJ_PRIVATE_KEY=your_mailjet_private_key
-EMAIL_FROM=your_email@example.com
+# Email (Optional - for notifications)
+# EMAIL_FROM=your_email@example.com
 
 # AI/RAG
 GEMINI_API_KEY=your_gemini_api_key
@@ -234,7 +226,6 @@ node test-rag-endpoint.js
 - **Vector Store:** ChromaDB
 - **AI Models:** Google Gemini 2.5 Pro, text-embedding-004
 - **Authentication:** JWT, Passport.js
-- **Email:** Mailjet
 - **Testing:** Jest, Supertest
 
 ## Contributing

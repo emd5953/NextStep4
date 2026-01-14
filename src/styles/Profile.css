@@ -1,44 +1,65 @@
-/* File: /src/styles/Profile.css */
+/* Minimalist Monochrome Profile Page */
 
 .profile-container {
-  max-width: 1100px;
+  max-width: var(--container-max-width);
   margin: 0 auto;
-  background: #ffffff;
-  padding: 48px;
-  border-radius: 16px;
+  background: var(--background);
+  padding: var(--space-16) var(--container-padding);
+  border-radius: 0;
   text-align: left;
   min-height: 80vh;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e8e8e8;
+  border: var(--border-thick);
+  
+  /* Grid texture for editorial feel */
+  background-image: var(--texture-grid);
+  background-size: 60px 60px;
+  opacity: 0.99;
 }
 
 .profile-container h2 {
+  font-family: var(--font-display);
   text-align: center;
-  color: #000;
-  margin-bottom: 40px;
-  font-size: 2.5rem;
-  font-weight: 700;
-  letter-spacing: -1px;
+  color: var(--foreground);
+  margin-bottom: var(--space-16);
+  font-size: var(--text-6xl);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  
+  /* Decorative underline */
+  position: relative;
+  padding-bottom: var(--space-6);
+}
+
+.profile-container h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+  height: 4px;
+  background: var(--foreground);
 }
 
 .profile-form {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: var(--space-12);
 }
 
 .profile-header {
   display: flex;
-  gap: 32px;
-  margin-bottom: 32px;
-  padding-bottom: 32px;
-  border-bottom: 2px solid #e8e8e8;
+  gap: var(--space-12);
+  margin-bottom: var(--space-12);
+  padding-bottom: var(--space-12);
+  border-bottom: var(--border-thick);
 }
 
 .profile-image-container {
   position: relative;
-  width: 140px;
-  height: 140px;
+  width: 160px;
+  height: 160px;
   flex-shrink: 0;
 }
 
@@ -46,52 +67,55 @@
   width: 100%;
   height: 100%;
   display: block;
-  border-radius: 50%;
+  border-radius: 0;
   object-fit: cover;
-  border: 4px solid #00f5d4;
+  border: var(--border-thick);
+  background: var(--muted);
 }
 
 .profile-image-edit {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 36px;
-  height: 36px;
-  background-color: #000;
-  border-radius: 50%;
+  top: -8px;
+  right: -8px;
+  width: 40px;
+  height: 40px;
+  background-color: var(--foreground);
+  border-radius: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: white;
-  font-size: 16px;
-  border: 3px solid white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  transition: all 0.2s ease;
+  color: var(--background);
+  font-size: var(--text-lg);
+  border: var(--border-medium);
+  border-color: var(--background);
+  transition: all 100ms ease;
+  font-family: var(--font-mono);
 }
 
 .profile-image-edit:hover {
-  background-color: #1a1a1a;
-  transform: scale(1.1);
+  background-color: var(--background);
+  color: var(--foreground);
+  border-color: var(--foreground);
 }
 
 .profile-fields-container {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--space-8);
 }
 
 .profile-form-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: var(--space-6);
 }
 
 .profile-form-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .profile-form-group-hidden {
@@ -99,30 +123,37 @@
 }
 
 .profile-label {
+  font-family: var(--font-mono);
   font-weight: 600;
-  color: #1a1a1a;
-  font-size: 0.95rem;
+  color: var(--foreground);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-1);
 }
 
 .profile-input {
-  padding: 12px 16px;
-  border-radius: 8px;
-  border: 2px solid #e8e8e8;
-  font-size: 1rem;
-  background: #ffffff;
-  color: #1a1a1a;
-  font-family: inherit;
-  transition: all 0.2s ease;
+  padding: var(--space-4) 0;
+  border-radius: 0;
+  border: none;
+  border-bottom: var(--border-medium);
+  font-size: var(--text-base);
+  background: transparent;
+  color: var(--foreground);
+  font-family: var(--font-body);
+  transition: all 100ms ease;
 }
 
 .profile-input:focus {
   outline: none;
-  border-color: #00f5d4;
-  box-shadow: 0 0 0 3px rgba(0, 245, 212, 0.1);
+  border-bottom: 4px solid var(--foreground);
+  background: var(--muted);
+  padding-left: var(--space-2);
 }
 
 .profile-input::placeholder {
-  color: #999;
+  color: var(--muted-foreground);
+  font-style: italic;
 }
 
 .file-input {
@@ -130,28 +161,40 @@
 }
 
 .upload-label {
-  margin-left: 10px;
-  border-radius: 2px;
-  border-width: 1px;
-  border-color: #e8e8e8;
-  color: #1a1a1a;
+  margin-left: var(--space-3);
+  border-radius: 0;
+  border: var(--border-thin);
+  color: var(--foreground);
   cursor: pointer;
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 100ms ease;
+}
+
+.upload-label:hover {
+  background: var(--foreground);
+  color: var(--background);
 }
 
 .upload-button {
   display: inline-block;
-  padding: 12px 24px;
-  background-color: #000;
-  color: white;
-  border-radius: 24px;
+  padding: var(--space-4) var(--space-8);
+  background-color: var(--foreground);
+  color: var(--background);
+  border-radius: 0;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: var(--text-sm);
   font-weight: 600;
-  transition: all 0.2s ease;
-  border: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-family: var(--font-body);
+  transition: all 100ms ease;
+  border: var(--border-thin);
   width: auto;
   text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .upload-button span {
@@ -161,247 +204,374 @@
 }
 
 .upload-button:hover {
-  background-color: #1a1a1a;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.upload-button:focus-visible {
+  outline: 3px solid var(--foreground);
+  outline-offset: 3px;
 }
 
 .upload-icon {
-  font-size: 1.2rem;
+  font-size: var(--text-lg);
   line-height: 1;
-  margin-right: 8px;
+  margin-right: var(--space-2);
 }
 
 .profile-button {
   display: inline-block;
-  padding: 14px 32px;
-  border: none;
-  border-radius: 28px;
+  padding: var(--space-4) var(--space-12);
+  border: var(--border-medium);
+  border-radius: 0;
   font-weight: 600;
-  background-color: #000;
-  color: #fff;
+  background-color: var(--foreground);
+  color: var(--background);
   cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.2s ease;
+  font-size: var(--text-sm);
+  font-family: var(--font-body);
+  transition: all 100ms ease;
   height: fit-content;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .profile-button:hover {
-  background-color: #1a1a1a;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.profile-button:focus-visible {
+  outline: 3px solid var(--foreground);
+  outline-offset: 3px;
 }
 
 .profile-button.secondary {
   background-color: transparent;
-  border: 2px solid #e8e8e8;
-  color: #1a1a1a;
+  border: var(--border-medium);
+  color: var(--foreground);
 }
 
 .profile-button.secondary:hover {
-  background-color: #f8f9fb;
-  border-color: #d0d0d0;
-  transform: translateY(-1px);
+  background-color: var(--foreground);
+  color: var(--background);
 }
 
 .button-container {
   display: flex;
   justify-content: space-between;
-  gap: 16px;
-  margin-top: 32px;
-  padding-top: 32px;
-  border-top: 2px solid #e8e8e8;
+  gap: var(--space-4);
+  margin-top: var(--space-12);
+  padding-top: var(--space-12);
+  border-top: var(--border-thick);
   width: 100%;
 }
 
-@media (max-width: 768px) {
-  .profile-container {
-    margin: 16px;
-    padding: 24px 20px;
-  }
-  
-  .profile-container h2 {
-    font-size: 2rem;
-  }
-
-  .profile-form-row {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  
-  .profile-header {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .button-container {
-    flex-direction: column;
-  }
-  
-  .profile-button {
-    width: 100%;
-  }
-}
-
-/* Skills Section */
+/* Skills Section - Editorial Style */
 .skills-section {
-  padding: 32px;
-  background: #f8f9fb;
-  border-radius: 12px;
-  border: 1px solid #e8e8e8;
+  padding: var(--space-12);
+  background: var(--foreground);
+  color: var(--background);
+  border: var(--border-thick);
+  border-color: var(--foreground);
+  
+  /* Vertical lines texture for inverted sections */
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 1px,
+    rgba(255,255,255,0.03) 1px,
+    rgba(255,255,255,0.03) 2px
+  );
+  background-size: 4px 100%;
 }
 
 .skills-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-4);
+  border-bottom: 2px solid var(--background);
 }
 
 .skills-header h3 {
   margin: 0;
-  color: #000;
-  font-size: 1.25rem;
-  font-weight: 600;
+  color: var(--background);
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
 }
 
 .clear-skills-button {
   background-color: transparent;
-  color: #dc2626;
-  border: 2px solid #fee;
-  padding: 8px 16px;
-  border-radius: 20px;
+  color: var(--background);
+  border: 2px solid var(--background);
+  padding: var(--space-2) var(--space-4);
+  border-radius: 0;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: var(--text-xs);
   font-weight: 600;
-  transition: all 0.2s ease;
+  font-family: var(--font-mono);
+  transition: all 100ms ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .clear-skills-button:hover {
-  background-color: #fff5f5;
-  border-color: #fecaca;
+  background-color: var(--background);
+  color: var(--foreground);
 }
 
 .add-skill-form {
   display: flex;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 0;
+  margin-bottom: var(--space-8);
+  border: 2px solid var(--background);
 }
 
 .skill-input {
   flex: 1;
-  padding: 12px 16px;
-  border: 2px solid #e8e8e8;
-  border-radius: 8px;
-  background-color: #ffffff;
-  color: #1a1a1a;
-  font-size: 1rem;
-  font-family: inherit;
-  transition: all 0.2s ease;
+  padding: var(--space-4) var(--space-6);
+  border: none;
+  border-radius: 0;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-size: var(--text-base);
+  font-family: var(--font-body);
+  transition: all 100ms ease;
+  border-right: 2px solid var(--foreground);
 }
 
 .skill-input:focus {
   outline: none;
-  border-color: #00f5d4;
-  box-shadow: 0 0 0 3px rgba(0, 245, 212, 0.1);
+  background: var(--muted);
 }
 
 .skill-input::placeholder {
-  color: #999;
+  color: var(--muted-foreground);
+  font-style: italic;
 }
 
 .add-skill-button {
-  background-color: #000;
-  color: white;
+  background-color: var(--background);
+  color: var(--foreground);
   border: none;
-  padding: 12px 24px;
-  border-radius: 24px;
+  padding: var(--space-4) var(--space-8);
+  border-radius: 0;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: var(--text-sm);
   font-weight: 600;
-  transition: all 0.2s ease;
+  font-family: var(--font-body);
+  transition: all 100ms ease;
   white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .add-skill-button:hover {
-  background-color: #1a1a1a;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background-color: var(--foreground);
+  color: var(--background);
 }
 
 .skills-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: var(--space-3);
 }
 
 .skill-item {
   display: flex;
   align-items: center;
-  background-color: #ffffff;
-  padding: 10px 16px;
-  border-radius: 20px;
-  font-size: 0.9rem;
+  background-color: var(--background);
+  padding: var(--space-2) var(--space-4);
+  border-radius: 0;
+  font-size: var(--text-sm);
   font-weight: 500;
-  color: #1a1a1a;
-  border: 1px solid #e8e8e8;
-  transition: all 0.2s ease;
+  color: var(--foreground);
+  border: 2px solid var(--background);
+  transition: all 100ms ease;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .skill-item:hover {
-  background-color: #00f5d4;
-  border-color: #00f5d4;
-  color: #000;
+  background-color: var(--foreground);
+  color: var(--background);
+  border-color: var(--foreground);
 }
 
 .skill-item span {
-  margin-right: 8px;
+  margin-right: var(--space-2);
 }
 
 .remove-skill {
   background: none;
   border: none;
-  color: #666;
+  color: var(--muted-foreground);
   cursor: pointer;
-  font-size: 18px;
-  padding: 0 4px;
+  font-size: var(--text-base);
+  padding: 0 var(--space-1);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.2s;
+  transition: color 100ms ease;
   line-height: 1;
+  font-family: var(--font-mono);
+  font-weight: 700;
 }
 
 .remove-skill:hover {
-  color: #dc2626;
+  color: var(--foreground);
 }
 
 .skill-item:hover .remove-skill {
-  color: #000;
+  color: var(--background);
 }
 
 /* Experience and Education Sections */
 .experience-section,
 .education-section {
-  padding: 32px;
-  background: #f8f9fb;
-  border-radius: 12px;
-  border: 1px solid #e8e8e8;
+  padding: var(--space-12);
+  background: var(--muted);
+  border: var(--border-thin);
+  
+  /* Diagonal lines texture */
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 40px,
+    rgba(0,0,0,0.02) 40px,
+    rgba(0,0,0,0.02) 42px
+  );
+  opacity: 0.99;
 }
 
 .experience-section h3,
 .education-section h3 {
-  margin: 0 0 24px 0;
-  color: #000;
-  font-size: 1.25rem;
-  font-weight: 600;
-  padding-bottom: 12px;
-  border-bottom: 2px solid #00f5d4;
+  margin: 0 0 var(--space-8) 0;
+  color: var(--foreground);
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  padding-bottom: var(--space-4);
+  border-bottom: var(--border-thick);
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
 }
 
 .section-description {
-  color: #666;
-  font-size: 0.95rem;
-  margin-bottom: 20px;
+  color: var(--muted-foreground);
+  font-size: var(--text-base);
+  margin-bottom: var(--space-6);
   line-height: 1.6;
+  font-family: var(--font-body);
+  font-style: italic;
+}
+
+/* Resume Overlay */
+.resume-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+}
+
+.resume-overlay-content {
+  background: var(--background);
+  border: var(--border-thick);
+  width: 90%;
+  height: 90%;
+  max-width: 1000px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.close-overlay-button {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  background: var(--foreground);
+  color: var(--background);
+  border: none;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: var(--text-xl);
+  font-family: var(--font-mono);
+  z-index: 1001;
+  transition: all 100ms ease;
+}
+
+.close-overlay-button:hover {
+  background: var(--background);
+  color: var(--foreground);
+  border: 2px solid var(--foreground);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .profile-container {
+    margin: var(--space-4);
+    padding: var(--space-8) var(--space-4);
+  }
+  
+  .profile-container h2 {
+    font-size: var(--text-4xl);
+    margin-bottom: var(--space-12);
+  }
+  
+  .profile-container h2::after {
+    width: 120px;
+    height: 3px;
+  }
+
+  .profile-form-row {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  
+  .profile-header {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-8);
+  }
+  
+  .profile-image-container {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .button-container {
+    flex-direction: column;
+  }
+  
+  .profile-button,
+  .upload-button {
+    width: 100%;
+  }
+  
+  .add-skill-form {
+    flex-direction: column;
+  }
+  
+  .skill-input {
+    border-right: none;
+    border-bottom: 2px solid var(--foreground);
+  }
+  
+  .add-skill-button {
+    border-top: 2px solid var(--foreground);
+  }
 }

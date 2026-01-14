@@ -43,7 +43,7 @@ One step at a time! You don't have to do everything at once.
 **Imposter syndrome is real!** Remember:
 - Job requirements are wish lists, not requirements
 - You have more skills than you think
-- Employers can train you on specifics
+- Companies can train you on specifics
 - Your unique perspective is valuable
 - Apply anyway - let them decide!
 
@@ -65,7 +65,6 @@ One step at a time! You don't have to do everything at once.
 Instead of "get a job" (too big), try:
 - Apply to 3 jobs today
 - Update my profile
-- Send 2 follow-up messages
 - Research 5 companies
 - Practice interview questions for 30 minutes
 
@@ -82,15 +81,14 @@ Every step forward counts:
 - ✅ Resume uploaded
 - ✅ First application submitted
 - ✅ 10 applications submitted
-- ✅ First employer message
 - ✅ First interview scheduled
 - ✅ Job offer received!
 
 ### Create a Routine
 Make job searching a habit:
-- Morning: Check messages, apply to 3 jobs
+- Morning: Apply to 3 jobs
 - Afternoon: Research companies, update profile
-- Evening: Follow up on applications
+- Evening: Review applications
 - Consistency beats intensity!
 
 ### Take Breaks
@@ -181,7 +179,7 @@ Repeat these when you need motivation:
 
 🌟 **You are not alone** - Thousands of people are job searching right now
 
-💪 **You are capable** - You have skills and experience that employers need
+💪 **You are capable** - You have skills and experience that companies need
 
 ⏰ **Timing matters** - Sometimes it's about being in the right place at the right time
 

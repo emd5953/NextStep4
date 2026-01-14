@@ -7,20 +7,23 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
 
-// Function to generate embeddings using OpenAI
+// Function to generate embeddings using OpenAI (consistent model)
 async function generateEmbeddings(text) {
-
     if(!text) {
         throw new Error("Text is required for generating embeddings");
     }
 
-    const response = await openai.embeddings.create({
-        model: "text-embedding-3-small",
-        input: text,
-        encoding_format: "float",
-    });
-    //console.log(response.data[0].embedding);
-    return response.data[0].embedding;
+    try {
+        const response = await openai.embeddings.create({
+            model: "text-embedding-3-small", // Consistent 1536-dimensional embeddings
+            input: text,
+            encoding_format: "float",
+        });
+        return response.data[0].embedding;
+    } catch (error) {
+        console.error("Error generating embeddings:", error);
+        throw new Error(`Failed to generate embeddings: ${error.message}`);
+    }
 }
 
 
@@ -134,29 +137,103 @@ Do not include any additional text or explanation, only return the JSON object.`
 }
 
 async function refineFoundPositions(results, basedOnThisCriteria) {
-    const analyzedJobs = await Promise.all(results.map(async (job) => {
-        const analysis = await isThisAGoodMatch(
-            `Job Title: ${job.title}\nJob Description: ${job.jobDescription}
-\nJob Skills: ${job.skills?.join(', ')}\nJob Company: ${job.company}\nJob Location: ${job.locations?.join(', ')}
-\nJob Salary: ${job.salaryRange}\nJob Schedule: ${job.schedule}\nJob Benefits: ${job.benefits?.join(', ')}`,
-            basedOnThisCriteria
-        );
-        return { job, analysis };
-    }));
+    // Batch process jobs for better performance
+    const batchSize = 10;
+    const enhancedJobs = [];
+    
+    for (let i = 0; i < results.length; i += batchSize) {
+        const batch = results.slice(i, i + batchSize);
+        
+        try {
+            // Create a single prompt for batch analysis
+            const jobDescriptions = batch.map((job, index) => 
+                `Job ${index + 1}:
+Title: ${job.title}
+Company: ${job.companyName || 'Not specified'}
+Location: ${job.locations?.join(', ') || 'Not specified'}
+Salary: ${job.salaryRange || 'Not specified'}
+Skills: ${job.skills?.join(', ') || 'Not specified'}
+Description: ${job.jobDescription}
+---`
+            ).join('\n\n');
+
+            const batchPrompt = `Analyze the following ${batch.length} job postings against the search criteria and rate each as "poor", "good", or "great" match.
+
+Search Criteria: ${basedOnThisCriteria}
+
+Jobs to analyze:
+${jobDescriptions}
+
+Respond with a JSON array where each object has:
+{
+    "jobIndex": number (1-${batch.length}),
+    "match": "poor/good/great",
+    "reason": "brief explanation"
+}
+
+Only return the JSON array, no additional text.`;
+
+            const response = await openai.chat.completions.create({
+                model: "gpt-4o-mini",
+                messages: [
+                    {
+                        role: "system",
+                        content: "You are a job matching expert. Analyze job postings and rate how well they match search criteria. Return only a JSON array."
+                    },
+                    {
+                        role: "user",
+                        content: batchPrompt
+                    }
+                ],
+                temperature: 0.3,
+                max_tokens: 1000
+            });
+
+            const content = response.choices[0].message.content;
+            const jsonMatch = content.match(/\[[\s\S]*\]/);
+            
+            if (jsonMatch) {
+                const analyses = JSON.parse(jsonMatch[0]);
+                
+                // Map analyses back to jobs
+                batch.forEach((job, index) => {
+                    const analysis = analyses.find(a => a.jobIndex === index + 1);
+                    enhancedJobs.push({
+                        ...job,
+                        match: analysis?.match || 'good',
+                        additionalInfo: analysis?.reason || 'Match analysis unavailable'
+                    });
+                });
+            } else {
+                // Fallback: mark all as good matches
+                batch.forEach(job => {
+                    enhancedJobs.push({
+                        ...job,
+                        match: 'good',
+                        additionalInfo: 'Match analysis unavailable'
+                    });
+                });
+            }
+        } catch (error) {
+            console.error('Error in batch analysis:', error);
+            // Fallback: mark all as good matches
+            batch.forEach(job => {
+                enhancedJobs.push({
+                    ...job,
+                    match: 'good',
+                    additionalInfo: 'Match analysis unavailable'
+                });
+            });
+        }
+    }
 
     // Sort jobs by match quality (great -> good -> poor)
-    const sortedJobs = analyzedJobs.sort((a, b) => {
+    const sortedJobs = enhancedJobs.sort((a, b) => {
         const matchOrder = { great: 0, good: 1, poor: 2 };
-        return matchOrder[a.analysis.match] - matchOrder[b.analysis.match];
+        return matchOrder[a.match] - matchOrder[b.match];
     });
 
-    // Create enhanced jobs array with match properties
-    const enhancedJobs = sortedJobs.map(({ job, analysis }) => ({
-        ...job,
-        match: analysis.match,
-        additionalInfo: analysis.additionalInfo
-    }));
-    return enhancedJobs;
+    return sortedJobs;
 }
 
 module.exports = { parseSearchCriteria, generateEmbeddings, refineFoundPositions };

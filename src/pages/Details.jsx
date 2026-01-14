@@ -14,7 +14,7 @@ const Details = () => {
   const [job, setJob] = useState(null);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
-  const { token, email, name, employerFlag } = useContext(TokenContext);
+  const { token, email, name } = useContext(TokenContext);
 
   const handleBackToJobs = async () => {
     if (returnTo === "jobs") {
@@ -116,11 +116,9 @@ const Details = () => {
           <button onClick={handleBackToJobs} className="back-button">
             Back to Jobs
           </button>
-          {!employerFlag && (
-            <button onClick={handleApplyNow} className="apply-button">
-              Apply Now
-            </button>
-          )}
+          <button onClick={handleApplyNow} className="apply-button">
+            Apply Now
+          </button>
         </div>
       </div>
     </div>

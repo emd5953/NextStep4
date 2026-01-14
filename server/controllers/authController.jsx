@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 const { OAuth2Client } = require("google-auth-library");
 const { ObjectId } = require("mongodb");
 const crypto = require("crypto");
-const { sendEmail } = require("../middleware/mailer.jsx");
 
 // Initialize Google OAuth client
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -91,7 +90,7 @@ signin: async (req, res) => {
 
     // Generate JWT
     const token = jwt.sign(
-      { id: user._id, employerFlag: user.employerFlag },
+      { id: user._id },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
@@ -103,9 +102,7 @@ signin: async (req, res) => {
       token,
       email,
       full_name: user.full_name,
-      message: "Login success",
-      employerFlag: user.employerFlag,
-      companyId: user.companyId || null
+      message: "Login success"
     });
   } catch (err) {
     console.error("=== SIGNIN ERROR ===");
@@ -181,7 +178,6 @@ signin: async (req, res) => {
         phone,
         email,
         password: hashedPassword,
-        employerFlag: employerFlag,
         phoneVerified: !!verificationCode,
         emailVerified: false,
         verificationToken,
@@ -204,18 +200,13 @@ signin: async (req, res) => {
         <p>Best regards,<br>The NextStep Team</p>
       `;
 
-
-      await sendEmail(
-        process.env.EMAIL_FROM,
-        "NextStep",
-        email,
-        full_name,
-        emailSubject,
-        emailBody
-      );
+      // Email sending removed - verification link will be logged instead
+      console.log(`Verification email would be sent to ${email}: ${verificationUrl}`);
+      
       res.status(201).json({ 
         message: "User created successfully. Please check your email to verify your account.",
-        userId: newUser._id
+        userId: newUser._id,
+        verificationUrl: verificationUrl // Include in response for testing
       });
     } catch (error) {
       res.status(400).json({ error: `Error creating user. ${error.message}` });
@@ -255,7 +246,6 @@ signin: async (req, res) => {
           firstName: given_name,
           pictureUrl: picture,
           email,
-          employerFlag: false,
           emailVerified: true,
         };
         const result = await collection.insertOne(newUser);
@@ -264,7 +254,7 @@ signin: async (req, res) => {
 
       // Generate JWT token
       const jwtToken = jwt.sign(
-        { id: user._id, employerFlag: user.employerFlag },
+        { id: user._id },
         process.env.JWT_SECRET,
         { expiresIn: "1h" }
       );
@@ -272,8 +262,8 @@ signin: async (req, res) => {
       res.status(200).json({
         token: jwtToken,
         message: "Login success",
-        employerFlag: user.employerFlag,
-        companyId: user.companyId || null
+        full_name: user.full_name,
+        email: user.email
       });
     } catch (error) {
       res.status(401).json({ error: "Invalid Google token" });
@@ -360,16 +350,13 @@ signin: async (req, res) => {
         <p>Best regards,<br>The NextStep Team</p>
       `;
       
-      await sendEmail(
-        process.env.EMAIL_FROM,
-        "NextStep",
-        email,
-        user.full_name,
-        emailSubject,
-        emailBody
-      );
+      // Email sending removed - verification link will be logged instead
+      console.log(`Verification email would be sent to ${email}: ${verificationUrl}`);
       
-      res.status(200).json({ message: "Verification email sent successfully" });
+      res.status(200).json({ 
+        message: "Verification email sent successfully",
+        verificationUrl: verificationUrl // Include in response for testing
+      });
     } catch (error) {
       console.error("Error resending verification email:", error);
       res.status(500).json({ error: "Failed to resend verification email" });

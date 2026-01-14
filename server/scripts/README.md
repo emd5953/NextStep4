@@ -1,225 +1,116 @@
-# RAG Document Ingestion Scripts
+# Database Migration Scripts
 
-This directory contains utility scripts for managing the RAG (Retrieval-Augmented Generation) system's knowledge base.
+This directory contains scripts to help you migrate from your current MongoDB database to a new one, removing fake jobs and keeping only real user data.
 
-## Scripts
+## 🚀 Quick Start
 
-### ingest-documents.js
-
-Ingests documents from a directory into the vector store for RAG retrieval.
-
-**Usage:**
+### Option 1: Interactive Setup (Recommended)
 ```bash
-# Using npm script (recommended)
-npm run ingest <directory-path>
-npm run ingest:docs  # Shortcut for ../docs directory
-
-# Direct execution
-node scripts/ingest-documents.js <directory-path>
-node scripts/ingest-documents.js ../docs
+cd server
+npm run setup-migration
 ```
 
-**What it does:**
-1. Connects to the ChromaDB vector store
-2. Scans the specified directory for `.md` and `.txt` files
-3. Processes each file:
-   - Parses markdown/text content
-   - Splits into chunks (500 chars with 50 char overlap)
-   - Generates embeddings using Google text-embedding-004
-   - Stores in vector database with metadata
-4. Reports statistics and any errors
+This will guide you through the entire process step by step.
 
-**Requirements:**
-- ChromaDB server must be running
-- GEMINI_API_KEY must be set in `.env`
-- Directory must contain `.md` or `.txt` files
-
-### clear-vector-store.js
-
-Clears all documents from the vector store.
-
-**Usage:**
+### Option 2: Manual Process
 ```bash
-# Using npm script (recommended)
-npm run clear-vector-store
+cd server
 
-# Direct execution
-node scripts/clear-vector-store.js
+# 1. Create backup
+npm run backup-db
+
+# 2. Set up new database URI in .env
+# Add: NEW_MONGODB_URI='your_new_connection_string'
+# Add: NEW_DB_NAME='your_new_database_name'
+
+# 3. Run migration
+npm run migrate-db
+
+# 4. Verify migration
+npm run verify-migration
+
+# 5. Update .env to use new database
+# Change: MONGODB_URI='your_new_connection_string'
+
+# 6. Clean up any remaining fake jobs
+npm run cleanup-fake-jobs
 ```
 
-**What it does:**
-1. Connects to the ChromaDB vector store
-2. Displays current document count
-3. Clears all documents from the collection
-4. Verifies the collection is empty
+## 📁 Script Files
 
-**Use cases:**
-- Before re-ingesting documents to start fresh
-- Removing outdated documentation
-- Testing with different document sets
+| Script | Purpose |
+|--------|---------|
+| `setup-migration.jsx` | Interactive setup wizard |
+| `backup-database.jsx` | Creates backup of current database |
+| `migrate-database.jsx` | Migrates data to new database |
+| `cleanup-fake-jobs.jsx` | Removes fake job data |
 
-### start-chroma.js
+## 🎯 What Gets Migrated
 
-Starts a local ChromaDB server (if needed).
+### ✅ Migrated Collections
+- **users** - All user accounts and authentication data
+- **applications** - Job applications (will work with external jobs)
+- **profiles** - Extended user profile data
 
-**Usage:**
-```bash
-node scripts/start-chroma.js
-```
+### ❌ Skipped Collections
+- **jobs** - Fake job postings (replaced with real API jobs)
 
-**What it does:**
-- Starts ChromaDB server on port 8000
-- Uses `./data/chroma` for storage
-- Keeps running until stopped with Ctrl+C
-
-## Workflow
-
-### Initial Setup
-
-1. **Start ChromaDB server:**
-   ```bash
-   python -m chromadb.cli.cli run --path ./data/chroma --port 8000
-   ```
-
-2. **Ingest documents:**
-   ```bash
-   npm run ingest:docs
-   ```
-
-3. **Start the application:**
-   ```bash
-   npm start
-   ```
-
-### Updating Documentation
-
-1. **Clear existing documents:**
-   ```bash
-   npm run clear-vector-store
-   ```
-
-2. **Re-ingest updated documents:**
-   ```bash
-   npm run ingest:docs
-   ```
-
-3. **Restart the application** (if running)
-
-### Testing with Different Documents
+## 🔧 Available Commands
 
 ```bash
-# Clear current documents
-npm run clear-vector-store
+# Interactive setup
+npm run setup-migration
 
-# Ingest from a different directory
-npm run ingest ./path/to/test/docs
-
-# Test the RAG system
-curl -X POST http://localhost:4000/api/rag-chat \
-  -H "Content-Type: application/json" \
-  -d '{"message": "What is NextStep?"}'
+# Individual steps
+npm run backup-db           # Backup current database
+npm run migrate-db          # Run migration
+npm run verify-migration    # Verify migration success
+npm run cleanup-fake-jobs   # Remove fake jobs from current DB
+npm run verify-job-api      # Check job API configuration
 ```
 
-## Supported File Formats
+## 📊 Migration Benefits
 
-- **Markdown (`.md`)**: Parses and removes markdown syntax while preserving content
-- **Text (`.txt`)**: Processes plain text files
+1. **Clean Database** - No fake job data
+2. **Real Jobs** - All jobs from real job boards via API
+3. **Better Performance** - Smaller, optimized database
+4. **Fresh Start** - Proper indexing and structure
+5. **Cost Efficiency** - Reduced storage usage
 
-## Configuration
+## 🔍 Verification
 
-Settings are controlled via environment variables in `.env`:
+After migration, test these features:
+- ✅ User login/signup
+- ✅ Job browsing (should show real API jobs)
+- ✅ Job applications
+- ✅ User profiles
 
-```env
-# RAG Configuration
-RAG_CHUNK_SIZE=500              # Chunk size (100-2000)
-RAG_CHUNK_OVERLAP=50            # Overlap in characters (0-50)
-RAG_EMBEDDING_MODEL=text-embedding-004
-GEMINI_API_KEY=your_api_key_here
+## 🆘 Troubleshooting
 
-# ChromaDB Configuration
-RAG_CHROMA_HOST=localhost
-RAG_CHROMA_PORT=8000
-RAG_COLLECTION_NAME=nextstep_docs
-```
+**Migration fails?**
+- Your original database is safe and untouched
+- Check connection strings and credentials
+- Ensure sufficient disk space
+- Re-run migration (it's safe to repeat)
 
-## Troubleshooting
+**Need to rollback?**
+- Change `MONGODB_URI` back to original in `.env`
+- Restart your application
+- Everything returns to previous state
 
-### "Failed to initialize vector store"
-- Ensure ChromaDB server is running
-- Check that port 8000 is not in use
-- Verify `RAG_CHROMA_HOST` and `RAG_CHROMA_PORT` in `.env`
+**Missing data?**
+- Run `npm run verify-migration`
+- Check backup files in `server/backups/`
+- Contact support if needed
 
-### "Failed to generate embedding"
-- Check that `GEMINI_API_KEY` is set in `.env`
-- Verify API key is valid
-- Check internet connection
+## 📞 Support
 
-### "No files found" or "0 files processed"
-- Verify directory path is correct
-- Ensure directory contains `.md` or `.txt` files
-- Check file permissions
+If you encounter issues:
+1. Check the console logs for error messages
+2. Verify all environment variables are set correctly
+3. Test database connections with MongoDB Compass
+4. Review the detailed migration guide: `MIGRATION_GUIDE.md`
 
-### Slow ingestion
-- Large files take longer to process
-- Embedding generation requires API calls (rate limited)
-- Consider splitting very large documents
+---
 
-## Output Example
-
-```
-============================================================
-  NextStep RAG Document Ingestion
-============================================================
-
-📁 Target Directory: /path/to/docs
-
-🔧 Initializing vector store...
-✓ Vector store initialized
-
-📊 Current Vector Store Stats:
-   Collection: nextstep_docs
-   Documents: 0
-   Embedding Model: text-embedding-004
-
-🔧 Initializing ingestion service...
-✓ Ingestion service initialized
-
-📥 Starting document ingestion...
-------------------------------------------------------------
-
-Starting document ingestion from: /path/to/docs
-Found 5 files to process
-Processing 5 supported files
-Processing: /path/to/docs/README.md
-✓ Processed /path/to/docs/README.md: 3 chunks
-Processing: /path/to/docs/requirements.md
-✓ Processed /path/to/docs/requirements.md: 8 chunks
-...
-
-============================================================
-  Ingestion Complete
-============================================================
-
-📈 Results:
-   ✓ Processed: 5 files
-   ✗ Failed: 0 files
-   📄 Total Chunks: 24
-   ⏱️  Duration: 12.34s
-
-📊 Updated Vector Store Stats:
-   Documents: 24 (+24)
-
-✅ Ingestion completed successfully!
-
-Next steps:
-  1. Start the server: npm start
-  2. Test the RAG chat: POST /api/rag-chat
-  3. Check status: GET /api/rag-chat/status
-```
-
-## Notes
-
-- Ingestion is additive - it doesn't remove existing documents
-- Use `clear-vector-store` before re-ingesting to avoid duplicates
-- Chunk metadata includes source file, chunk index, and timestamps
-- Embeddings are generated using Google's text-embedding-004 model (768 dimensions)
+**Remember:** This migration is designed to be safe. Your original database remains untouched until you explicitly update your configuration.

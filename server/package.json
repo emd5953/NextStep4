@@ -8,16 +8,24 @@
     "test": "jest --detectOpenHandles --forceExit",
     "test:coverage": "jest --coverage --detectOpenHandles --forceExit",
     "docs": "jsdoc -c jsdoc.json",
+    "create-indexes": "node scripts/createIndexes.js",
     "ingest": "node scripts/ingest-documents.jsx",
     "ingest:docs": "node scripts/ingest-documents.jsx ./docs",
     "clear-vector-store": "node scripts/clear-vector-store.jsx",
-    "feedback-report": "node scripts/feedback-report.jsx"
+    "feedback-report": "node scripts/feedback-report.jsx",
+    "setup-migration": "node scripts/setup-migration.jsx",
+    "backup-db": "node scripts/backup-database.jsx",
+    "migrate-db": "node scripts/migrate-database.jsx",
+    "verify-migration": "node scripts/migrate-database.jsx verify",
+    "cleanup-fake-jobs": "node scripts/cleanup-fake-jobs.jsx",
+    "verify-job-api": "node scripts/cleanup-fake-jobs.jsx verify-api"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@chroma-core/default-embed": "^0.1.9",
     "@google/genai": "^1.30.0",
     "@google/generative-ai": "^0.24.1",
     "@langchain/google-genai": "^2.0.0",
@@ -37,7 +45,6 @@
     "langchain": "^1.1.1",
     "mongoose": "^8.10.0",
     "multer": "^2.0.2",
-    "node-mailjet": "^6.0.8",
     "openai": "^4.95.0",
     "passport": "^0.7.0",
     "twilio": "^5.4.5"

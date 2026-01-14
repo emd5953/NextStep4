@@ -12,15 +12,17 @@ const YourJobs = () => {
   const { token, setToken } = useContext(TokenContext);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
-  const [ myApplications, setMyApplications ] = useState([]);
+  const [myApplications, setMyApplications] = useState([]);
+  const [rejectedJobs, setRejectedJobs] = useState([]);
   const [withdrawingId, setWithdrawingId] = useState(null);
+  const [activeTab, setActiveTab] = useState('applied');
 
   const formatDate = (dateString) => {
     return moment(dateString).format("MMM D, YYYY");
   };
 
   useEffect(() => {
-    const fetchMyApplications = async () =>{
+    const fetchMyApplications = async () => {
       if (token) {
         try {
           const response = await axios.get(`${API_SERVER}/applications`, {
@@ -31,16 +33,29 @@ const YourJobs = () => {
         } catch (error) {
           console.error('Applications error:', error);
           if (error.response && error.response.status === 401) {
-            setToken(null); // Clear the token when we get a 401
+            setToken(null);
             setError("Your session has expired. Please sign in again.");
           }
         }
       }
     };
 
+    const fetchRejectedJobs = async () => {
+      if (token) {
+        try {
+          const response = await axios.get(`${API_SERVER}/rejected-jobs`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          setRejectedJobs(response.data);
+        } catch (error) {
+          console.error('Rejected jobs error:', error);
+        }
+      }
+    };
+
     fetchMyApplications();
-  },
-  [token, setToken]);
+    fetchRejectedJobs();
+  }, [token, setToken]);
   //const [jobs, setJobs] = useState(initialJobs);
   const [editedNote, setEditedNote] = useState("");
   const saveInitiated = useRef(false);
@@ -87,8 +102,26 @@ const YourJobs = () => {
       {error && <NotificationBanner message={error} type="error" onDismiss={() => setError(null)} />}
       {message && <NotificationBanner message={message} type="success" onDismiss={() => setMessage(null)} />}
       <h1>My Jobs</h1>
-      <p>Track and update your job applications below:</p>
-      <table className="jobs-table">
+      
+      <div className="tabs">
+        <button 
+          className={`tab ${activeTab === 'applied' ? 'active' : ''}`}
+          onClick={() => setActiveTab('applied')}
+        >
+          Applied ({myApplications.length})
+        </button>
+        <button 
+          className={`tab ${activeTab === 'rejected' ? 'active' : ''}`}
+          onClick={() => setActiveTab('rejected')}
+        >
+          Rejected ({rejectedJobs.length})
+        </button>
+      </div>
+
+      {activeTab === 'applied' && (
+        <>
+          <p>Track and update your job applications below:</p>
+          <table className="jobs-table">
         <thead>
           <tr>
             <th>Job Title</th>
@@ -148,6 +181,34 @@ const YourJobs = () => {
           ))}
         </tbody>
       </table>
+        </>
+      )}
+
+      {activeTab === 'rejected' && (
+        <>
+          <p>Jobs you've rejected:</p>
+          <table className="jobs-table">
+            <thead>
+              <tr>
+                <th>Job Title</th>
+                <th>Company</th>
+                <th>Date Rejected</th>
+                <th>Salary</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rejectedJobs.map(job => (
+                <tr key={job._id}>
+                  <td>{job.title}</td>
+                  <td>{job.companyName}</td>
+                  <td>{formatDate(job.date_rejected)}</td>
+                  <td>{job.salaryRange || 'N/A'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
     </div>
   );
 };

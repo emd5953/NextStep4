@@ -2,16 +2,14 @@
 
 ## What I Just Built
 
-### 📚 New Documentation (7 files)
+### 📚 New Documentation (6 files)
 
 1. **FAQ.md** - Comprehensive FAQ covering all NextStep features
 2. **how-to-withdraw-application.md** - Guide for withdrawing applications
 3. **how-to-apply-jobs.md** - Complete guide on applying to jobs
-4. **how-to-message-employers.md** - Professional messaging guide
-5. **how-to-create-profile.md** - Profile setup and optimization
-6. **how-to-search-jobs.md** - Semantic search tips and techniques
-7. **how-to-post-jobs.md** - Employer guide for posting jobs
-8. **how-to-review-applications.md** - Employer guide for reviewing applicants
+4. **how-to-create-profile.md** - Profile setup and optimization
+5. **how-to-search-jobs.md** - Semantic search tips and techniques
+6. **employer-complete-guide.md** - Complete employer guide (REMOVED - employer features deprecated)
 
 ### 👍👎 Feedback System (FULLY IMPLEMENTED)
 

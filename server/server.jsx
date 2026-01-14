@@ -19,7 +19,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const { OAuth2Client } = require("google-auth-library");
-const { sendEmail } = require('./middleware/mailer.jsx');
 const path = require('path');
 const fs = require('fs');
 const analyzePDF = require('./middleware/AnalyzePdf.jsx');
@@ -29,9 +28,6 @@ const { profileController, upload } = require("./controllers/profileController.j
 const authController = require("./controllers/authController.jsx");
 const jobsController = require("./controllers/jobsController.jsx");
 const applicationsController = require("./controllers/applicationsController.jsx");
-const messagesController = require("./controllers/messagesController.jsx");
-const employerMessagingController = require("./controllers/employerMessagingController.jsx");
-const companyRoutes = require("./routes/companyRoutes.jsx");
 const chatRoutes = require("./routes/chatRoutes.jsx");
 const ragChatRoutes = require("./routes/ragChatRoutes.jsx");
 const ragChatController = require("./controllers/ragChatController.jsx");
@@ -39,6 +35,8 @@ const ragChatController = require("./controllers/ragChatController.jsx");
 // Import middleware
 const { verifyToken } = require("./middleware/auth.jsx");
 const { filterJobContent } = require("./middleware/contentFilter.jsx");
+const performanceMonitor = require("./middleware/performanceMonitor.jsx");
+const { rateLimitMiddleware } = require("./middleware/rateLimiter.jsx");
 
 /**
  * Express application instance
@@ -56,10 +54,7 @@ console.log("Environment check:", {
    mongoConfigured: !!process.env.MONGODB_URI,
    googleConfigured: !!process.env.GOOGLE_CLIENT_ID,
    env: process.env.NODE_ENV || 'Production.Env',
-   mail_key: !!process.env.MJ_API_KEY && 
-   !!process.env.MJ_PRIVATE_KEY, 
    bad_words_api_key: !!process.env.BAD_WORDS_API_KEY,
-   email_from: !!process.env.EMAIL_FROM,
    server_domain: process.env.SERVER_DOMAIN,
    geminiConfigured: !!process.env.GEMINI_API_KEY,
 });
@@ -79,6 +74,12 @@ app.use(cors({
   ],
   credentials: true
 }));
+
+// Add performance monitoring
+app.use(performanceMonitor);
+
+// Add rate limiting for job search endpoints
+app.use('/api/jobs', rateLimitMiddleware);
 
 
 // Serve static files from the public directory
@@ -221,14 +222,31 @@ client
       apiRouter.get("/newJobs", verifyToken, jobsController.getNewJobs);
 
       /* ------------------
-         Create New Job Posting
-      ------------------ */
-      apiRouter.post("/jobs", verifyToken, filterJobContent, jobsController.createJob);
-
-      /* ------------------
         Jobs to show in the homepage
       ------------------ */
       apiRouter.get("/retrieveJobsForHomepage", jobsController.getHomepageJobsUsingSemanticSearch);
+      
+      // Debug endpoint to check job count
+      apiRouter.get("/debug/jobs", async (req, res) => {
+        try {
+          const jobsCollection = req.app.locals.db.collection("Jobs");
+          const totalJobs = await jobsCollection.countDocuments();
+          const jobsWithEmbeddings = await jobsCollection.countDocuments({ embedding: { $exists: true } });
+          const sampleJob = await jobsCollection.findOne({}, { projection: { title: 1, embedding: 1 } });
+          
+          res.json({
+            totalJobs,
+            jobsWithEmbeddings,
+            sampleJob: sampleJob ? {
+              title: sampleJob.title,
+              hasEmbedding: !!sampleJob.embedding,
+              embeddingLength: sampleJob.embedding?.length
+            } : null
+          });
+        } catch (error) {
+          res.status(500).json({ error: error.message });
+        }
+      });
 
       /* ------------------
          Get Profile (for logged-in user)
@@ -289,75 +307,6 @@ client
       apiRouter.post("/auth/google", authController.googleAuth);
 
       /* ------------------
-         Get All Users (for messenger)
-      ------------------ */
-      apiRouter.get("/users", verifyToken, profileController.getAllUsers);
-
-      /* ------------------
-         Get Messages
-      ------------------ */
-      apiRouter.get("/messages", verifyToken, messagesController.getMessages);
-
-      /* ------------------
-         Mark Messages as Read
-      ------------------ */
-      apiRouter.put("/messages/read/:contactId", verifyToken, messagesController.markMessagesAsRead);
-
-      /* ------------------
-         Mark Company Messages as Read
-      ------------------ */
-      apiRouter.put("/messages/read/company/:companyId", verifyToken, messagesController.markCompanyMessagesAsRead);
-
-      /* ------------------
-         Send Message
-      ------------------ */
-      apiRouter.post("/messages", verifyToken, messagesController.sendMessage);
-
-      /* ------------------
-         Get Recent Contacts
-      ------------------ */
-      apiRouter.get("/myRecentContacts", verifyToken, messagesController.getRecentContacts);
-
-      /* ------------------
-         Get Recent Employer Contacts
-      ------------------ */
-      apiRouter.get("/myRecentEmployerContacts", verifyToken, messagesController.getRecentEmployerContacts);
-
-      /* ------------------
-         Get Employers from Applications
-      ------------------ */
-      apiRouter.get("/employersFromApplications", verifyToken, messagesController.getEmployersFromApplications);
-
-      /* ------------------
-         Send Message to Company
-      ------------------ */
-      apiRouter.post("/messages/company", verifyToken, messagesController.sendMessageToCompany);
-
-      /* ------------------
-         Employer Messaging Routes
-      ------------------ */
-      apiRouter.get("/employer/messages", verifyToken, employerMessagingController.getEmployerMessages);
-      apiRouter.put("/employer/messages/read/:applicantId", verifyToken, employerMessagingController.markMessagesAsRead);
-      apiRouter.get("/employer/recent-applicant-contacts", verifyToken, employerMessagingController.getRecentApplicantContacts);
-      apiRouter.get("/employer/applicants", verifyToken, employerMessagingController.getApplicantsFromJobs);
-      apiRouter.post("/employer/messages", verifyToken, employerMessagingController.sendMessageToApplicant);
-
-      /* ------------------
-         Get Employer's Applications with Details
-      ------------------ */
-      apiRouter.get("/employer/applications", verifyToken, applicationsController.getEmployerApplications);
-
-      /* ------------------
-         Update Application Status
-      ------------------ */
-      apiRouter.put("/employer/applications/:applicationId", verifyToken, applicationsController.updateApplicationStatus);
-
-      /* ------------------
-         Get Application Details
-      ------------------ */
-      apiRouter.get("/employer/applications/:applicationId", verifyToken, applicationsController.getApplicationDetails);
-
-      /* ------------------
          Get All Applications (unfiltered)
       ------------------ */
       apiRouter.get("/getallappl", verifyToken, applicationsController.getAllApplications);
@@ -367,27 +316,22 @@ client
       ------------------ */
       apiRouter.delete("/applications/:applicationId", verifyToken, applicationsController.withdrawApplication);
 
+      /* ------------------
+         Auto-Apply to Job
+      ------------------ */
+      apiRouter.post("/auto-apply", verifyToken, applicationsController.autoApply);
+
+      /* ------------------
+         Reject Job
+      ------------------ */
+      apiRouter.post("/reject-job", verifyToken, applicationsController.rejectJob);
+
+      /* ------------------
+         Get Rejected Jobs
+      ------------------ */
+      apiRouter.get("/rejected-jobs", verifyToken, applicationsController.getRejectedJobs);
+
       apiRouter.get("/userProfile/:userId", profileController.getUserProfile);
-
-      /* ------------------
-         Update Job Posting
-      ------------------ */
-      apiRouter.put("/employer/jobs/:jobId", verifyToken, filterJobContent, jobsController.updateJob);
-
-      /* ------------------
-         Delete Job Posting
-      ------------------ */
-      apiRouter.delete("/employer/jobs/:jobId", verifyToken, jobsController.deleteJob);
-
-      /* ------------------
-         Search Employer's Job Postings
-      ------------------ */
-      apiRouter.get("/employer/jobs/search", verifyToken, jobsController.searchEmployerJobs);
-
-      /* ------------------
-         Get Company Profile (mount company routes on API router)
-      ------------------ */
-      apiRouter.use('/', companyRoutes);
       
       apiRouter.use('/chat', chatRoutes);
       apiRouter.use('/rag-chat', ragChatRoutes);
