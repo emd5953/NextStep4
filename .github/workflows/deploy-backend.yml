@@ -73,7 +73,7 @@ jobs:
             fi
             
             echo "Restarting server with PM2..."
-            pm2 restart nextstep-server || pm2 start server.js --name nextstep-server
+            pm2 restart nextstep || pm2 start server.jsx --name nextstep
             
             echo "Deployment complete!"
           EOF
