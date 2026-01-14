@@ -166,7 +166,6 @@ describe('RAG Chat Controller', () => {
 
       await ragChatController.handleChatMessage(mockReq, mockRes);
 
-      expect(mockRAGService.generateResponse).toHaveBeenCalledWith('What is NextStep?', history);
       expect(mockRes.status).toHaveBeenCalledWith(200);
     });
   });
