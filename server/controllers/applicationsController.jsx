@@ -345,9 +345,38 @@ const applicationsController = {
   getRejectedJobs: async (req, res) => {
     try {
       const rejectedJobsCollection = req.app.locals.db.collection("rejectedJobs");
+      const jobsCollection = req.app.locals.db.collection("Jobs");
 
       const rejectedJobs = await rejectedJobsCollection
-        .find({ user_id: ObjectId.createFromHexString(req.user.id) })
+        .aggregate([
+          {
+            $match: { user_id: ObjectId.createFromHexString(req.user.id) }
+          },
+          {
+            $lookup: {
+              from: "Jobs",
+              localField: "job_id",
+              foreignField: "_id",
+              as: "jobDetails"
+            }
+          },
+          {
+            $unwind: {
+              path: "$jobDetails",
+              preserveNullAndEmptyArrays: true
+            }
+          },
+          {
+            $project: {
+              _id: 1,
+              job_id: 1,
+              date_rejected: 1,
+              title: { $ifNull: ["$jobDetails.title", "N/A"] },
+              companyName: { $ifNull: ["$jobDetails.companyName", "N/A"] },
+              salaryRange: { $ifNull: ["$jobDetails.salaryRange", "N/A"] }
+            }
+          }
+        ])
         .toArray();
 
       res.status(200).json(rejectedJobs);

@@ -50,12 +50,11 @@ const jobsController = {
       if (includeExternal && process.env.JSEARCH_API_KEY && process.env.JSEARCH_API_KEY !== 'your_jsearch_api_key_here') {
         try {
           const searchParams = {
-            query: queryText || 'recent jobs', // Use broad query to get most recent jobs
+            query: queryText || 'recent jobs',
             page: 1,
-            num_pages: 3 // Increased to get more jobs
+            num_pages: 2
           };
           
-          // Parse location from query if available
           if (queryText && queryText.toLowerCase().includes('location:')) {
             const locationMatch = queryText.match(/location:\s*([^,]+)/i);
             if (locationMatch) {
@@ -63,9 +62,8 @@ const jobsController = {
             }
           }
           
-          // Timeout for external API call
           const timeoutPromise = new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('External API timeout')), 10000)
+            setTimeout(() => reject(new Error('External API timeout')), 5000)
           );
           
           externalJobs = await Promise.race([
@@ -74,13 +72,17 @@ const jobsController = {
           ]);
         } catch (error) {
           console.error('Error fetching external jobs:', error.message);
-          // Continue with internal jobs only if external API fails
           externalJobs = [];
         }
       }
 
       // Combine internal and external jobs
       let allJobs = [...internalJobs, ...externalJobs];
+      
+      // If no jobs at all, return message
+      if (allJobs.length === 0) {
+        return res.status(200).json([]);
+      }
 
       //-------------------------------------
       const token = req.headers.authorization?.split(" ")[1];
@@ -269,26 +271,23 @@ const jobsController = {
       let allJobs = [];
       
       try {
-        // Build search query based on user profile
-        let searchQuery = 'software developer'; // Default
+        let searchQuery = 'software developer';
         if (userProfile?.skills && userProfile.skills.length > 0) {
-          searchQuery = userProfile.skills.slice(0, 3).join(' '); // Use top 3 skills
+          searchQuery = userProfile.skills.slice(0, 3).join(' ');
         }
         
         const searchParams = {
           query: searchQuery,
           page: 1,
-          num_pages: 2 // Reduced from 3 to 2 for faster response
+          num_pages: 2
         };
         
-        // Add location if available
         if (userProfile?.location) {
           searchParams.location = userProfile.location;
         }
         
         console.log("🎯 Search params:", searchParams);
         
-        // Fetch from external API with timeout
         const timeoutPromise = new Promise((_, reject) => 
           setTimeout(() => reject(new Error('External API timeout')), 5000)
         );
@@ -301,8 +300,48 @@ const jobsController = {
         console.log(`✅ Fetched ${allJobs.length} jobs from external API`);
       } catch (error) {
         console.error('❌ Error fetching from external API:', error.message);
-        // Continue with empty array - will return message to user
-        allJobs = [];
+        
+        // Fallback to internal jobs if external API fails
+        console.log("🔄 Falling back to internal jobs...");
+        try {
+          const jobsCollection = req.app.locals.db.collection("Jobs");
+          allJobs = await jobsCollection.aggregate([
+            {
+              $lookup: {
+                from: "companies",
+                localField: "companyId",
+                foreignField: "_id",
+                as: "companyInfo"
+              }
+            },
+            {
+              $unwind: {
+                path: "$companyInfo",
+                preserveNullAndEmptyArrays: true
+              }
+            },
+            {
+              $project: {
+                _id: 1,
+                title: 1,
+                jobDescription: 1,
+                skills: 1,
+                locations: 1,
+                benefits: 1,
+                schedule: 1,
+                salaryRange: 1,
+                companyName: "$companyInfo.name",
+                companyWebsite: "$companyInfo.website",
+                embedding: 1
+              }
+            },
+            { $limit: 50 }
+          ]).toArray();
+          console.log(`✅ Fetched ${allJobs.length} internal jobs as fallback`);
+        } catch (dbError) {
+          console.error('❌ Error fetching internal jobs:', dbError.message);
+          allJobs = [];
+        }
       }
 
       if (allJobs.length === 0) {

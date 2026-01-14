@@ -6,6 +6,7 @@ import '../styles/BrowseJobs.css';
 import { TokenContext } from '../components/TokenContext';
 import NotificationBanner from '../components/NotificationBanner';
 import { API_SERVER } from '../config';
+import { cacheService } from '../utils/cache';
 
 const APPLY = 1;
 
@@ -21,15 +22,31 @@ const BrowseJobs = () => {
 
   useEffect(() => {
     const fetchJobs = async () => {
+      // Check cache first
+      const cacheKey = 'browse-jobs-all';
+      const cached = cacheService.get(cacheKey);
+      
+      if (cached && cached.length > 0) {
+        console.log("✅ Using cached browse jobs");
+        setJobs(cached);
+        setIsInitialLoading(false);
+        return;
+      }
+
       try {
-        setError(null); // Clear any previous errors
+        setError(null);
         const response = await axios.get(`${API_SERVER}/jobs`, 
           token ? {
             headers: { Authorization: `Bearer ${token}` },
-            timeout: 15000 // Increased timeout for initial load
+            timeout: 15000
           } : { timeout: 15000 }
         );
         setJobs(response.data);
+        
+        // Only cache if we got results
+        if (response.data.length > 0) {
+          cacheService.set(cacheKey, response.data, 10);
+        }
       } catch (error) {
         console.error('Error fetching jobs:', error);
         if (error.code === 'ECONNABORTED') {
@@ -49,18 +66,31 @@ const BrowseJobs = () => {
     e.preventDefault();
     setIsSearching(true);
     setSearchQuery(searchInput);
-    setError(null); // Clear previous errors
+    setError(null);
+    
+    // Check cache for search
+    const cacheKey = `browse-jobs-search-${searchInput}`;
+    const cached = cacheService.get(cacheKey);
+    
+    if (cached) {
+      console.log("✅ Using cached search results");
+      setJobs(cached);
+      setIsSearching(false);
+      return;
+    }
     
     try {
       const response = await axios.get(`${API_SERVER}/jobs?q=` + searchInput, 
         token ? {
           headers: { Authorization: `Bearer ${token}` },
-          timeout: 15000 // Increased timeout
+          timeout: 15000
         } : { timeout: 15000 }
       );
       setJobs(response.data);
       
-      // Show message if no jobs found
+      // Cache search results for 5 minutes
+      cacheService.set(cacheKey, response.data, 5);
+      
       if (response.data.length === 0) {
         setError('No jobs found matching your search. Try different keywords or check back later.');
       }
@@ -76,33 +106,50 @@ const BrowseJobs = () => {
     }
   };
 
-  const handleApply = async (jobId) => {
+  const handleApply = async (jobId, jobData) => {
     if (!token) {
       setError("Please sign in to apply for jobs. If you don't have an account, you can create one.");
       return;
     }
     try {
-      await axios.post(`${API_SERVER}/jobsTracker`, { 
-        _id:jobId, 
-        email,
-        name,
-        swipeMode: APPLY 
+      await axios.post(`${API_SERVER}/auto-apply`, { 
+        job_id: jobId,
+        title: jobData.title,
+        companyName: jobData.companyName,
+        jobUrl: jobData.jobUrl,
+        isExternal: jobData.isExternal
       }, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setMessage("Applied successfully!");
-      const response = await axios.get(`${API_SERVER}/jobs?q=` + searchQuery, 
-        token ? {
-          headers: { Authorization: `Bearer ${token}` }
-        } : undefined
-      );
-      setJobs(response.data);
+      setMessage("Auto-applied successfully!");
+      
+      // Remove job from list
+      setJobs(jobs.filter(job => job._id !== jobId));
     } catch (error) {
       if (error.response && error.response.status === 409) {
         setError(error.response.data.error);
       } else {
-        setError('An unexpected error occurred. Please try again later.');
+        setError('Failed to apply. Please try again.');
       }
+    }
+  };
+
+  const handleReject = async (jobId) => {
+    if (!token) {
+      setError("Please sign in to manage jobs.");
+      return;
+    }
+    try {
+      await axios.post(`${API_SERVER}/reject-job`, { 
+        job_id: jobId
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      // Remove job from list
+      setJobs(jobs.filter(job => job._id !== jobId));
+    } catch (error) {
+      setError('Failed to reject job.');
     }
   };
 

@@ -3,11 +3,12 @@ import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Swipe.css';
 import axios from 'axios';
-import { ThumbsUp, ThumbsDown } from 'lucide-react'; // Import icons
+import { ThumbsUp, ThumbsDown } from 'lucide-react';
 import NotificationBanner from './NotificationBanner';
 import { TokenContext } from './TokenContext';
 import { API_SERVER } from '../config';
 import axiosInstance from '../utils/axiosConfig';
+import { cacheService } from '../utils/cache';
 
 // Define swipe mode constants
 const APPLY = 1;
@@ -32,35 +33,39 @@ const Swipe = () => {
 
   useEffect(() => {
     const fetchJobs = async () => {
+      // Check cache first
+      const cacheKey = `homepage-jobs-${token}`;
+      const cached = cacheService.get(cacheKey);
+      
+      if (cached && cached.length > 0) {
+        console.log("✅ Using cached jobs");
+        setJobs(cached);
+        setIsLoading(false);
+        return;
+      }
+
       try {
         setIsLoading(true);
-        setError(null); // Clear previous errors
-        console.log("🔍 Fetching personalized jobs for homepage");
-        console.log("Token exists:", !!token);
-        console.log("API_SERVER:", API_SERVER);
-        console.log("Full URL:", `${API_SERVER}/retrieveJobsForHomepage`);
+        setError(null);
         
         const response = await axiosInstance.get(`${API_SERVER}/retrieveJobsForHomepage`);
-        console.log("✅ Jobs received:", response.data);
-        console.log("✅ Jobs count:", response.data.length);
         setJobs(response.data);
+        
+        // Only cache if we got results
+        if (response.data.length > 0) {
+          cacheService.set(cacheKey, response.data, 5);
+        }
         
         if (response.data.length === 0) {
           setError("No jobs found. Try updating your profile with more skills.");
         }
       } catch (error) {
         console.error('❌ Error fetching jobs:', error);
-        console.error('Error message:', error.message);
-        console.error('Error response:', error.response?.data);
-        console.error('Error status:', error.response?.status);
-        console.error('Error config:', error.config);
         
         if (error.response?.status === 400) {
           setError(error.response.data.error || "Please complete your profile to get job recommendations.");
         } else if (error.response?.status === 401) {
           setError("Please log in to see personalized job recommendations.");
-        } else if (error.code === 'ECONNREFUSED') {
-          setError("Cannot connect to server. Please make sure the server is running.");
         } else {
           setError(`Unable to load job recommendations: ${error.message}`);
         }
@@ -78,38 +83,38 @@ const Swipe = () => {
   }, [token]);
 
 
-  const updateJobsTracker = async (jobId, swipeMode) => {
+  const updateJobsTracker = async (jobId, swipeMode, jobData) => {
     if (!token) {
       setError("Please sign in to apply for jobs. If you don't have an account, you can create one.");
       return;
     }
     try {
-      await axios.post(`${API_SERVER}/jobsTracker`, {
-        _id: jobId,
-        email,
-        name,
-        swipeMode
-      }, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-
-      // Set appropriate message based on swipeMode
-      switch (swipeMode) {
-        case APPLY:
-          setMessage("Applied successfully!");
-          break;
-        case IGNORE:
-          setMessage("Job ignored");
-          break;
-        default:
-          setMessage("Action completed");
+      if (swipeMode === APPLY) {
+        // Use auto-apply agent
+        await axios.post(`${API_SERVER}/auto-apply`, {
+          job_id: jobId,
+          title: jobData.title,
+          companyName: jobData.companyName,
+          jobUrl: jobData.companyWebsite,
+          isExternal: jobData.isExternal
+        }, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setMessage("Auto-applied successfully!");
+      } else if (swipeMode === IGNORE) {
+        // Reject job
+        await axios.post(`${API_SERVER}/reject-job`, {
+          job_id: jobId
+        }, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setMessage("Job rejected");
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
         setToken(null);
         setError("Your session has expired. Please sign in again.");
       } else if (error.response && error.response.status === 409) {
-        console.log(error.response.data.error + jobId);
         setError(error.response.data.error);
       } else {
         setError('An unexpected error occurred. Please try again later.');
@@ -226,14 +231,14 @@ const Swipe = () => {
           if (jobs[currentIndex]) {
             if (!jobs[currentIndex].applied || jobs[currentIndex].applied === 'B') {
               jobs[currentIndex].applied = 'A';
-              updateJobsTracker(jobs[currentIndex]._id, APPLY);
+              updateJobsTracker(jobs[currentIndex]._id, APPLY, jobs[currentIndex]);
             }
           }
         } else {
           if (jobs[currentIndex]) {
             if (!jobs[currentIndex].applied || (jobs[currentIndex].applied === 'B' && jobs[currentIndex].applied === 'A')) {
               jobs[currentIndex].applied = 'B';
-              updateJobsTracker(jobs[currentIndex]._id, IGNORE);
+              updateJobsTracker(jobs[currentIndex]._id, IGNORE, jobs[currentIndex]);
             }
           }
         }
@@ -255,8 +260,12 @@ const Swipe = () => {
   const getNextIndex = (current) => (current + 1) % jobs.length;
 
   const handleCardTap = (job) => {
-    if (!isSwiping) {
-      navigate(`/jobs/${job._id}/home`);
+    if (!isSwiping && Math.abs(currentX) < 5 && Math.abs(currentY) < 5) {
+      if (job.isExternal && job.jobUrl) {
+        window.open(job.jobUrl, '_blank');
+      } else if (job.companyWebsite) {
+        window.open(job.companyWebsite, '_blank');
+      }
     }
   };
 
