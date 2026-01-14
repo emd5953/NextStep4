@@ -26,7 +26,7 @@ const Profile = () => {
 
   const navigate = useNavigate(1);
   //const location = useLocation();
-  const { token, setToken, triggerProfileUpdate, employerFlag } = useContext(TokenContext);
+  const { token, setToken, triggerProfileUpdate } = useContext(TokenContext);
   const [updateFlag] = useState(null);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
@@ -205,79 +205,73 @@ const Profile = () => {
       <h2>Profile</h2>
       <form onSubmit={handleSubmit} className="profile-form">
         <div className="profile-header">
-          {/* Photo Upload - Only show for non-employers */}
-          {!employerFlag && (
-            <>
-              <div className="profile-image-container">
-                {profileImage ? (
-                  <img className="profile-image"
-                    src={profileImage}
-                    alt=""
-                  />
-                ) : (
-                  <img
-                    className="profile-image"
-                    src={profilePic}
-                    alt={profilePicAlt}
-                    onError={() => {
-                      setProfilePicAlt("");
-                      setProfilePic(null);
-                    }}
-                  />
-                )}
-                <div
-                  className="profile-image-edit"
-                  onClick={() => document.getElementById('photo-upload').click()}
+          {/* Photo Upload */}
+          <div className="profile-image-container">
+            {profileImage ? (
+              <img className="profile-image"
+                src={profileImage}
+                alt=""
+              />
+            ) : (
+              <img
+                className="profile-image"
+                src={profilePic}
+                alt={profilePicAlt}
+                onError={() => {
+                  setProfilePicAlt("");
+                  setProfilePic(null);
+                }}
+              />
+            )}
+            <div
+              className="profile-image-edit"
+              onClick={() => document.getElementById('photo-upload').click()}
+            >
+              ✎
+            </div>
+          </div>
+          {showResumeOverlay && (
+            <div className="resume-overlay">
+              <div className="resume-overlay-content">
+                <button
+                  className="close-overlay-button"
+                  onClick={() => setShowResumeOverlay(false)}
                 >
-                  ✎
-                </div>
-              </div>
-              {showResumeOverlay && (
-                <div className="resume-overlay">
-                  <div className="resume-overlay-content">
-                    <button
-                      className="close-overlay-button"
-                      onClick={() => setShowResumeOverlay(false)}
-                    >
-                      ×
-                    </button>
-                    <iframe
-                      src={`data:${resume.mimetype};base64,${resume.buffer}`}
-                      title="Your resume"
-                      width="100%"
-                      height="100%"
-                      style={{ border: 'none' }}
-                    />
-                  </div>
-                </div>
-              )}
-              <div className="profile-form-group-hidden">
-                <label className="profile-label">Profile Photo</label>
-                <label htmlFor="photo-upload" className="upload-label">Upload...</label>
-                <input
-                  id="photo-upload"
-                  type="file"
-                  accept="image/*"
-                  onChange={handlePhotoChange}
-                  className="file-input"
+                  ×
+                </button>
+                <iframe
+                  src={`data:${resume.mimetype};base64,${resume.buffer}`}
+                  title="Your resume"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 'none' }}
                 />
               </div>
-            </>
+            </div>
           )}
+          <div className="profile-form-group-hidden">
+            <label className="profile-label">Profile Photo</label>
+            <label htmlFor="photo-upload" className="upload-label">Upload...</label>
+            <input
+              id="photo-upload"
+              type="file"
+              accept="image/*"
+              onChange={handlePhotoChange}
+              className="file-input"
+            />
+          </div>
 
           <div className="profile-fields-container">
-            {/* Resume Upload - Only show for non-employers */}
-            {!employerFlag && (
-              <div className="profile-form-group">
-                <input
-                  id="resume-upload"
-                  type="file"
-                  accept=".pdf,.doc,.docx"
-                  onChange={handleResumeChange}
-                  className="file-input"
-                />
-              </div>
-            )}
+            {/* Resume Upload */}
+            <div className="profile-form-group">
+              <input
+                id="resume-upload"
+                type="file"
+                accept=".pdf,.doc,.docx"
+                onChange={handleResumeChange}
+                className="file-input"
+              />
+            </div>
 
             {/* Name Fields Row */}
             <div className="profile-form-row">
@@ -348,70 +342,66 @@ const Profile = () => {
         </div>
 
         {/* Skills Management Section */}
-        {!employerFlag && (
-          <div className="skills-section">
-            <div className="skills-header">
-              <h3>Your Professional Skills</h3>
-              {skills?.length > 0 && !isAnalyzing && (
-                <button
-                  type="button"
-                  className="clear-skills-button"
-                  onClick={handleClearSkills}
-                >
-                  Reset Skills
-                </button>
-              )}
-            </div>
-
-            {/* Add New Skill Input */}
-            <div className="add-skill-form">
-              <input
-                type="text"
-                value={newSkill}
-                onChange={(e) => setNewSkill(e.target.value)}
-                placeholder="Add a new skill or upload your resume to analyze your skills..."
-                className="skill-input"
-                disabled={isAnalyzing}
-              />
+        <div className="skills-section">
+          <div className="skills-header">
+            <h3>Your Professional Skills</h3>
+            {skills?.length > 0 && !isAnalyzing && (
               <button
                 type="button"
-                className="add-skill-button"
-                onClick={handleSkillAdd}
-                disabled={isAnalyzing}
+                className="clear-skills-button"
+                onClick={handleClearSkills}
               >
-                Add Skill
+                Reset Skills
               </button>
-            </div>
-
-            {/* Skills List */}
-            <div className="skills-list">
-              {skills?.map((skill, index) => (
-                <div key={index} className="skill-item">
-                  <span>{skill}</span>
-                  <button
-                    type="button"
-                    className="remove-skill"
-                    onClick={() => handleSkillRemove(index)}
-                    disabled={isAnalyzing}
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
-            </div>
+            )}
           </div>
-        )}
+
+          {/* Add New Skill Input */}
+          <div className="add-skill-form">
+            <input
+              type="text"
+              value={newSkill}
+              onChange={(e) => setNewSkill(e.target.value)}
+              placeholder="Add a new skill or upload your resume to analyze your skills..."
+              className="skill-input"
+              disabled={isAnalyzing}
+            />
+            <button
+              type="button"
+              className="add-skill-button"
+              onClick={handleSkillAdd}
+              disabled={isAnalyzing}
+            >
+              Add Skill
+            </button>
+          </div>
+
+          {/* Skills List */}
+          <div className="skills-list">
+            {skills?.map((skill, index) => (
+              <div key={index} className="skill-item">
+                <span>{skill}</span>
+                <button
+                  type="button"
+                  className="remove-skill"
+                  onClick={() => handleSkillRemove(index)}
+                  disabled={isAnalyzing}
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
 
         {/* Submit and Upload Buttons */}
         <div className="button-container">
-          {!employerFlag && (
-            <>
-              <label htmlFor="resume-upload" className="upload-button">
-                <span>
-                  Upload Resume
-                </span>
-              </label>
-              {resume && (
+          <label htmlFor="resume-upload" className="upload-button">
+            <span>
+              Upload Resume
+            </span>
+          </label>
+          {resume && (
 
                 <label htmlFor="resume-upload" className="upload-button" onClick={(e) => {
                   e.preventDefault();
@@ -423,8 +413,6 @@ const Profile = () => {
                 </label>
 
               )}
-            </>
-          )}
           <button type="submit" className="profile-button" disabled={isAnalyzing}>Save Profile</button>
         </div>
       </form>

@@ -20,7 +20,6 @@ const JobCard = ({
   isDemo = false
 }) => {
   const navigate = useNavigate();
-  const { employerFlag } = useContext(TokenContext);
 
   const handleApply = () => {
     if (isDemo) return; // No apply for demo cards
@@ -61,11 +60,9 @@ const JobCard = ({
         <div className="job-card-content">
           <div className="job-header-compact">
             <h3 className="job-title-compact">{title}</h3>
-            {!employerFlag && (
-              <button onClick={handleApply} className="apply-button-compact">
-                {isExternal ? 'Apply on Site' : 'Apply'}
-              </button>
-            )}
+            <button onClick={handleApply} className="apply-button-compact">
+              {isExternal ? 'Apply on Site' : 'Apply'}
+            </button>
           </div>
           
           <a

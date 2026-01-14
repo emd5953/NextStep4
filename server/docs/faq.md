@@ -3,10 +3,10 @@
 ## General Questions
 
 ### What is NextStep?
-NextStep is a modern job matching platform that uses AI-powered semantic search to connect job seekers with relevant opportunities. We offer swipe-based job discovery, application tracking, and direct messaging with employers.
+NextStep is a modern job matching platform that uses AI-powered semantic search to connect job seekers with relevant opportunities. We offer swipe-based job discovery, intelligent recommendations, and application tracking.
 
 ### Is NextStep free to use?
-Yes, NextStep is free for job seekers. Employers may have different pricing tiers for posting jobs and accessing advanced features.
+Yes, NextStep is completely free for job seekers.
 
 ### How does the job matching work?
 We use AI embeddings to understand your skills, experience, and preferences. When you search or browse jobs, our semantic search finds positions that match your profile, not just keyword matches.
@@ -51,30 +51,19 @@ Visit the "My Jobs" page to see all your applications, their status (Pending, In
 - **Offered:** You've received a job offer
 - **Rejected:** The employer decided not to move forward
 
-## Messaging
+## RAG AI Chatbot
 
-### How do I message an employer?
-Go to the Messenger page, select a company from your applications, and start chatting. You can only message employers for jobs you've applied to.
+### What is the RAG chatbot?
+The RAG (Retrieval-Augmented Generation) chatbot is an AI assistant that can answer questions about NextStep using our documentation. It provides accurate answers with source citations.
 
-### Can employers message me?
-Yes, employers can message applicants who have applied to their jobs. You'll receive notifications when you have new messages.
+### How do I use the chatbot?
+Click the chat icon in the bottom-right corner, type your question, and the AI will respond with helpful information and show which documents it used.
 
-### Are messages real-time?
-Messages are checked periodically. Refresh the page or wait a few seconds to see new messages.
+### Can I provide feedback on chatbot responses?
+Yes! Click the 👍 (helpful) or 👎 (not helpful) buttons below each response. This helps improve the chatbot over time.
 
-## For Employers
-
-### How do I post a job?
-Employers can post jobs through the Employer Dashboard. Fill in the job title, description, skills, location, salary, and benefits.
-
-### How do I review applications?
-Go to the Application Tracker to see all applicants for your jobs. You can update their status, add notes, and message them directly.
-
-### Can I edit or delete job postings?
-Yes, go to "Manage Job Postings" to edit or delete your active job listings.
-
-### How do I update application status?
-In the Application Tracker, click "Edit" next to an application, select a new status, and save. The applicant will receive an email notification.
+### What can the chatbot help with?
+The chatbot can answer questions about how to use NextStep, explain features, provide troubleshooting help, and guide you through the platform.
 
 ## Technical Issues
 
@@ -96,10 +85,18 @@ Click "Forgot Password" on the login page to reset your password via email.
 Yes, we use industry-standard encryption and security practices. Passwords are hashed, and sensitive data is protected.
 
 ### Who can see my profile?
-Only employers whose jobs you've applied to can see your full profile. Your basic information is visible in the application tracker.
+Your profile information is private. Only you can see your full profile details, resume, and application history.
 
 ### Can I delete my account?
 Contact support to request account deletion. We'll remove your data in accordance with privacy regulations.
+
+## Job Sources
+
+### Where do the jobs come from?
+Jobs are sourced from the JSearch API, which aggregates listings from major job boards and company websites. All jobs are real, active positions.
+
+### Are these real job postings?
+Yes! All jobs come from verified sources and are actively hiring. We don't create fake job listings.
 
 ## Contact & Support
 

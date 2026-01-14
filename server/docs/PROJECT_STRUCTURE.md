@@ -8,14 +8,11 @@ server/
 │   └── ragConfig.js     # RAG system configuration
 │
 ├── controllers/         # 🎮 Request handlers
-│   ├── authController.js              # Authentication & signup
-│   ├── profileController.js           # User profiles
-│   ├── jobsController.js              # Job CRUD + semantic search
-│   ├── applicationsController.js      # Job applications + withdrawal
-│   ├── messagesController.js          # User messaging
-│   ├── employerMessagingController.js # Employer messaging
-│   ├── companyController.js           # Company profiles
-│   └── ragChatController.js           # RAG chatbot API
+│   ├── authController.jsx             # Authentication & signup
+│   ├── profileController.jsx          # User profiles
+│   ├── jobsController.jsx             # Job browsing + semantic search
+│   ├── applicationsController.jsx     # Job applications + withdrawal
+│   └── ragChatController.jsx          # RAG chatbot API
 │
 ├── data/               # 📊 Static data files
 │
@@ -25,12 +22,10 @@ server/
 │   │   ├── how-to-withdraw-application.md
 │   │   ├── how-to-create-profile.md
 │   │   ├── how-to-search-jobs.md
-│   │   ├── how-to-message-employers.md
+│   │   ├── how-to-check-progress.md
+│   │   ├── staying-motivated.md
+│   │   ├── common-questions.md
 │   │   └── complete-feature-guide.md
-│   ├── employer-guides/               # Employer documentation
-│   │   ├── how-to-post-jobs.md
-│   │   ├── how-to-review-applications.md
-│   │   └── employer-complete-guide.md
 │   ├── faq.md                         # Frequently asked questions
 │   ├── SELF_IMPROVING_RAG.md          # Self-improving RAG guide
 │   ├── IMPROVEMENTS_COMPLETED.md      # Recent improvements
@@ -55,21 +50,24 @@ server/
 ├── public/            # 🌐 Static files
 │
 ├── routes/            # 🛣️ API routes
-│   ├── chatRoutes.js                  # Basic chat routes
-│   ├── ragChatRoutes.js               # RAG chat routes
-│   └── companyRoutes.js               # Company routes
+│   ├── chatRoutes.jsx                 # Basic chat routes
+│   └── ragChatRoutes.jsx              # RAG chat routes
 │
 ├── scripts/           # 🔨 Utility scripts
-│   ├── ingest-documents.js            # Document ingestion CLI
-│   ├── clear-vector-store.js          # Clear vector database
-│   └── feedback-report.js             # Generate feedback reports
+│   ├── ingest-documents.jsx           # Document ingestion CLI
+│   ├── clear-vector-store.jsx         # Clear vector database
+│   └── feedback-report.jsx            # Generate feedback reports
 │
 ├── services/          # 🧠 Business logic
-│   ├── embeddingService.js            # Text embedding generation
-│   ├── vectorStoreService.js          # Vector database operations
-│   ├── documentIngestionService.js    # Document processing & chunking
-│   ├── ragService.js                  # RAG core logic (self-improving!)
-│   └── feedbackAnalyzer.js            # Feedback analysis & alerts
+│   ├── embeddingService.jsx           # Text embedding generation
+│   ├── vectorStoreService.jsx         # Vector database operations
+│   ├── documentIngestionService.jsx   # Document processing & chunking
+│   ├── ragService.jsx                 # RAG core logic (self-improving!)
+│   ├── feedbackAnalyzer.jsx           # Feedback analysis & alerts
+│   ├── smartChatHandler.jsx           # Smart chat routing
+│   ├── intentClassifier.jsx           # Intent classification
+│   ├── offTopicDetector.jsx           # Off-topic detection
+│   └── jobApiService.jsx              # External job API integration
 │
 ├── tests/             # 🧪 Test files
 │   ├── README.md                      # Test documentation
@@ -93,7 +91,7 @@ server/
 ## Key Files
 
 ### Entry Point
-- **server.js** - Main application entry point, Express server setup, all routes defined here
+- **server.jsx** - Main application entry point, Express server setup, all routes defined here
 
 ### Configuration
 - **.env** - Environment variables (API keys, database URLs, RAG config)
@@ -102,34 +100,34 @@ server/
 ### Controllers (Request Handlers)
 
 #### Authentication & Users
-- **authController.js** - Signup, signin, Google OAuth, email verification
-- **profileController.js** - User profiles, resume upload, skill extraction
+- **authController.jsx** - Signup, signin, Google OAuth, email verification
+- **profileController.jsx** - User profiles, resume upload, skill extraction
 
 #### Jobs & Applications
-- **jobsController.js** - Job CRUD, semantic search, job matching
-- **applicationsController.js** - Apply, track, withdraw applications
+- **jobsController.jsx** - Job browsing, semantic search, job matching
+- **applicationsController.jsx** - Apply, track, withdraw applications
 
-#### Messaging
-- **messagesController.js** - User-to-employer messaging
-- **employerMessagingController.js** - Employer-to-applicant messaging
-
-#### Company & RAG
-- **companyController.js** - Company profiles and management
-- **ragChatController.js** - RAG chatbot API with feedback system
+#### RAG Chatbot
+- **ragChatController.jsx** - RAG chatbot API with feedback system
 
 ### Services (Business Logic)
 
 #### RAG System (Self-Improving!)
-1. **embeddingService.js** - Converts text to 768-dimensional vectors using Gemini
-2. **vectorStoreService.js** - Manages ChromaDB storage and retrieval
-3. **documentIngestionService.js** - Processes and chunks documents (500 chars, 50% overlap)
-4. **ragService.js** - RAG core logic with adaptive retrieval and query expansion
-5. **feedbackAnalyzer.js** - Analyzes user feedback, triggers alerts, generates reports
+1. **embeddingService.jsx** - Converts text to 768-dimensional vectors using Gemini
+2. **vectorStoreService.jsx** - Manages ChromaDB storage and retrieval
+3. **documentIngestionService.jsx** - Processes and chunks documents (500 chars, 50% overlap)
+4. **ragService.jsx** - RAG core logic with adaptive retrieval and query expansion
+5. **feedbackAnalyzer.jsx** - Analyzes user feedback, triggers alerts, generates reports
+6. **smartChatHandler.jsx** - Routes queries to appropriate handlers
+7. **intentClassifier.jsx** - Classifies user intent
+8. **offTopicDetector.jsx** - Detects off-topic queries
+
+#### External Services
+- **jobApiService.jsx** - JSearch API integration for real job listings
 
 ### Routes (API Endpoints)
-- **chatRoutes.js** - Basic chat routes
-- **ragChatRoutes.js** - RAG chat routes (`/api/rag-chat`, `/api/rag-chat/feedback`)
-- **companyRoutes.js** - Company profile routes
+- **chatRoutes.jsx** - Basic chat routes
+- **ragChatRoutes.jsx** - RAG chat routes (`/api/rag-chat`, `/api/rag-chat/feedback`, `/api/rag-chat/status`)
 
 ### Scripts (CLI Tools)
 
@@ -150,11 +148,8 @@ node scripts/feedback-report.js 30  # Last 30 days
 ### Documentation
 
 #### For Users
-- **user-guides/** - How to use NextStep (5 guides)
-- **faq.md** - Frequently asked questions (50+ Q&A)
-
-#### For Employers
-- **employer-guides/** - How to hire on NextStep (2 guides)
+- **user-guides/** - How to use NextStep (8 guides)
+- **faq.md** - Frequently asked questions
 
 #### For Developers
 - **QUICK_START.md** - Get up and running quickly
@@ -176,16 +171,14 @@ node scripts/feedback-report.js 30  # Last 30 days
 
 ### MongoDB (db2)
 - **users** - User accounts, profiles, skills, resumes
-- **Jobs** - Job postings with embeddings for semantic search
+- **Jobs** - Job postings (external API jobs)
 - **applications** - Job applications with status tracking
-- **companies** - Company profiles and information
-- **messages** - User-employer messaging
 - **rag_feedback** - Chatbot feedback (👍/👎) for self-improvement
 
 ### ChromaDB (nextstep_docs)
 - **Document chunks** - Embedded documentation (768-dimensional vectors)
 - **Metadata** - Source file, chunk index, document type
-- **Current count** - 256 chunks from 21 documentation files
+- **Current count** - 404 chunks from documentation files
 
 ---
 
@@ -201,38 +194,28 @@ node scripts/feedback-report.js 30  # Last 30 days
 ### Jobs
 - `GET /api/jobs` - Browse jobs (with semantic search)
 - `GET /api/jobs/:jobId` - Get job details
-- `POST /api/jobs` - Create job (employers only)
-- `PUT /api/employer/jobs/:jobId` - Update job
-- `DELETE /api/employer/jobs/:jobId` - Delete job
-- `GET /api/employer/jobs/search` - Search employer's jobs
+- `GET /api/newJobs` - Get jobs user hasn't applied to
 - `GET /api/retrieveJobsForHomepage` - Personalized job recommendations
 
 ### Applications
 - `POST /api/jobsTracker` - Apply to job
 - `GET /api/applications` - Get user's applications
 - `DELETE /api/applications/:applicationId` - Withdraw application
-- `GET /api/employer/applications` - Get applications for employer's jobs
-- `PUT /api/employer/applications/:applicationId` - Update application status
+- `POST /api/auto-apply` - Auto-apply to job
+- `POST /api/reject-job` - Reject/ignore job
+- `GET /api/rejected-jobs` - Get rejected jobs
+- `GET /api/getallappl` - Get all applications (admin)
 
 ### Profile
 - `GET /api/profile` - Get user profile
 - `POST /api/updateprofile` - Update profile (with resume upload)
 - `POST /api/analyze-resume` - AI resume analysis
-
-### Messaging
-- `GET /api/messages` - Get messages
-- `POST /api/messages` - Send message
-- `POST /api/messages/company` - Send message to company
-- `PUT /api/messages/read/:contactId` - Mark messages as read
+- `GET /api/userProfile/:userId` - Get public user profile
 
 ### RAG Chatbot
 - `POST /api/rag-chat` - Send message to chatbot
 - `POST /api/rag-chat/feedback` - Submit feedback (👍/👎)
 - `GET /api/rag-chat/status` - Check RAG service status
-
-### Company
-- `GET /api/companyProfile` - Get company profile
-- `PUT /api/companyProfile` - Update company profile
 
 ---
 

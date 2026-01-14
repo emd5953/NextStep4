@@ -48,7 +48,9 @@ Thumbs.db
 
 # RAG ChromaDB data files
 data/chroma/*
-!data/chroma/.gitkeep 
+!data/chroma/.gitkeep
+server/chroma/
+chroma_data/ 
 
 # Database backups and archives
 database-backups-*.zip

@@ -2,46 +2,82 @@
 
 Get the RAG chatbot running in 5 minutes!
 
-## Step 1: Start ChromaDB (Docker)
+## Prerequisites
+
+- Node.js installed
+- Docker installed
+- MongoDB connection configured in `.env`
+- API keys configured (GEMINI_API_KEY, OPENAI_API_KEY)
+
+## Step 1: Configure Environment Variables
+
+Create/update `server/.env`:
+
+```env
+# Database
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+
+# AI Services
+GEMINI_API_KEY=your_gemini_api_key
+OPENAI_API_KEY=your_openai_api_key
+
+# RAG Configuration
+RAG_CHROMA_HOST=localhost
+RAG_CHROMA_PORT=8000
+RAG_COLLECTION_NAME=nextstep_docs
+RAG_CHUNK_SIZE=500
+RAG_CHUNK_OVERLAP=50
+RAG_RETRIEVAL_COUNT=4
+RAG_SIMILARITY_THRESHOLD=0.3
+RAG_MAX_HISTORY=5
+RAG_EMBEDDING_MODEL=text-embedding-004
+RAG_GENERATION_MODEL=gemini-2.5-flash
+```
+
+## Step 2: Start ChromaDB (Docker)
 
 ```bash
-cd server
-docker run -d --name chromadb -p 8000:8000 -v "%cd%\data\chroma:/chroma/chroma" chromadb/chroma
+cd docker
+docker-compose up -d
 ```
 
 **Verify:**
 ```bash
-curl http://localhost:8000/api/v1/heartbeat
+curl http://localhost:8000/api/v2/heartbeat
 ```
 
-## Step 2: Ingest Documents
+## Step 3: Ingest Documents
 
 ```bash
+cd server
 npm run ingest:docs
 ```
 
 **Expected output:**
 ```
-✓ Processed: 2-3 files
-📄 Total Chunks: 20-30
+✓ Files processed: 23
+✓ Total chunks created: 296
+📊 Vector store now contains: 404 chunks
 ```
 
-## Step 3: Start Server
+## Step 4: Start Server
 
 ```bash
 npm start
 ```
 
-## Step 4: Test RAG Endpoint
+## Step 5: Test RAG Endpoint
 
 **PowerShell:**
 ```powershell
-Invoke-RestMethod -Uri http://localhost:4000/api/rag-chat -Method Post -ContentType "application/json" -Body '{"message": "What is NextStep?"}'
+Invoke-RestMethod -Uri http://localhost:5000/api/rag-chat/status -Method Get
 ```
 
-**CMD:**
-```bash
-curl -X POST http://localhost:4000/api/rag-chat -H "Content-Type: application/json" -d "{\"message\": \"What is NextStep?\"}"
+**Test chat:**
+```powershell
+$body = @{ message = "What is NextStep?" } | ConvertTo-Json
+Invoke-RestMethod -Uri http://localhost:5000/api/rag-chat -Method Post -ContentType "application/json" -Body $body
 ```
 
 **Expected response:**
@@ -50,12 +86,13 @@ curl -X POST http://localhost:4000/api/rag-chat -H "Content-Type: application/js
   "response": "NextStep is an AI-powered job-matching platform...",
   "sources": [
     {
-      "document": "README.md",
-      "chunk": "NextStep is an AI-powered...",
-      "score": 0.92
+      "document": "faq.md",
+      "content": "NextStep is...",
+      "score": 0.85
     }
   ],
-  "timestamp": "2024-01-15T10:30:00.000Z"
+  "type": "documentation",
+  "timestamp": "2026-01-13T..."
 }
 ```
 
@@ -63,33 +100,36 @@ curl -X POST http://localhost:4000/api/rag-chat -H "Content-Type: application/js
 
 **ChromaDB not connecting?**
 ```bash
-docker ps  # Check if running
-docker logs chromadb  # Check logs
-docker restart chromadb  # Restart
+cd docker
+docker-compose ps  # Check if running
+docker-compose logs chromadb  # Check logs
+docker-compose restart chromadb  # Restart
 ```
 
 **Port 8000 in use?**
 ```bash
 netstat -ano | findstr :8000
-# Kill the process or use different port
+# Kill the process or change port in docker-compose.yml
 ```
 
 **Need to reset everything?**
 ```bash
-docker stop chromadb
-docker rm chromadb
-npm run clear-vector-store
-# Then start from Step 1
+cd docker
+docker-compose down
+docker-compose up -d
+cd ../server
+npm run ingest:docs
 ```
 
 ## Daily Workflow
 
 ```bash
 # Start ChromaDB (if not running)
-docker start chromadb
+cd docker
+docker-compose up -d
 
 # Start server
-cd server
+cd ../server
 npm start
 
 # That's it!
@@ -99,13 +139,14 @@ npm start
 
 ```bash
 # Check RAG status
-curl http://localhost:4000/api/rag-chat/status
+curl http://localhost:5000/api/rag-chat/status
 
 # View ChromaDB logs
-docker logs -f chromadb
+cd docker
+docker-compose logs -f chromadb
 
 # Re-ingest docs (after updates)
-npm run clear-vector-store
+cd server
 npm run ingest:docs
 
 # Run tests
@@ -114,12 +155,13 @@ npm test
 
 ## What's Next?
 
-- Update frontend ChatWidget to use `/api/rag-chat` endpoint
-- Display source citations in the UI
-- Deploy to production
+- Test the chatbot in your frontend
+- Provide feedback using 👍/👎 buttons
+- Add more documentation as needed
 
 ## Need Help?
 
 - See `DOCKER_SETUP.md` for detailed Docker instructions
 - See `INGESTION_GUIDE.md` for document ingestion details
 - See `CHROMADB_SETUP.md` for ChromaDB configuration
+- See `RAG_SYSTEM_GUIDE.md` for technical details

@@ -19,7 +19,13 @@ ChromaDB needs to run as a server. There are several ways to start it:
 #### Option A: Using Docker (Recommended)
 
 ```bash
-docker run -p 8000:8000 -v ./data/chroma:/chroma/chroma chromadb/chroma
+cd docker
+docker-compose up -d
+```
+
+Or manually:
+```bash
+docker run -p 8000:8000 -v ./chroma_data:/chroma/chroma chromadb/chroma
 ```
 
 #### Option B: Using Python Module
@@ -44,7 +50,7 @@ uvicorn chromadb.app:app --host localhost --port 8000
 Test the connection:
 
 ```bash
-curl http://localhost:8000/api/v1/heartbeat
+curl http://localhost:8000/api/v2/heartbeat
 ```
 
 You should see: `{"nanosecond heartbeat":...}`
@@ -91,21 +97,43 @@ curl http://localhost:4000/api/rag-chat/status
 
 For NextStep, the following documents are ingested:
 
-1. **README.md** - Contains:
-   - Platform overview
-   - Core features
-   - AI capabilities
-   - Technology stack
-   - Installation instructions
+### From `/docs` folder:
+- Migration guides (EMPLOYER_REMOVAL_MIGRATION.md, MIGRATION_GUIDE.md, etc.)
+- Setup guides (REAL_JOBS_SETUP.md, JSEARCH_PERFORMANCE_OPTIMIZATIONS.md)
+- Design guides (MINIMALIST_MONOCHROME_GUIDE.md, TRANSFORMATION_PROGRESS.md)
+- Project summaries (FINAL_CLEANUP_SUMMARY.md, QUICK_FIX_GUIDE.md)
 
-2. **docs/requirements.md** - Contains:
-   - Detailed system requirements
-   - Use cases
-   - Functional specifications
+### From `/server/docs` folder:
+- **User Guides** (8 files):
+  - how-to-apply-jobs.md
+  - how-to-withdraw-application.md
+  - how-to-create-profile.md
+  - how-to-search-jobs.md
+  - how-to-check-progress.md
+  - staying-motivated.md
+  - common-questions.md
+  - complete-feature-guide.md
 
-3. **docs/README.md** - Contains:
-   - Documentation overview
-   - Project structure
+- **FAQ** (faq.md) - Frequently asked questions
+
+- **RAG System Documentation**:
+  - RAG_SYSTEM_GUIDE.md - Technical guide
+  - SELF_IMPROVING_RAG.md - Self-improvement features
+  - RAG_IMPROVEMENTS.md - Improvement roadmap
+  - IMPROVEMENTS_COMPLETED.md - Recent features
+  - RAG_CHATBOT_PRESENTATION.md - Presentation materials
+
+- **Developer Guides**:
+  - QUICK_START.md - Quick setup
+  - PROJECT_STRUCTURE.md - Codebase organization
+  - CHROMADB_SETUP.md - Vector database setup
+  - DOCKER_SETUP.md - Docker configuration
+  - AWS_DEPLOYMENT.md - Production deployment
+  - CI_CD_PIPELINE.md - CI/CD setup
+  - PERFORMANCE_OPTIMIZATIONS.md - Performance tips
+  - SUMMARY.md - Project summary
+
+**Total:** ~24 documentation files ingested into 404 chunks
 
 ## Ingestion Details
 
@@ -188,17 +216,15 @@ Each chunk includes:
 
 ## Re-Ingestion
 
-To update the knowledge base:
+To update the knowledge base after documentation changes:
 
 ```bash
-# Clear existing documents
-npm run clear-vector-store
-
-# Re-ingest updated documents
+# Just re-run ingestion (it will add new/updated docs)
+cd server
 npm run ingest:docs
 ```
 
-**Note:** Ingestion is additive. If you don't clear first, you'll have duplicate documents.
+**Note:** The system handles updates intelligently. You don't need to clear the vector store unless you want to completely rebuild it.
 
 ## Testing the RAG System
 
@@ -209,7 +235,7 @@ After ingestion, test the system:
 npm start
 
 # Test the RAG endpoint
-curl -X POST http://localhost:4000/api/rag-chat \
+curl -X POST http://localhost:5000/api/rag-chat \
   -H "Content-Type: application/json" \
   -d '{
     "message": "What is NextStep?"
@@ -222,12 +248,13 @@ Expected response:
   "response": "NextStep is an AI-powered job-matching platform...",
   "sources": [
     {
-      "document": "README.md",
-      "chunk": "NextStep is an AI-powered job-matching platform...",
-      "score": 0.92
+      "document": "faq.md",
+      "content": "NextStep is...",
+      "score": 0.85
     }
   ],
-  "timestamp": "2024-01-15T10:30:00.000Z"
+  "type": "documentation",
+  "timestamp": "2026-01-13T..."
 }
 ```
 
@@ -241,7 +268,8 @@ For production deployment:
    - Better for containerized deployments
 
 2. **Persistent Storage**
-   - Ensure `./data/chroma` is backed up
+   - Ensure `./chroma_data` is backed up
+   - Use Docker volumes for persistence
    - Consider cloud storage for vectors
 
 3. **Monitoring**

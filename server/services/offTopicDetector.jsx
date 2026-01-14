@@ -128,7 +128,7 @@ class OffTopicDetector {
       health: "I'm a job search assistant, not a medical professional. For health concerns, please consult a doctor. How can I help with your career search?",
       general_knowledge: "I'm specialized in helping with NextStep's job search features. For general knowledge questions, try a search engine. What can I help you with regarding jobs?",
       creative_requests: "I'm focused on helping with job searches and applications on NextStep. I can't write creative content, but I can help you craft your job profile or find opportunities!",
-      unrelated: "I'm a NextStep assistant designed to help with job searching, applications, and career opportunities. I can't help with that question, but I'd be happy to assist with:\n\n• Finding and applying to jobs\n• Tracking your applications\n• Updating your profile\n• Messaging employers\n• Understanding NextStep features\n\nWhat would you like help with?"
+      unrelated: "I cannot answer that question. Please ask a question related to NextStep's job search features and how to use the platform."
     };
 
     return categoryMessages[category] || categoryMessages.unrelated;

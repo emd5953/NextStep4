@@ -28,23 +28,13 @@ This guide will help you migrate from your current MongoDB database to a new one
 
 ### 2. Update Environment Configuration
 
-1. Copy `.env.migration` to `.env.new`:
-   ```bash
-   cp .env.migration .env.new
-   ```
+Add the new environment variables to your `.env` file:
 
-2. Edit `.env.new` and update:
-   ```env
-   NEW_MONGODB_URI='your_new_database_connection_string'
-   NEW_DB_NAME='your_new_database_name'
-   ```
-
-3. Add the new environment variables to your current `.env`:
-   ```bash
-   # Add these lines to your current .env file
-   NEW_MONGODB_URI='your_new_database_connection_string'
-   NEW_DB_NAME='nextstep_production'
-   ```
+```bash
+# Add these lines to your .env file
+NEW_MONGODB_URI='your_new_database_connection_string'
+NEW_DB_NAME='nextstep_production'
+```
 
 ## 🚀 Migration Process
 
@@ -95,12 +85,7 @@ This compares document counts between old and new databases.
 
 ### Step 5: Clean Up
 
-1. **Remove migration files (optional):**
-   ```bash
-   rm .env.migration .env.new
-   ```
-
-2. **Keep backups safe** (don't delete backup files)
+1. **Keep backups safe** (don't delete backup files)
 
 ## 🔧 Troubleshooting
 
