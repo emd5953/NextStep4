@@ -50,7 +50,7 @@ const jobsController = {
       if (includeExternal && process.env.JSEARCH_API_KEY && process.env.JSEARCH_API_KEY !== 'your_jsearch_api_key_here') {
         try {
           const searchParams = {
-            query: queryText || 'software developer', // Use default search if no query provided
+            query: queryText || 'recent jobs', // Use broad query to get most recent jobs
             page: 1,
             num_pages: 3 // Increased to get more jobs
           };
@@ -63,9 +63,9 @@ const jobsController = {
             }
           }
           
-          // Reduced timeout for external API call
+          // Timeout for external API call
           const timeoutPromise = new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('External API timeout')), 3000)
+            setTimeout(() => reject(new Error('External API timeout')), 10000)
           );
           
           externalJobs = await Promise.race([
@@ -186,6 +186,7 @@ const jobsController = {
 
   /**
    * Get homepage jobs using semantic search
+   * Fetches jobs from external API and personalizes based on user profile
    */
   getHomepageJobsUsingSemanticSearch: async (req, res) => {
     try {
@@ -195,6 +196,7 @@ const jobsController = {
       const token = req.headers.authorization?.split(" ")[1];
       let userId = null;
       let queryEmbedding = null;
+      let userProfile = null;
       
       if (token) {
         try {
@@ -208,6 +210,8 @@ const jobsController = {
             { _id: ObjectId.createFromHexString(userId) },
             { projection: { skillsEmbedding: 1, skills: 1, location: 1, email: 1 } }
           );
+          
+          userProfile = user;
           
           console.log("📋 User profile:", {
             email: user?.email,
@@ -251,7 +255,7 @@ const jobsController = {
               console.log("💾 Embedding cached for future use");
             }
           } else {
-            console.log("❌ User has no skills or location");
+            console.log("⚠️ User has no skills or location");
           }
         } catch (error) {
           console.error("❌ Error getting user embedding:", error);
@@ -260,164 +264,53 @@ const jobsController = {
         console.log("❌ No authentication token provided");
       }
 
-      if (!queryEmbedding) {
-        console.log("🚫 No query embedding available, returning error");
-        return res.status(400).json({ 
-          error: "Please add skills and location to your profile to get job recommendations" 
-        });
-      }
-
-      console.log("🔍 Performing vector search...");
+      // Fetch jobs from external API (same as Browse Jobs)
+      console.log("🔍 Fetching jobs from external API...");
+      let allJobs = [];
       
-      // Check if vector index exists and jobs have embeddings
-      const jobsCollection = req.app.locals.db.collection("Jobs");
-      const sampleJob = await jobsCollection.findOne({ embedding: { $exists: true } });
-      
-      if (!sampleJob) {
-        console.log("⚠️ No jobs with embeddings found, falling back to regular search");
-        // Fallback to regular job search
-        const fallbackJobs = await jobsCollection.aggregate([
-          {
-            $lookup: {
-              from: "companies",
-              localField: "companyId",
-              foreignField: "_id",
-              as: "companyInfo"
-            }
-          },
-          {
-            $unwind: {
-              path: "$companyInfo",
-              preserveNullAndEmptyArrays: true
-            }
-          },
-          {
-            $project: {
-              _id: 1,
-              title: 1,
-              companyName: "$companyInfo.name",
-              companyWebsite: "$companyInfo.website",
-              jobDescription: 1,
-              salaryRange: 1,
-              locations: 1,
-              benefits: 1,
-              schedule: 1,
-              skills: 1
-            }
-          },
-          { $limit: 20 }
-        ]).toArray();
-        
-        console.log("📊 Fallback jobs found:", fallbackJobs.length);
-        return res.status(200).json(fallbackJobs);
-      }
-
-      console.log("✅ Sample job has embedding with dimensions:", sampleJob.embedding?.length);
-
-      // Perform vector search using cached embedding
-      let results = [];
       try {
-        results = await jobsCollection.aggregate([
-          {
-            $vectorSearch: {
-              queryVector: queryEmbedding,
-              path: "embedding",
-              numCandidates: 100,
-              limit: 20,
-              index: "js_vector_index",
-            }
-          },
-          {
-            $lookup: {
-              from: "companies",
-              localField: "companyId",
-              foreignField: "_id",
-              as: "companyInfo"
-            }
-          },
-          {
-            $unwind: {
-              path: "$companyInfo",
-              preserveNullAndEmptyArrays: true
-            }
-          },
-          {
-            $project: {
-              _id: 1,
-              title: 1,
-              companyName: "$companyInfo.name",
-              companyWebsite: "$companyInfo.website",
-              jobDescription: 1,
-              salaryRange: 1,
-              locations: 1,
-              benefits: 1,
-              schedule: 1,
-              skills: 1,
-              score: { $meta: "vectorSearchScore" }
-            }
-          }
-        ]).toArray();
-        
-        console.log("🎯 Vector search returned:", results.length, "results");
-        if (results.length > 0) {
-          console.log("📊 Score range:", 
-            Math.min(...results.map(r => r.score)).toFixed(3), 
-            "to", 
-            Math.max(...results.map(r => r.score)).toFixed(3)
-          );
+        // Build search query based on user profile
+        let searchQuery = 'software developer'; // Default
+        if (userProfile?.skills && userProfile.skills.length > 0) {
+          searchQuery = userProfile.skills.slice(0, 3).join(' '); // Use top 3 skills
         }
-      } catch (vectorError) {
-        console.error("❌ Vector search failed:", vectorError);
-        // Fallback to regular search
-        results = await jobsCollection.aggregate([
-          {
-            $lookup: {
-              from: "companies",
-              localField: "companyId",
-              foreignField: "_id",
-              as: "companyInfo"
-            }
-          },
-          {
-            $unwind: {
-              path: "$companyInfo",
-              preserveNullAndEmptyArrays: true
-            }
-          },
-          {
-            $project: {
-              _id: 1,
-              title: 1,
-              companyName: "$companyInfo.name",
-              companyWebsite: "$companyInfo.website",
-              jobDescription: 1,
-              salaryRange: 1,
-              locations: 1,
-              benefits: 1,
-              schedule: 1,
-              skills: 1
-            }
-          },
-          { $limit: 20 }
-        ]).toArray();
-        console.log("🔄 Fallback search returned:", results.length, "results");
+        
+        const searchParams = {
+          query: searchQuery,
+          page: 1,
+          num_pages: 2 // Reduced from 3 to 2 for faster response
+        };
+        
+        // Add location if available
+        if (userProfile?.location) {
+          searchParams.location = userProfile.location;
+        }
+        
+        console.log("🎯 Search params:", searchParams);
+        
+        // Fetch from external API with timeout
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('External API timeout')), 5000)
+        );
+        
+        allJobs = await Promise.race([
+          jobApiService.searchJobs(searchParams),
+          timeoutPromise
+        ]);
+        
+        console.log(`✅ Fetched ${allJobs.length} jobs from external API`);
+      } catch (error) {
+        console.error('❌ Error fetching from external API:', error.message);
+        // Continue with empty array - will return message to user
+        allJobs = [];
       }
 
-      // Filter out low-score results (only if we have scores)
-      let filteredResults = results;
-      if (results.length > 0 && results[0].score !== undefined) {
-        const originalCount = results.length;
-        filteredResults = results.filter(result => result.score > 0.55); // Lowered threshold
-        console.log(`🎯 Filtered from ${originalCount} to ${filteredResults.length} jobs (score > 0.55)`);
-        
-        // If too few high-quality results, include more
-        if (filteredResults.length < 5) {
-          filteredResults = results.slice(0, 10);
-          console.log("📈 Included more results due to low count:", filteredResults.length);
-        }
+      if (allJobs.length === 0) {
+        console.log("⚠️ No jobs fetched from external API");
+        return res.status(200).json([]);
       }
 
-      // Filter out already applied jobs
+      // Filter out already-applied jobs
       if (userId) {
         const applicationsCollection = req.app.locals.db.collection("applications");
         const appliedJobs = await applicationsCollection
@@ -426,13 +319,99 @@ const jobsController = {
           .toArray();
 
         const appliedJobIds = appliedJobs.map(app => app.job_id.toString());
-        const beforeFilter = filteredResults.length;
-        filteredResults = filteredResults.filter(job => !appliedJobIds.includes(job._id.toString()));
-        console.log(`🚫 Filtered out ${beforeFilter - filteredResults.length} already applied jobs`);
+        const beforeFilter = allJobs.length;
+        allJobs = allJobs.filter(job => !appliedJobIds.includes(job._id.toString()));
+        console.log(`🚫 Filtered out ${beforeFilter - allJobs.length} already applied jobs`);
       }
 
-      console.log("✅ Final result count:", filteredResults.length);
-      res.status(200).json(filteredResults);
+      // If user has embedding, rank jobs by relevance
+      if (queryEmbedding && allJobs.length > 0) {
+        console.log("🎯 Ranking jobs by relevance to user profile...");
+        
+        try {
+          // Limit to top 30 jobs for faster processing
+          const jobsToRank = allJobs.slice(0, 30);
+          console.log(`⚙️ Processing ${jobsToRank.length} jobs for ranking...`);
+          
+          // Generate embeddings in parallel (batches of 5)
+          const batchSize = 5;
+          const jobsNeedingEmbeddings = jobsToRank.filter(job => !job.embedding);
+          
+          if (jobsNeedingEmbeddings.length > 0) {
+            console.log(`⚙️ Generating embeddings for ${jobsNeedingEmbeddings.length} jobs in parallel...`);
+            
+            for (let i = 0; i < jobsNeedingEmbeddings.length; i += batchSize) {
+              const batch = jobsNeedingEmbeddings.slice(i, i + batchSize);
+              
+              await Promise.all(batch.map(async (job) => {
+                try {
+                  let jobText = `${job.title} `;
+                  if (job.jobDescription) {
+                    jobText += job.jobDescription.substring(0, 300) + ' '; // Reduced from 500
+                  }
+                  if (job.skills && job.skills.length > 0) {
+                    jobText += `skills: ${job.skills.slice(0, 5).join(', ')} `; // Limit skills
+                  }
+                  if (job.locations && job.locations.length > 0) {
+                    jobText += `location: ${job.locations[0]}`; // Just first location
+                  }
+                  
+                  job.embedding = await generateEmbeddings(jobText);
+                } catch (embError) {
+                  console.error(`❌ Failed to generate embedding for job ${job._id}:`, embError.message);
+                  job.embedding = null;
+                }
+              }));
+              
+              console.log(`✅ Processed batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(jobsNeedingEmbeddings.length / batchSize)}`);
+            }
+          }
+          
+          // Calculate similarity scores
+          const jobsWithScores = jobsToRank
+            .filter(job => job.embedding && job.embedding.length === 1536)
+            .map(job => {
+              // Calculate cosine similarity
+              let dotProduct = 0;
+              let normA = 0;
+              let normB = 0;
+              
+              for (let i = 0; i < 1536; i++) {
+                dotProduct += queryEmbedding[i] * job.embedding[i];
+                normA += queryEmbedding[i] * queryEmbedding[i];
+                normB += job.embedding[i] * job.embedding[i];
+              }
+              
+              const similarity = dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+              
+              return {
+                ...job,
+                score: similarity,
+                embedding: undefined // Remove embedding from response
+              };
+            })
+            .sort((a, b) => b.score - a.score); // Sort by score descending
+          
+          console.log(`✅ Ranked ${jobsWithScores.length} jobs by relevance`);
+          if (jobsWithScores.length > 0) {
+            console.log(`📊 Score range: ${jobsWithScores[jobsWithScores.length - 1].score.toFixed(3)} to ${jobsWithScores[0].score.toFixed(3)}`);
+          }
+          
+          // Return top 20 matches
+          const topMatches = jobsWithScores.slice(0, 20);
+          console.log(`✅ Returning ${topMatches.length} personalized job recommendations`);
+          return res.status(200).json(topMatches);
+          
+        } catch (rankError) {
+          console.error("❌ Error ranking jobs:", rankError.message);
+          // Fall through to return unranked jobs
+        }
+      }
+
+      // Return jobs without ranking (no user embedding or ranking failed)
+      const jobsToReturn = allJobs.slice(0, 20);
+      console.log(`✅ Returning ${jobsToReturn.length} jobs (not personalized)`);
+      res.status(200).json(jobsToReturn);
       
     } catch (error) {
       console.error("❌ Error in getHomepageJobsUsingSemanticSearch:", error);

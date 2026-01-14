@@ -31,53 +31,50 @@ const Swipe = () => {
   const [message, setMessage] = useState(null);
 
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchJobs = async () => {
       try {
         setIsLoading(true);
-        const response = await axiosInstance.get(`${API_SERVER}/profile`);
-        const skills = response.data.skills;
-        const location = response.data.location;
-        const fetchJobs = async () => {
-          try {
-            console.log("🔍 Fetching jobs with query:", searchQuery);
-            const response = await axiosInstance.get(`${API_SERVER}/retrieveJobsForHomepage?q=${searchQuery}`);
-            console.log("✅ Jobs received:", response.data.length);
-            setJobs(response.data);
-          } catch (error) {
-            console.error('❌ Error fetching jobs:', error);
-            if (error.response?.status === 400) {
-              setError(error.response.data.error || "Please complete your profile to get job recommendations.");
-            } else {
-              setError("Unable to load job recommendations. Please try again later.");
-            }
-          } finally {
-            setIsLoading(false);
-          }
-        };
-
-        let searchQuery = '';
-        if (skills?.length > 0 ) {
-          searchQuery = `skills: ${skills.join(',')}`;
-        } 
-        if (location) {
-          searchQuery += ` location: ${location}`;
-        }
-        if(searchQuery.length > 0) {
-          fetchJobs();
-        }else{
-          setError("Please add your skills and preferred location in your profile to get job recommendations.");
-          setJobs([]);
-          setIsLoading(false);
+        setError(null); // Clear previous errors
+        console.log("🔍 Fetching personalized jobs for homepage");
+        console.log("Token exists:", !!token);
+        console.log("API_SERVER:", API_SERVER);
+        console.log("Full URL:", `${API_SERVER}/retrieveJobsForHomepage`);
+        
+        const response = await axiosInstance.get(`${API_SERVER}/retrieveJobsForHomepage`);
+        console.log("✅ Jobs received:", response.data);
+        console.log("✅ Jobs count:", response.data.length);
+        setJobs(response.data);
+        
+        if (response.data.length === 0) {
+          setError("No jobs found. Try updating your profile with more skills.");
         }
       } catch (error) {
-        console.error('Error fetching profile:', error);
-        if(error?.message) {setError(error.message);}
-        else{setError("An unexpected error occurred. Please try again later.");}
+        console.error('❌ Error fetching jobs:', error);
+        console.error('Error message:', error.message);
+        console.error('Error response:', error.response?.data);
+        console.error('Error status:', error.response?.status);
+        console.error('Error config:', error.config);
+        
+        if (error.response?.status === 400) {
+          setError(error.response.data.error || "Please complete your profile to get job recommendations.");
+        } else if (error.response?.status === 401) {
+          setError("Please log in to see personalized job recommendations.");
+        } else if (error.code === 'ECONNREFUSED') {
+          setError("Cannot connect to server. Please make sure the server is running.");
+        } else {
+          setError(`Unable to load job recommendations: ${error.message}`);
+        }
+      } finally {
         setIsLoading(false);
       }
     };
 
-    fetchProfile();
+    if (token) {
+      fetchJobs();
+    } else {
+      setIsLoading(false);
+      setError("Please log in to see personalized job recommendations.");
+    }
   }, [token]);
 
 
@@ -299,17 +296,17 @@ const Swipe = () => {
         onClick={() => handleCardTap(job)}
       >
         <h2>{job.title}</h2>
-        <p>
+        <p className="company-name">
           {job.companyWebsite ? (
-            <a href={job.companyWebsite} target="_blank" rel="noopener noreferrer">
+            <a href={job.companyWebsite} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
               {job.companyName}
             </a>
           ) : (
             job.companyName
           )}
         </p>
-        <p>
-          <strong>Location(s):</strong> {Array.isArray(job.locations) ? job.locations.join(', ') : job.locations}
+        <p className="job-location">
+          <strong>Location:</strong> {Array.isArray(job.locations) ? job.locations.join(', ') : job.locations}
         </p>
         <p className="job-description-swipe">{job.jobDescription}</p>
 
@@ -318,14 +315,6 @@ const Swipe = () => {
           <div className="job-benefits-swipe">
             <h3>Benefits</h3>
             <p>{job.benefits.join(', ')}</p>
-          </div>
-        )}
-
-        {/* Required Skills Section */}
-        {job.skills && job.skills.length > 0 && (
-          <div className="job-skills-swipe">
-            <h3>Required Skills</h3>
-            <p>{job.skills.join(', ')}</p>
           </div>
         )}
 
@@ -351,13 +340,13 @@ const Swipe = () => {
       )}
       {jobs.length === 0 ? (
         <div className="empty-state">
-          {isLoading ? "Job matching in progress..." : "No more jobs to show"}
+          {isLoading ? "Finding your perfect matches..." : "No more jobs to show"}
         </div>
       ) : (
         <>
           {getNextIndex(currentIndex) === 0 &&
             <div className="empty-state">
-              {isLoading ? "Job matching in progress..." : "No more jobs to show"}
+              {isLoading ? "Finding your perfect matches..." : "No more jobs to show"}
             </div>}
           {getNextIndex(currentIndex) !== 0 &&
             renderCard(jobs[getNextIndex(currentIndex)], getNextIndex(currentIndex))}

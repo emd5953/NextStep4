@@ -54,7 +54,7 @@
 }
 
 .swipe-job-card.swiping-left {
-  border: var(--border-thick);
+  border: 3px solid #ef4444; /* Red border for reject */
 }
 
 .swipe-job-card.swiping-left::before {
@@ -65,8 +65,8 @@
   transform: translate(-50%, -50%) rotate(-15deg);
   font-size: 180px;
   font-family: var(--font-display);
-  color: var(--foreground);
-  opacity: 0.06;
+  color: #ef4444; /* Red X */
+  opacity: 0.1;
   font-weight: 300;
   z-index: 0;
 }
@@ -76,8 +76,8 @@
   position: absolute;
   top: var(--space-8);
   left: var(--space-8);
-  background: var(--foreground);
-  color: var(--background);
+  background: #ef4444; /* Red background */
+  color: white;
   padding: var(--space-2) var(--space-6);
   border-radius: 0;
   font-size: var(--text-xs);
@@ -89,7 +89,7 @@
 }
 
 .swipe-job-card.swiping-right {
-  border: var(--border-thick);
+  border: 3px solid #22c55e; /* Green border for accept */
 }
 
 .swipe-job-card.swiping-right::before {
@@ -100,8 +100,8 @@
   transform: translate(-50%, -50%) rotate(15deg);
   font-size: 180px;
   font-family: var(--font-display);
-  color: var(--foreground);
-  opacity: 0.06;
+  color: #22c55e; /* Green checkmark */
+  opacity: 0.1;
   font-weight: bold;
   z-index: 0;
 }
@@ -111,8 +111,8 @@
   position: absolute;
   top: var(--space-8);
   right: var(--space-8);
-  background: var(--foreground);
-  color: var(--background);
+  background: #22c55e; /* Green background */
+  color: white;
   padding: var(--space-2) var(--space-6);
   border-radius: 0;
   font-size: var(--text-xs);

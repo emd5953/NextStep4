@@ -316,6 +316,21 @@ client
       ------------------ */
       apiRouter.delete("/applications/:applicationId", verifyToken, applicationsController.withdrawApplication);
 
+      /* ------------------
+         Auto-Apply to Job
+      ------------------ */
+      apiRouter.post("/auto-apply", verifyToken, applicationsController.autoApply);
+
+      /* ------------------
+         Reject Job
+      ------------------ */
+      apiRouter.post("/reject-job", verifyToken, applicationsController.rejectJob);
+
+      /* ------------------
+         Get Rejected Jobs
+      ------------------ */
+      apiRouter.get("/rejected-jobs", verifyToken, applicationsController.getRejectedJobs);
+
       apiRouter.get("/userProfile/:userId", profileController.getUserProfile);
       
       apiRouter.use('/chat', chatRoutes);

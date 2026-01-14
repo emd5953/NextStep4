@@ -30,9 +30,14 @@ const applicationsController = {
       const jobsCollection = req.app.locals.db.collection("Jobs");
       const { _id, swipeMode, email, name } = req.body;
 
+      // Check if this is an external job (starts with "ext_")
+      const isExternalJob = _id.startsWith('ext_');
+      
+      // For external jobs, store the ID as a string; for internal jobs, convert to ObjectId
+      const jobId = isExternalJob ? _id : ObjectId.createFromHexString(_id);
 
       const applicationInfo = {
-        job_id: ObjectId.createFromHexString(_id),
+        job_id: jobId,
         user_id: ObjectId.createFromHexString(req.user.id),
         name,
         email,
@@ -41,15 +46,16 @@ const applicationsController = {
           swipeMode === IGNORE ? "Ignored" : "Unknown",
         swipeMode: swipeMode,
         swipeAction: swipeMode === APPLY ? "Applied" :
-          swipeMode === IGNORE ? "Ignored" : "Unknown"
+          swipeMode === IGNORE ? "Ignored" : "Unknown",
+        isExternal: isExternalJob
       };
+      
       // Check if this user has already applied for this job
       const existingApplication = await applicationsCollection.findOne({
-        job_id: ObjectId.createFromHexString(_id),
+        job_id: jobId,
         user_id: ObjectId.createFromHexString(req.user.id),
         swipeMode: APPLY
       });
-
 
       if (existingApplication) {
         return res.status(409).json({
@@ -268,6 +274,86 @@ const applicationsController = {
     } catch (error) {
       console.error("Error withdrawing application:", error);
       res.status(500).json({ error: "Failed to withdraw application" });
+    }
+  },
+
+  autoApply: async (req, res) => {
+    try {
+      const { job_id, title, companyName, jobUrl, isExternal } = req.body;
+      const applicationsCollection = req.app.locals.db.collection("applications");
+      const usersCollection = req.app.locals.db.collection("users");
+
+      const user = await usersCollection.findOne({ _id: ObjectId.createFromHexString(req.user.id) });
+      
+      const jobId = isExternal ? job_id : ObjectId.createFromHexString(job_id);
+
+      const existingApplication = await applicationsCollection.findOne({
+        job_id: jobId,
+        user_id: ObjectId.createFromHexString(req.user.id)
+      });
+
+      if (existingApplication) {
+        return res.status(409).json({ error: "Already applied to this job" });
+      }
+
+      const applicationInfo = {
+        job_id: jobId,
+        user_id: ObjectId.createFromHexString(req.user.id),
+        name: user.full_name || `${user.first_name} ${user.last_name}`,
+        email: user.email,
+        date_applied: new Date(),
+        status: "Auto-Applied",
+        swipeMode: APPLY,
+        swipeAction: "Auto-Applied",
+        isExternal: isExternal,
+        autoApplied: true
+      };
+
+      await applicationsCollection.insertOne(applicationInfo);
+
+      res.status(200).json({ 
+        success: true, 
+        message: "Auto-applied successfully",
+        application: applicationInfo
+      });
+    } catch (error) {
+      console.error("Auto-apply error:", error);
+      res.status(500).json({ error: "Failed to auto-apply" });
+    }
+  },
+
+  rejectJob: async (req, res) => {
+    try {
+      const { job_id } = req.body;
+      const rejectedJobsCollection = req.app.locals.db.collection("rejectedJobs");
+
+      const rejectionInfo = {
+        job_id: job_id,
+        user_id: ObjectId.createFromHexString(req.user.id),
+        date_rejected: new Date()
+      };
+
+      await rejectedJobsCollection.insertOne(rejectionInfo);
+
+      res.status(200).json({ success: true, message: "Job rejected" });
+    } catch (error) {
+      console.error("Reject job error:", error);
+      res.status(500).json({ error: "Failed to reject job" });
+    }
+  },
+
+  getRejectedJobs: async (req, res) => {
+    try {
+      const rejectedJobsCollection = req.app.locals.db.collection("rejectedJobs");
+
+      const rejectedJobs = await rejectedJobsCollection
+        .find({ user_id: ObjectId.createFromHexString(req.user.id) })
+        .toArray();
+
+      res.status(200).json(rejectedJobs);
+    } catch (error) {
+      console.error("Get rejected jobs error:", error);
+      res.status(500).json({ error: "Failed to get rejected jobs" });
     }
   }
 };

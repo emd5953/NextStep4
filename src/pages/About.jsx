@@ -10,7 +10,6 @@ const About = () => {
   // Scroll animation refs
   const [missionRef, missionVisible] = useScrollAnimation({ threshold: 0.2 });
   const [featuresRef, featuresVisible] = useScrollAnimation({ threshold: 0.2 });
-  const [employerRef, employerVisible] = useScrollAnimation({ threshold: 0.2 });
   const [howItWorksRef, howItWorksVisible] = useScrollAnimation({ threshold: 0.2 });
   const [securityRef, securityVisible] = useScrollAnimation({ threshold: 0.2 });
   const [teamRef, teamVisible] = useScrollAnimation({ threshold: 0.2 });
@@ -71,79 +70,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* Employer Features Section */}
-      <section 
-        ref={employerRef}
-        className={`about-employer ${employerVisible ? 'animate-in' : 'animate-hidden'}`}
-      >
-        <div className="about-employer__content">
-          <span className="about-employer__label">For Employers</span>
-          <h2 className="about-employer__title">Hire Smarter, Not Harder</h2>
-          <p className="about-employer__subtitle">
-            Connect with qualified candidates who are genuinely interested in your roles.
-          </p>
-          
-          <div className="about-employer__features">
-            <div className="about-employer-feature">
-              <div className="about-employer-feature__icon">
-                <span className="about-employer-feature__number">01</span>
-              </div>
-              <h3 className="about-employer-feature__title">Easy Job Posting</h3>
-              <p className="about-employer-feature__text">Create compelling job listings in minutes. Our streamlined form captures what matters most to candidates.</p>
-            </div>
-            
-            <div className="about-employer-feature">
-              <div className="about-employer-feature__icon">
-                <span className="about-employer-feature__number">02</span>
-              </div>
-              <h3 className="about-employer-feature__title">Quality Applications</h3>
-              <p className="about-employer-feature__text">Receive applications from candidates who swiped right on your role—they're already interested.</p>
-            </div>
-            
-            <div className="about-employer-feature">
-              <div className="about-employer-feature__icon">
-                <span className="about-employer-feature__number">03</span>
-              </div>
-              <h3 className="about-employer-feature__title">Direct Messaging</h3>
-              <p className="about-employer-feature__text">Skip the email chains. Message candidates directly through our platform for faster communication.</p>
-            </div>
-            
-            <div className="about-employer-feature">
-              <div className="about-employer-feature__icon">
-                <span className="about-employer-feature__number">04</span>
-              </div>
-              <h3 className="about-employer-feature__title">Application Tracking</h3>
-              <p className="about-employer-feature__text">Manage all applications in one dashboard. Track candidate progress from application to hire.</p>
-            </div>
-            
-            <div className="about-employer-feature">
-              <div className="about-employer-feature__icon">
-                <span className="about-employer-feature__number">05</span>
-              </div>
-              <h3 className="about-employer-feature__title">Company Profiles</h3>
-              <p className="about-employer-feature__text">Showcase your company culture and values. Help candidates understand why they should work for you.</p>
-            </div>
-            
-            <div className="about-employer-feature">
-              <div className="about-employer-feature__icon">
-                <span className="about-employer-feature__number">06</span>
-              </div>
-              <h3 className="about-employer-feature__title">Fast Hiring</h3>
-              <p className="about-employer-feature__text">Reduce time-to-hire with our streamlined process. From posting to hiring in record time.</p>
-            </div>
-          </div>
-          
-          <div className="about-employer__cta">
-            <button 
-              className="about-employer__btn" 
-              onClick={() => navigate('/login')}
-            >
-              Start Hiring Today
-            </button>
-          </div>
-        </div>
-      </section>
-
       {/* How It Works */}
       <section 
         ref={howItWorksRef}
@@ -171,8 +97,8 @@ const About = () => {
           <div className="about-step__connector"></div>
           <div className="about-step">
             <span className="about-step__number">4</span>
-            <h3 className="about-step__title">Connect & Interview</h3>
-            <p className="about-step__text">Message employers directly through our platform. Schedule interviews and land your role.</p>
+            <h3 className="about-step__title">Track Your Progress</h3>
+            <p className="about-step__text">Monitor all your applications in one place. Stay organized and follow up at the right time.</p>
           </div>
         </div>
       </section>

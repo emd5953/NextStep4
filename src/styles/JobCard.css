@@ -356,3 +356,38 @@
     flex-wrap: wrap;
   }
 }
+
+/* Swipe Gestures */
+.job-card-compact.dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+.swipe-indicator {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  font-family: var(--font-display);
+  padding: var(--space-4) var(--space-6);
+  border: var(--border-ultra);
+  border-radius: 0;
+  letter-spacing: 0.1em;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.swipe-indicator.swipe-right {
+  left: var(--space-4);
+  background: var(--foreground);
+  color: var(--background);
+  border-color: var(--foreground);
+}
+
+.swipe-indicator.swipe-left {
+  right: var(--space-4);
+  background: var(--background);
+  color: var(--foreground);
+  border-color: var(--foreground);
+}

@@ -74,8 +74,8 @@ const Home = () => {
           </div>
           <div className="home-feature">
             <span className="home-feature__number">03</span>
-            <h3 className="home-feature__title">Direct Connect</h3>
-            <p className="home-feature__text">Message employers directly. No middlemen, no delays.</p>
+            <h3 className="home-feature__title">AI-Powered</h3>
+            <p className="home-feature__text">Smart recommendations based on your skills and preferences. Find the perfect match.</p>
           </div>
         </div>
       </section>

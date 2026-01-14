@@ -504,3 +504,40 @@
     justify-content: flex-end;
   }
 }
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: var(--space-8);
+  border: var(--border-medium);
+}
+
+.tab {
+  flex: 1;
+  padding: var(--space-4) var(--space-6);
+  background: var(--background);
+  color: var(--foreground);
+  border: none;
+  border-right: var(--border-thin);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 100ms ease;
+}
+
+.tab:last-child {
+  border-right: none;
+}
+
+.tab:hover {
+  background: var(--muted);
+}
+
+.tab.active {
+  background: var(--foreground);
+  color: var(--background);
+}

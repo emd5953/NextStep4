@@ -42,7 +42,7 @@ class RateLimiter {
 }
 
 // Create rate limiter for JSearch API
-const jsearchRateLimiter = new RateLimiter(8, 60000); // 8 requests per minute
+const jsearchRateLimiter = new RateLimiter(50, 60000); // 50 requests per minute
 
 const rateLimitMiddleware = (req, res, next) => {
   const clientId = req.ip || 'unknown';
