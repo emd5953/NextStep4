@@ -6,6 +6,7 @@
 const express = require('express');
 const router = express.Router();
 const { getEmbeddingStats } = require('../middleware/genAI.jsx');
+const jobApiService = require('../services/jobApiService.jsx');
 
 /**
  * GET /api/stats
@@ -21,9 +22,13 @@ router.get('/', async (req, res) => {
       ragStats = req.app.locals.ragService.getApiStats();
     }
     
+    // Get JSearch stats
+    const jsearchStats = jobApiService.getCacheStats();
+    
     // Calculate estimated costs (approximate)
-    const openaiEmbeddingCost = embeddingStats.apiCalls * 0.00002; // $0.02 per 1K tokens, ~1 token per call
+    const openaiEmbeddingCost = embeddingStats.apiCalls * 0.00002; // $0.02 per 1K tokens
     const geminiCost = ragStats.geminiApiCalls * 0.00001; // Approximate Gemini cost
+    const jsearchCost = jsearchStats.apiCalls * 0.01; // Approximate per-call cost (varies by plan)
     
     const stats = {
       openai: {
@@ -34,7 +39,11 @@ router.get('/', async (req, res) => {
         ...ragStats,
         estimatedCost: `$${geminiCost.toFixed(4)}`
       },
-      totalEstimatedCost: `$${(openaiEmbeddingCost + geminiCost).toFixed(4)}`,
+      jsearch: {
+        ...jsearchStats,
+        estimatedCost: `$${jsearchCost.toFixed(4)}`
+      },
+      totalEstimatedCost: `$${(openaiEmbeddingCost + geminiCost + jsearchCost).toFixed(4)}`,
       timestamp: new Date().toISOString()
     };
     
