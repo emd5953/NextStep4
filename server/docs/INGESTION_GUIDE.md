@@ -235,7 +235,7 @@ After ingestion, test the system:
 npm start
 
 # Test the RAG endpoint
-curl -X POST http://localhost:5000/api/rag-chat \
+curl -X POST http://localhost:4000/api/rag-chat \
   -H "Content-Type: application/json" \
   -d '{
     "message": "What is NextStep?"

@@ -71,13 +71,13 @@ npm start
 
 **PowerShell:**
 ```powershell
-Invoke-RestMethod -Uri http://localhost:5000/api/rag-chat/status -Method Get
+Invoke-RestMethod -Uri http://localhost:4000/api/rag-chat/status -Method Get
 ```
 
 **Test chat:**
 ```powershell
 $body = @{ message = "What is NextStep?" } | ConvertTo-Json
-Invoke-RestMethod -Uri http://localhost:5000/api/rag-chat -Method Post -ContentType "application/json" -Body $body
+Invoke-RestMethod -Uri http://localhost:4000/api/rag-chat -Method Post -ContentType "application/json" -Body $body
 ```
 
 **Expected response:**
@@ -139,7 +139,7 @@ npm start
 
 ```bash
 # Check RAG status
-curl http://localhost:5000/api/rag-chat/status
+curl http://localhost:4000/api/rag-chat/status
 
 # View ChromaDB logs
 cd docker

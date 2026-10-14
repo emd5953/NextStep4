@@ -5,7 +5,7 @@
 require('dotenv').config();
 const axios = require('axios');
 
-const SERVER_URL = process.env.SERVER_DOMAIN || 'http://localhost:5000';
+const SERVER_URL = process.env.SERVER_DOMAIN || 'http://localhost:4000';
 
 async function testApiEndpoints() {
   console.log('🔍 Testing API endpoints...');

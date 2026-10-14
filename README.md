@@ -216,7 +216,7 @@ npm run ingest:docs
 
 # 3 Start Backend
 npm start
-# Server will run on http://localhost:5000
+# Server will run on http://localhost:4000
 
 # 4 Start Frontend
 cd ..

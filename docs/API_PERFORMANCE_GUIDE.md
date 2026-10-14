@@ -42,7 +42,7 @@ const embeddingCache = new Map();
 **Monitoring**:
 ```bash
 # Check cache stats
-curl http://localhost:5000/api/stats
+curl http://localhost:4000/api/stats
 ```
 
 ### 2. Job Embedding Persistence
@@ -201,7 +201,7 @@ if (cached && apiError) {
 Check stats regularly:
 ```bash
 # Daily check
-curl http://localhost:5000/api/stats | jq
+curl http://localhost:4000/api/stats | jq
 
 # Look for:
 # - Low cache hit rates (<50%)

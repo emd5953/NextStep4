@@ -111,6 +111,7 @@ The server includes a sophisticated RAG (Retrieval-Augmented Generation) chatbot
 - **[ChromaDB Setup](docs/CHROMADB_SETUP.md)** - Vector database setup
 - **[Docker Setup](docs/DOCKER_SETUP.md)** - Docker configuration
 - **[Ingestion Guide](docs/INGESTION_GUIDE.md)** - Document ingestion process
+- **[Sorce.jobs Reverse Engineering Scope](docs/SORCE_REVERSE_ENGINEERING_SCOPE.md)** - Investigation boundaries, REA workflow, current evidence, and open questions
 
 ## Environment Variables
 
