@@ -1,0 +1,1478 @@
+{
+  "capturedAt": "2026-10-15T05:32:43.735Z",
+  "truncated": false,
+  "events": [
+    {
+      "sequence": 174,
+      "method": "Network.requestWillBeSent",
+      "requestId": "4F0A2A86C0F53510A79B557A5F8B6722",
+      "type": "Document",
+      "url": "https://www.sorce.jobs/",
+      "requestMethod": "GET",
+      "initiatorType": "other"
+    },
+    {
+      "sequence": 179,
+      "method": "Network.responseReceived",
+      "requestId": "4F0A2A86C0F53510A79B557A5F8B6722",
+      "type": "Document",
+      "url": "https://www.sorce.jobs/",
+      "status": 200,
+      "mimeType": "text/html"
+    },
+    {
+      "sequence": 192,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.606",
+      "type": "Font",
+      "url": "https://www.sorce.jobs/_next/static/media/e4af272ccee01ff0-s.p.woff2",
+      "requestMethod": "GET",
+      "initiatorType": "other"
+    },
+    {
+      "sequence": 194,
+      "method": "Network.responseReceived",
+      "requestId": "19384.606",
+      "type": "Font",
+      "url": "https://www.sorce.jobs/_next/static/media/e4af272ccee01ff0-s.p.woff2",
+      "status": 200,
+      "mimeType": "font/woff2"
+    },
+    {
+      "sequence": 198,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.607",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/sorce-logo.svg",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 199,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.608",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/app-store-badge.svg",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 200,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.609",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/yc-logo.png",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 201,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.610",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/review-person-1.jpg",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 202,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.611",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/review-person-2.jpg",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 203,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.612",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/review-person-3.jpg",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 204,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.613",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/review-person-4.jpg",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 205,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.614",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/social/linkedin-icon.svg",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 206,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.615",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/social/instagram-color.svg",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 207,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.616",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/social/tiktok-icon.svg",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 208,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.617",
+      "type": "Stylesheet",
+      "url": "https://www.sorce.jobs/_next/static/css/0ec9404a23801b63.css?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 210,
+      "method": "Network.responseReceived",
+      "requestId": "19384.617",
+      "type": "Stylesheet",
+      "url": "https://www.sorce.jobs/_next/static/css/0ec9404a23801b63.css?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "text/css"
+    },
+    {
+      "sequence": 213,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.618",
+      "type": "Stylesheet",
+      "url": "https://www.sorce.jobs/_next/static/css/7cca8e2c5137bd71.css?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 215,
+      "method": "Network.responseReceived",
+      "requestId": "19384.618",
+      "type": "Stylesheet",
+      "url": "https://www.sorce.jobs/_next/static/css/7cca8e2c5137bd71.css?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "text/css"
+    },
+    {
+      "sequence": 218,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.619",
+      "type": "Stylesheet",
+      "url": "https://www.sorce.jobs/_next/static/css/707797eb5b37de80.css?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 220,
+      "method": "Network.responseReceived",
+      "requestId": "19384.619",
+      "type": "Stylesheet",
+      "url": "https://www.sorce.jobs/_next/static/css/707797eb5b37de80.css?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "text/css"
+    },
+    {
+      "sequence": 223,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.620",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/webpack-03ca9c88a62feca3.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 225,
+      "method": "Network.responseReceived",
+      "requestId": "19384.620",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/webpack-03ca9c88a62feca3.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 228,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.621",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/fd9d1056-41ce205d8e0c6ad6.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 230,
+      "method": "Network.responseReceived",
+      "requestId": "19384.621",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/fd9d1056-41ce205d8e0c6ad6.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 233,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.622",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/2117-033d1436328a5aa0.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 235,
+      "method": "Network.responseReceived",
+      "requestId": "19384.622",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/2117-033d1436328a5aa0.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 238,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.623",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/main-app-9312aa7f29a48aee.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 240,
+      "method": "Network.responseReceived",
+      "requestId": "19384.623",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/main-app-9312aa7f29a48aee.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 243,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.624",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/9da6db1e-f850445e77132b1c.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 245,
+      "method": "Network.responseReceived",
+      "requestId": "19384.624",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/9da6db1e-f850445e77132b1c.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 248,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.625",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/2972-b07fe05c65815063.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 250,
+      "method": "Network.responseReceived",
+      "requestId": "19384.625",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/2972-b07fe05c65815063.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 253,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.626",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/6137-03d2cd0024eec2f8.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 255,
+      "method": "Network.responseReceived",
+      "requestId": "19384.626",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/6137-03d2cd0024eec2f8.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 258,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.627",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/6157-80ffe98dd051ba11.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 260,
+      "method": "Network.responseReceived",
+      "requestId": "19384.627",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/6157-80ffe98dd051ba11.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 263,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.628",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/7819-7e6b97dc6cb02dde.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 265,
+      "method": "Network.responseReceived",
+      "requestId": "19384.628",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/7819-7e6b97dc6cb02dde.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 268,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.629",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/7043-063ab398cfaf690d.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 270,
+      "method": "Network.responseReceived",
+      "requestId": "19384.629",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/7043-063ab398cfaf690d.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 273,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.630",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/4196-937ffd378891ec7e.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 275,
+      "method": "Network.responseReceived",
+      "requestId": "19384.630",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/4196-937ffd378891ec7e.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 278,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.631",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/447-fefec5dcb6e6d277.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 280,
+      "method": "Network.responseReceived",
+      "requestId": "19384.631",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/447-fefec5dcb6e6d277.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 283,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.632",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/175-e6eb4932356761c6.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 285,
+      "method": "Network.responseReceived",
+      "requestId": "19384.632",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/175-e6eb4932356761c6.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 288,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.633",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/6618-98875bea5f99f771.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 290,
+      "method": "Network.responseReceived",
+      "requestId": "19384.633",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/6618-98875bea5f99f771.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 293,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.634",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/app/(marketing)/page-584b2873d760ef34.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 295,
+      "method": "Network.responseReceived",
+      "requestId": "19384.634",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/app/(marketing)/page-584b2873d760ef34.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 298,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.635",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/0d36cfa1-229c8f7b412d3ed5.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 300,
+      "method": "Network.responseReceived",
+      "requestId": "19384.635",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/0d36cfa1-229c8f7b412d3ed5.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 303,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.636",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/8685-d38ac681de0feaaf.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 305,
+      "method": "Network.responseReceived",
+      "requestId": "19384.636",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/8685-d38ac681de0feaaf.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 308,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.637",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/2833-a88bddd96678ad30.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 310,
+      "method": "Network.responseReceived",
+      "requestId": "19384.637",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/2833-a88bddd96678ad30.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 313,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.638",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/8575-0cfffd821edadf7f.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 315,
+      "method": "Network.responseReceived",
+      "requestId": "19384.638",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/8575-0cfffd821edadf7f.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 318,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.639",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/1455-50b82a56d579ca40.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 320,
+      "method": "Network.responseReceived",
+      "requestId": "19384.639",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/1455-50b82a56d579ca40.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 323,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.640",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/3464-97662804f4b56150.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 325,
+      "method": "Network.responseReceived",
+      "requestId": "19384.640",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/3464-97662804f4b56150.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 328,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.641",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/6744-9654e9677fe94af8.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 330,
+      "method": "Network.responseReceived",
+      "requestId": "19384.641",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/6744-9654e9677fe94af8.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 333,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.642",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/2790-3d8c8455dd7922c1.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 335,
+      "method": "Network.responseReceived",
+      "requestId": "19384.642",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/2790-3d8c8455dd7922c1.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 338,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.643",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/app/layout-1a140042fadad6a2.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 340,
+      "method": "Network.responseReceived",
+      "requestId": "19384.643",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/app/layout-1a140042fadad6a2.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 343,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.644",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/app/not-found-ac739c7426e41d69.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 345,
+      "method": "Network.responseReceived",
+      "requestId": "19384.644",
+      "type": "Script",
+      "url": "https://www.sorce.jobs/_next/static/chunks/app/not-found-ac739c7426e41d69.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 348,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.645",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/social/x.svg",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 349,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.654",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-app-demo-2-poster.jpg",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 350,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.655",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-app-demo-poster.jpg",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 351,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.656",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-app-demo-3-poster.jpg",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 352,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.657",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/homepage-film-poster.png",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 353,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.658",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-application-autofill-poster.jpg",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 354,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.659",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-review-before-submit-poster.jpg",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 355,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.660",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-explore-personalized-poster.jpg",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 356,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.661",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-exact-job-search-poster.jpg",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 357,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.663",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-similar-jobs-companies-poster.jpg",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 358,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.664",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-company-research-poster.jpg",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 359,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.665",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-company-jobs-poster.jpg",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 374,
+      "method": "Network.responseReceived",
+      "requestId": "19384.607",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/sorce-logo.svg",
+      "status": 304,
+      "mimeType": "image/svg+xml"
+    },
+    {
+      "sequence": 377,
+      "method": "Network.responseReceived",
+      "requestId": "19384.654",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-app-demo-2-poster.jpg",
+      "status": 304,
+      "mimeType": "image/jpeg"
+    },
+    {
+      "sequence": 380,
+      "method": "Network.responseReceived",
+      "requestId": "19384.655",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-app-demo-poster.jpg",
+      "status": 304,
+      "mimeType": "image/jpeg"
+    },
+    {
+      "sequence": 384,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.685",
+      "type": "Stylesheet",
+      "url": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 386,
+      "method": "Network.responseReceived",
+      "requestId": "19384.685",
+      "type": "Stylesheet",
+      "url": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap",
+      "status": 200,
+      "mimeType": "text/css"
+    },
+    {
+      "sequence": 410,
+      "method": "Network.responseReceived",
+      "requestId": "19384.608",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/app-store-badge.svg",
+      "status": 304,
+      "mimeType": "image/svg+xml"
+    },
+    {
+      "sequence": 414,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.914",
+      "type": "Font",
+      "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 416,
+      "method": "Network.responseReceived",
+      "requestId": "19384.914",
+      "type": "Font",
+      "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+      "status": 200,
+      "mimeType": "font/woff2"
+    },
+    {
+      "sequence": 419,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.947",
+      "type": "Font",
+      "url": "https://www.sorce.jobs/homepage-redesign/fonts/Inter-Regular.woff2",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 421,
+      "method": "Network.responseReceived",
+      "requestId": "19384.947",
+      "type": "Font",
+      "url": "https://www.sorce.jobs/homepage-redesign/fonts/Inter-Regular.woff2",
+      "status": 200,
+      "mimeType": "font/woff2"
+    },
+    {
+      "sequence": 424,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.949",
+      "type": "Font",
+      "url": "https://www.sorce.jobs/homepage-redesign/fonts/InterVariable.woff2",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 426,
+      "method": "Network.responseReceived",
+      "requestId": "19384.949",
+      "type": "Font",
+      "url": "https://www.sorce.jobs/homepage-redesign/fonts/InterVariable.woff2",
+      "status": 200,
+      "mimeType": "font/woff2"
+    },
+    {
+      "sequence": 457,
+      "method": "Network.responseReceived",
+      "requestId": "19384.656",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-app-demo-3-poster.jpg",
+      "status": 304,
+      "mimeType": "image/jpeg"
+    },
+    {
+      "sequence": 460,
+      "method": "Network.responseReceived",
+      "requestId": "19384.610",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/review-person-1.jpg",
+      "status": 304,
+      "mimeType": "image/jpeg"
+    },
+    {
+      "sequence": 463,
+      "method": "Network.responseReceived",
+      "requestId": "19384.661",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-exact-job-search-poster.jpg",
+      "status": 304,
+      "mimeType": "image/jpeg"
+    },
+    {
+      "sequence": 466,
+      "method": "Network.responseReceived",
+      "requestId": "19384.616",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/social/tiktok-icon.svg",
+      "status": 304,
+      "mimeType": "image/svg+xml"
+    },
+    {
+      "sequence": 469,
+      "method": "Network.responseReceived",
+      "requestId": "19384.615",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/social/instagram-color.svg",
+      "status": 304,
+      "mimeType": "image/svg+xml"
+    },
+    {
+      "sequence": 472,
+      "method": "Network.responseReceived",
+      "requestId": "19384.613",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/review-person-4.jpg",
+      "status": 304,
+      "mimeType": "image/jpeg"
+    },
+    {
+      "sequence": 475,
+      "method": "Network.responseReceived",
+      "requestId": "19384.612",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/review-person-3.jpg",
+      "status": 304,
+      "mimeType": "image/jpeg"
+    },
+    {
+      "sequence": 478,
+      "method": "Network.responseReceived",
+      "requestId": "19384.658",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-application-autofill-poster.jpg",
+      "status": 304,
+      "mimeType": "image/jpeg"
+    },
+    {
+      "sequence": 481,
+      "method": "Network.responseReceived",
+      "requestId": "19384.657",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/homepage-film-poster.png",
+      "status": 304,
+      "mimeType": "image/png"
+    },
+    {
+      "sequence": 484,
+      "method": "Network.responseReceived",
+      "requestId": "19384.664",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-company-research-poster.jpg",
+      "status": 304,
+      "mimeType": "image/jpeg"
+    },
+    {
+      "sequence": 487,
+      "method": "Network.responseReceived",
+      "requestId": "19384.663",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-similar-jobs-companies-poster.jpg",
+      "status": 304,
+      "mimeType": "image/jpeg"
+    },
+    {
+      "sequence": 490,
+      "method": "Network.responseReceived",
+      "requestId": "19384.665",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-company-jobs-poster.jpg",
+      "status": 304,
+      "mimeType": "image/jpeg"
+    },
+    {
+      "sequence": 493,
+      "method": "Network.responseReceived",
+      "requestId": "19384.645",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/social/x.svg",
+      "status": 304,
+      "mimeType": "image/svg+xml"
+    },
+    {
+      "sequence": 496,
+      "method": "Network.responseReceived",
+      "requestId": "19384.609",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/yc-logo.png",
+      "status": 304,
+      "mimeType": "image/png"
+    },
+    {
+      "sequence": 499,
+      "method": "Network.responseReceived",
+      "requestId": "19384.614",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/social/linkedin-icon.svg",
+      "status": 304,
+      "mimeType": "image/svg+xml"
+    },
+    {
+      "sequence": 518,
+      "method": "Network.responseReceived",
+      "requestId": "19384.660",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-explore-personalized-poster.jpg",
+      "status": 304,
+      "mimeType": "image/jpeg"
+    },
+    {
+      "sequence": 522,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.950",
+      "type": "Media",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-app-demo-2.mp4",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 523,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.951",
+      "type": "Media",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-app-demo.mp4",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 524,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.952",
+      "type": "Media",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-app-demo-3.mp4",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 525,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.953",
+      "type": "Media",
+      "url": "https://b4tl0n6j67mfwpvk.public.blob.vercel-storage.com/Swiping%20Video%20w%20New%20Screens.mp4",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 533,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.954",
+      "type": "Script",
+      "url": "https://bzrcdn.openai.com/sdk/oaiq.min.js",
+      "requestMethod": "GET",
+      "initiatorType": "script"
+    },
+    {
+      "sequence": 535,
+      "method": "Network.responseReceived",
+      "requestId": "19384.954",
+      "type": "Script",
+      "url": "https://bzrcdn.openai.com/sdk/oaiq.min.js",
+      "status": 200,
+      "mimeType": "text/javascript"
+    },
+    {
+      "sequence": 538,
+      "method": "Network.responseReceived",
+      "requestId": "19384.953",
+      "type": "Media",
+      "url": "https://b4tl0n6j67mfwpvk.public.blob.vercel-storage.com/Swiping%20Video%20w%20New%20Screens.mp4",
+      "status": 206,
+      "mimeType": "video/mp4"
+    },
+    {
+      "sequence": 540,
+      "method": "Network.responseReceived",
+      "requestId": "19384.611",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/review-person-2.jpg",
+      "status": 304,
+      "mimeType": "image/jpeg"
+    },
+    {
+      "sequence": 565,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.956",
+      "type": "Fetch",
+      "url": "https://bzrcdn.openai.com/pixel-config/v1/VhHWtp9EBVdAsPdxS4HoUy.json",
+      "requestMethod": "GET",
+      "initiatorType": "script"
+    },
+    {
+      "sequence": 571,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.957",
+      "type": "Script",
+      "url": "https://us-assets.i.posthog.com/static/posthog-recorder.js?v=1.234.6",
+      "requestMethod": "GET",
+      "initiatorType": "script"
+    },
+    {
+      "sequence": 573,
+      "method": "Network.responseReceived",
+      "requestId": "19384.957",
+      "type": "Script",
+      "url": "https://us-assets.i.posthog.com/static/posthog-recorder.js?v=1.234.6",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 576,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.958",
+      "type": "Script",
+      "url": "https://us-assets.i.posthog.com/static/dead-clicks-autocapture.js?v=1.234.6",
+      "requestMethod": "GET",
+      "initiatorType": "script"
+    },
+    {
+      "sequence": 578,
+      "method": "Network.responseReceived",
+      "requestId": "19384.958",
+      "type": "Script",
+      "url": "https://us-assets.i.posthog.com/static/dead-clicks-autocapture.js?v=1.234.6",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 581,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.959",
+      "type": "Script",
+      "url": "https://us-assets.i.posthog.com/static/web-vitals.js?v=1.234.6",
+      "requestMethod": "GET",
+      "initiatorType": "script"
+    },
+    {
+      "sequence": 583,
+      "method": "Network.responseReceived",
+      "requestId": "19384.959",
+      "type": "Script",
+      "url": "https://us-assets.i.posthog.com/static/web-vitals.js?v=1.234.6",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 586,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.960",
+      "type": "Script",
+      "url": "https://us-assets.i.posthog.com/array/phc_BZEmUvfzbMGEvkPOAowzsmQJ928KCD08skG7nha5aDi/config.js",
+      "requestMethod": "GET",
+      "initiatorType": "script"
+    },
+    {
+      "sequence": 588,
+      "method": "Network.responseReceived",
+      "requestId": "19384.960",
+      "type": "Script",
+      "url": "https://us-assets.i.posthog.com/array/phc_BZEmUvfzbMGEvkPOAowzsmQJ928KCD08skG7nha5aDi/config.js",
+      "status": 200,
+      "mimeType": "application/javascript"
+    },
+    {
+      "sequence": 591,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.961",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/decide/?v=4&ip=1&_=1792042323579&ver=1.234.6&compression=base64",
+      "requestMethod": "POST",
+      "initiatorType": "script"
+    },
+    {
+      "sequence": 592,
+      "method": "Network.responseReceived",
+      "requestId": "19384.956",
+      "type": "Fetch",
+      "url": "https://bzrcdn.openai.com/pixel-config/v1/VhHWtp9EBVdAsPdxS4HoUy.json",
+      "status": 200,
+      "mimeType": "application/json"
+    },
+    {
+      "sequence": 602,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.962",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/e/?ip=1&_=1792042323663&ver=1.234.6&compression=gzip-js",
+      "requestMethod": "POST",
+      "initiatorType": "script"
+    },
+    {
+      "sequence": 603,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.963",
+      "type": "Media",
+      "url": "https://b4tl0n6j67mfwpvk.public.blob.vercel-storage.com/Swiping%20Video%20w%20New%20Screens.mp4",
+      "requestMethod": "GET",
+      "initiatorType": "parser"
+    },
+    {
+      "sequence": 607,
+      "method": "Network.responseReceived",
+      "requestId": "19384.961",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/decide/?v=4&ip=1&_=1792042323579&ver=1.234.6&compression=base64",
+      "status": 200,
+      "mimeType": "application/json"
+    },
+    {
+      "sequence": 608,
+      "method": "Network.loadingFailed",
+      "requestId": "19384.953",
+      "type": "Media",
+      "errorText": "net::ERR_ABORTED"
+    },
+    {
+      "sequence": 612,
+      "method": "Network.responseReceived",
+      "requestId": "19384.963",
+      "type": "Media",
+      "url": "https://b4tl0n6j67mfwpvk.public.blob.vercel-storage.com/Swiping%20Video%20w%20New%20Screens.mp4",
+      "status": 206,
+      "mimeType": "video/mp4"
+    },
+    {
+      "sequence": 619,
+      "method": "Network.responseReceived",
+      "requestId": "19384.962",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/e/?ip=1&_=1792042323663&ver=1.234.6&compression=gzip-js",
+      "status": 200,
+      "mimeType": "application/json"
+    },
+    {
+      "sequence": 624,
+      "method": "Network.responseReceived",
+      "requestId": "19384.950",
+      "type": "Media",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-app-demo-2.mp4",
+      "status": 206,
+      "mimeType": "video/mp4"
+    },
+    {
+      "sequence": 625,
+      "method": "Network.responseReceived",
+      "requestId": "19384.952",
+      "type": "Media",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-app-demo-3.mp4",
+      "status": 206,
+      "mimeType": "video/mp4"
+    },
+    {
+      "sequence": 632,
+      "method": "Network.responseReceived",
+      "requestId": "19384.951",
+      "type": "Media",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-app-demo.mp4",
+      "status": 206,
+      "mimeType": "video/mp4"
+    },
+    {
+      "sequence": 653,
+      "method": "Network.responseReceived",
+      "requestId": "19384.659",
+      "type": "Image",
+      "url": "https://www.sorce.jobs/homepage-redesign/video/sorce-review-before-submit-poster.jpg",
+      "status": 304,
+      "mimeType": "image/jpeg"
+    },
+    {
+      "sequence": 659,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.964",
+      "type": "Other",
+      "url": "https://www.sorce.jobs/icon.svg?ba29242556e27cb1",
+      "requestMethod": "GET",
+      "initiatorType": "other"
+    },
+    {
+      "sequence": 664,
+      "method": "Network.responseReceived",
+      "requestId": "19384.964",
+      "type": "Other",
+      "url": "https://www.sorce.jobs/icon.svg?ba29242556e27cb1",
+      "status": 200,
+      "mimeType": "image/svg+xml"
+    },
+    {
+      "sequence": 670,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.965",
+      "type": "Fetch",
+      "url": "https://bzr.openai.com/v1/sdk/events?pid=VhHWtp9EBVdAsPdxS4HoUy&st=oaiq-web&sv=0.1.41&t=1792042324823&ec=2",
+      "requestMethod": "POST",
+      "initiatorType": "script"
+    },
+    {
+      "sequence": 673,
+      "method": "Network.responseReceived",
+      "requestId": "19384.965",
+      "type": "Fetch",
+      "url": "https://bzr.openai.com/v1/sdk/events?pid=VhHWtp9EBVdAsPdxS4HoUy&st=oaiq-web&sv=0.1.41&t=1792042324823&ec=2",
+      "status": 202,
+      "mimeType": "application/json"
+    },
+    {
+      "sequence": 674,
+      "method": "Network.loadingFailed",
+      "requestId": "19384.965",
+      "type": "Fetch",
+      "errorText": "net::ERR_ABORTED"
+    },
+    {
+      "sequence": 676,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.966",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/e/?ip=1&_=1792042326589&ver=1.234.6&compression=gzip-js",
+      "requestMethod": "POST",
+      "initiatorType": "script"
+    },
+    {
+      "sequence": 677,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.967",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/s/?ip=1&_=1792042326591&ver=1.234.6&compression=gzip-js",
+      "requestMethod": "POST",
+      "initiatorType": "script"
+    },
+    {
+      "sequence": 680,
+      "method": "Network.responseReceived",
+      "requestId": "19384.966",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/e/?ip=1&_=1792042326589&ver=1.234.6&compression=gzip-js",
+      "status": 200,
+      "mimeType": "application/json"
+    },
+    {
+      "sequence": 684,
+      "method": "Network.responseReceived",
+      "requestId": "19384.967",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/s/?ip=1&_=1792042326591&ver=1.234.6&compression=gzip-js",
+      "status": 200,
+      "mimeType": "application/json"
+    },
+    {
+      "sequence": 690,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.968",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/i/v0/e/?ip=1&_=1792042331686&ver=1.234.6&compression=gzip-js",
+      "requestMethod": "POST",
+      "initiatorType": "script"
+    },
+    {
+      "sequence": 691,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.969",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/s/?ip=1&_=1792042331688&ver=1.234.6&compression=gzip-js",
+      "requestMethod": "POST",
+      "initiatorType": "script"
+    },
+    {
+      "sequence": 695,
+      "method": "Network.responseReceived",
+      "requestId": "19384.968",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/i/v0/e/?ip=1&_=1792042331686&ver=1.234.6&compression=gzip-js",
+      "status": 200,
+      "mimeType": "application/json"
+    },
+    {
+      "sequence": 699,
+      "method": "Network.responseReceived",
+      "requestId": "19384.969",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/s/?ip=1&_=1792042331688&ver=1.234.6&compression=gzip-js",
+      "status": 200,
+      "mimeType": "application/json"
+    },
+    {
+      "sequence": 705,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.970",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/s/?ip=1&_=1792042338071&ver=1.234.6&compression=gzip-js",
+      "requestMethod": "POST",
+      "initiatorType": "script"
+    },
+    {
+      "sequence": 708,
+      "method": "Network.responseReceived",
+      "requestId": "19384.970",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/s/?ip=1&_=1792042338071&ver=1.234.6&compression=gzip-js",
+      "status": 200,
+      "mimeType": "application/json"
+    },
+    {
+      "sequence": 712,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.971",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/s/?ip=1&_=1792042342179&ver=1.234.6&compression=gzip-js",
+      "requestMethod": "POST",
+      "initiatorType": "script"
+    },
+    {
+      "sequence": 715,
+      "method": "Network.responseReceived",
+      "requestId": "19384.971",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/s/?ip=1&_=1792042342179&ver=1.234.6&compression=gzip-js",
+      "status": 200,
+      "mimeType": "application/json"
+    },
+    {
+      "sequence": 718,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.972",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/s/?ip=1&_=1792042345936&ver=1.234.6&compression=gzip-js",
+      "requestMethod": "POST",
+      "initiatorType": "script"
+    },
+    {
+      "sequence": 721,
+      "method": "Network.responseReceived",
+      "requestId": "19384.972",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/s/?ip=1&_=1792042345936&ver=1.234.6&compression=gzip-js",
+      "status": 200,
+      "mimeType": "application/json"
+    },
+    {
+      "sequence": 724,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.973",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/s/?ip=1&_=1792042351889&ver=1.234.6&compression=gzip-js",
+      "requestMethod": "POST",
+      "initiatorType": "script"
+    },
+    {
+      "sequence": 727,
+      "method": "Network.responseReceived",
+      "requestId": "19384.973",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/s/?ip=1&_=1792042351889&ver=1.234.6&compression=gzip-js",
+      "status": 200,
+      "mimeType": "application/json"
+    },
+    {
+      "sequence": 730,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.974",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/s/?ip=1&_=1792042355519&ver=1.234.6&compression=gzip-js",
+      "requestMethod": "POST",
+      "initiatorType": "script"
+    },
+    {
+      "sequence": 733,
+      "method": "Network.responseReceived",
+      "requestId": "19384.974",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/s/?ip=1&_=1792042355519&ver=1.234.6&compression=gzip-js",
+      "status": 200,
+      "mimeType": "application/json"
+    },
+    {
+      "sequence": 736,
+      "method": "Network.requestWillBeSent",
+      "requestId": "19384.975",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/s/?ip=1&_=1792042361121&ver=1.234.6&compression=gzip-js",
+      "requestMethod": "POST",
+      "initiatorType": "script"
+    },
+    {
+      "sequence": 739,
+      "method": "Network.responseReceived",
+      "requestId": "19384.975",
+      "type": "Fetch",
+      "url": "https://us.i.posthog.com/s/?ip=1&_=1792042361121&ver=1.234.6&compression=gzip-js",
+      "status": 200,
+      "mimeType": "application/json"
+    }
+  ]
+}

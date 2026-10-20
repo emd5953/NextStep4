@@ -1,0 +1,368 @@
+{
+  "note": "Minimized native CDP scriptParsed evidence; not REA output. Only first-party script identities retained. Parsed does not imply every module executed.",
+  "cursor": 128,
+  "truncated": false,
+  "hasMore": false,
+  "scripts": [
+    {
+      "sequence": 38,
+      "scriptId": "12",
+      "url": "https://www.sorce.jobs/",
+      "hash": "2ea33d95d9e0970289095699e71669d05c8b4764f268915b5ad069e2b6fa5d28",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 39,
+      "scriptId": "13",
+      "url": "https://www.sorce.jobs/",
+      "hash": "43ef2d3ec8d5b620ec8c5fc2bfc14c3a9836620f75a0a14a0c025ab753cf6f68",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 40,
+      "scriptId": "14",
+      "url": "https://www.sorce.jobs/",
+      "hash": "ed4336c453be8441de5690565f5aa4477caee50551437ed5490ae0c4b06ad4c3",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 41,
+      "scriptId": "15",
+      "url": "https://www.sorce.jobs/",
+      "hash": "f001d96f8784be4f98e00d20ebf0d89cba51e162d41105661b802cb925adc292",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 42,
+      "scriptId": "16",
+      "url": "https://www.sorce.jobs/",
+      "hash": "7f6aab5bf6adb46b427071a6df2d6924d28b20b8782615bdcebec3659af4cd78",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 43,
+      "scriptId": "17",
+      "url": "https://www.sorce.jobs/",
+      "hash": "f5d7d55f5cbf52944ab61afc7afff4295a25eeb3808c20d7e68b6e24d590d10e",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 44,
+      "scriptId": "18",
+      "url": "https://www.sorce.jobs/",
+      "hash": "d7ddb69b9e39304d0dd4663bcf1a5e073d6f80d49648f4b6b9766b83ef14fbe9",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 45,
+      "scriptId": "19",
+      "url": "https://www.sorce.jobs/",
+      "hash": "01a360d2e2678f19cd91985721b2b949acf3a30a4579d52138984e73746efc55",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 46,
+      "scriptId": "20",
+      "url": "https://www.sorce.jobs/",
+      "hash": "b54e2434acbef9110acbefab194051469cbc7e5e957f3d27b00c0ddf1acfa25e",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 47,
+      "scriptId": "21",
+      "url": "https://www.sorce.jobs/",
+      "hash": "c773080cc0e7566d80888b2db56a5bcd06041e0e2eeb9f3622bc61fd9f7def0c",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 48,
+      "scriptId": "22",
+      "url": "https://www.sorce.jobs/",
+      "hash": "e3a8e3a6e6e9c921119823735a13611db4b12b9fa604389729dc6aad4ac0fe75",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 49,
+      "scriptId": "23",
+      "url": "https://www.sorce.jobs/",
+      "hash": "8ca4e7354b16fcfe3e6a93ac62d7e3119e8c7c34930dc0724065c8df43ed2cc5",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 50,
+      "scriptId": "24",
+      "url": "https://www.sorce.jobs/",
+      "hash": "df9804f0a7c906792f380d02fed925112f28e119933c1c8e9106071ed325bfcf",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 51,
+      "scriptId": "25",
+      "url": "https://www.sorce.jobs/",
+      "hash": "b4f61b05e7f69f31d6426d3f9900b88c62ac201cf8f989e6810c507aa2ee22f4",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 52,
+      "scriptId": "26",
+      "url": "https://www.sorce.jobs/",
+      "hash": "6eef1670c030e4d2759f2b1ca3879c9509c480b078203408faf355a456038990",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 53,
+      "scriptId": "27",
+      "url": "https://www.sorce.jobs/",
+      "hash": "64d464036ebdbc68caae9b2aefa6dcf6691597a29ba80e84af12702c87d9557a",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 54,
+      "scriptId": "28",
+      "url": "https://www.sorce.jobs/",
+      "hash": "68336ddd6b71c8359822b934b3b02201824685ebfb09314b02cc42d4d45f97d5",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 55,
+      "scriptId": "29",
+      "url": "https://www.sorce.jobs/",
+      "hash": "23a846af105ff7cc7b2c50cb0897c74077c92f07a55ae827f0a05c790931bd70",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 56,
+      "scriptId": "30",
+      "url": "https://www.sorce.jobs/",
+      "hash": "31e6e84619e4a74fcf212290a5fd5251dc35020d50f41baab29cdfeb65276fe1",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 57,
+      "scriptId": "31",
+      "url": "https://www.sorce.jobs/",
+      "hash": "9cd90876baa6538394274b18673a9c9cbb031a97ce5bcc70f96dc09462fb6446",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 58,
+      "scriptId": "32",
+      "url": "https://www.sorce.jobs/_next/static/chunks/webpack-03ca9c88a62feca3.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "ac9e15044007754522b4729b53a51430e8b0e1fbc9d37130d779cb4836498580",
+      "startLine": 0,
+      "endLine": 1
+    },
+    {
+      "sequence": 59,
+      "scriptId": "34",
+      "url": "https://www.sorce.jobs/_next/static/chunks/2972-b07fe05c65815063.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "6e502a26091acaa438e2968708f1c772eb06b83feb401adcaec76ef0cc1d0fd4",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 60,
+      "scriptId": "33",
+      "url": "https://www.sorce.jobs/_next/static/chunks/fd9d1056-41ce205d8e0c6ad6.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "865cad64a44a0c49b5bdadd6c3e9a9a363f6943fb9a70efc1b6292ebab67276f",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 61,
+      "scriptId": "35",
+      "url": "https://www.sorce.jobs/_next/static/chunks/6137-03d2cd0024eec2f8.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "d3bdf01bc8b3800a9fb21818ec02fb06ac1264e70df7b4c845b1ccb7dc29c616",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 62,
+      "scriptId": "36",
+      "url": "https://www.sorce.jobs/_next/static/chunks/7819-7e6b97dc6cb02dde.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "433fdccb3aad5283f0efe61007b51fdb4fee30dcb5bae1def9e3884cff48630e",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 63,
+      "scriptId": "37",
+      "url": "https://www.sorce.jobs/_next/static/chunks/6157-80ffe98dd051ba11.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "697f7de816d39e342aa3a789aeba9dcc094d0b3a45d7743da631e4f3704cd413",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 64,
+      "scriptId": "38",
+      "url": "https://www.sorce.jobs/_next/static/chunks/7043-063ab398cfaf690d.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "fd54b3baa26419044993727631b8d3f9b2f35aaf09a67c579dd8833e7236d206",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 65,
+      "scriptId": "39",
+      "url": "https://www.sorce.jobs/_next/static/chunks/2790-3d8c8455dd7922c1.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "f744618ac39ed43b6247923eaa03931d99455ff20bdc0f8bae9a82806f59223d",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 66,
+      "scriptId": "40",
+      "url": "https://www.sorce.jobs/_next/static/chunks/app/layout-1a140042fadad6a2.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "63399e130eb62c6ae1870701ed5221523f767069d0f8d698db19cc40c052bd28",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 67,
+      "scriptId": "41",
+      "url": "https://www.sorce.jobs/_next/static/chunks/4196-937ffd378891ec7e.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "2d25477e02bb2d9df74eceef83e7b34258cf08cc7efc73ed441c9dfc7a299410",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 68,
+      "scriptId": "42",
+      "url": "https://www.sorce.jobs/_next/static/chunks/447-fefec5dcb6e6d277.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "bf315a74607db75d403dba0d262a2e38aa4b290b258cfc8b4ee622e4f4e377bc",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 69,
+      "scriptId": "43",
+      "url": "https://www.sorce.jobs/_next/static/chunks/2117-033d1436328a5aa0.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "377105bd209c7e507a67e445643f95d5025d9449a89ecb174b60eb727eed650c",
+      "startLine": 0,
+      "endLine": 1
+    },
+    {
+      "sequence": 70,
+      "scriptId": "45",
+      "url": "https://www.sorce.jobs/_next/static/chunks/1455-50b82a56d579ca40.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "197c19557def4f5f6b40ec7c902df8ffc573f09809c9ad4883f02789a6a0e37d",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 71,
+      "scriptId": "44",
+      "url": "https://www.sorce.jobs/_next/static/chunks/9da6db1e-f850445e77132b1c.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "1f535b58dbb9c6765329cf6a4bf41aa7aad31c74208243182eb2f9d8ef1337dc",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 72,
+      "scriptId": "46",
+      "url": "https://www.sorce.jobs/_next/static/chunks/8575-0cfffd821edadf7f.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "b39172efafaf7c828f08c1d18147675e70fa666352159dfb7e6bf27cdf72a7fa",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 73,
+      "scriptId": "47",
+      "url": "https://www.sorce.jobs/_next/static/chunks/6618-98875bea5f99f771.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "17e8f508ad6467faa9487c23a2ad1b217e0de0a56f1860aabf56b84d1656eece",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 74,
+      "scriptId": "48",
+      "url": "https://www.sorce.jobs/_next/static/chunks/6744-9654e9677fe94af8.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "b30a223ea8df85d26135744d59bf8c088102186e025547a5b837879ed3ac373c",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 75,
+      "scriptId": "50",
+      "url": "https://www.sorce.jobs/_next/static/chunks/app/not-found-ac739c7426e41d69.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "f0d51dc4b83a69f2dff74780bbf74419f9a92376e2ab5aa4a0d3056a9b6d10e1",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 76,
+      "scriptId": "51",
+      "url": "https://www.sorce.jobs/_next/static/chunks/app/(marketing)/page-584b2873d760ef34.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "94689f8718f9c5ede9ce2b776c509cb995b1df5615cd7da7728368465c53f742",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 77,
+      "scriptId": "53",
+      "url": "https://www.sorce.jobs/_next/static/chunks/175-e6eb4932356761c6.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "b1a959bc72c8e3cc9aeeff403d9cecef9ecb1a419432f75ffecc87b0a8888f73",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 78,
+      "scriptId": "52",
+      "url": "https://www.sorce.jobs/_next/static/chunks/8685-d38ac681de0feaaf.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "39303debe10cda853baee30a41b2c03c331940c2d24e9f6978387935b5bb31aa",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 79,
+      "scriptId": "55",
+      "url": "https://www.sorce.jobs/_next/static/chunks/2833-a88bddd96678ad30.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "cb7b3b6b76e0d2da96438687ccd44000f8a879da11ee90936f967a457032c705",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 80,
+      "scriptId": "56",
+      "url": "https://www.sorce.jobs/_next/static/chunks/main-app-9312aa7f29a48aee.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "194d80278e73ec4e98da7e3a63c49ff5a4809e33cb18d195816ca46279d1a054",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 82,
+      "scriptId": "54",
+      "url": "https://www.sorce.jobs/_next/static/chunks/3464-97662804f4b56150.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "ba4fc934ff580b22977d78c83c6f777e80ca159bc52c247d6515021448f93dac",
+      "startLine": 0,
+      "endLine": 0
+    },
+    {
+      "sequence": 83,
+      "scriptId": "49",
+      "url": "https://www.sorce.jobs/_next/static/chunks/0d36cfa1-229c8f7b412d3ed5.js?dpl=dpl_EdiH5vrdk8N63r7XKX4JydD66Zqr",
+      "hash": "628ef43d1d528e9d5e7e960f120a43011172f00dd1b59fb7b973826b936ac146",
+      "startLine": 0,
+      "endLine": 0
+    }
+  ]
+}

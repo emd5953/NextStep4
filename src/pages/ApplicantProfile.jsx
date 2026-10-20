@@ -103,7 +103,7 @@ const ApplicantProfile = () => {
                   </button>
                   {applicant.resumeFile.mimetype === 'application/pdf' ? (
                     <iframe
-                      src={`data:${applicant.resumeFile.mimetype};base64,${applicant.resumeFile.buffer}`}
+                      src={applicant.resumeFile.url}
                       title={`${applicant.full_name}'s resume`}
                       width="100%"
                       height="100%"
@@ -111,7 +111,7 @@ const ApplicantProfile = () => {
                     />
                   ) : (
                     <iframe
-                      src={`data:${applicant.resumeFile.mimetype};base64,${applicant.resumeFile.buffer}`}
+                      src={applicant.resumeFile.url}
                       title={`${applicant.full_name}'s resume`}
                       width="100%"
                       height="100%"

@@ -1,0 +1,192 @@
+- banner:
+  - link "Sorce Logo":
+    - /url: /
+    - img "Sorce Logo"
+  - navigation:
+    - link "Employers":
+      - /url: /employer
+    - link "Blog":
+      - /url: /blog
+    - link "Case Studies":
+      - /url: /docs/case-studies
+    - link "Love":
+      - /url: /love
+- main:
+  - article:
+    - heading "Sorce's Privacy Policy" [level=1]
+    - paragraph:
+      - emphasis: "Last Updated: September 12, 2025"
+    - paragraph:
+      - strong: Introduction
+      - text: Welcome to Sorce's Privacy Policy. We are committed to protecting your personal information and your right to privacy. This policy outlines our practices concerning data collection, usage, and security. This policy applies to users globally, with specific provisions for users in the United Kingdom and Canada.
+    - paragraph:
+      - strong: Our Role
+      - text: RedantAI, Inc. d/b/a “Sorce” (collectively, “RedantAI,” “Sorce,” “we,” “us,” or “our”) acts as the data controller for personal information processed under this policy.
+    - list:
+      - paragraph:
+        - strong: Information We Collect
+      - list:
+        - strong: "Account Information:"
+        - text: When you create an account, we collect your email address, name, and account preferences.
+        - strong: "Resume Data:"
+        - text: We collect and process resume information that you choose to upload or create through our service.
+        - strong: "Business Account Information:"
+        - text: For business accounts, we collect company information, billing details, and administrator contact information.
+        - strong: "Payment Information:"
+        - text: For subscriptions, we collect necessary payment information through our secure payment processors.
+        - strong: "Usage Data:"
+        - text: We collect data about how you interact with our service, including device information, IP address, and usage patterns.
+        - strong: "Location Data:"
+        - text: We collect general location information based on IP address to provide relevant job matches.
+        - strong: "AI Processing Data:"
+        - text: When you use our AI-powered features, we process your submitted content to provide recommendations and insights.
+      - paragraph:
+        - strong: Use of Collected Information
+      - list:
+        - strong: "Payment Processing:"
+        - text: The sole purpose of collecting financial information is to process subscription payments. We do not use this information for any other purposes.
+        - strong: "Security Measures:"
+        - text: We employ various security measures to ensure the protection of your payment information.
+      - paragraph:
+        - strong: Sharing of Information
+      - list:
+        - strong: "Non-Disclosure:"
+        - text: We do not share, sell, rent, or trade any personal information with third parties for their commercial purposes.
+        - strong: "Legal Requirements:"
+        - text: We may disclose your information if required by law or if we believe in good faith that such action is necessary to comply with legal processes.
+      - paragraph:
+        - strong: Data Retention
+      - list:
+        - strong: "Standard Retention Periods:"
+        - list:
+          - listitem: "Resume data: 3 years from last account activity"
+          - listitem: "Account information: 7 years from account closure"
+          - listitem: "Payment records: 7 years (for tax compliance)"
+          - listitem: "Usage logs: 12 months"
+          - listitem: "Business account data: 7 years from contract termination"
+        - strong: "Extended Retention:"
+        - text: "We may retain information longer if:"
+        - list:
+          - listitem: Required by law or regulatory requirements
+          - listitem: Necessary for fraud prevention or security
+          - listitem: Part of an ongoing legal proceeding
+        - strong: "Deletion Requests:"
+        - text: You can request deletion of your data at any time through your account settings or by contacting us. Some information may be retained as required by law or for legitimate business purposes.
+      - paragraph:
+        - strong: Google User Data
+      - list:
+        - strong: "Third-Party AI Tools:"
+        - text: Any Google user data from Google's Workspace APIs
+        - strong: ARE NOT
+        - text: used to develop, improve, or train generalized/non-personalized AI and/or ML models.
+      - paragraph:
+        - strong: Contact Us
+      - list:
+        - strong: "Questions and Concerns:"
+        - text: If you have any questions about this privacy policy, please contact us at
+        - link "founders@sorce.jobs":
+          - /url: mailto:founders@sorce.jobs
+        - strong: "Feedback:"
+        - text: We welcome your feedback and suggestions to improve our privacy practices.
+      - paragraph:
+        - strong: Policy Updates
+      - list:
+        - strong: "Amendments:"
+        - text: We may update this privacy policy from time to time to reflect changes in our practices or legal obligations. We encourage you to review this policy periodically.
+      - paragraph:
+        - strong: Delete Account and Data
+      - list:
+        - strong: "Account Deletion:"
+        - text: "To delete your account on the Sorce app, follow these steps:"
+        - list:
+          - strong: "Open the Sorce App:"
+          - text: Launch the app on your device.
+          - strong: "Navigate to Profile:"
+          - text: Tap on your profile icon to access your account settings.
+          - strong: "Go to Settings:"
+          - text: Within your profile, find and select the 'Settings' option.
+          - strong: "Delete Account:"
+          - text: Scroll down to find the 'Delete Account' option and select it. Follow any additional prompts to confirm the deletion.
+        - strong: "Data Deletion:"
+        - text: When you delete your account, all your personal data will be permanently deleted from our records, except for any data we are obliged to keep for administrative, legal, or security purposes.
+        - strong: "Assistance:"
+        - text: If you encounter any issues or prefer assistance, you can contact the Sorce team directly at
+        - link "founders@sorce.jobs":
+          - /url: mailto:founders@sorce.jobs
+        - text: for help with deleting your account and data.
+      - paragraph:
+        - strong: AI Features and Processing
+      - list:
+        - strong: "AI Technology Use:"
+        - text: "We use artificial intelligence to:"
+        - list:
+          - listitem: Analyze resumes and provide recommendations
+          - listitem: Enhance job matching capabilities
+          - listitem: Improve user experience
+        - strong: "AI Processing Notice:"
+        - list:
+          - listitem: AI outputs may contain inaccuracies
+          - listitem: You should review all AI-generated content
+          - listitem: We do not guarantee specific outcomes
+          - listitem: You maintain control over your data
+      - paragraph:
+        - strong: International Users
+      - list:
+        - strong: "UK Users:"
+        - list:
+          - listitem: You have rights under UK GDPR
+          - listitem: Data transfers comply with UK data protection laws
+          - listitem: You can complain to the ICO (www.ico.org.uk)
+        - strong: "Canadian Users:"
+        - list:
+          - listitem: Protected under PIPEDA
+          - listitem: Right to access and correct your data
+          - listitem: Can complain to Privacy Commissioner of Canada
+    - paragraph:
+      - strong: Conclusion
+      - text: Your privacy is of utmost importance to us at Sorce. We are committed to ensuring the security and confidentiality of your personal information.
+    - heading "Contact" [level=2]
+    - heading "Mailing Address" [level=3]
+    - paragraph:
+      - text: RedantAI, Inc.
+      - text: 131 Continental Drive
+      - text: Newark, DE 19713
+    - heading "Monitored Email Address" [level=3]
+    - paragraph:
+      - link "founders@sorce.jobs":
+        - /url: mailto:founders@sorce.jobs
+- contentinfo:
+  - link "Sorce Logo Tinder for jobs":
+    - /url: /
+    - img "Sorce Logo"
+    - paragraph: Tinder for jobs
+  - link "Twitter":
+    - /url: https://x.com/sorcejobs
+    - generic: Twitter
+  - link "Instagram":
+    - /url: https://www.instagram.com/sorcejobs/
+    - generic: Instagram
+  - link "LinkedIn":
+    - /url: https://linkedin.com/company/sorcejobs
+    - generic: LinkedIn
+  - link "TikTok":
+    - /url: https://www.tiktok.com/@sorcejobs
+    - generic: TikTok
+  - link "Email":
+    - /url: mailto:founders@sorce.jobs
+    - generic: Email
+  - link "Mobile App":
+    - /url: /passport
+    - text: Mobile App
+  - link "Blog":
+    - /url: /blog
+    - text: Blog
+  - link "T&C":
+    - /url: /docs/terms-and-conditions
+    - text: T&C
+  - link "Privacy":
+    - /url: /docs/privacy-policy
+    - text: Privacy
+  - link "Security":
+    - /url: /security
+    - text: Security

@@ -1,3 +1,5 @@
+> Current vector store: Supabase pgvector. See [Supabase setup](../docs/SUPABASE_SETUP.md). Chroma instructions below are historical.
+
 # RAG Services
 
 This directory contains the core services for the RAG (Retrieval-Augmented Generation) chatbot system.

@@ -25,25 +25,19 @@ router.get('/', async (req, res) => {
     // Get JSearch stats
     const jsearchStats = jobApiService.getCacheStats();
     
-    // Calculate estimated costs (approximate)
-    const openaiEmbeddingCost = embeddingStats.apiCalls * 0.00002; // $0.02 per 1K tokens
-    const geminiCost = ragStats.geminiApiCalls * 0.00001; // Approximate Gemini cost
-    const jsearchCost = jsearchStats.apiCalls * 0.01; // Approximate per-call cost (varies by plan)
-    
     const stats = {
-      openai: {
-        ...embeddingStats,
-        estimatedCost: `$${openaiEmbeddingCost.toFixed(4)}`
-      },
       gemini: {
-        ...ragStats,
-        estimatedCost: `$${geminiCost.toFixed(4)}`
+        ...embeddingStats,
+        rag: ragStats,
+        estimatedCost: null,
+        billingNote: 'Free-tier eligible models. Actual billing and quotas depend on the Google AI Studio project.'
       },
       jsearch: {
         ...jsearchStats,
-        estimatedCost: `$${jsearchCost.toFixed(4)}`
+        estimatedCost: null,
+        billingNote: 'Actual usage and billing depend on the selected job API subscription.'
       },
-      totalEstimatedCost: `$${(openaiEmbeddingCost + geminiCost + jsearchCost).toFixed(4)}`,
+      totalEstimatedCost: null,
       timestamp: new Date().toISOString()
     };
     

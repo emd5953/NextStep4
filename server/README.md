@@ -1,249 +1,44 @@
 # NextStep Server
 
-Backend server for the NextStep job matching platform with integrated RAG chatbot.
+NextStep uses Supabase PostgreSQL, Auth, private Storage, and pgvector. Gemini supplies resume analysis, chat, and embeddings. MongoDB and ChromaDB are no longer required.
 
-## Quick Start
+## Setup
 
-```bash
-# Install dependencies
-npm install
+Follow [Supabase setup](docs/SUPABASE_SETUP.md). Keep the project in a Free organization.
 
-# Configure environment
-cp .env.example .env
-# Edit .env with your API keys
+1. Install dependencies with `npm install` from the repository root.
+2. Add the Supabase project URL, publishable key, and server secret key to `server/.env`. Preserve the existing Gemini key.
+3. Run [the SQL migration](../supabase/migrations/202610150001_nextstep.sql) in the project's SQL editor.
+4. Set Auth's Site URL to `http://localhost:3000` and allow `http://localhost:3000/login` and `http://localhost:3000/reset-password`.
+5. From `server/`, run `npm run check:supabase`.
+6. Run `npm run dev` from the repository root. Frontend: port 3000; API: port 4000.
 
-# Start ChromaDB (required for RAG)
-docker run -p 8000:8000 chromadb/chroma
+Accounts from the old MongoDB database do not exist in this fresh project. Create a new account. The browser manages Supabase sessions and token refresh; the API verifies tokens with Supabase Auth and performs private queries under the user's row-level security policies.
 
-# Start server
-npm start
-```
+## Gemini free-tier setup
 
-Server runs on `http://localhost:4000`
+The existing `GEMINI_API_KEY` stays in `server/.env`. Use a Google AI Studio project showing **Free tier**, with billing disabled. Defaults are `gemini-3.5-flash-lite` and `gemini-embedding-2`. Jobs/profiles use 1536-dimensional vectors; documentation uses 768.
 
-## Features
+Run `npm run check:gemini` for a live synthetic check, or `npm run test:gemini` for offline regression tests. Quota errors do not trigger a paid fallback. Search still returns available jobs if AI ranking is unavailable.
 
-- **User Authentication** - JWT-based auth with Google OAuth
-- **Job Management** - Browse and search job postings
-- **Application Tracking** - Track job applications and status
-- **RAG Chatbot** - AI-powered help chat with document retrieval
+## Storage and saved jobs
 
-## Project Structure
+The live jobs feed uses OpenWeb Ninja's Real-Time LinkedIn Data subscription. Set `JSEARCH_PROVIDER=openwebninja`, `JOB_API_SOURCE=linkedin`, and the existing `JSEARCH_API_KEY` in `server/.env`. Run `npm run check:jobs` for a live check. Searches fetch one page, share a 30-minute cache, and persist listings in Supabase. JSearch remains available as a separate optional subscription; see the setup guide for switching sources.
 
-```
-server/
-├── config/          # Configuration files
-├── controllers/     # Request handlers
-├── data/            # Static data files
-├── docs/            # Documentation
-│   ├── RAG_SYSTEM_GUIDE.md
-│   ├── CHROMADB_SETUP.md
-│   ├── DOCKER_SETUP.md
-│   ├── INGESTION_GUIDE.md
-│   └── QUICK_START.md
-├── middleware/      # Express middleware
-├── routes/          # API routes
-├── scripts/         # Utility scripts
-│   ├── ingest-documents.js
-│   └── clear-vector-store.js
-├── services/        # Business logic
-│   ├── embeddingService.js
-│   ├── vectorStoreService.js
-│   ├── documentIngestionService.js
-│   ├── ragService.js
-│   └── ragChatService.js
-├── tests/           # Test files
-└── server.js        # Main entry point
-```
+Resume PDFs are versioned in the private `resumes` bucket. Photos use the private `avatars` bucket. The API returns signed URLs that expire after one hour.
 
-## API Endpoints
+Saving a job records an immutable listing snapshot, **not an employer submission**. Open the employer link from My Jobs to apply. Notes persist in Postgres. Removing a saved job archives its tracker entry and does not contact the employer. Actual browser/application automation remains future work.
 
-### Authentication
-- `POST /auth/register` - Register new user
-- `POST /auth/login` - Login user
-- `POST /auth/google` - Google OAuth login
+## Documentation chat
 
-### Jobs
-- `GET /api/jobs` - Get all jobs with search
-- `GET /api/jobs/:id` - Get single job details
-- `GET /api/newJobs` - Get jobs user hasn't applied to
-- `GET /api/retrieveJobsForHomepage` - Get personalized recommendations
+Run `npm run ingest:docs` from `server/` to embed the curated public help files in `server/help/`. This uses the Gemini quota and stores vectors in Supabase. Ingestion is explicit; server startup does not consume embedding quota. No Docker service is needed.
 
-### Applications
-- `POST /api/jobsTracker` - Submit application (apply/skip/ignore)
-- `GET /api/applications` - Get user's applications
-- `DELETE /api/applications/:id` - Withdraw application
+## Checks
 
-### Chat (RAG)
-- `POST /api/chat` - Send message to AI chatbot
+- `npm run test:supabase`: API tests plus an actual local Postgres/pgvector migration and RLS test using PGlite. No cloud credentials required.
+- `npm run test:gemini`: mocked Gemini regression checks.
+- `npm run check:supabase`: read-only checks against the configured cloud project.
+- `npm run check:jobs`: one live search against the selected jobs subscription.
+- `npm run build` from repository root: frontend build.
 
-## RAG Chatbot System
-
-The server includes a sophisticated RAG (Retrieval-Augmented Generation) chatbot that provides intelligent answers based on your documentation.
-
-### Setup
-
-1. **Start ChromaDB:**
-   ```bash
-   docker run -p 8000:8000 chromadb/chroma
-   ```
-
-2. **Configure API Key:**
-   Add to `.env`:
-   ```
-   GEMINI_API_KEY=your_api_key_here
-   ```
-
-3. **Ingest Documentation:**
-   ```bash
-   npm run ingest:docs
-   ```
-
-4. **Test:**
-   ```bash
-   cd tests
-   node test-rag-endpoint.js
-   ```
-
-### Documentation
-
-- **[RAG System Guide](docs/RAG_SYSTEM_GUIDE.md)** - Complete guide to the RAG system
-- **[ChromaDB Setup](docs/CHROMADB_SETUP.md)** - Vector database setup
-- **[Docker Setup](docs/DOCKER_SETUP.md)** - Docker configuration
-- **[Ingestion Guide](docs/INGESTION_GUIDE.md)** - Document ingestion process
-- **[Sorce.jobs Reverse Engineering Scope](docs/SORCE_REVERSE_ENGINEERING_SCOPE.md)** - Investigation boundaries, REA workflow, current evidence, and open questions
-
-## Environment Variables
-
-Required variables in `.env`:
-
-```env
-# Database
-MONGODB_URI=your_mongodb_connection_string
-
-# Authentication
-JWT_SECRET=your_jwt_secret
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-
-# Email (Optional - for notifications)
-# EMAIL_FROM=your_email@example.com
-
-# AI/RAG
-GEMINI_API_KEY=your_gemini_api_key
-RAG_GENERATION_MODEL=gemini-2.5-pro
-RAG_EMBEDDING_MODEL=text-embedding-004
-
-# Vector Store
-RAG_CHROMA_HOST=localhost
-RAG_CHROMA_PORT=8000
-RAG_COLLECTION_NAME=nextstep_docs
-
-# Server
-PORT=4000
-SERVER_DOMAIN=http://localhost:4000
-```
-
-## Scripts
-
-```bash
-# Development
-npm start              # Start server with nodemon
-npm run dev            # Same as start
-
-# Testing
-npm test               # Run Jest tests
-npm run test:coverage  # Run tests with coverage
-
-# RAG System
-npm run ingest         # Ingest documents (custom path)
-npm run ingest:docs    # Ingest from ../docs
-npm run clear-vector-store  # Clear vector database
-
-# Documentation
-npm run docs           # Generate JSDoc documentation
-```
-
-## Testing
-
-```bash
-# Run all tests
-npm test
-
-# Run specific test suites
-cd tests
-node test-embedding.js
-node test-vector-store.js
-node test-document-ingestion.js
-node test-ingestion-pipeline.js
-node test-rag-endpoint.js
-```
-
-## Development
-
-### Adding New Routes
-
-1. Create controller in `controllers/`
-2. Create route in `routes/`
-3. Register route in `server.js`
-
-### Adding New Services
-
-1. Create service in `services/`
-2. Export service class
-3. Import and use in controllers
-
-### Updating RAG Documentation
-
-1. Add/update markdown files in `../docs`
-2. Run ingestion script:
-   ```bash
-   npm run ingest:docs
-   ```
-3. Test with chat endpoint
-
-## Troubleshooting
-
-### ChromaDB Connection Failed
-- Ensure ChromaDB is running: `docker ps`
-- Check port 8000 is available
-- Verify `RAG_CHROMA_HOST` and `RAG_CHROMA_PORT` in `.env`
-
-### RAG Chatbot Not Responding
-- Check Gemini API key is valid
-- Verify vector store has documents: see RAG System Guide
-- Check server logs for errors
-
-### MongoDB Connection Issues
-- Verify `MONGODB_URI` in `.env`
-- Check MongoDB Atlas whitelist
-- Ensure network connectivity
-
-## Tech Stack
-
-- **Runtime:** Node.js
-- **Framework:** Express.js
-- **Database:** MongoDB (Mongoose)
-- **Vector Store:** ChromaDB
-- **AI Models:** Google Gemini 2.5 Pro, text-embedding-004
-- **Authentication:** JWT, Passport.js
-- **Testing:** Jest, Supertest
-
-## Contributing
-
-1. Create feature branch
-2. Make changes
-3. Write/update tests
-4. Submit pull request
-
-## License
-
-ISC
-
-## Support
-
-For issues or questions:
-- Check documentation in `docs/`
-- Review test files in `tests/`
-- Check server logs
-- Contact team lead
+Legacy MongoDB migration/backup scripts and older architecture documents are retained as historical references. They are not part of the current setup and must not be used against the Supabase project.

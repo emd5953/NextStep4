@@ -1,10 +1,9 @@
 // File: /src/pages/Home.js
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import { useNavigate } from "react-router-dom";
 import Swipe from '../components/Swipe';
 import '../styles/Home.css';
 import { TokenContext } from "../components/TokenContext";
-import jwt_decode from 'jwt-decode';
 import useScrollAnimation from '../utils/useScrollAnimation';
 
 
@@ -14,7 +13,6 @@ const Home = () => {
 
   // Scroll animation refs (only used for non-logged-in users)
   const [featuresRef, featuresVisible] = useScrollAnimation({ threshold: 0.2 });
-  const [statsRef, statsVisible] = useScrollAnimation({ threshold: 0.2 });
   const [ctaRef, ctaVisible] = useScrollAnimation({ threshold: 0.2 });
 
 
@@ -64,39 +62,18 @@ const Home = () => {
         <div className="home-features__grid">
           <div className="home-feature">
             <span className="home-feature__number">01</span>
-            <h3 className="home-feature__title">Swipe to Apply</h3>
-            <p className="home-feature__text">Browse jobs effortlessly. Swipe right to apply, left to pass. It's that simple.</p>
+            <h3 className="home-feature__title">Swipe to Save</h3>
+            <p className="home-feature__text">Swipe right to save a job, left to pass. Open the employer link when you're ready to apply.</p>
           </div>
           <div className="home-feature">
             <span className="home-feature__number">02</span>
             <h3 className="home-feature__title">Track Progress</h3>
-            <p className="home-feature__text">Keep all your applications organized in one place. Never lose track of an opportunity.</p>
+            <p className="home-feature__text">Keep saved jobs and personal notes organized in one place.</p>
           </div>
           <div className="home-feature">
             <span className="home-feature__number">03</span>
             <h3 className="home-feature__title">AI-Powered</h3>
             <p className="home-feature__text">Smart recommendations based on your skills and preferences. Find the perfect match.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section 
-        ref={statsRef} 
-        className={`home-stats ${statsVisible ? 'animate-in' : 'animate-hidden'}`}
-      >
-        <div className="home-stats__grid">
-          <div className="home-stat">
-            <span className="home-stat__number">500+</span>
-            <span className="home-stat__label">Active Jobs</span>
-          </div>
-          <div className="home-stat">
-            <span className="home-stat__number">200+</span>
-            <span className="home-stat__label">Companies</span>
-          </div>
-          <div className="home-stat">
-            <span className="home-stat__number">10k+</span>
-            <span className="home-stat__label">Applications</span>
           </div>
         </div>
       </section>
@@ -107,7 +84,7 @@ const Home = () => {
         className={`home-cta ${ctaVisible ? 'animate-in' : 'animate-hidden'}`}
       >
         <h2 className="home-cta__title">Ready to take the next step?</h2>
-        <p className="home-cta__text">Join thousands of professionals finding their dream jobs.</p>
+        <p className="home-cta__text">Build your profile and keep your next opportunities in one place.</p>
         <button className="home-cta__btn" onClick={handleSignInClick}>
           Start Now — It's Free
         </button>

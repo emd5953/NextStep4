@@ -1,3 +1,7 @@
+# Current setup: Supabase + Gemini
+
+NextStep now uses Supabase PostgreSQL, Auth, private Storage, and pgvector. Start with [the current setup guide](server/docs/SUPABASE_SETUP.md) and [server README](server/README.md). The older product/architecture description below is retained for reference. Saving a job does not submit an application to an employer.
+
 # NextStep - AI-Powered Job Matching Platform
 
 <img src="src/assets/NextStep_Logo.png">

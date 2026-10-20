@@ -12,7 +12,7 @@
  * - Vector store configuration
  */
 
-require('dotenv').config();
+const gemini = require('../services/geminiService.js');
 
 /**
  * Validates that a number is within a specified range
@@ -87,16 +87,16 @@ const ragConfig = {
   ),
 
   // Model Configuration
-  embeddingModel: process.env.RAG_EMBEDDING_MODEL || 'text-embedding-004',
-  generationModel: process.env.RAG_GENERATION_MODEL || 'gemini-2.5-flash',
+  embeddingModel: process.env.RAG_EMBEDDING_MODEL || gemini.embeddingModel,
+  embeddingDimensions: 768,
+  generationModel: process.env.RAG_GENERATION_MODEL || gemini.generationModel,
 
   // Conversation History Configuration
   maxConversationHistory: parseInt(process.env.RAG_MAX_HISTORY) || 5,
 
   // Vector Store Configuration
-  chromaHost: process.env.RAG_CHROMA_HOST || 'localhost',
-  chromaPort: parseInt(process.env.RAG_CHROMA_PORT) || 8000,
-  collectionName: process.env.RAG_COLLECTION_NAME || 'nextstep_docs',
+  vectorStore: 'supabase',
+  collectionName: process.env.RAG_COLLECTION_NAME || ('nextstep_docs_' + (process.env.RAG_EMBEDDING_MODEL || gemini.embeddingModel).replace(/[^a-zA-Z0-9_-]/g, '_') + '_768'),
 
   // Search Configuration
   similarityThreshold: parseFloat(process.env.RAG_SIMILARITY_THRESHOLD) || 0.5,
@@ -111,7 +111,7 @@ const ragConfig = {
  */
 function validateConfig() {
   if (!ragConfig.geminiApiKey) {
-    throw new Error('GEMINI_API_KEY environment variable is required for RAG system');
+    console.warn('GEMINI_API_KEY is not configured. Add it to server/.env to enable AI features.');
   }
 
   // Log configuration (excluding sensitive data)
@@ -122,8 +122,7 @@ function validateConfig() {
     embeddingModel: ragConfig.embeddingModel,
     generationModel: ragConfig.generationModel,
     maxConversationHistory: ragConfig.maxConversationHistory,
-    chromaHost: ragConfig.chromaHost,
-    chromaPort: ragConfig.chromaPort,
+    vectorStore: ragConfig.vectorStore,
     collectionName: ragConfig.collectionName,
     similarityThreshold: ragConfig.similarityThreshold,
   });

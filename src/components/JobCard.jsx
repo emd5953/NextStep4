@@ -61,7 +61,7 @@ const JobCard = ({
           <div className="job-header-compact">
             <h3 className="job-title-compact">{title}</h3>
             <button onClick={handleApply} className="apply-button-compact">
-              {isExternal ? 'Apply on Site' : 'Apply'}
+              {isExternal ? 'Apply on Site' : 'Save Job'}
             </button>
           </div>
           

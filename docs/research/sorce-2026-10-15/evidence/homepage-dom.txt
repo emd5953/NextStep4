@@ -1,0 +1,351 @@
+- alert
+- banner:
+  - link "Sorce home":
+    - /url: /
+    - img "Sorce"
+  - navigation "Main navigation":
+    - link "Employers":
+      - /url: /employer
+    - link "Blog":
+      - /url: /blog
+  - link "Download Sorce on the App Store":
+    - /url: https://apps.apple.com/us/app/sorce-ai-job-search/id6504584959?pt=126624664&ct=direct&mt=8
+    - img "Download on the App Store"
+- main:
+  - paragraph:
+    - generic: Backed by
+    - img "Y"
+    - strong: Combinator
+  - paragraph:
+    - generic: ⭐️⭐️⭐️⭐️⭐️
+    - generic: 25k+ 5-star reviews
+  - heading "One swipe. One application. No more forms." [level=1]:
+    - text: One swipe.
+    - text: One application.
+    - generic: No more forms.
+  - paragraph: Swipe on jobs you like. Our AI will apply for you.
+  - link "Download Sorce on the App Store":
+    - /url: https://apps.apple.com/us/app/sorce-ai-job-search/id6504584959?pt=126624664&ct=direct&mt=8
+    - img "Download on the App Store"
+  - group "Sorce app previews":
+    - generic "Searching for jobs in the Sorce iPhone app": Your browser does not support embedded video.
+    - generic "Swiping through jobs in the Sorce iPhone app": Your browser does not support embedded video.
+    - generic "Following companies in the Sorce iPhone app": Your browser does not support embedded video.
+  - region "Sorce in action":
+    - generic "The original Sorce homepage film"
+  - region "Your whole job search. Handled. 👀":
+    - heading "Your whole job search. Handled. 👀" [level=2]:
+      - text: Your whole job search.
+      - text: Handled.
+      - generic: Sorce
+      - text: 👀
+    - list "Sorce features":
+      - generic: 01 / 8
+      - heading "Let Sorce autofill every application" [level=3]
+      - paragraph: Build your profile once and let our AI fill out applications for you. Missing a detail? We’ll ask, remember your answer, and use it next time.
+      - generic "Sorce app preview recording"
+      - generic: 02 / 8
+      - heading "Not sure about AI? Review before we submit" [level=3]
+      - paragraph: Review what Sorce filled out before your application is submitted.
+      - generic "Sorce app preview recording"
+      - generic: 03 / 8
+      - heading "An Explore algorithm personalized to you" [level=3]
+      - paragraph: Your Explore feed recommends jobs based on your preferences and learns from what you like.
+      - generic "Sorce app preview recording"
+      - generic: 04 / 8
+      - heading "Search for exact jobs" [level=3]
+      - paragraph: Search for the roles you have in mind and find the jobs that match.
+      - generic "Sorce app preview recording"
+      - generic: 05 / 8
+      - heading "Follow companies & get alerts when they post new jobs" [level=3]
+      - paragraph: Follow companies you like. Get notified the moment they post a new job.
+      - generic "Sorce app preview recording"
+      - generic: 06 / 8
+      - heading "Scroll to see similar jobs & companies" [level=3]
+      - paragraph: Keep scrolling from a job or company you like to discover similar roles and teams.
+      - generic "Sorce app preview recording"
+      - generic: 07 / 8
+      - heading "Research company news, stocks & stats" [level=3]
+      - paragraph: Check company news, stock information, and key stats before you apply.
+      - generic "Sorce app preview recording"
+      - generic: 08 / 8
+      - heading "Browse every job a company lists" [level=3]
+      - paragraph: See all of a company’s listed jobs in one place and browse its current openings.
+      - generic "Sorce app preview recording"
+  - region "Just swipe right. It's that easy.":
+    - heading "Just swipe right. It's that easy." [level=2]:
+      - text: Just swipe right.
+      - text: It's that easy.
+    - paragraph:
+      - strong: 1000+
+      - text: interviews and offers daily
+      - strong: 4,000,000+
+      - text: jobs
+    - link "Download Sorce on the App Store":
+      - /url: https://apps.apple.com/us/app/sorce-ai-job-search/id6504584959?pt=126624664&ct=direct&mt=8
+      - img "Download on the App Store"
+- contentinfo:
+  - region "Sorce success stories":
+    - button "Read success story 1":
+      - img "Sorce user testimonial 1"
+    - button "Read success story 3":
+      - img "Sorce user testimonial 3"
+    - button "Read success story 5":
+      - img "Sorce user testimonial 5"
+    - button "Read success story 7":
+      - img "Sorce user testimonial 7"
+    - button "Read success story 9":
+      - img "Sorce user testimonial 9"
+    - button "Read success story 11":
+      - img "Sorce user testimonial 11"
+    - button "Read success story 13":
+      - img "Sorce user testimonial 13"
+    - button "Read success story 15":
+      - img "Sorce user testimonial 15"
+    - button "Read success story 17":
+      - img "Sorce user testimonial 17"
+    - button "Read success story 19":
+      - img "Sorce user testimonial 19"
+    - button "Read success story 21":
+      - img "Sorce user testimonial 21"
+    - button "Read success story 23":
+      - img "Sorce user testimonial 23"
+    - button "Read success story 25":
+      - img "Sorce user testimonial 25"
+    - button "Read success story 27":
+      - img "Sorce user testimonial 27"
+    - button "Read success story 29":
+      - img "Sorce user testimonial 29"
+    - button "Read success story 31":
+      - img "Sorce user testimonial 31"
+    - button "Read success story 33":
+      - img "Sorce user testimonial 33"
+    - button "Read success story 35":
+      - img "Sorce user testimonial 35"
+    - button "Read success story 37":
+      - img "Sorce user testimonial 37"
+    - button "Read success story 39":
+      - img "Sorce user testimonial 39"
+    - button "Read success story 41":
+      - img "Sorce user testimonial 41"
+    - button "Read success story 43":
+      - img "Sorce user testimonial 43"
+    - button "Read success story 45":
+      - img "Sorce user testimonial 45"
+    - button "Read success story 47":
+      - img "Sorce user testimonial 47"
+    - button "Read success story 49":
+      - img "Sorce user testimonial 49"
+    - button "Read success story 51":
+      - img "Sorce user testimonial 51"
+    - button "Read success story 53":
+      - img "Sorce user testimonial 53"
+    - button "Read success story 55":
+      - img "Sorce user testimonial 55"
+    - button "Read success story 57":
+      - img "Sorce user testimonial 57"
+    - button "Read success story 59":
+      - img "Sorce user testimonial 59"
+    - button "Read success story 61":
+      - img "Sorce user testimonial 61"
+    - button "Read success story 63":
+      - img "Sorce user testimonial 63"
+    - button "Read success story 65":
+      - img "Sorce user testimonial 65"
+    - button "Read success story 67":
+      - img "Sorce user testimonial 67"
+    - button "Read success story 69":
+      - img "Sorce user testimonial 69"
+    - button "Read success story 71":
+      - img "Sorce user testimonial 71"
+    - button "Read success story 73":
+      - img "Sorce user testimonial 73"
+    - button "Read success story 75":
+      - img "Sorce user testimonial 75"
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button "Read success story 2":
+      - img "Sorce user testimonial 2"
+    - button "Read success story 4":
+      - img "Sorce user testimonial 4"
+    - button "Read success story 6":
+      - img "Sorce user testimonial 6"
+    - button "Read success story 8":
+      - img "Sorce user testimonial 8"
+    - button "Read success story 10":
+      - img "Sorce user testimonial 10"
+    - button "Read success story 12":
+      - img "Sorce user testimonial 12"
+    - button "Read success story 14":
+      - img "Sorce user testimonial 14"
+    - button "Read success story 16":
+      - img "Sorce user testimonial 16"
+    - button "Read success story 18":
+      - img "Sorce user testimonial 18"
+    - button "Read success story 20":
+      - img "Sorce user testimonial 20"
+    - button "Read success story 22":
+      - img "Sorce user testimonial 22"
+    - button "Read success story 24":
+      - img "Sorce user testimonial 24"
+    - button "Read success story 26":
+      - img "Sorce user testimonial 26"
+    - button "Read success story 28":
+      - img "Sorce user testimonial 28"
+    - button "Read success story 30":
+      - img "Sorce user testimonial 30"
+    - button "Read success story 32":
+      - img "Sorce user testimonial 32"
+    - button "Read success story 34":
+      - img "Sorce user testimonial 34"
+    - button "Read success story 36":
+      - img "Sorce user testimonial 36"
+    - button "Read success story 38":
+      - img "Sorce user testimonial 38"
+    - button "Read success story 40":
+      - img "Sorce user testimonial 40"
+    - button "Read success story 42":
+      - img "Sorce user testimonial 42"
+    - button "Read success story 44":
+      - img "Sorce user testimonial 44"
+    - button "Read success story 46":
+      - img "Sorce user testimonial 46"
+    - button "Read success story 48":
+      - img "Sorce user testimonial 48"
+    - button "Read success story 50":
+      - img "Sorce user testimonial 50"
+    - button "Read success story 52":
+      - img "Sorce user testimonial 52"
+    - button "Read success story 54":
+      - img "Sorce user testimonial 54"
+    - button "Read success story 56":
+      - img "Sorce user testimonial 56"
+    - button "Read success story 58":
+      - img "Sorce user testimonial 58"
+    - button "Read success story 60":
+      - img "Sorce user testimonial 60"
+    - button "Read success story 62":
+      - img "Sorce user testimonial 62"
+    - button "Read success story 64":
+      - img "Sorce user testimonial 64"
+    - button "Read success story 66":
+      - img "Sorce user testimonial 66"
+    - button "Read success story 68":
+      - img "Sorce user testimonial 68"
+    - button "Read success story 70":
+      - img "Sorce user testimonial 70"
+    - button "Read success story 72":
+      - img "Sorce user testimonial 72"
+    - button "Read success story 74":
+      - img "Sorce user testimonial 74"
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - button:
+    - paragraph: Two rows of success stories move in opposite directions. Click or press Enter to read a story. Press Escape to close.
+  - link "Sorce home":
+    - /url: /
+    - img "Sorce"
+  - paragraph: Download Sorce
+  - link "Download Sorce on the App Store":
+    - /url: https://apps.apple.com/us/app/sorce-ai-job-search/id6504584959?pt=126624664&ct=direct&mt=8
+    - img "Download on the App Store"
+  - navigation "Legal":
+    - heading "Legal" [level=2]
+    - link "Privacy Policy":
+      - /url: https://www.sorce.jobs/docs/privacy-policy
+    - link "Terms of Use":
+      - /url: https://www.sorce.jobs/docs/terms-and-conditions
+    - link "Security":
+      - /url: https://www.sorce.jobs/security
+  - navigation "Company":
+    - heading "Company" [level=2]
+    - link "FAQ":
+      - /url: https://www.sorce.jobs/articles/sorce-faq
+    - link "Contact":
+      - /url: mailto:founders@sorce.jobs
+    - link "For Employers":
+      - /url: https://www.sorce.jobs/employer
+    - link "Blog":
+      - /url: /blog
+    - link "Case Studies":
+      - /url: https://www.sorce.jobs/docs/case-studies
+  - paragraph: © 2026 Sorce. All rights reserved.
+  - navigation "Sorce social media":
+    - link "Sorce on LinkedIn":
+      - /url: https://linkedin.com/company/sorcejobs
+    - link "Sorce on Instagram":
+      - /url: https://www.instagram.com/sorcejobs/
+    - link "Sorce on TikTok":
+      - /url: https://www.tiktok.com/@sorcejobs
+    - link "Sorce on X":
+      - /url: https://x.com/sorcejobs

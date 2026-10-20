@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import "../styles/Login.css";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { TokenContext } from "../components/TokenContext";
-import { GoogleLogin } from "@react-oauth/google";
+import { getSupabase, getAuthConfig } from "../services/supabase";
 import NotificationBanner from "../components/NotificationBanner";
-import { API_SERVER } from '../config';
 
 const Login = () => {
   // ======================
@@ -13,6 +11,8 @@ const Login = () => {
   // ======================
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
+  const [googleEnabled, setGoogleEnabled] = useState(false);
+  useEffect(() => { getAuthConfig().then(config => setGoogleEnabled(config.googleEnabled)).catch(() => {}); }, []);
 
   // ======================
   // Login form state
@@ -32,7 +32,7 @@ const Login = () => {
   // Context & Navigation
   // ======================
   const navigate = useNavigate();
-  const { token, setToken, setEmail, setName } =
+  const { token } =
     useContext(TokenContext);
 
   // If a token already exists, redirect to home
@@ -51,13 +51,11 @@ const Login = () => {
     try {
       const loginData = { email: loginEmail, password: loginPassword };
 
-      const response = await axios.post(`${API_SERVER}/signin`, loginData);
-      setToken(response.data.token);
-      setName(response.data.full_name);
-      setEmail(response.data.email);
+      const { error } = await (await getSupabase()).auth.signInWithPassword(loginData);
+      if (error) throw error;
       navigate("/");
     } catch (err) {
-      setError(err.response?.data?.message || "An error occurred during login");
+      setError(err.message || "An error occurred during login");
     }
   };
 
@@ -74,7 +72,8 @@ const Login = () => {
     };
 
     try {
-      await axios.post(`${API_SERVER}/signup`, signupData);
+      const { error } = await (await getSupabase()).auth.signUp({ email: signupData.email, password: signupData.password, options: { emailRedirectTo: window.location.origin + "/login", data: { full_name: signupData.full_name, phone: signupData.phone } } });
+      if (error) throw error;
       setMessage("Account created. Please check your email for verification instructions.");
       // Clear form
       setSignupName("");
@@ -85,7 +84,7 @@ const Login = () => {
       if (error.response && error.response.status === 409) {
         setError(error.response.data.error);
       } else {
-        setError('An unexpected error occurred. Please try again later.');
+        setError(error.message || 'Could not create your account.');
       }
     }
   };
@@ -93,23 +92,22 @@ const Login = () => {
   // ======================
   // Google OAuth (Login/Signup)
   // ======================
-  const handleGoogleSuccess = async (response) => {
+  const handleGoogleSuccess = async () => {
     try {
-      const res = await axios.post(`${API_SERVER}/auth/google`, {
-        token: response.credential,
+      const { error } = await (await getSupabase()).auth.signInWithOAuth({
+        provider: 'google', options: { redirectTo: window.location.origin + '/login' }
       });
-      setToken(res.data.token);
-      setName(res.data.full_name);
-      setEmail(res.data.email);
-      navigate("/");
-    } catch (err) {
-      setError(err.response?.data?.message || "An error occurred during Google login");
-    }
+      if (error) throw error;
+    } catch (err) { setError(err.message || 'Google sign-in is not configured yet. Use email to sign in.'); }
   };
-
-  const handleGoogleError = () => {
-    console.error("Google login failed");
-    setError("Google login failed. Please try again.");
+  const handlePasswordReset = async e => {
+    e.preventDefault();
+    if (!loginEmail) return setError('Enter your email above first.');
+    try {
+      const { error } = await (await getSupabase()).auth.resetPasswordForEmail(loginEmail, { redirectTo: window.location.origin + '/reset-password' });
+      if (error) throw error;
+      setMessage('Check your email for a password reset link.');
+    } catch (err) { setError(err.message); }
   };
 
   // ======================
@@ -151,18 +149,11 @@ const Login = () => {
                           <h4 className="login-form-title">Welcome Back</h4>
 
                           {/* Google Login Button */}
-                          <div className="social-login">
-                            <GoogleLogin
-                              onSuccess={handleGoogleSuccess}
-                              onError={handleGoogleError}
-                              size="large"
-                              width="100%"
-                              text="continue_with"
-                              shape="pill"
-                            />
-                          </div>
+                          {googleEnabled && <div className="social-login">
+                            <button type="button" className="login-btn" onClick={handleGoogleSuccess}>Continue with Google</button>
+                          </div>}
 
-                          <div className="divider">or continue with email</div>
+                          {googleEnabled && <div className="divider">or continue with email</div>}
 
                           {/* Login Form */}
                           <form onSubmit={handleLoginSubmit}>
@@ -197,7 +188,7 @@ const Login = () => {
 
                           {/* Forgot Password Link */}
                           <p className="helper-text">
-                            <a href="#!" className="link">
+                            <a href="#reset" className="link" onClick={handlePasswordReset}>
                               Forgot your password?
                             </a>
                           </p>
@@ -215,18 +206,11 @@ const Login = () => {
                           <h4 className="login-form-title">Create Account</h4>
 
                           {/* Google Sign Up Button */}
-                          <div className="social-login">
-                            <GoogleLogin
-                              onSuccess={handleGoogleSuccess}
-                              onError={handleGoogleError}
-                              size="large"
-                              width="100%"
-                              text="signup_with"
-                              shape="pill"
-                            />
-                          </div>
+                          {googleEnabled && <div className="social-login">
+                            <button type="button" className="login-btn" onClick={handleGoogleSuccess}>Continue with Google</button>
+                          </div>}
 
-                          <div className="divider">or sign up with email</div>
+                          {googleEnabled && <div className="divider">or sign up with email</div>}
 
                           {/* Sign Up Form */}
                           <form onSubmit={handleSignupSubmit}>

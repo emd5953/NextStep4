@@ -1,198 +1,88 @@
-const { ObjectId } = require("mongodb");
-const multer = require("multer");
+const multer = require('multer');
+const { randomUUID } = require('crypto');
+const { unwrap } = require('../services/supabaseService.js');
+const { generateEmbeddings } = require('../middleware/genAI.jsx');
+const { embeddingModel } = require('../services/geminiService.js');
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024, files: 2 } });
+const badRequest = message => Object.assign(new Error(message), { status: 400 });
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
-
-/**
- * Controller for handling user profile-related operations
- * @namespace profileController
- */
+async function signedUrl(db, bucket, path) {
+  if (!path) return null;
+  return unwrap(await db.storage.from(bucket).createSignedUrl(path, 3600)).signedUrl;
+}
 const profileController = {
-  /**
-   * Retrieves the profile of the logged-in user
-   * @async
-   * @param {Object} req - Express request object
-   * @param {Object} req.user - User object from authentication middleware
-   * @param {string} req.user.id - User ID
-   * @param {Object} res - Express response object
-   * @returns {Promise<Object>} User profile data
-   * @throws {Error} 404 if user not found
-   * @throws {Error} 500 if server error occurs
-   */
-  getProfile: async (req, res) => {
+  async getProfile(req, res, next) {
     try {
-      const collection = req.app.locals.db.collection("users");
-      const profile = await collection.findOne(
-        { _id: ObjectId.createFromHexString(req.user.id) },
-        { projection: { password: 0 } }
-      );
-
-      if (!profile) {
-        return res.status(404).json({
-          message: "No matching record found. Check your access token.",
-        });
+      const p = unwrap(await req.db.from('profiles').select('*').eq('id', req.user.id).single());
+      const resumes = unwrap(await req.db.from('resumes').select('*').eq('user_id', req.user.id).order('created_at', { ascending: false }).limit(1));
+      const resume = resumes[0];
+      res.json({ _id: p.id, full_name: p.full_name, firstName: p.first_name, lastName: p.last_name,
+        email: req.user.email, phone: p.phone, location: p.location, skills: p.skills,
+        encodedPhoto: await signedUrl(req.db, 'avatars', p.photo_path),
+        resumeFile: resume ? { id: resume.id, originalname: resume.original_name, mimetype: resume.mime_type,
+          url: await signedUrl(req.db, 'resumes', resume.storage_path) } : null });
+    } catch (e) { next(e); }
+  },
+  async updateProfile(req, res, next) {
+    const staged = [];
+    let profileSaved = false;
+    try {
+      const current = unwrap(await req.db.from('profiles').select('*').eq('id', req.user.id).single());
+      const update = { updated_at: new Date().toISOString() };
+      for (const [input, column] of Object.entries({ full_name: 'full_name', firstName: 'first_name', lastName: 'last_name', phone: 'phone', location: 'location' })) {
+        if (req.body[input] !== undefined) {
+          if (typeof req.body[input] !== 'string' || req.body[input].length > 500) throw badRequest('Invalid profile field: ' + input);
+          update[column] = req.body[input].trim();
+        }
       }
-      res.status(200).json(profile);
-    } catch (error) {
-      res.status(500).json({ error: `Error fetching user profile. ${error.message}` });
+      if (req.body.skills !== undefined) {
+        let skills;
+        try { skills = typeof req.body.skills === 'string' ? JSON.parse(req.body.skills) : req.body.skills; } catch { throw badRequest('Skills must be a list.'); }
+        if (!Array.isArray(skills) || skills.length > 100 || skills.some(s => typeof s !== 'string' || s.length > 100)) throw badRequest('Skills must be a list of up to 100 short names.');
+        update.skills = [...new Set(skills.map(s => s.trim()).filter(Boolean))];
+      }
+      // Email belongs to Auth; changing a profile must not bypass email verification.
+      if (req.body.email && req.body.email !== req.user.email) throw badRequest('Email changes require account verification and are not available in this profile form.');
+      if ('skills' in update || 'location' in update) {
+        update.skills_embedding = null;
+        update.embedding_model = null;
+        const merged = { ...current, ...update };
+        const text = [merged.skills.join(', '), merged.location].filter(Boolean).join(' ');
+        if (text) try {
+          update.skills_embedding = await generateEmbeddings(text);
+          update.embedding_model = embeddingModel;
+        } catch { /* Saving a profile must still work when the free AI quota is exhausted. */ }
+      }
+      const resume = req.files?.resume?.[0];
+      const photo = req.files?.photo?.[0];
+      if (resume && (resume.mimetype !== 'application/pdf' || resume.buffer.subarray(0, 5).toString() !== '%PDF-')) throw badRequest('Please upload a PDF resume.');
+      if (photo && (!['image/jpeg','image/png','image/webp'].includes(photo.mimetype) || photo.size > 5 * 1024 * 1024)) throw badRequest('Photo must be a JPG, PNG, or WebP under 5 MB.');
+      let resumeRow;
+      for (const [bucket, file] of [['resumes', resume], ['avatars', photo]]) {
+        if (!file) continue;
+        const extension = bucket === 'resumes' ? 'pdf' : { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp' }[file.mimetype];
+        const path = req.user.id + '/' + randomUUID() + '.' + extension;
+        unwrap(await req.db.storage.from(bucket).upload(path, file.buffer, { contentType: file.mimetype, upsert: false }));
+        staged.push({ bucket, path });
+        if (bucket === 'avatars') update.photo_path = path;
+        else resumeRow = { user_id: req.user.id, storage_path: path, original_name: file.originalname, mime_type: file.mimetype, size_bytes: file.size };
+      }
+      if (resumeRow) unwrap(await req.db.from('resumes').insert(resumeRow));
+      unwrap(await req.db.from('profiles').update(update).eq('id', req.user.id).select('id').single());
+      profileSaved = true;
+      if (update.photo_path && current.photo_path) await req.db.storage.from('avatars').remove([current.photo_path]);
+      res.json({ message: 'Profile updated successfully' });
+    } catch (e) {
+      if (!profileSaved) for (const file of staged) {
+        if (file.bucket === 'resumes') await req.db.from('resumes').delete().eq('storage_path', file.path).eq('user_id', req.user.id);
+        await req.db.storage.from(file.bucket).remove([file.path]);
+      }
+      next(e);
     }
   },
-
-  /**
-   * Updates the profile of the logged-in user
-   * @async
-   * @param {Object} req - Express request object
-   * @param {Object} req.body - Request body
-   * @param {string} [req.body.firstName] - User's first name
-   * @param {string} [req.body.lastName] - User's last name
-   * @param {string} [req.body.phone] - User's phone number
-   * @param {string} [req.body.email] - User's email
-   * @param {string} [req.body.location] - User's location
-   * @param {string} [req.body.full_name] - User's full name
-   * @param {string} [req.body.skills] - User's skills
-   * @param {Object} req.files - Uploaded files
-   * @param {Object} [req.files.photo] - Profile photo file
-   * @param {Object} [req.files.resume] - Resume file
-   * @param {Object} req.user - User object from authentication middleware
-   * @param {string} req.user.id - User ID
-   * @param {Object} res - Express response object
-   * @returns {Promise<Object>} Success message
-   * @throws {Error} 404 if user not found
-   * @throws {Error} 500 if server error occurs
-   */
-  updateProfile: async (req, res) => {
-    try {
-      const { firstName, lastName, phone, email, location, full_name, skills } = req.body;
-      const collection = req.app.locals.db.collection("users");
-
-      let resumeFile = null;
-      let encodedPhoto = null;
-
-      if (req.files) {
-        if (req.files["photo"]) {
-          const photo = req.files["photo"][0];
-          if (photo) {
-            const base64Encoded = photo.buffer.toString("base64");
-            encodedPhoto = `data:${photo.mimetype};base64,${base64Encoded}`;
-          }
-        }
-
-        if (req.files["resume"]) {
-          resumeFile = req.files["resume"][0];
-        }
-      }
-
-      const updatedProfileData = {
-        firstName,
-        lastName,
-        phone,
-        email,
-        location,
-        full_name,
-        ...(encodedPhoto && { encodedPhoto }),
-        ...(resumeFile && { resumeFile }),
-        ...(skills != null && skills != "" && skills != "undefined" && { skills: JSON.parse(skills) }),
-      };
-
-      // Generate and cache embedding if skills or location changed
-      if ((skills != null && skills != "" && skills != "undefined") || location) {
-        try {
-          const { generateEmbeddings } = require("../middleware/genAI.jsx");
-          
-          let textToEmbed = '';
-          if (skills != null && skills != "" && skills != "undefined") {
-            const parsedSkills = JSON.parse(skills);
-            textToEmbed = `skills: ${parsedSkills.join(', ')}`;
-          }
-          if (location) {
-            textToEmbed += ` location: ${location}`;
-          }
-          
-          if (textToEmbed) {
-            console.log("Generating embedding for profile...");
-            const skillsEmbedding = await generateEmbeddings(textToEmbed);
-            updatedProfileData.skillsEmbedding = skillsEmbedding;
-            updatedProfileData.embeddingGeneratedAt = new Date();
-            console.log("✓ Embedding cached in profile");
-          }
-        } catch (error) {
-          console.error("Error generating embedding:", error);
-          // Continue without embedding if it fails
-        }
-      }
-
-      const result = await collection.updateOne(
-        { _id: ObjectId.createFromHexString(req.user.id) },
-        { $set: updatedProfileData }
-      );
-
-      if (result.matchedCount === 0) {
-        return res.status(404).json({ error: "User profile not found" });
-      }
-      res.status(200).json({ message: "Profile updated successfully" });
-    } catch (err) {
-      res.status(500).json({ error: `Error updating user profile. ${err.message}` });
-    }
-  },
-
-  /**
-   * Retrieves a user's profile by their ID
-   * @async
-   * @param {Object} req - Express request object
-   * @param {Object} req.params - Route parameters
-   * @param {string} req.params.userId - User ID
-   * @param {Object} res - Express response object
-   * @returns {Promise<Object>} User profile data
-   * @throws {Error} 500 if server error occurs
-   */
-  getUserProfile: async (req, res) => {
-    try {
-      const { userId } = req.params;
-      const usersCollection = req.app.locals.db.collection("users");
-      const user = await usersCollection.findOne(
-        { _id: ObjectId.createFromHexString(userId) },
-        { projection: { password: 0 } }
-      );
-      res.status(200).json(user);
-    } catch (error) {
-      res.status(500).json({ error: "Failed to fetch applicant profile" });
-    }
-  },
-
-  /**
-   * Retrieves all users except the logged-in user (for messenger)
-   * @async
-   * @param {Object} req - Express request object
-   * @param {Object} req.user - User object from authentication middleware
-   * @param {string} req.user.id - User ID
-   * @param {Object} res - Express response object
-   * @returns {Promise<Array>} Array of user objects with basic info
-   * @throws {Error} 500 if server error occurs
-   */
-  getAllUsers: async (req, res) => {
-    try {
-      const collection = req.app.locals.db.collection("users");
-
-      const users = await collection.find(
-        {
-          _id: { $ne: ObjectId.createFromHexString(req.user.id) }
-        },
-        {
-          projection: {
-            _id: 1,
-            full_name: 1,
-            email: 1
-          }
-        }
-      ).sort({ full_name: 1 })
-      .toArray();
-
-      res.status(200).json(users);
-    } catch (error) {
-      res.status(500).json({ error: "Failed to retrieve users" });
-    }
+  async getUserProfile(req, res, next) {
+    if (req.params.userId !== req.user.id) return res.status(403).json({ error: 'Profiles are private.' });
+    return profileController.getProfile(req, res, next);
   }
 };
-
 module.exports = { profileController, upload };

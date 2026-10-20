@@ -1,0 +1,60 @@
+- banner:
+  - link "Sorce Logo":
+    - /url: /
+    - img "Sorce Logo"
+  - navigation:
+    - link "Employers":
+      - /url: /employer
+    - link "Blog":
+      - /url: /blog
+    - link "Case Studies":
+      - /url: /docs/case-studies
+    - link "Love":
+      - /url: /love
+- main:
+  - heading "Security & Responsible Vulnerability Disclosure" [level=1]
+  - paragraph: At Sorce, we take the security of our systems and our users seriously and appreciate the efforts of security researchers who act in good faith.
+  - paragraph: Sorce does not currently operate a formal bug bounty or public vulnerability disclosure program. However, we do welcome responsible reports of potential security issues.
+  - paragraph:
+    - text: If you believe you have identified a security vulnerability, please email
+    - link "security@sorce.jobs":
+      - /url: mailto:security@sorce.jobs
+      - img "security@sorce.jobs"
+    - text: and include a description of the issue, affected components, and steps to reproduce in your initial report.
+  - paragraph: We ask that reports are made in good faith and that vulnerabilities are not acted upon or publicly disclosed while we review them.
+  - paragraph: We appreciate responsible disclosure and will review good-faith reports as appropriate.
+- contentinfo:
+  - link "Sorce Logo Tinder for jobs":
+    - /url: /
+    - img "Sorce Logo"
+    - paragraph: Tinder for jobs
+  - link "Twitter":
+    - /url: https://x.com/sorcejobs
+    - generic: Twitter
+  - link "Instagram":
+    - /url: https://www.instagram.com/sorcejobs/
+    - generic: Instagram
+  - link "LinkedIn":
+    - /url: https://linkedin.com/company/sorcejobs
+    - generic: LinkedIn
+  - link "TikTok":
+    - /url: https://www.tiktok.com/@sorcejobs
+    - generic: TikTok
+  - link "Email":
+    - /url: mailto:founders@sorce.jobs
+    - generic: Email
+  - link "Mobile App":
+    - /url: /passport
+    - text: Mobile App
+  - link "Blog":
+    - /url: /blog
+    - text: Blog
+  - link "T&C":
+    - /url: /docs/terms-and-conditions
+    - text: T&C
+  - link "Privacy":
+    - /url: /docs/privacy-policy
+    - text: Privacy
+  - link "Security":
+    - /url: /security
+    - text: Security

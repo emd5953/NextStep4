@@ -3,12 +3,19 @@
  * Validates: Requirements 6.1, 6.2, 6.3
  */
 
+jest.mock('dotenv', () => ({ config: jest.fn() }));
+jest.mock('@google/genai', () => ({ GoogleGenAI: jest.fn() }));
+
 describe('RAG Configuration', () => {
   let originalEnv;
 
   beforeEach(() => {
     // Save original environment
     originalEnv = { ...process.env };
+    for (const key of Object.keys(process.env)) {
+      if (key.startsWith('RAG_') || key.startsWith('GEMINI_')) delete process.env[key];
+    }
+    process.env.GEMINI_API_KEY = 'test-key';
     // Clear the module cache to reload config with new env vars
     jest.resetModules();
   });
@@ -89,16 +96,16 @@ describe('RAG Configuration', () => {
       expect(config.retrievalCount).toBe(5);
     });
 
-    test('should use default (4) for retrieval count below minimum', () => {
+    test('should use default (3) for retrieval count below minimum', () => {
       process.env.RAG_RETRIEVAL_COUNT = '0';
       const config = require('./ragConfig');
-      expect(config.retrievalCount).toBe(4);
+      expect(config.retrievalCount).toBe(3);
     });
 
-    test('should use default (4) for retrieval count above maximum', () => {
+    test('should use default (3) for retrieval count above maximum', () => {
       process.env.RAG_RETRIEVAL_COUNT = '15';
       const config = require('./ragConfig');
-      expect(config.retrievalCount).toBe(4);
+      expect(config.retrievalCount).toBe(3);
     });
 
     test('should accept minimum retrieval count (1)', () => {
@@ -125,18 +132,21 @@ describe('RAG Configuration', () => {
       
       expect(config.chunkSize).toBe(500);
       expect(config.chunkOverlap).toBe(50);
-      expect(config.retrievalCount).toBe(4);
-      expect(config.embeddingModel).toBe('text-embedding-004');
-      expect(config.generationModel).toBe('gemini-1.5-flash');
+      expect(config.retrievalCount).toBe(3);
+      expect(config.embeddingModel).toBe('gemini-embedding-2');
+      expect(config.generationModel).toBe('gemini-3.5-flash-lite');
       expect(config.maxConversationHistory).toBe(5);
-      expect(config.chromaHost).toBe('localhost');
-      expect(config.chromaPort).toBe(8000);
-      expect(config.collectionName).toBe('nextstep_docs');
+      expect(config.vectorStore).toBe('supabase');
+      expect(config.collectionName).toBe('nextstep_docs_gemini-embedding-2_768');
       expect(config.similarityThreshold).toBe(0.5);
     });
   });
 
   describe('Required Configuration', () => {
+    test('missing key leaves the rest of the application available', () => {
+      delete process.env.GEMINI_API_KEY;
+      expect(() => require('./ragConfig')).not.toThrow();
+    });
     test('should have GEMINI_API_KEY configured', () => {
       const config = require('./ragConfig');
       expect(config.geminiApiKey).toBeDefined();

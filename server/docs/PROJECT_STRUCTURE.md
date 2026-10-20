@@ -1,3 +1,5 @@
+> Current backend: Supabase + Gemini. See [Supabase setup](SUPABASE_SETUP.md). MongoDB/Chroma references below describe the earlier architecture.
+
 # NextStep Server - Project Structure
 
 ## Directory Organization
@@ -232,7 +234,6 @@ GOOGLE_CLIENT_ID=your-google-client-id
 
 # AI Services
 GEMINI_API_KEY=your-gemini-api-key
-OPENAI_API_KEY=your-openai-api-key
 
 # RAG Configuration
 RAG_CHROMA_HOST=localhost
@@ -448,11 +449,11 @@ RAG_CHROMA_HOST=          # ChromaDB host (default: localhost)
 RAG_CHROMA_PORT=          # ChromaDB port (default: 8000)
 
 # Optional RAG Configuration
-RAG_GENERATION_MODEL=     # AI model (default: gemini-2.5-pro)
-RAG_EMBEDDING_MODEL=      # Embedding model (default: text-embedding-004)
+RAG_GENERATION_MODEL=     # AI model (default: gemini-3.5-flash-lite)
+RAG_EMBEDDING_MODEL=      # Embedding model (default: gemini-embedding-2)
 RAG_CHUNK_SIZE=           # Chunk size (default: 500)
 RAG_CHUNK_OVERLAP=        # Overlap % (default: 50)
-RAG_RETRIEVAL_COUNT=      # Docs to retrieve (default: 4)
+RAG_RETRIEVAL_COUNT=      # Docs to retrieve (default: 3)
 RAG_SIMILARITY_THRESHOLD= # Min similarity (default: 0.3)
 RAG_COLLECTION_NAME=      # Collection name (default: nextstep_docs)
 RAG_MAX_HISTORY=          # Max history (default: 5)

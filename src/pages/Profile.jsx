@@ -53,10 +53,10 @@ const Profile = () => {
           setLocation(response.data.location);
           setProfileImage(response.data.encodedPhoto);
           setProfilePic(response.data.pictureUrl);
-          setSkills(response.data.skills);
+          setSkills(response.data.skills || []);
 
         } catch (error) {
-          console.error('Profile error:', error.response.data);
+          setError(error.response?.data?.error || 'Could not load your profile.');
         }
       } else {
         navigate('/login');
@@ -240,7 +240,7 @@ const Profile = () => {
                   ×
                 </button>
                 <iframe
-                  src={`data:${resume.mimetype};base64,${resume.buffer}`}
+                  src={resume.url}
                   title="Your resume"
                   width="100%"
                   height="100%"

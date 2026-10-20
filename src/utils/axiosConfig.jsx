@@ -7,7 +7,7 @@ import { API_SERVER } from '../config';
 // Create axios instance with default config
 const axiosInstance = axios.create({
   baseURL: API_SERVER,
-  timeout: 20000,
+  timeout: 30000,
   headers: {
     'Content-Type': 'application/json'
   }
@@ -49,4 +49,4 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-export default axiosInstance; 
+export default axiosInstance;

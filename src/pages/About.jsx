@@ -50,7 +50,7 @@ const About = () => {
           <div className="about-feature-card">
             <span className="about-feature-card__icon">→</span>
             <h3 className="about-feature-card__title">Swipe Interface</h3>
-            <p className="about-feature-card__text">Browse jobs naturally. Right to apply, left to pass. No more endless scrolling.</p>
+            <p className="about-feature-card__text">Browse jobs naturally. Right to save, left to pass.</p>
           </div>
           <div className="about-feature-card">
             <span className="about-feature-card__icon">◎</span>
@@ -59,13 +59,13 @@ const About = () => {
           </div>
           <div className="about-feature-card">
             <span className="about-feature-card__icon">●</span>
-            <h3 className="about-feature-card__title">One-Click Apply</h3>
-            <p className="about-feature-card__text">Your profile does the work. Apply instantly without repetitive form filling.</p>
+            <h3 className="about-feature-card__title">Save Opportunities</h3>
+            <p className="about-feature-card__text">Save jobs that fit your profile, then open the employer’s website to complete your application.</p>
           </div>
           <div className="about-feature-card">
             <span className="about-feature-card__icon">◈</span>
             <h3 className="about-feature-card__title">Track Everything</h3>
-            <p className="about-feature-card__text">Monitor applications, responses, and progress all in one organized dashboard.</p>
+            <p className="about-feature-card__text">Keep saved opportunities and personal notes in one organized dashboard.</p>
           </div>
         </div>
       </section>
@@ -91,14 +91,14 @@ const About = () => {
           <div className="about-step__connector"></div>
           <div className="about-step">
             <span className="about-step__number">3</span>
-            <h3 className="about-step__title">Apply Instantly</h3>
-            <p className="about-step__text">One swipe sends your application. No cover letters, no lengthy forms.</p>
+            <h3 className="about-step__title">Save, Then Apply</h3>
+            <p className="about-step__text">Save a job with one swipe, then follow its employer link to submit your application.</p>
           </div>
           <div className="about-step__connector"></div>
           <div className="about-step">
             <span className="about-step__number">4</span>
             <h3 className="about-step__title">Track Your Progress</h3>
-            <p className="about-step__text">Monitor all your applications in one place. Stay organized and follow up at the right time.</p>
+            <p className="about-step__text">Keep notes on saved jobs and archive opportunities when you're finished with them.</p>
           </div>
         </div>
       </section>
@@ -152,7 +152,7 @@ const About = () => {
         className={`about-cta ${ctaVisible ? 'animate-in' : 'animate-hidden'}`}
       >
         <h2 className="about-cta__title">Ready to find your next step?</h2>
-        <p className="about-cta__text">Join thousands of professionals who've simplified their job search.</p>
+        <p className="about-cta__text">Find opportunities and keep your job search organized.</p>
         <div className="about-cta__actions">
           <button className="about-cta__btn about-cta__btn--primary" onClick={() => navigate('/login')}>
             Get Started Free

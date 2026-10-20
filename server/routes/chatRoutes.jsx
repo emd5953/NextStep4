@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { GoogleGenerativeAI } = require('@google/generative-ai');
-
-// Initialize Gemini AI with API key from environment
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const { generateText } = require('../services/geminiService.js');
 
 /**
  * POST /api/chat
@@ -13,7 +10,7 @@ router.post('/', async (req, res) => {
   try {
     const { message } = req.body;
 
-    if (!message || !message.trim()) {
+    if (typeof message !== 'string' || !message.trim()) {
       return res.status(400).json({ error: 'Message is required' });
     }
 
@@ -32,26 +29,15 @@ Keep responses helpful, concise, and friendly.`;
 
     const fullPrompt = `${context}\n\nUser: ${message}`;
 
-    // Get the generative model
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-
-    // Generate content
-    const result = await model.generateContent(fullPrompt);
-    const response = await result.response;
-    const botText = response.text();
+    const botText = await generateText(fullPrompt);
 
     res.status(200).json({ response: botText });
 
   } catch (error) {
     console.error('Error in chat endpoint:', error);
     
-    // Handle specific Gemini API errors
-    if (error.message?.includes('API key')) {
-      return res.status(401).json({ error: 'Invalid API key configuration' });
-    }
-    
-    res.status(500).json({ 
-      error: 'Failed to get AI response',
+    res.status(error.status || 502).json({
+      error: error.message || 'Failed to get AI response',
       details: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }

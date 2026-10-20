@@ -8,6 +8,7 @@ import About from "./pages/About";
 import Auth from "./components/Auth";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
+import ResetPassword from "./pages/ResetPassword";
 import BrowseJobs from "./pages/BrowseJobs";
 import YourJobs from "./pages/YourJobs";
 import Details from "./pages/Details";
@@ -161,6 +162,7 @@ function App() {
             <Route path="/jobs" element={<BrowseJobs />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/your-jobs" element={<YourJobs />} />
             <Route path="/jobs/:jobId/:returnTo" element={<Details />} />
             <Route

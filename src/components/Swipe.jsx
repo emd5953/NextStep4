@@ -62,7 +62,9 @@ const Swipe = () => {
       } catch (error) {
         console.error('❌ Error fetching jobs:', error);
         
-        if (error.response?.status === 400) {
+        if (error.response?.data?.code?.startsWith('JSEARCH_')) {
+          setError(error.response.data.error);
+        } else if (error.response?.status === 400) {
           setError(error.response.data.error || "Please complete your profile to get job recommendations.");
         } else if (error.response?.status === 401) {
           setError("Please log in to see personalized job recommendations.");
@@ -85,22 +87,22 @@ const Swipe = () => {
 
   const updateJobsTracker = async (jobId, swipeMode, jobData) => {
     if (!token) {
-      setError("Please sign in to apply for jobs. If you don't have an account, you can create one.");
+      setError("Please sign in to save jobs. If you don't have an account, you can create one.");
       return;
     }
     try {
       if (swipeMode === APPLY) {
-        // Use auto-apply agent
+        // Save a job to the user's private list.
         await axios.post(`${API_SERVER}/auto-apply`, {
           job_id: jobId,
           title: jobData.title,
           companyName: jobData.companyName,
-          jobUrl: jobData.companyWebsite,
+          jobUrl: jobData.jobUrl,
           isExternal: jobData.isExternal
         }, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        setMessage("Auto-applied successfully!");
+        setMessage("Saved to My Jobs. Open the employer link there to complete your application.");
       } else if (swipeMode === IGNORE) {
         // Reject job
         await axios.post(`${API_SERVER}/reject-job`, {
@@ -108,7 +110,7 @@ const Swipe = () => {
         }, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        setMessage("Job rejected");
+        setMessage("Job skipped");
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -343,7 +345,7 @@ const Swipe = () => {
             Showing {jobs.length} {jobs.length === 1 ? 'job' : 'jobs'}
           </div>
           <div className="swipe-direction-label left">Swipe left to reject</div>
-          <div className="swipe-direction-label right">Swipe right to apply</div>
+          <div className="swipe-direction-label right">Swipe right to save</div>
           <div className="swipe-direction-label up">Swipe up to skip</div>
         </>
       )}

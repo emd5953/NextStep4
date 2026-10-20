@@ -18,12 +18,13 @@ const BrowseJobs = () => {
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const { token, name, email } = useContext(TokenContext);
   const [error, setError] = useState(null);
+  const [feedError, setFeedError] = useState(null);
   const [message, setMessage] = useState(null);
 
   useEffect(() => {
     const fetchJobs = async () => {
       // Check cache first
-      const cacheKey = 'browse-jobs-all';
+      const cacheKey = 'browse-jobs-all-' + (token || 'guest');
       const cached = cacheService.get(cacheKey);
       
       if (cached && cached.length > 0) {
@@ -35,11 +36,12 @@ const BrowseJobs = () => {
 
       try {
         setError(null);
+        setFeedError(null);
         const response = await axios.get(`${API_SERVER}/jobs`, 
           token ? {
             headers: { Authorization: `Bearer ${token}` },
-            timeout: 15000
-          } : { timeout: 15000 }
+            timeout: 30000
+          } : { timeout: 30000 }
         );
         setJobs(response.data);
         
@@ -49,11 +51,11 @@ const BrowseJobs = () => {
         }
       } catch (error) {
         console.error('Error fetching jobs:', error);
-        if (error.code === 'ECONNABORTED') {
-          setError('Loading is taking longer than expected. The server might be starting up.');
-        } else {
-          setError('Failed to load jobs. Please refresh the page.');
-        }
+        const message = error.response?.data?.code?.startsWith('JSEARCH_') ? error.response.data.error
+          : error.code === 'ECONNABORTED' ? 'Loading is taking longer than expected. Please try again.'
+          : 'Failed to load jobs. Please refresh the page.';
+        setError(message);
+        setFeedError(message);
       } finally {
         setIsInitialLoading(false);
       }
@@ -67,9 +69,10 @@ const BrowseJobs = () => {
     setIsSearching(true);
     setSearchQuery(searchInput);
     setError(null);
+    setFeedError(null);
     
     // Check cache for search
-    const cacheKey = `browse-jobs-search-${searchInput}`;
+    const cacheKey = `browse-jobs-search-${token || "guest"}-${searchInput}`;
     const cached = cacheService.get(cacheKey);
     
     if (cached) {
@@ -80,11 +83,11 @@ const BrowseJobs = () => {
     }
     
     try {
-      const response = await axios.get(`${API_SERVER}/jobs?q=` + searchInput, 
+      const response = await axios.get(`${API_SERVER}/jobs?q=` + encodeURIComponent(searchInput),
         token ? {
           headers: { Authorization: `Bearer ${token}` },
-          timeout: 15000
-        } : { timeout: 15000 }
+          timeout: 30000
+        } : { timeout: 30000 }
       );
       setJobs(response.data);
       
@@ -96,11 +99,11 @@ const BrowseJobs = () => {
       }
     } catch (error) {
       console.error('Error searching jobs:', error);
-      if (error.code === 'ECONNABORTED') {
-        setError('Search is taking longer than expected. Please try a more specific search term.');
-      } else {
-        setError('Failed to search jobs. Please try again.');
-      }
+      const message = error.response?.data?.code?.startsWith('JSEARCH_') ? error.response.data.error
+        : error.code === 'ECONNABORTED' ? 'Search is taking longer than expected. Please try again.'
+        : 'Failed to search jobs. Please try again.';
+      setError(message);
+      setFeedError(message);
     } finally {
       setIsSearching(false);
     }
@@ -108,7 +111,7 @@ const BrowseJobs = () => {
 
   const handleApply = async (jobId, jobData) => {
     if (!token) {
-      setError("Please sign in to apply for jobs. If you don't have an account, you can create one.");
+      setError("Please sign in to save jobs. If you don't have an account, you can create one.");
       return;
     }
     try {
@@ -121,7 +124,7 @@ const BrowseJobs = () => {
       }, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setMessage("Auto-applied successfully!");
+      setMessage("Saved to My Jobs. Open the employer link there to complete your application.");
       
       // Remove job from list
       setJobs(jobs.filter(job => job._id !== jobId));
@@ -129,7 +132,7 @@ const BrowseJobs = () => {
       if (error.response && error.response.status === 409) {
         setError(error.response.data.error);
       } else {
-        setError('Failed to apply. Please try again.');
+        setError('Could not save this job. Please try again.');
       }
     }
   };
@@ -177,7 +180,7 @@ const BrowseJobs = () => {
         {jobs.length > 0 ? (
           <p>Found {jobs.length} {jobs.length === 1 ? 'job' : 'jobs'}</p>
         ) : (
-          <p>No jobs found</p>
+          <p>{isInitialLoading || isSearching ? 'Loading jobs' : feedError ? 'Live search unavailable' : 'No jobs found'}</p>
         )}
       </div>
 
@@ -217,8 +220,8 @@ const BrowseJobs = () => {
           ))
         ) : (
           <div className="no-jobs-container">
-            <p>No jobs available at the moment.</p>
-            <small>Try searching for specific roles or check back later.</small>
+            <p>{feedError || 'No jobs available at the moment.'}</p>
+            <small>{feedError ? 'Refresh this page once job search is available.' : 'Try searching for specific roles or check back later.'}</small>
           </div>
         )}
       </div>

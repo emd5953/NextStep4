@@ -9,14 +9,12 @@
 
 const RAGService = require('../services/ragService.jsx');
 const VectorStoreService = require('../services/vectorStoreService.jsx');
-const FeedbackAnalyzer = require('../services/feedbackAnalyzer.jsx');
+const { unwrap } = require('../services/supabaseService.js');
 const SmartChatHandler = require('../services/smartChatHandler.jsx');
 
 // Initialize services
 let ragService = null;
 let vectorStore = null;
-let feedbackAnalyzer = null;
-let smartChatHandler = null;
 
 /**
  * Initialize RAG services
@@ -115,9 +113,7 @@ async function handleChatMessage(req, res) {
     console.log(`Processing chat message: "${truncatedMessage.substring(0, 50)}..."`);
 
     // Initialize smart chat handler if not already done
-    if (!smartChatHandler) {
-      smartChatHandler = new SmartChatHandler(req.app.locals.db, ragService);
-    }
+    const smartChatHandler = new SmartChatHandler(req.db, ragService);
 
     // Use smart handler to route to appropriate response
     const result = await smartChatHandler.handleMessage(
@@ -145,6 +141,10 @@ async function handleChatMessage(req, res) {
 
   } catch (error) {
     console.error('Error in RAG chat controller:', error);
+
+    if (error.status === 429 || error.status === 503 || error.status === 502) {
+      return res.status(error.status).json({ error: 'AI service unavailable', message: error.message });
+    }
 
     // Handle specific error types
     if (error.message.includes('Query must be a non-empty string')) {
@@ -246,25 +246,12 @@ async function submitFeedback(req, res) {
       });
     }
 
-    // Store feedback in database
-    const feedbackCollection = req.app.locals.db.collection('rag_feedback');
-    await feedbackCollection.insertOne({
-      messageId,
-      feedback,
-      query,
-      comment: comment || null,
-      timestamp: new Date(),
-      userId: req.user?.id || 'anonymous',
-      userAgent: req.headers['user-agent']
-    });
-
-    console.log(`Feedback recorded: ${feedback} for query "${query.substring(0, 50)}..."`);
-
-    // 🤖 SELF-IMPROVEMENT: Analyze feedback and trigger alerts
-    if (!feedbackAnalyzer) {
-      feedbackAnalyzer = new FeedbackAnalyzer(req.app.locals.db);
-    }
-    await feedbackAnalyzer.analyzeAndAlert(query, feedback);
+    if (!req.user) return res.status(401).json({ error: 'Sign in to send feedback.' });
+    if (typeof query !== 'string' || query.length > 1000 || (comment && (typeof comment !== 'string' || comment.length > 2000))) return res.status(400).json({ error: 'Feedback is too long.' });
+    unwrap(await req.db.from('rag_feedback').insert({
+      message_id: String(messageId).slice(0, 200), feedback, query,
+      comment: comment || null, user_id: req.user.id
+    }));
 
     return res.status(200).json({ 
       message: 'Thank you for your feedback!',

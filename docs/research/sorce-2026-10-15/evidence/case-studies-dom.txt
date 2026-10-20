@@ -1,0 +1,119 @@
+- banner:
+  - link "Sorce Logo":
+    - /url: /
+    - img "Sorce Logo"
+  - navigation:
+    - link "Employers":
+      - /url: /employer
+    - link "Blog":
+      - /url: /blog
+    - link "Case Studies":
+      - /url: /docs/case-studies
+    - link "Love":
+      - /url: /love
+- main:
+  - article:
+    - 'heading "Sorce: the new way to apply to jobs." [level=1]'
+    - paragraph: We started Sorce to make applying to jobs less painful and more delightful. This is the philosophy that guides all our decisions. From the AI Agent that helps job applicants apply, to the tinder experience, to the colors in the app.
+    - paragraph: Sorce has helped tens of thousands of people streamline their job search process, making it faster, easier, and more 'demure' than ever before.
+    - paragraph:
+      - text: Sorce has helped people land interviews at companies like
+      - link "SpaceX":
+        - /url: https://www.spacex.com
+      - text: ","
+      - link "Twitch":
+        - /url: https://www.twitch.tv
+      - text: ","
+      - link "MongoDB":
+        - /url: https://www.mongodb.com
+      - text: ","
+      - link "Neuralink":
+        - /url: https://neuralink.com
+      - text: ","
+      - link "Jane Street":
+        - /url: https://www.janestreet.com
+      - text: ","
+      - link "Circle":
+        - /url: https://www.circle.com
+      - text: ","
+      - link "Canonical":
+        - /url: https://canonical.com
+      - text: ","
+      - link "Virtu Financial":
+        - /url: https://www.virtu.com
+      - text: ","
+      - link "C3AI":
+        - /url: https://c3.ai
+      - text: ","
+      - link "Mercury":
+        - /url: https://mercury.com
+      - text: ","
+      - link "Bubble.io":
+        - /url: https://bubble.io
+      - text: ","
+      - link "Astranis":
+        - /url: https://www.astranis.com
+      - text: ","
+      - link "Scale AI":
+        - /url: https://scale.com
+      - text: ","
+      - link "Anduril":
+        - /url: https://www.anduril.com
+      - text: ", and"
+      - link "Zipline":
+        - /url: https://www.flyzipline.com
+      - text: .
+    - paragraph: But don't just take our word for it, hear from our users who have experienced the Sorce difference firsthand.
+    - heading "Featured Success Stories" [level=3]
+    - list:
+      - paragraph:
+        - 'link "Xiangyi''s Experience: 3+ Interviews from 100 Swipes"':
+          - /url: /docs/case-studies/xiangyi
+      - paragraph:
+        - 'link "Israel''s Success: Landing an Interview at Astranis"':
+          - /url: /docs/case-studies/israel
+      - paragraph:
+        - link "Eimaan's Journey":
+          - /url: /docs/case-studies/eimaan
+    - paragraph: Sorce is changing what job searching looks like. Whether you're a recent graduate, a seasoned professional, or somewhere in between, Sorce is the place you can find your next job.
+    - paragraph:
+      - text: Ready to start your success story?
+      - link "Download Sorce":
+        - /url: /download
+      - text: and swipe your way to your dream job!
+- contentinfo:
+  - link "Sorce Logo Tinder for jobs":
+    - /url: /
+    - img "Sorce Logo"
+    - paragraph: Tinder for jobs
+  - link "Twitter":
+    - /url: https://x.com/sorcejobs
+    - generic: Twitter
+  - link "Instagram":
+    - /url: https://www.instagram.com/sorcejobs/
+    - generic: Instagram
+  - link "LinkedIn":
+    - /url: https://linkedin.com/company/sorcejobs
+    - generic: LinkedIn
+  - link "TikTok":
+    - /url: https://www.tiktok.com/@sorcejobs
+    - generic: TikTok
+  - link "Email":
+    - /url: mailto:founders@sorce.jobs
+    - generic: Email
+  - link "Mobile App":
+    - /url: /passport
+    - text: Mobile App
+  - link "Blog":
+    - /url: /blog
+    - text: Blog
+  - link "T&C":
+    - /url: /docs/terms-and-conditions
+    - text: T&C
+  - link "Privacy":
+    - /url: /docs/privacy-policy
+    - text: Privacy
+  - link "Security":
+    - /url: /security
+    - text: Security
+- alert

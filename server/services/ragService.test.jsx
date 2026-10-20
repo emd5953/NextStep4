@@ -1,3 +1,6 @@
+jest.mock('./geminiService.js', () => ({
+  ...jest.requireActual('./geminiService.js'), generateText: jest.fn(async () => 'NextStep help response')
+}));
 /**
  * Tests for RAG Service
  * Validates: Requirements 1.1, 1.2, 1.3, 4.1, 4.3
@@ -302,7 +305,7 @@ describe('RAGService', () => {
         }
       ]);
 
-      const result = await ragService.generateResponse('test query');
+      const result = await ragService.generateResponse('How do I configure something undocumented?');
 
       expect(result).toHaveProperty('response');
       expect(result).toHaveProperty('sources');

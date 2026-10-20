@@ -1,5 +1,5 @@
 const { MongoClient } = require('mongodb');
-require('dotenv').config();
+const { embeddingDimensions, vectorIndex } = require('../services/geminiService.js');
 
 /**
  * Script to create necessary database indexes for optimal performance
@@ -11,7 +11,7 @@ async function createIndexes() {
     await client.connect();
     console.log('Connected to MongoDB');
     
-    const db = client.db();
+    const db = client.db(process.env.DB_NAME || (process.env.NODE_ENV === 'test' ? 'mydb_test' : 'db2'));
     
     // Create indexes on Jobs collection
     const jobsCollection = db.collection('Jobs');
@@ -54,14 +54,15 @@ async function createIndexes() {
     console.log(JSON.stringify({
       "fields": [
         {
-          "numDimensions": 1536,
+          "numDimensions": embeddingDimensions,
           "path": "embedding",
           "similarity": "cosine",
           "type": "vector"
-        }
+        },
+        { "type": "filter", "path": "embeddingModel" }
       ]
     }, null, 2));
-    console.log('4. Name the index: js_vector_index');
+    console.log('4. Name the index: ' + vectorIndex);
     console.log('5. Select the Jobs collection');
     
   } catch (error) {

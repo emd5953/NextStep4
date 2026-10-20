@@ -1,0 +1,78 @@
+[
+  {
+    "id": "home",
+    "url": "https://www.sorce.jobs/",
+    "snapshot": "homepage-dom.txt"
+  },
+  {
+    "id": "faq",
+    "url": "https://www.sorce.jobs/articles/sorce-faq",
+    "snapshot": "faq-dom.txt"
+  },
+  {
+    "id": "privacy",
+    "url": "https://www.sorce.jobs/docs/privacy-policy",
+    "finalUrl": "https://www.sorce.jobs/docs/privacy-policy",
+    "snapshot": "privacy-dom.txt",
+    "links": "privacy-links.json"
+  },
+  {
+    "id": "terms",
+    "url": "https://www.sorce.jobs/docs/terms-and-conditions",
+    "finalUrl": "https://www.sorce.jobs/docs/terms-and-conditions",
+    "snapshot": "terms-dom.txt",
+    "links": "terms-links.json"
+  },
+  {
+    "id": "security",
+    "url": "https://www.sorce.jobs/security",
+    "finalUrl": "https://www.sorce.jobs/security",
+    "snapshot": "security-dom.txt",
+    "links": "security-links.json"
+  },
+  {
+    "id": "case-studies",
+    "url": "https://www.sorce.jobs/docs/case-studies",
+    "finalUrl": "https://www.sorce.jobs/docs/case-studies",
+    "snapshot": "case-studies-dom.txt",
+    "links": "case-studies-links.json"
+  },
+  {
+    "id": "employer",
+    "url": "https://www.sorce.jobs/employer",
+    "finalUrl": "https://www.sorce.jobs/employer",
+    "snapshot": "employer-dom.txt",
+    "links": "employer-links.json"
+  },
+  {
+    "id": "blog",
+    "url": "https://www.sorce.jobs/blog",
+    "finalUrl": "https://www.sorce.jobs/blog",
+    "snapshot": "blog-dom.txt",
+    "links": "blog-links.json"
+  },
+  {
+    "id": "tutorial",
+    "url": "https://www.sorce.jobs/articles/sorce-tutorial",
+    "finalUrl": "https://www.sorce.jobs/articles/sorce-tutorial",
+    "snapshot": "tutorial-dom.txt"
+  },
+  {
+    "id": "pricing",
+    "url": "https://www.sorce.jobs/articles/sorce-pricing",
+    "finalUrl": "https://www.sorce.jobs/articles/sorce-pricing",
+    "snapshot": "pricing-dom.txt"
+  },
+  {
+    "id": "download",
+    "url": "https://www.sorce.jobs/download",
+    "finalUrl": "https://www.sorce.jobs/download",
+    "snapshot": "download-dom.txt"
+  },
+  {
+    "id": "app-store",
+    "url": "https://apps.apple.com/us/app/sorce-ai-job-search/id6504584959",
+    "finalUrl": "https://apps.apple.com/us/app/sorce-ai-job-search/id6504584959",
+    "snapshot": "app-store-dom.txt"
+  }
+]

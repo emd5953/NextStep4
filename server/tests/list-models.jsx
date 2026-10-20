@@ -1,27 +1,8 @@
-const { GoogleGenerativeAI } = require('@google/generative-ai');
-require('dotenv').config();
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
-async function listModels() {
-  try {
-    console.log('Fetching available models...\n');
-    
-    // List all models
-    const models = await genAI.listModels();
-    
-    console.log('Available models:');
-    console.log('=================\n');
-    
-    for await (const model of models) {
-      console.log(`Model: ${model.name}`);
-      console.log(`Display Name: ${model.displayName}`);
-      console.log(`Supported Methods: ${model.supportedGenerationMethods.join(', ')}`);
-      console.log('---');
-    }
-  } catch (error) {
-    console.error('Error listing models:', error.message);
-  }
-}
-
-listModels();
+const { GoogleGenAI } = require('@google/genai');
+require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
+(async () => {
+  if (!process.env.GEMINI_API_KEY) throw new Error('Set GEMINI_API_KEY in server/.env.');
+  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+  const models = await ai.models.list();
+  for await (const model of models) console.log(model.name);
+})().catch(() => { console.error('Could not list Gemini models. Check the key and project access.'); process.exitCode = 1; });

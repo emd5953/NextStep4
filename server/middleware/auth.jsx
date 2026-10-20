@@ -1,43 +1,25 @@
-/**
- * Authentication middleware for verifying JWT tokens centrally
- * @module middleware/auth
- * @requires jsonwebtoken
- */
-
-const jwt = require("jsonwebtoken");
-
-/**
- * Middleware function to verify JWT tokens in request headers
- * @async
- * @param {Object} req - Express request object
- * @param {Object} req.headers - Request headers
- * @param {string} [req.headers.authorization] - Authorization header containing JWT token
- * @param {Object} res - Express response object
- * @param {Function} next - Express next middleware function
- * @returns {void}
- * @throws {Error} 401 if token is missing or invalid
- * @throws {Error} 401 if token has expired
- * @throws {Error} 401 if token is malformed
- */
-const verifyToken = (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1];
-  if (!token) {
-    return res.status(401).json({ error: "Unauthorized. Missing or invalid token." });
-  }
-
+const { createUserClient } = require('../services/supabaseService.js');
+async function authenticate(req, res, next, required) {
+  const authorization = req.headers.authorization;
+  const token = /^Bearer (\S+)$/i.exec(authorization || '')?.[1];
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (error) {
-    if (error.name === 'TokenExpiredError') {
-      return res.status(401).json({
-        error: "Your session has expired. Please sign in again.",
-        code: "TOKEN_EXPIRED"
-      });
+    if (!token) {
+      if (required || authorization) return res.status(401).json({ error: 'Please sign in.' });
+      req.db = createUserClient();
+      return next();
     }
-    return res.status(401).json({ error: "Invalid authentication token." });
+    const db = createUserClient(token);
+    // Verify the token with Auth. Private queries then run under this user's RLS.
+    const { data, error } = await db.auth.getUser(token);
+    if (error || !data?.user) return res.status(401).json({ error: 'Your session has expired. Please sign in again.', code: 'TOKEN_EXPIRED' });
+    req.user = data.user;
+    req.db = db;
+    return next();
+  } catch (error) {
+    return res.status(error.status || 503).json({ error: 'Authentication service is unavailable.' });
   }
+}
+module.exports = {
+  verifyToken: (req, res, next) => authenticate(req, res, next, true),
+  optionalAuth: (req, res, next) => authenticate(req, res, next, false)
 };
-
-module.exports = { verifyToken }; 

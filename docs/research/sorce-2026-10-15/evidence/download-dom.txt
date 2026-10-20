@@ -1,0 +1,7 @@
+- main:
+  - heading "Download Sorce for iOS" [level=1]
+  - paragraph: Sorce is the iOS AI job-search app. Swipe right on roles you want, and Sorce applies for you. 850K+ people use it, with 40 free swipes a day.
+  - link "Download on the App Store":
+    - /url: https://apps.apple.com/us/app/sorce-ai-job-search/id6504584959?pt=126624664&ct=direct&mt=8
+  - paragraph: App Store id 6504584959 · iPhone and iPad
+  - paragraph: Opening the App Store…

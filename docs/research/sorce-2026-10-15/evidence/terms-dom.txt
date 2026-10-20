@@ -1,0 +1,174 @@
+- banner:
+  - link "Sorce Logo":
+    - /url: /
+    - img "Sorce Logo"
+  - navigation:
+    - link "Employers":
+      - /url: /employer
+    - link "Blog":
+      - /url: /blog
+    - link "Case Studies":
+      - /url: /docs/case-studies
+    - link "Love":
+      - /url: /love
+- main:
+  - article:
+    - heading "Terms of Use" [level=1]
+    - paragraph:
+      - emphasis: "Last Updated: Fri, August 15, 2025"
+    - paragraph: Welcome to Sorce. These Terms of Use ("Terms") govern your access to and use of the Sorce platform, website, mobile applications, and related services (collectively, the "Service"). By accessing or using the Service, you agree to be bound by these Terms. If you do not agree, do not use the Service.
+    - heading "1. Acceptance of Terms" [level=2]
+    - list:
+      - listitem: You must be at least 18 years old to use the Service.
+      - listitem: By creating an account, you represent and warrant that all information you provide is accurate, complete, and up to date.
+      - listitem: You agree to comply with these Terms and all applicable laws and regulations.
+    - heading "2. Definitions" [level=2]
+    - list:
+      - strong: "\"Sorce\""
+      - text: ","
+      - strong: "\"we\""
+      - text: ","
+      - strong: "\"us\""
+      - text: ", or"
+      - strong: "\"our\""
+      - text: refers to Sorce, Inc. and its affiliates.
+      - strong: "\"User\""
+      - text: ","
+      - strong: "\"you\""
+      - text: ", or"
+      - strong: "\"your\""
+      - text: refers to anyone who accesses or uses the Service.
+      - strong: "\"Business Account\""
+      - text: refers to accounts created for organizational use with additional features and capabilities.
+      - strong: "\"Subscription\""
+      - text: refers to paid access to premium features of the Service.
+      - strong: "\"User Content\""
+      - text: means any content you submit, post, or transmit through the Service.
+      - strong: "\"AI Features\""
+      - text: refers to our artificial intelligence and machine learning capabilities.
+      - strong: "\"Privacy Policy\""
+      - text: refers to our
+      - link "privacy policy":
+        - /url: /docs/privacy-policy
+      - text: ", which governs how we collect, use, and disclose information."
+    - heading "3. License and Restrictions" [level=2]
+    - list:
+      - listitem: We grant you a limited, non-exclusive, revocable license to use the Service for your personal, non-commercial use.
+      - text: "You may not:"
+      - list:
+        - listitem: Copy, modify, distribute, sell, or lease any part of the Service or its content.
+        - listitem: Reverse engineer, decompile, or attempt to extract source code.
+        - listitem: Use the Service to violate any law, infringe third-party rights, or engage in abusive behavior.
+        - listitem: Introduce viruses, malware, or any other harmful code.
+    - heading "4. Account Security" [level=2]
+    - list:
+      - listitem: You are responsible for maintaining the confidentiality of your account credentials.
+      - listitem: Notify us immediately of any unauthorized access or use of your account.
+      - listitem: We are not liable for any loss or damage from unauthorized access if you fail to secure your credentials.
+    - heading "5. User Content and Data" [level=2]
+    - list:
+      - listitem: You retain ownership of your User Content.
+      - listitem: You grant Sorce a worldwide, royalty-free, sublicensable, and transferable license to use, reproduce, modify, and display your User Content to provide and improve the Service.
+      - text: We will process your personal data in accordance with our
+      - link "Privacy Policy":
+        - /url: /docs/privacy-policy
+      - text: .
+    - heading "6. Business Accounts" [level=2]
+    - list:
+      - listitem: Business accounts are subject to additional terms and features.
+      - listitem: Account administrators must have authority to bind their organization.
+      - listitem: Business accounts may have multiple users under a single subscription.
+      - listitem: Administrators are responsible for managing user access and compliance.
+      - listitem: We may use your company name and logo for marketing unless you opt out.
+    - heading "7. Subscriptions and Payment" [level=2]
+    - list:
+      - listitem: Subscription fees are billed according to your selected plan.
+      - listitem: All subscriptions auto-renew unless cancelled before the renewal date.
+      - listitem: Fees are non-refundable except where required by law.
+      - listitem: We may change subscription prices with 30 days notice.
+      - listitem: Failed payments may result in service interruption.
+    - heading "8. Intellectual Property" [level=2]
+    - list:
+      - listitem: All intellectual property rights in the Service and its content are owned by Sorce or its licensors.
+      - listitem: All rights not expressly granted are reserved.
+    - heading "9. AI Features" [level=2]
+    - list:
+      - listitem: Our Service includes AI-powered features for analyzing resumes and providing recommendations.
+      - listitem: AI outputs are provided "AS IS" without warranty of accuracy or completeness.
+      - listitem: You are responsible for reviewing and verifying all AI-generated content.- We do not guarantee specific outcomes from using AI features.
+      - listitem: We may use anonymized data to improve our AI systems.
+    - heading "10. Disclaimers" [level=2]
+    - list:
+      - listitem: The service is provided "as is" and "as available" without warranties of any kind, express or implied.
+      - listitem: We disclaim all warranties, including merchantability, fitness for a particular purpose, and non-infringement.
+      - listitem: We do not warrant that the service will be uninterrupted, secure, or error-free.
+    - heading "11. Limitation of Liability" [level=2]
+    - list:
+      - listitem: To the maximum extent permitted by law, Sorce and its affiliates will not be liable for indirect, incidental, special, consequential, or punitive damages.
+      - listitem: Our aggregate liability for any claim arising from these terms or the service will not exceed the amount paid by you to Sorce in the 12 months preceding the claim.
+      - listitem: "For UK users: Nothing in these terms excludes liability for death, personal injury, or fraudulent misrepresentation."
+      - listitem: "For Canadian users: Rights under consumer protection laws are preserved."
+    - heading "12. Indemnification" [level=2]
+    - list:
+      - listitem: You agree to indemnify and hold harmless Sorce, its officers, directors, employees, and agents from any claims arising out of your breach of these Terms or your use of the Service.
+    - heading "13. Termination" [level=2]
+    - list:
+      - listitem: We may suspend or terminate your access to the Service at any time, with or without notice, for any reason, including breach of these Terms.
+      - listitem: Upon termination, your right to use the Service will immediately cease.
+    - heading "14. Governing Law and Dispute Resolution" [level=2]
+    - list:
+      - listitem: These Terms are governed by the laws of Delaware, without regard to conflict of law principles.
+      - listitem: Any disputes will be resolved exclusively in the state courts of the State of Delaware sitting in New Castle County, or, if federal jurisdiction exists, in the United States District Court for the District of Delaware, and you consent to personal jurisdiction and venue in such courts.
+      - listitem: For UK users, disputes may also be resolved in English courts under English law.
+      - listitem: For Canadian users, you may have additional rights under provincial consumer protection laws.
+    - heading "15. Changes to Terms" [level=2]
+    - list:
+      - listitem: We may update these Terms from time to time. We will notify you by revising the "Last Updated" date.
+      - listitem: Continued use of the Service after changes signifies acceptance of the new Terms.
+    - heading "16. Miscellaneous" [level=2]
+    - list:
+      - listitem: Failure to enforce any provision of these Terms does not waive our right to enforce it later.
+      - listitem: If any provision is held invalid, the remaining provisions will remain in effect.
+      - listitem: These Terms constitute the entire agreement between you and Sorce regarding the Service.
+    - heading "17. Contact Information" [level=2]
+    - list:
+      - text: If you have any questions about these Terms, please contact us at
+      - link "founders@sorce.jobs":
+        - /url: mailto:founders@sorce.jobs
+      - text: .
+- contentinfo:
+  - link "Sorce Logo Tinder for jobs":
+    - /url: /
+    - img "Sorce Logo"
+    - paragraph: Tinder for jobs
+  - link "Twitter":
+    - /url: https://x.com/sorcejobs
+    - generic: Twitter
+  - link "Instagram":
+    - /url: https://www.instagram.com/sorcejobs/
+    - generic: Instagram
+  - link "LinkedIn":
+    - /url: https://linkedin.com/company/sorcejobs
+    - generic: LinkedIn
+  - link "TikTok":
+    - /url: https://www.tiktok.com/@sorcejobs
+    - generic: TikTok
+  - link "Email":
+    - /url: mailto:founders@sorce.jobs
+    - generic: Email
+  - link "Mobile App":
+    - /url: /passport
+    - text: Mobile App
+  - link "Blog":
+    - /url: /blog
+    - text: Blog
+  - link "T&C":
+    - /url: /docs/terms-and-conditions
+    - text: T&C
+  - link "Privacy":
+    - /url: /docs/privacy-policy
+    - text: Privacy
+  - link "Security":
+    - /url: /security
+    - text: Security
+- alert

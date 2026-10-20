@@ -1,3 +1,7 @@
+jest.mock('./geminiService.js', () => ({
+  ...jest.requireActual('./geminiService.js'),
+  embedText: jest.fn(async (text, options) => Array(options.dimensions).fill([...text].reduce((sum, c) => sum + c.charCodeAt(0), 0) / 10000))
+}));
 /**
  * Tests for Embedding Service
  * Validates: Requirements 2.2
@@ -14,7 +18,7 @@ describe('EmbeddingService', () => {
 
   describe('Constructor', () => {
     test('should initialize with correct model and dimension', () => {
-      expect(embeddingService.getModelName()).toBe('text-embedding-004');
+      expect(embeddingService.getModelName()).toBe('gemini-embedding-2');
       expect(embeddingService.getEmbeddingDimension()).toBe(768);
     });
   });
@@ -96,12 +100,12 @@ describe('EmbeddingService', () => {
       expect(embeddings[0]).not.toEqual(embeddings[2]);
     }, 15000);
 
-    test('should reject empty array', async () => {
-      await expect(embeddingService.embedBatch([])).rejects.toThrow('Texts must be a non-empty array');
+    test('empty batch needs no API request', async () => {
+      await expect(embeddingService.embedBatch([])).resolves.toEqual([]);
     });
 
     test('should reject non-array input', async () => {
-      await expect(embeddingService.embedBatch('not an array')).rejects.toThrow('Texts must be a non-empty array');
+      await expect(embeddingService.embedBatch('not an array')).rejects.toThrow('Texts must be an array');
     });
 
     test('should reject array with empty string', async () => {
@@ -128,8 +132,8 @@ describe('EmbeddingService', () => {
       expect(embeddingService.getEmbeddingDimension()).toBe(768);
     });
 
-    test('getModelName should return text-embedding-004', () => {
-      expect(embeddingService.getModelName()).toBe('text-embedding-004');
+    test('getModelName should return gemini-embedding-2', () => {
+      expect(embeddingService.getModelName()).toBe('gemini-embedding-2');
     });
   });
 });

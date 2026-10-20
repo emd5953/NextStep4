@@ -7,6 +7,7 @@
 
 const IntentClassifier = require('./intentClassifier.jsx');
 const OffTopicDetector = require('./offTopicDetector.jsx');
+const { unwrap } = require('./supabaseService.js');
 
 class SmartChatHandler {
   constructor(db, ragService) {
@@ -86,34 +87,31 @@ class SmartChatHandler {
 
     try {
       // Get user's applications
-      const applicationsCollection = this.db.collection('applications');
-      const applications = await applicationsCollection.find({
-        user_id: userId
-      }).toArray();
+      const applications = unwrap(await this.db.from('applications').select('status').eq('user_id', userId).neq('status', 'Withdrawn'));
 
       const total = applications.length;
-      const pending = applications.filter(app => app.status === 'Pending').length;
+      const pending = applications.filter(app => app.status === 'Saved').length;
       const interviewing = applications.filter(app => app.status === 'Interviewing').length;
       const offered = applications.filter(app => app.status === 'Offered').length;
       const rejected = applications.filter(app => app.status === 'Rejected').length;
 
       // Generate personalized response
       let response = `Here's your job search progress:\n\n`;
-      response += `📊 **Total Applications:** ${total}\n`;
-      response += `⏳ **Pending:** ${pending}\n`;
+      response += `📊 **Saved Jobs:** ${total}\n`;
+      response += `⏳ **Saved, not submitted:** ${pending}\n`;
       response += `💼 **Interviewing:** ${interviewing}\n`;
       response += `🎉 **Offers:** ${offered}\n`;
       response += `❌ **Rejected:** ${rejected}\n\n`;
 
       // Add personalized advice
       if (total === 0) {
-        response += `You haven't applied to any jobs yet. Start by browsing jobs on the homepage and swiping right on positions you're interested in!`;
+        response += `You haven't saved any jobs yet. Start by browsing jobs on the homepage and swiping right on positions you're interested in!`;
       } else if (interviewing > 0) {
         response += `Great job! You have ${interviewing} interview${interviewing > 1 ? 's' : ''} in progress. Keep preparing and responding promptly to employer messages.`;
       } else if (total < 10) {
         response += `You're off to a good start! Try applying to 10-20 jobs to increase your chances. The more you apply, the better your odds!`;
       } else if (pending > total * 0.8) {
-        response += `Most of your applications are still pending. This is normal! Employers typically respond within 1-2 weeks. Keep applying to new positions while you wait.`;
+        response += `These jobs are saved in your tracker. Open their employer links to submit applications; saving a job does not contact the employer.`;
       } else {
         response += `You're making good progress! Keep applying consistently and following up on your applications.`;
       }
@@ -150,7 +148,7 @@ class SmartChatHandler {
     // Detect what action they want
     if (/apply/i.test(message)) {
       return {
-        response: "To apply to a job:\n\n1. Browse jobs on the homepage or search page\n2. Swipe right on a job you like, or click the 'Apply' button\n3. Your application will be submitted instantly!\n\nWould you like me to show you available jobs?",
+        response: "To apply to a job:\n\n1. Browse jobs on the homepage or search page\n2. Swipe right on a job you like, or click the 'Apply' button\n3. The job is saved to My Jobs. Open the employer link there to complete the application.\n\nWould you like me to show you available jobs?",
         type: 'action_guide',
         actions: [
           { label: 'Browse Jobs', action: 'navigate', target: '/browse-jobs' },

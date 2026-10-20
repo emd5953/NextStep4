@@ -1,13 +1,13 @@
 /**
  * Embedding Service
  * 
- * Handles text embedding generation using Google's text-embedding-004 model.
+ * Handles text embedding generation using the configured Gemini embedding model.
  * Provides methods for single and batch embedding operations with error handling.
  * 
  * Validates: Requirements 2.2
  */
 
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+const { embedText } = require('./geminiService.js');
 const ragConfig = require('../config/ragConfig.jsx');
 
 class EmbeddingService {
@@ -15,7 +15,6 @@ class EmbeddingService {
    * Initialize embedding service with Google AI
    */
   constructor() {
-    this.genAI = new GoogleGenerativeAI(ragConfig.geminiApiKey);
     this.model = ragConfig.embeddingModel;
   }
 
@@ -35,17 +34,10 @@ class EmbeddingService {
     }
 
     try {
-      const embeddingModel = this.genAI.getGenerativeModel({ model: this.model });
-      const result = await embeddingModel.embedContent(text);
-      
-      if (!result.embedding || !result.embedding.values) {
-        throw new Error('Invalid embedding response from API');
-      }
-
-      return result.embedding.values;
+      return await embedText(text, { model: this.model, dimensions: ragConfig.embeddingDimensions });
     } catch (error) {
       console.error('Error generating embedding:', error);
-      throw new Error(`Failed to generate embedding: ${error.message}`);
+      throw error;
     }
   }
 
@@ -92,6 +84,7 @@ class EmbeddingService {
           break;
         } catch (error) {
           lastError = error;
+          if (error.status === 429 || error.status === 503) throw error;
           if (attempt < maxRetries) {
             console.warn(`Retry ${attempt + 1}/${maxRetries} for text ${i + 1}/${texts.length}`);
             // Wait before retry (exponential backoff)
@@ -126,11 +119,10 @@ class EmbeddingService {
   /**
    * Get the embedding dimension size
    * 
-   * @returns {number} Embedding dimension (768 for text-embedding-004)
+   * @returns {number} Configured RAG embedding dimension
    */
   getEmbeddingDimension() {
-    // text-embedding-004 produces 768-dimensional embeddings
-    return 768;
+    return ragConfig.embeddingDimensions;
   }
 
   /**

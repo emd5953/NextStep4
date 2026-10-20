@@ -1,0 +1,421 @@
+- navigation:
+  - img "App Store":
+  - button "App Store":
+    - text: for iPhone
+  - generic: Search
+  - searchbox "Search"
+  - list:
+    - button "Today":
+      - generic: Today
+    - button "Games":
+      - generic: Games
+    - button "Apps":
+      - generic: Apps
+    - button "Arcade":
+      - generic: Arcade
+  - generic: Categories
+  - list "Categories":
+    - button "Categories":
+      - generic: Categories
+    - button "Photo & Video":
+      - generic: Photo & Video
+    - button "Health & Fitness":
+      - generic: Health & Fitness
+    - button "Productivity":
+      - generic: Productivity
+    - button "Entertainment":
+      - generic: Entertainment
+    - button "Action":
+      - generic: Action
+    - button "Adventure":
+      - generic: Adventure
+    - button "Puzzle":
+      - generic: Puzzle
+    - button "Indie":
+      - generic: Indie
+  - list
+- main:
+  - heading "Sorce - AI Job Search" [level=1]:
+    - generic: Sorce - AI Job Search
+  - paragraph: Apply to jobs by swiping right
+  - paragraph: Only for iPhone
+  - paragraph: Free · In‑App Purchases · Designed for iPhone. Not verified for macOS.
+  - button "Share":
+    - text: Share
+  - list:
+    - link "36K Ratings 4.7 Stars":
+      - /url: "#productRatings"
+      - term:
+        - generic: 36K Ratings
+      - definition:
+        - generic: "4.7"
+        - list "4.7 Stars":
+    - link "Age Rating 4+ Years":
+      - /url: "#information"
+      - term:
+        - generic: Age Rating
+      - definition:
+        - generic: 4+
+        - generic: Years
+    - link "Category Business":
+      - /url: "#information"
+      - term:
+        - generic: Category
+      - definition:
+        - generic: Business
+    - link "Developer Sorce":
+      - /url: https://apps.apple.com/us/developer/sorce/id1834860654?platform=iphone
+      - term:
+        - generic: Developer
+      - definition:
+        - generic: Sorce
+    - link "Language EN English":
+      - /url: "#information"
+      - term:
+        - generic: Language
+      - definition:
+        - generic: EN
+        - generic: English
+    - link "Size 87.3 MB":
+      - /url: "#information"
+      - term:
+        - generic: Size
+      - definition:
+        - generic: "87.3"
+        - generic: MB
+  - region "iPhone App Previews and Screenshots":
+    - button "Previous Page" [disabled]:
+    - list:
+      - generic "Screenshot"
+      - generic "Screenshot"
+      - generic "Screenshot"
+      - generic "Screenshot"
+    - button "Next Page":
+    - generic: iPhone
+  - paragraph:
+    - generic: "Easiest way to apply to a job in the world. Sorce makes job hunting easy and effortless. Just swipe right to apply for a job, and our AI agent will handle the rest. No more wasting time typing the same information over and over again. You can focus on better things while Sorce takes care of the applications. With Sorce, you get: One Swipe to Apply: Apply to jobs with a single swipe. Tailored Applications: Customize your cover letters. Track Applications: Keep track of your job applications and get real-time updates. Smart Matching: Get job suggestions that fit your skills and preferences. Secure and Private: Your data is safe with us. Sorce's AI agent applies to jobs on your behalf, saving you time and effort. Whether you're a new graduate, switching careers, or just exploring, Sorce is designed to help you find the right job. So far, our users have swiped over 50 million times and we help get hundreds of interviews per day at companies like SpaceX, Amazon, Robinhood, Walmart, Pinterest, and more. Download Sorce now and let your next job find you. We follow the standard apply EULA. Find more info here: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/."
+    - button "more"
+  - region "Ratings & Reviews":
+    - link "Ratings & Reviews":
+      - /url: https://apps.apple.com/us/app/6504584959?see-all=reviews&platform=iphone
+      - heading "Ratings & Reviews" [level=2]
+    - list:
+      - generic: "4.7"
+      - generic: out of 5
+      - generic: 36K Ratings
+      - generic "**ASE.Web.Platform.Shared.Ratings.Review.StarsAria.one.other**":
+      - generic "**ASE.Web.Platform.Shared.Ratings.Review.StarsAria.one.other**":
+      - generic "**ASE.Web.Platform.Shared.Ratings.Review.StarsAria.one.other**":
+      - generic "**ASE.Web.Platform.Shared.Ratings.Review.StarsAria.one.other**":
+      - generic "**ASE.Web.Platform.Shared.Ratings.Review.StarsAria.other.one**":
+  - button "Previous Page" [disabled]:
+  - list:
+    - generic "I LANDED THANKS TO SORCE!":
+      - heading "I LANDED THANKS TO SORCE!" [level=3]
+      - list "5 Stars":
+      - time: Aug 23
+      - generic: CatJ1520
+      - paragraph: This app is truly a game changer and I feel like will be an industry standard sooner rather than later. Thanks to this app, I applied to over 1000+ jobs, landed interviews at 15+ companies and finally ACCEPTED AN OFFER at my next role. I started using this app in May and it took me 3 1/2 months to land a role. I was laid off in December and the job hunt over the year has truly been SO TOUGH. Rejection after rejection after spending hours upon hours applying. For mental health this app helped change with my mindset of, well if I’m going to face rejection at least I can be fine knowing i didn’t spend 2+ hours applying for JUST that 1 role and I saved time and energy by swiping on 40+ roles for only maybe 1 hour. It sounds like whatever but time and energy matters when applying to roles especially when you are getting denied. Anyways, OBSESSED with this app and can’t recommend enough!
+      - button "MORE"
+    - generic "Would be better as an Agent rather than full AI completion":
+      - heading "Would be better as an Agent rather than full AI completion" [level=3]
+      - list "3 Stars":
+      - time: Feb 18
+      - generic: Jxycee
+      - paragraph: This app is great for finding jobs, quickly applying to them, and then keeping up with the emails that numerous applications send. The biggest downfall is the amount of information it fails to provide to the application, or poor information provided to the application. This would be much better solved by having the AI fill out only what it is 100% confident on, then allowing the user to finish the application/edit what was uploaded by the AI. Applications will still get done faster than the usual, and there will be full control for the user to be able to take charge if needed. So many of my applications fail as well, which is a big issue if you have a reliance on the app for applying to places. There’s no option to force a retry, you’re just kind of stuck with it as failed unless the app does miraculously retry it (I have applications from 2 months ago still in the state of pending). It would also be very nice if the app learned from the things you swiped on so you can see more relevant positions that are open rather than a large jumble of things that are relevant to your filters.
+      - button "MORE"
+    - heading [level=3]: Good app, but needs work
+    - list:
+    - time: 03/20/2025
+    - generic: Alspice626
+    - paragraph: Honestly the idea of this app is great , there’s a few flaws which one can overlook but the one that I believe is critical for the success of it would be being able to use the email address that relays messages that the company sends to the applicant , I’m unable to reply or finish application because when I try to email back the emails get automatically denied . Besides that great app————update Edit below———-They listen and made changes to the app, thank you!
+    - button [disabled]: MORE
+    - text: Developer Response
+    - paragraph: We shipped something for you to see the credentials we created on your behalf! just tap the application you want to log in for an you will see a key icon.
+    - button [disabled]: MORE
+    - heading [level=3]: Seems pretty cool so far
+    - list:
+    - time: 05/22/2025
+    - generic: jebfiskenthfifdkwnsnenr
+    - paragraph: I just downloaded it so idk how it will work out for me but there are reviews on here saying they got jobs so I have hope Few things - 1. it looks like it still costs one of your application credits even if they can’t source the application once you’ve swiped 2. Being able to have tabs or something to separate the applications that were successful or not would be helpful 3. Having a more structured view or ability to filter based off tech stack or language would be helpful- I’m seeing frontend jobs and my entire CV is backend 4. I’m getting tech lead and senior jobs when I filtered for mid level 5. For some reason I can search for additional job titles to add to my profile but can’t actually add them 6. Knowing how the companies are going to respond ( email - phone etc is helpful ) 7. This is just a feature idea and far off from where they are at right now but once people have interviewed with companies letting people give feedback on the process in the app or a company experience rating association from Glassdoor would be cool8. I know $15 a week is reasonable for some people especially in tech but having a smaller amount option or a payment arrangement where if we get placed for a job through the app then we pay $250 or something would be preferable
+    - button [disabled]: MORE
+    - text: Developer Response
+    - paragraph: Thanks for your review!! To address your points (I know this is late, but rather late than never :) ):1) If an application fails, we refund the credit!2) We have tabs to see successful versus failed applications!3) We have a new search system that does semantic search so it should be able to capture backend software engineer and surface our most relevant jobs for that search!4) We're still working on improving our position levels (this is hard because we need to normalize across different company types. Our naive approach was classifying by number of years of experience required, but realize that we need to be more nuanced about this!)5) This should be fixed now!6) Good shout -- will work on adding this!7) Also probably want to add this later, but this would be a bit later8) We recently made the free tier much more generous -- we made it so that you get 40 free job applications per day.
+    - button [disabled]: MORE
+  - button "Next Page":
+  - region "What’s New":
+    - button "What’s New":
+      - heading "What’s New" [level=2]
+    - dialog [active]:
+      - button "Close":
+      - heading "Version History" [level=1]
+      - list:
+        - paragraph:
+          - generic: • Update your profile to meet a job’s requirements and try applying again. • Bug fixes and performance improvements.
+        - generic: 4.6.4
+        - time: 6h ago
+        - paragraph:
+          - generic: • Fix your profile details from an ineligible application and re-apply to jobs that are still open. • Bug fixes and performance improvements.
+        - generic: 4.6.3
+        - time: 1d ago
+        - paragraph:
+          - generic: • Follow companies from Profile and get a push notification prompt after you follow a company. • Answer follow-up questions right on the same application card. • Let employers know you don’t have a LinkedIn profile or portfolio. • Bug fixes and performance improvements.
+        - generic: 4.6.2
+        - time: 2d ago
+        - paragraph:
+          - generic: • Find and follow companies from your profile with search and personalized suggestions. • If an employer accepts it, you can tell us you don’t have a LinkedIn profile or portfolio when answering a request for one. • Referral and social rewards now have separate actions in Settings. • Bug fixes and performance improvements.
+        - generic: 4.6.1
+        - time: 5d ago
+        - paragraph:
+          - generic: • Share jobs with a preview showing the role, company, and company logo. • Open Sorce’s notification settings directly from iOS Settings. • Manage your recent searches from a dedicated page, including clearing them all. • Bug fixes and performance improvements.
+        - generic: 4.6.0
+        - time: 6d ago
+        - paragraph:
+          - generic: • Job cards now show how well a role fits your skills, experience, and eligibility. • Bookmarking a job smoothly reveals the next one. • Fixed company pages so the header and buttons display correctly as you scroll. • Improved partner and referral code redemption, and refreshed the Reddit and YouTube icons.
+        - generic: 4.5.9
+        - time: Oct 6
+        - paragraph:
+          - generic: • Edit your compensation details in one place, from your profile or a compensation question. • Search now shows ranked job-search keywords and company suggestions together as you type. • Recent searches now include companies you opened from search. • Company rows show industries in plain language, and compensation amounts keep the format you entered.
+        - generic: 4.5.8
+        - time: Oct 5
+        - paragraph:
+          - generic: "Follow the companies you want to work for • Follow companies while setting up, or from any company page. • Their newest jobs that fit you show up together on the Search tab. • Get notified when a company you follow posts a job that fits what you're looking for. Profile tab redesign • Profile is redesigned from the ground up: everything about you, in one place. • A new Resume page shows each section at a glance, so you can see what's missing. • Search your profile to jump straight to any section, even with a typo. • Edit your full address on one screen, and tell us when you've moved. Free to apply • A new Free to apply deck on the Search tab: jobs you can apply to without using a credit. Get where you're going faster • Tap a job in one of our emails, or a job we recommend, and it opens on Explore, ready to swipe. • Notifications now take you straight to what they're about: a question on your application, the application itself, or your resume. A cleaner Search tab • Search opens on your decks, recent searches and suggestions, ready for you to look around. • Suggestions for companies to follow, based on what you're looking for. Polish and fixes • Fewer, simpler questions during setup. • Company pages scroll smoothly, with nothing sliding under the top bar. • Refreshed job cards. • Lots of smaller fixes and performance improvements."
+        - generic: 4.5.7
+        - time: Oct 2
+        - paragraph:
+          - generic: "- Revamped application citations - Faster and more thorough resume parsing - Richer user profiles - More transparency around job result quality - Application-level dive - Fewer required fields in onboarding"
+        - generic: 4.5.6
+        - time: Sep 25
+        - paragraph:
+          - generic: Re-design of application hold experience
+        - generic: 4.5.5
+        - time: Sep 18
+        - paragraph:
+          - generic: Bug fixes in the hold experience.
+        - generic: 4.5.4
+        - time: Sep 15
+        - paragraph:
+          - generic: New profile editors + profile holds.
+        - generic: 4.5.3
+        - time: Sep 13
+        - paragraph:
+          - generic: "- Added a new \"Dive\" . Dive lets you rabbit hole into jobs and companies - New onboarding and tutorial - Performance improvements Happy swiping!"
+        - generic: 4.5.2
+        - time: Sep 11
+        - paragraph:
+          - generic: New, richer profile editors + Improved application holds experience.
+        - generic: 4.5.1
+        - time: Sep 7
+        - paragraph:
+          - generic: "- new explore mode! - you can now review applications before they are submitted - added visibility into application process More to come... Happy swiping!"
+        - generic: 4.5.0
+        - time: Aug 21
+        - paragraph:
+          - generic: "- ui fixes / improvements Happy swiping!"
+        - generic: 4.4.2
+        - time: Aug 4
+        - paragraph:
+          - generic: "- new search tab to search for specific jobs and companies - redesigned job cards - tons of misc UI / UX improvements Happy swiping! More coming soon stay tuned..."
+        - generic: 4.4.1
+        - time: Aug 3
+        - paragraph:
+          - generic: "- Fixed some visual glitches on the app - Can now upload images to support Happy swiping!"
+        - generic: 4.4.0
+        - time: Jul 30
+        - paragraph:
+          - generic: "- added a help bot Happy swiping!"
+        - generic: 4.3.9
+        - time: Jul 27
+        - paragraph:
+          - generic: "- bug fixes"
+        - generic: 4.3.8
+        - time: Jul 13
+        - paragraph:
+          - generic: "- improved flow for adding a second resume - new applications page / inbox flow! - various bug fixes + improvements"
+        - generic: 4.3.7
+        - time: Jul 11
+        - paragraph:
+          - generic: "- many improvements to the application hold flow - you can now withdraw pending job applications - you can now bookmark jobs on your feed - new design system! - new app icon :) - liquid Glass on in app notifications"
+        - generic: 4.3.6
+        - time: Jun 16
+        - paragraph:
+          - generic: "- improvements to the application hold experience Happy swiping!"
+        - generic: 4.3.5
+        - time: Jun 4
+        - paragraph:
+          - generic: Bug fixes + Improved notifications
+        - generic: 4.3.4
+        - time: May 18
+        - paragraph:
+          - generic: "- bug fixes - school logos"
+        - generic: 4.3.3
+        - time: May 8
+    - generic "What’s New":
+      - paragraph:
+        - generic: • Update your profile to meet a job’s requirements and try applying again. • Bug fixes and performance improvements.
+      - generic: Version 4.6.4
+      - time: 6h ago
+  - region "App Privacy":
+    - button "App Privacy":
+      - link "App Privacy":
+        - /url: "#"
+        - heading "App Privacy" [level=2]
+    - paragraph:
+      - text: The developer, Sorce, indicated that the app’s privacy practices may include handling of data as described below. For more information, see the
+      - link "Developer’s Privacy Policy":
+        - /url: https://www.sorce.jobs/docs/privacy-policy
+        - generic: developer’s privacy policy
+      - text: .
+  - list:
+    - generic "Data Used to Track You":
+      - heading "Data Used to Track You" [level=3]
+      - paragraph: "The following data may be used to track you across apps and websites owned by other companies:"
+      - list:
+        - text: Identifiers
+    - generic "Data Linked to You":
+      - heading "Data Linked to You" [level=3]
+      - paragraph: "The following data may be collected and linked to your identity:"
+      - list:
+        - text: Identifiers
+  - paragraph:
+    - text: Privacy practices may vary, for example, based on the features you use or your age.
+    - link "Learn More":
+      - /url: https://apps.apple.com/us/iphone/story/id1538632801
+  - region "Accessibility":
+    - heading "Accessibility" [level=2]
+    - paragraph:
+      - text: The developer has not yet indicated which accessibility features this app supports.
+      - link "Learn More":
+        - /url: https://apps.apple.com/story/id1814164299
+  - region "Information":
+    - heading "Information" [level=2]
+    - term: Seller
+    - definition: RedantAI, Inc.
+    - term: Size
+    - definition: 87.3 MB
+    - term: Category
+    - definition: Business
+    - term: Compatibility
+    - definition:
+      - generic "Requires iOS 18.0 or later.":
+        - text: Requires iOS 18.0 or later.
+    - term: Languages
+    - definition: English
+    - term: Age Rating
+    - definition:
+      - generic "4+":
+        - text: 4+
+    - term: In-App Purchases
+    - definition:
+      - generic "Yes":
+        - text: "Yes"
+    - term: Copyright
+    - definition: © 2026 redantai, Inc
+  - link "Developer Website ↗":
+    - /url: https://sorce.jobs
+    - generic: Developer Website
+    - text: ↗
+  - link "Privacy Policy ↗":
+    - /url: https://www.sorce.jobs/docs/privacy-policy
+    - generic: Privacy Policy
+    - text: ↗
+  - region "You Might Also Like":
+    - link "You Might Also Like":
+      - /url: https://apps.apple.com/us/app/6504584959?see-all=customers-also-bought-apps&platform=iphone
+      - heading "You Might Also Like" [level=2]
+    - button "Previous Page" [disabled]:
+    - list:
+      - link "View Sprout - AI Job Search Land Your Dream Job":
+        - /url: https://apps.apple.com/us/app/sprout-ai-job-search/id6740011494
+        - generic: View
+        - generic: Sprout - AI Job Search
+        - generic: Land Your Dream Job
+      - link "View Bandana Job Search Jobs on a map, with real pay.":
+        - /url: https://apps.apple.com/us/app/bandana-job-search/id6755500772
+        - generic: View
+        - generic: Bandana Job Search
+        - generic: Jobs on a map, with real pay.
+      - link "View Jobright - AI Job Search Skip the hunt, land interviews":
+        - /url: https://apps.apple.com/us/app/jobright-ai-job-search/id6738236788
+        - generic: View
+        - generic: Jobright - AI Job Search
+        - generic: Skip the hunt, land interviews
+      - link "View Reflex - Flexible Retail Work Business":
+        - /url: https://apps.apple.com/us/app/reflex-flexible-retail-work/id1673159329
+        - generic: View
+        - generic: Reflex - Flexible Retail Work
+        - generic: Business
+      - 'link "View Robert Half: Job Search & More The right job is in reach"':
+        - /url: https://apps.apple.com/us/app/robert-half-job-search-more/id1400914659
+        - generic: View
+        - generic: "Robert Half: Job Search & More"
+        - generic: The right job is in reach
+      - 'link "View JobGet: Search and Apply Fast Find Work & Build Your Resume"':
+        - /url: https://apps.apple.com/us/app/jobget-search-and-apply-fast/id1436462309
+        - generic: View
+        - generic: "JobGet: Search and Apply Fast"
+        - generic: Find Work & Build Your Resume
+      - link "View Monster Job Search The best job search app around":
+        - /url: https://apps.apple.com/us/app/monster-job-search/id870221491
+        - generic: View
+        - generic: Monster Job Search
+        - generic: The best job search app around
+      - link "View Snagajob - Jobs Hiring Now Find flexible work, fast.":
+        - /url: https://apps.apple.com/us/app/snagajob-jobs-hiring-now/id333188676
+        - generic: View
+        - generic: Snagajob - Jobs Hiring Now
+        - generic: Find flexible work, fast.
+      - link "View SideShift - Earn Money Find jobs and get paid!":
+        - /url: https://apps.apple.com/us/app/sideshift-earn-money/id6481115809
+        - generic: View
+        - generic: SideShift - Earn Money
+        - generic: Find jobs and get paid!
+      - link:
+        - /url: https://apps.apple.com/us/app/remote-job-search-flexjobs/id800818884
+        - generic: View
+        - generic: Remote Job Search - FlexJobs
+        - generic: Find work from home jobs
+    - button "Next Page":
+- button "United States"
+- list:
+  - link "This page is available in Español (México)":
+    - /url: "?l=es-MX"
+    - text: Español (México)
+  - link "This page is available in العربية":
+    - /url: "?l=ar"
+    - text: العربية
+  - link "This page is available in Русский":
+    - /url: "?l=ru"
+    - text: Русский
+  - link "This page is available in 简体中文":
+    - /url: "?l=zh-Hans-CN"
+    - text: 简体中文
+  - link "This page is available in Français (France)":
+    - /url: "?l=fr-FR"
+    - text: Français (France)
+  - link "This page is available in 한국어":
+    - /url: "?l=ko"
+    - text: 한국어
+  - link "This page is available in Português (Brazil)":
+    - /url: "?l=pt-BR"
+    - text: Português (Brazil)
+  - link "This page is available in Tiếng Việt":
+    - /url: "?l=vi"
+    - text: Tiếng Việt
+  - link "This page is available in 繁體中文 (台灣)":
+    - /url: "?l=zh-Hant-TW"
+    - text: 繁體中文 (台灣)
+- paragraph:
+  - text: Copyright © 2026
+  - link "Apple Inc.":
+    - /url: https://www.apple.com
+  - text: All rights reserved.
+- list:
+  - link "Internet Service Terms":
+    - /url: https://www.apple.com/legal/internet-services/
+  - link "App Store & Privacy":
+    - /url: https://www.apple.com/legal/privacy/data/en/app-store/
+  - link "Cookie Warning":
+    - /url: https://www.apple.com/privacy/use-of-cookies/
+  - link "Support":
+    - /url: https://support.apple.com/billing

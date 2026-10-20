@@ -10,6 +10,7 @@
 const fs = require('fs').promises;
 const path = require('path');
 const ragConfig = require('../config/ragConfig.jsx');
+const { createHash } = require('crypto');
 const VectorStoreService = require('./vectorStoreService.jsx');
 
 class DocumentIngestionService {
@@ -153,11 +154,9 @@ class DocumentIngestionService {
     // Remove HTML tags
     text = text.replace(/<[^>]+>/g, '');
 
-    // Remove markdown links but keep text: [text](url) -> text
-    text = text.replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1');
-
-    // Remove images: ![alt](url)
+    // Remove images before links, so image syntax does not become visible text.
     text = text.replace(/!\[([^\]]*)\]\([^\)]+\)/g, '');
+    text = text.replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1');
 
     // Remove headers but keep text: ## Header -> Header
     text = text.replace(/^#{1,6}\s+/gm, '');
@@ -220,13 +219,17 @@ class DocumentIngestionService {
     }
 
     try {
-      const chunks = this._recursiveSplit(text, this.separators);
-      
-      // Validate chunk sizes
-      for (let i = 0; i < chunks.length; i++) {
-        if (chunks[i].length > this.chunkSize * 1.5) {
-          console.warn(`Warning: Chunk ${i} exceeds expected size: ${chunks[i].length} chars`);
+      const chunks = [];
+      let start = 0;
+      while (start < text.length) {
+        let end = Math.min(start + this.chunkSize, text.length);
+        if (end < text.length) {
+          const boundary = text.lastIndexOf(' ', end);
+          if (boundary > start + this.chunkSize / 2) end = boundary;
         }
+        chunks.push(text.slice(start, end));
+        if (end === text.length) break;
+        start = Math.max(start + 1, end - this.chunkOverlap);
       }
 
       return chunks.filter(chunk => chunk.trim().length > 0);
@@ -288,7 +291,7 @@ class DocumentIngestionService {
         text: chunk,
         metadata: {
           source: path.basename(filePath),
-          filePath: filePath,
+          id: createHash('sha256').update(path.relative(path.resolve(__dirname, '..'), filePath).replace(/\\/g, '/') + ':' + index).digest('hex'),
           chunkIndex: index,
           totalChunks: chunks.length,
           documentType: documentType,
@@ -376,7 +379,7 @@ class DocumentIngestionService {
       };
 
       // Process files in batches
-      const batchSize = 5;
+      const batchSize = 1;
       for (let i = 0; i < supportedFiles.length; i += batchSize) {
         const batch = supportedFiles.slice(i, i + batchSize);
         
@@ -393,7 +396,7 @@ class DocumentIngestionService {
             const documents = await this.processDocument(file);
             
             // Add to vector store
-            await this.vectorStore.addDocuments(documents);
+            if (documents.length) await this.vectorStore.addDocuments(documents);
             
             stats.filesProcessed++;
             stats.totalChunks += documents.length;

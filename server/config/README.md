@@ -1,3 +1,5 @@
+> Current vector store: Supabase pgvector. Chroma host/port settings are no longer used. See [setup](../docs/SUPABASE_SETUP.md).
+
 # RAG Configuration
 
 This directory contains the configuration for the RAG (Retrieval-Augmented Generation) chatbot system.
@@ -16,24 +18,24 @@ All parameters can be configured via environment variables in `server/.env`:
 - `RAG_CHUNK_OVERLAP` - Overlap between chunks (0-50%, default: 50)
 
 ### Retrieval Settings (Requirement 6.3)
-- `RAG_RETRIEVAL_COUNT` - Number of chunks to retrieve (1-10, default: 4)
+- `RAG_RETRIEVAL_COUNT` - Number of chunks to retrieve (1-10, default: 3)
 - `RAG_SIMILARITY_THRESHOLD` - Minimum similarity score (default: 0.5)
 
 ### Model Configuration
-- `RAG_EMBEDDING_MODEL` - Embedding model name (default: 'text-embedding-004')
-- `RAG_GENERATION_MODEL` - Generation model name (default: 'gemini-1.5-flash')
+- `RAG_EMBEDDING_MODEL` - Embedding model name (default: 'gemini-embedding-2')
+- `RAG_GENERATION_MODEL` - Generation model name (default: 'gemini-3.5-flash-lite')
 
 ### System Configuration
 - `RAG_MAX_HISTORY` - Maximum conversation history messages (default: 5)
 - `RAG_VECTOR_STORE_PATH` - Path to ChromaDB storage (default: './data/chroma')
-- `RAG_COLLECTION_NAME` - ChromaDB collection name (default: 'nextstep_docs')
+- `RAG_COLLECTION_NAME` - ChromaDB collection name (default: 'nextstep_docs_gemini-embedding-2_768')
 - `GEMINI_API_KEY` - Required API key for Google Gemini
 
 ## Validation
 
 The configuration module automatically validates all parameters on load:
 - Values outside valid ranges are rejected with warnings and defaults are used
-- Missing required values (like GEMINI_API_KEY) throw errors
+- A missing GEMINI_API_KEY disables AI requests with a configuration error; it does not prevent importing the server modules
 - All validation is tested in `ragConfig.test.js`
 
 ## Usage

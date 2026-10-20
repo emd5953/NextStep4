@@ -1,0 +1,303 @@
+- banner:
+  - link "Sorce home":
+    - /url: /employer
+    - generic: S
+  - list:
+    - link "How it works":
+      - /url: "#how-it-works"
+      - generic: How it works
+    - link "Customers":
+      - /url: "#customers"
+      - generic: Customers
+    - link "Developers":
+      - /url: https://docs.sorce.jobs
+      - generic: Developers
+  - link "Sign in":
+    - /url: /employer/auth
+    - generic: Sign in
+  - link "Join the waitlist":
+    - /url: https://handsomely-starflower-52c.notion.site/295ccccc497580269025db8b79203c3d?pvs=105
+    - generic: Join the waitlist
+    - generic: Join the waitlist
+- main:
+  - heading "A new way to hire." [level=1]
+  - paragraph: People swipe right on your job, an AI recruiter reviews every one, and only the qualified reach you.
+  - link "Join the waitlist":
+    - /url: https://handsomely-starflower-52c.notion.site/295ccccc497580269025db8b79203c3d?pvs=105
+    - generic: Join the waitlist
+    - generic: Join the waitlist
+  - heading "Fortune 500 companies hire from Sorce What does this mean? These are companies that have hired candidates who applied through Sorce, not necessarily Sorce customers." [level=2]:
+    - text: Fortune 500 companies hire from Sorce
+    - img "What does this mean?"
+    - tooltip "These are companies that have hired candidates who applied through Sorce, not necessarily Sorce customers."
+  - img "Autodesk"
+  - img "Stryker"
+  - img "Target"
+  - img "Couchbase"
+  - img "Walmart"
+  - img "General Electric"
+  - img "Rockwell Automation"
+  - img "UPS"
+  - img "Macy's"
+  - img "DoorDash"
+  - img "Robinhood"
+  - img "SpaceX"
+  - img "Dell"
+  - img "Boeing"
+  - img "Lyft"
+  - img "Instacart"
+  - img "FedEx"
+  - img "MongoDB"
+  - img "PUMA"
+  - img "Hitachi"
+  - img "Motorola"
+  - img "Bank of America"
+  - img "Arlo"
+  - img "New Balance"
+  - img "Palo Alto Networks"
+  - img "DHL"
+  - img "Abbott"
+  - img "Zendesk"
+  - img "Autodesk"
+  - img "Stryker"
+  - img "Target"
+  - img "Couchbase"
+  - img "Walmart"
+  - img "General Electric"
+  - img "Rockwell Automation"
+  - img "UPS"
+  - img "Macy's"
+  - img "DoorDash"
+  - img "Robinhood"
+  - img "SpaceX"
+  - img "Dell"
+  - img "Boeing"
+  - img "Lyft"
+  - img "Instacart"
+  - img "FedEx"
+  - img "MongoDB"
+  - img "PUMA"
+  - img "Hitachi"
+  - img "Motorola"
+  - img "Bank of America"
+  - img "Arlo"
+  - img "New Balance"
+  - img "Palo Alto Networks"
+  - img "DHL"
+  - img "Abbott"
+  - img "Zendesk"
+  - heading "How it works" [level=2]:
+    - generic "How it works":
+      - generic: H
+      - generic: o
+      - generic: w
+      - generic: i
+      - generic: t
+      - generic: w
+      - generic: o
+      - generic: r
+      - generic: k
+      - generic: s
+  - link "Join the waitlist":
+    - /url: https://handsomely-starflower-52c.notion.site/295ccccc497580269025db8b79203c3d?pvs=105
+    - generic: Join the waitlist
+    - generic: Join the waitlist
+  - text: "01"
+  - heading "You post." [level=3]
+  - paragraph: Describe the role you're hiring for, or import it straight from your ATS.
+  - generic: New role
+  - generic: Live
+  - generic: Account Executive
+  - generic: Remote
+  - generic: $120k OTE
+  - generic: J
+  - generic: M
+  - generic: R
+  - generic: Live to 2,400 reps nearby
+  - text: "02"
+  - heading "They swipe." [level=3]
+  - paragraph: People come to Sorce looking for their next job. When someone swipes on your role, they actually want it.
+  - generic: Your role
+  - generic: Product Designer
+  - generic: NYC · $140k
+  - generic: Figma
+  - generic: Design systems
+  - generic: Your role
+  - generic: Senior iOS Engineer
+  - generic: Remote · $185k
+  - generic: Swift
+  - generic: SwiftUI
+  - generic: 5+ years
+  - generic: Your role
+  - generic: Account Executive
+  - generic: Remote · $120k OTE
+  - generic: SaaS sales
+  - generic: 3+ years
+  - text: "03"
+  - heading "We screen." [level=3]
+  - paragraph: An AI recruiter checks every swipe against what matters to you, so the ones who don't make the cut never reach you.
+  - generic: DM
+  - generic: LT
+  - generic: VC
+  - generic: FH
+  - generic: NN
+  - generic: AV
+  - generic: HD
+  - generic: RJ
+  - generic: CP
+  - generic: KW
+  - generic: TE
+  - generic: EK
+  - generic: MR
+  - generic: WA
+  - generic: GF
+  - generic: PL
+  - generic: BS
+  - generic: JB
+  - generic: SG
+  - generic: DM
+  - generic: LT
+  - generic: VC
+  - generic: FH
+  - generic: NN
+  - generic: AI recruiter scans every applicant
+  - text: "04"
+  - heading "You meet." [level=3]
+  - paragraph: You're presented with the few people who fit your company best, and you can message them directly to learn more.
+  - generic: Maya Chen
+  - generic: Account Executive
+  - generic: Best fit
+  - generic: Hi Maya, loved your numbers. Free to chat?
+  - generic: Yes! Thursday at 2pm works.
+  - generic: Thu
+  - generic: "2"
+  - generic: Meeting scheduled
+  - generic: Thursday · 2:00 PM
+  - img "The Endeavor team"
+  - heading "Sorce was the best of every channel we've used. It was fast, the talent was exactly what we were looking for, and it actually felt like the team cared about helping us close the candidate, not just throwing resumes over the wall." [level=3]
+  - paragraph: Endeavor is the number-one AI platform for America's largest manufacturers and distributors. Backed by Craft Ventures and Contrary, the team is rebuilding how the physical economy runs, which means every engineer has to be exceptional. When Endeavor needed to move fast without lowering the bar, they turned to Sorce and closed two critical engineering hires in an average of a week and a half, each one exactly the caliber they were looking for.
+  - img "Endeavor"
+  - generic: Sami
+  - generic: Founder & CEO, Endeavor AI
+  - link "Read Story":
+    - /url: /blog/case-study-endeavor
+    - generic: Read Story
+    - generic: Read Story
+  - heading "We’re just getting started." [level=2]
+  - paragraph: And we’re still early.
+  - generic: 0M
+  - paragraph: swipes on real jobs
+  - generic: 0K
+  - paragraph: interviews a month. one a minute.
+  - generic: 0%
+  - paragraph: of the Fortune 100 has interviewed or hired our users
+  - heading "Worth a Read" [level=2]
+  - link "See our blog":
+    - /url: /blog
+    - generic: See our blog
+    - generic: See our blog
+  - link "Case Study Hiring is at the lifepoint of what we do Read more":
+    - /url: /blog/case-study-endeavor
+    - generic: Case Study
+    - heading "Hiring is at the lifepoint of what we do" [level=3]
+    - generic: Read more
+  - link "Case Study How Telepathic found a cracked engineer through Sorce Read more":
+    - /url: /blog/case-study-telepathic
+    - generic: Case Study
+    - heading "How Telepathic found a cracked engineer through Sorce" [level=3]
+    - generic: Read more
+  - link "News We joined Y Combinator Read more":
+    - /url: /blog/sorce-joins-y-combinator
+    - generic: News
+    - heading "We joined Y Combinator" [level=3]
+    - generic: Read more
+- contentinfo:
+  - heading "Hire the signal, skip the noise." [level=2]:
+    - generic "Hire the signal, skip the noise.":
+      - generic: H
+      - generic: i
+      - generic: r
+      - generic: e
+      - generic: t
+      - generic: h
+      - generic: e
+      - generic: s
+      - generic: i
+      - generic: g
+      - generic: "n"
+      - generic: a
+      - generic: l
+      - generic: ","
+      - generic: s
+      - generic: k
+      - generic: i
+      - generic: p
+      - generic: t
+      - generic: h
+      - generic: e
+      - generic: "n"
+      - generic: o
+      - generic: i
+      - generic: s
+      - generic: e
+      - generic: .
+  - link "Join the waitlist":
+    - /url: https://handsomely-starflower-52c.notion.site/295ccccc497580269025db8b79203c3d?pvs=105
+    - generic: Join the waitlist
+    - generic: Join the waitlist
+  - heading "Product" [level=3]
+  - link "How it works":
+    - /url: "#how-it-works"
+    - generic: How it works
+  - link "Customers":
+    - /url: "#customers"
+    - generic: Customers
+  - link "Join the waitlist":
+    - /url: https://handsomely-starflower-52c.notion.site/295ccccc497580269025db8b79203c3d?pvs=105
+    - generic: Join the waitlist
+  - heading "Developers" [level=3]
+  - link "Overview Docs":
+    - /url: https://docs.sorce.jobs
+    - generic: Overview Docs
+  - link "API Reference":
+    - /url: https://docs.sorce.jobs/api-reference/jobs/create-a-job
+    - generic: API Reference
+  - heading "Company" [level=3]
+  - link "About":
+    - /url: https://sorce.jobs/blog/tinder-for-jobs
+    - generic: About
+  - link "Careers":
+    - /url: https://www.ycombinator.com/companies/sorce/jobs
+    - generic: Careers
+  - link "Contact":
+    - /url: mailto:founders@sorce.jobs
+    - generic: Contact
+  - heading "Resources" [level=3]
+  - link "Blog":
+    - /url: https://sorce.jobs/blog
+    - generic: Blog
+  - link "Case studies":
+    - /url: https://sorce.jobs/docs/case-studies
+    - generic: Case studies
+  - link "Mobile app":
+    - /url: https://sorce.jobs/passport
+    - generic: Mobile app
+  - link "Security":
+    - /url: https://sorce.jobs/security
+    - generic: Security
+  - link "Terms":
+    - /url: https://sorce.jobs/docs/terms-and-conditions
+    - generic: Terms
+  - link "Privacy":
+    - /url: https://sorce.jobs/docs/privacy-policy
+    - generic: Privacy
+  - generic: © 2026 Sorce, all rights reserved.
+  - link "X":
+    - /url: https://x.com/sorcejobs
+  - link "Instagram":
+    - /url: https://www.instagram.com/sorcejobs/
+  - link "LinkedIn":
+    - /url: https://linkedin.com/company/sorcejobs
+  - link "TikTok":
+    - /url: https://www.tiktok.com/@sorcejobs
+- alert

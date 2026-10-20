@@ -1,0 +1,101 @@
+- banner:
+  - link "Sorce home":
+    - /url: /
+    - img "Sorce"
+  - navigation "Main navigation":
+    - link "Home":
+      - /url: /
+    - link "Employers":
+      - /url: /employer
+    - link "Blog":
+      - /url: /blog
+  - link "Download Sorce on the App Store":
+    - /url: https://apps.apple.com/us/app/sorce-ai-job-search/id6504584959?pt=126624664&ct=direct&mt=8
+    - img "Download on the App Store"
+- heading "Our Blog" [level=1]
+- paragraph: Thoughts on the labor market, from the people changing it.
+- link "We joined Y Combinator":
+  - /url: /blog/sorce-joins-y-combinator
+  - img "We joined Y Combinator"
+- generic: The Three D's
+- link "We joined Y Combinator":
+  - /url: /blog/sorce-joins-y-combinator
+  - heading "We joined Y Combinator" [level=2]
+- paragraph: Excited to share that Sorce is now a Y Combinator company.
+- link "What if Everyone Applied to Every Job?":
+  - /url: /blog/what-if-everyone-applied-to-every-job
+  - img "What if Everyone Applied to Every Job?"
+- generic: The Three D's
+- link "What if Everyone Applied to Every Job?":
+  - /url: /blog/what-if-everyone-applied-to-every-job
+  - heading "What if Everyone Applied to Every Job?" [level=2]
+- paragraph: Exploring how chance and inefficiency plague job searching, and how AI can help create the ideal job marketplace.
+- link "Hiring is at the lifepoint of what we do":
+  - /url: /blog/case-study-endeavor
+  - img "Hiring is at the lifepoint of what we do"
+- generic: Dada
+- link "Hiring is at the lifepoint of what we do":
+  - /url: /blog/case-study-endeavor
+  - heading "Hiring is at the lifepoint of what we do" [level=2]
+- paragraph: How Sorce helped Endeavor hire two critical engineering hires in an average of 1.5 weeks.
+- link "How Telepathic Found a Cracked Engineer Through Sorce":
+  - /url: /blog/case-study-telepathic
+  - img "How Telepathic Found a Cracked Engineer Through Sorce"
+- generic: Dada
+- link "How Telepathic Found a Cracked Engineer Through Sorce":
+  - /url: /blog/case-study-telepathic
+  - heading "How Telepathic Found a Cracked Engineer Through Sorce" [level=2]
+- paragraph
+- link:
+  - /url: /blog/tinder-for-jobs
+- generic: The Three D's
+- link "Tinder for Jobs":
+  - /url: /blog/tinder-for-jobs
+  - heading "Tinder for Jobs" [level=2]
+- paragraph: Learn how Sorce is making the job search experience 10x easier by turning the job search into a tinder like experience.
+- 'link "Top AI Tools for Job Search 2026: Compared & Reviewed"':
+  - /url: /blog/top-ai-job-search-tools-compared-review
+  - 'img "Top AI Tools for Job Search 2026: Compared & Reviewed"'
+- generic: Dada
+- 'link "Top AI Tools for Job Search 2026: Compared & Reviewed"':
+  - /url: /blog/top-ai-job-search-tools-compared-review
+  - 'heading "Top AI Tools for Job Search 2026: Compared & Reviewed" [level=2]'
+- paragraph: The top AI tools for job search in 2026, ranked, compared, and reviewed. Pricing, features, and which tool fits each kind of job seeker.
+- contentinfo:
+  - link "Sorce home":
+    - /url: /
+    - img "Sorce"
+  - paragraph: Download Sorce
+  - link "Download Sorce on the App Store":
+    - /url: https://apps.apple.com/us/app/sorce-ai-job-search/id6504584959?pt=126624664&ct=direct&mt=8
+    - img "Download on the App Store"
+  - navigation "Legal":
+    - heading "Legal" [level=2]
+    - link "Privacy Policy":
+      - /url: https://www.sorce.jobs/docs/privacy-policy
+    - link "Terms of Use":
+      - /url: https://www.sorce.jobs/docs/terms-and-conditions
+    - link "Security":
+      - /url: https://www.sorce.jobs/security
+  - navigation "Company":
+    - heading "Company" [level=2]
+    - link "FAQ":
+      - /url: https://www.sorce.jobs/articles/sorce-faq
+    - link "Contact":
+      - /url: mailto:founders@sorce.jobs
+    - link "For Employers":
+      - /url: https://www.sorce.jobs/employer
+    - link "Blog":
+      - /url: /blog
+    - link "Case Studies":
+      - /url: https://www.sorce.jobs/docs/case-studies
+  - paragraph: © 2026 Sorce. All rights reserved.
+  - navigation "Sorce social media":
+    - link "Sorce on LinkedIn":
+      - /url: https://linkedin.com/company/sorcejobs
+    - link "Sorce on Instagram":
+      - /url: https://www.instagram.com/sorcejobs/
+    - link "Sorce on TikTok":
+      - /url: https://www.tiktok.com/@sorcejobs
+    - link "Sorce on X":
+      - /url: https://x.com/sorcejobs

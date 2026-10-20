@@ -1,13 +1,15 @@
 // src/components/ChatWidget.js
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import ReactMarkdown from "react-markdown";
+import { TokenContext } from "./TokenContext";
 import "../styles/ChatWidget.css";
 
 // REMOVE THIS - No more direct API initialization
 // const ai = new GoogleGenAI({ apiKey: "" });
 
 const ChatWidget = () => {
+  const { token } = useContext(TokenContext);
   const [isMinimized, setIsMinimized] = useState(true); // Start minimized
   const [showPrompt, setShowPrompt] = useState(false); // Show "Ask me" prompt
   const [messages, setMessages] = useState([]); // Chat history
@@ -63,10 +65,11 @@ const ChatWidget = () => {
   const handleFeedback = async (messageId, feedbackType, query) => {
     try {
       const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
-      await fetch(`${API_URL}/api/rag-chat/feedback`, {
+      const result = await fetch(`${API_URL}/api/rag-chat/feedback`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
         body: JSON.stringify({
           messageId: messageId.toString(),
@@ -75,6 +78,7 @@ const ChatWidget = () => {
         }),
       });
 
+      if (!result.ok) throw new Error("Feedback could not be saved.");
       // Mark feedback as given for this message
       setFeedbackGiven(prev => ({ ...prev, [messageId]: feedbackType }));
     } catch (error) {
@@ -100,6 +104,7 @@ const ChatWidget = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
         body: JSON.stringify({ message: currentInput }),
       });
@@ -167,7 +172,7 @@ const ChatWidget = () => {
                         <div className="bot-content">
                           <div className="bot-name">NextStep Bot</div>
                           <ReactMarkdown>{msg.text}</ReactMarkdown>
-                          {msg.id && (
+                          {msg.id && token && (
                             <div className="feedback-buttons">
                               {!feedbackGiven[msg.id] ? (
                                 <>

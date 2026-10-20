@@ -1,0 +1,205 @@
+{
+  "research_date": "2026-10-15",
+  "timezone": "America/New_York",
+  "note": "SHA-256 of persisted evidence files. File modification times reflect acquisition or later minimization/packaging, not necessarily original page-load time. Exact network capture timestamp is in homepage-network.json.",
+  "files": [
+    {
+      "path": "app-store-dom.txt",
+      "bytes": 17315,
+      "sha256": "a3054c9bd02d795b013e75b87d52e0144e4320642b6fb7d7646625a0cf6db0e1",
+      "file_modified_utc": "2026-10-15T05:34:42.073578+00:00"
+    },
+    {
+      "path": "app-store-history-dom.txt",
+      "bytes": 24397,
+      "sha256": "1a5d43af8b527cfee2617444e304010883be6bbb225b2eeb59e0a933eb98425d",
+      "file_modified_utc": "2026-10-15T05:35:28.559786+00:00"
+    },
+    {
+      "path": "app-store-history.jpg",
+      "bytes": 95092,
+      "sha256": "383cf9003d8c21bcd1f897aa7c0b32ce4a6b11b560d99756a495d324cf1f7f2f",
+      "file_modified_utc": "2026-10-15T05:37:48.589813+00:00"
+    },
+    {
+      "path": "app-store.jpg",
+      "bytes": 48750,
+      "sha256": "2dec7eb4fa478ae86cddec748cd2f5c64d9e53fd39c287a70c45ae74aa98b6a1",
+      "file_modified_utc": "2026-10-15T05:34:43.914263+00:00"
+    },
+    {
+      "path": "blog-dom.txt",
+      "bytes": 4314,
+      "sha256": "654c7fdb6fb93c838a23fa4d1f0393690b660f54525d5123be7cc1c8a4183ac2",
+      "file_modified_utc": "2026-10-15T05:33:11.878009+00:00"
+    },
+    {
+      "path": "blog-links.json",
+      "bytes": 3064,
+      "sha256": "8c0e81402f2f39d306e7c579a3397b14002e0412be65ca9f90428d7a16e1a713",
+      "file_modified_utc": "2026-10-15T05:33:11.900238+00:00"
+    },
+    {
+      "path": "captured-homepage-scripts.zip",
+      "bytes": 320724,
+      "sha256": "0918cd58123544d0672f1433396192a7406ebd22c4e34fa4efa44683fdf96cdd",
+      "file_modified_utc": "2026-10-15T05:36:54.038831+00:00"
+    },
+    {
+      "path": "captured-scripts.json",
+      "bytes": 10263,
+      "sha256": "4320c862db25035c04c2e9986f289c4998cef8186c9844bfa4f886e320052f33",
+      "file_modified_utc": "2026-10-15T05:36:54.002288+00:00"
+    },
+    {
+      "path": "case-studies-dom.txt",
+      "bytes": 3902,
+      "sha256": "c616db9aaae04cf2143e85d586c46e5c1c7dd4027374e35e469985df6291ba85",
+      "file_modified_utc": "2026-10-15T05:33:10.573844+00:00"
+    },
+    {
+      "path": "case-studies-links.json",
+      "bytes": 4125,
+      "sha256": "6f395e3836bf77ca040acfddbf0077e9790f20243d9ecb1ad89b57416acb8a1c",
+      "file_modified_utc": "2026-10-15T05:33:10.640223+00:00"
+    },
+    {
+      "path": "download-dom.txt",
+      "bytes": 450,
+      "sha256": "cb3bf5259b331c6085bd187febb6a51dd7689a1df1bc2c927a3b5b5833f667a1",
+      "file_modified_utc": "2026-10-15T05:34:40.544105+00:00"
+    },
+    {
+      "path": "employer-dom.txt",
+      "bytes": 9519,
+      "sha256": "1642eb13b02426e597f863c7572ab1b6079217be12c1172c8c63924590650c4c",
+      "file_modified_utc": "2026-10-15T05:33:11.114323+00:00"
+    },
+    {
+      "path": "employer-links.json",
+      "bytes": 3762,
+      "sha256": "2101e8ee6890fa81cc9e539a718cec9b1ba393066ae3ebfd0d2e3236cf3123d9",
+      "file_modified_utc": "2026-10-15T05:33:11.172509+00:00"
+    },
+    {
+      "path": "faq-dom.txt",
+      "bytes": 10459,
+      "sha256": "18cfaf5ac2899cf1f12b8c1b39927372059ab552fb89ed70e4b2fb4489d6a3e8",
+      "file_modified_utc": "2026-10-15T05:32:44.421722+00:00"
+    },
+    {
+      "path": "homepage-attach-events.json",
+      "bytes": 12673,
+      "sha256": "b8a5e1a1506c7ddcce67a12a14ac0ecf47c0bfbbfdf9d46fc392652adc0000c0",
+      "file_modified_utc": "2026-10-15T05:36:54.040831+00:00"
+    },
+    {
+      "path": "homepage-dom.txt",
+      "bytes": 12481,
+      "sha256": "3e16207f28a4b330eec384b564859ef65de546300d035ac75138ae07a27b5613",
+      "file_modified_utc": "2026-10-15T05:31:28.712367+00:00"
+    },
+    {
+      "path": "homepage-features.jpg",
+      "bytes": 54247,
+      "sha256": "acd4d754c714e559dc465e50e0a60001c484b61e0ced99ef8a702ec4d41650f7",
+      "file_modified_utc": "2026-10-15T05:37:50.213267+00:00"
+    },
+    {
+      "path": "homepage-links.json",
+      "bytes": 1972,
+      "sha256": "3fb6f6bf209743027823d90fa16404529f2bda56b5f3307a9b47f5808dd046f4",
+      "file_modified_utc": "2026-10-15T05:31:28.747200+00:00"
+    },
+    {
+      "path": "homepage-network.json",
+      "bytes": 48489,
+      "sha256": "254127b1913f59fe20d2d5fc0ac0b5917f0643f5280e802c232bba5d99f2685a",
+      "file_modified_utc": "2026-10-15T05:32:43.736413+00:00"
+    },
+    {
+      "path": "homepage-rea.json.gz",
+      "bytes": 14004525,
+      "sha256": "ba8d3d4268f2073b3faba9fbca04e10ae202d9a4a78b72fd770e78e8c9408825",
+      "file_modified_utc": "2026-10-15T05:36:53.996776+00:00"
+    },
+    {
+      "path": "homepage-review.jpg",
+      "bytes": 54778,
+      "sha256": "cfc9d5bbc9e67f153573d4dc1b8a316a43a693d32012e69a1b9426fa90c4cac9",
+      "file_modified_utc": "2026-10-15T05:38:07.412315+00:00"
+    },
+    {
+      "path": "homepage-storage-keys.json",
+      "bytes": 206,
+      "sha256": "9b2a5dc65ee38cbbc5915de6916a588c8787bf827240a5f2aad1a5f2374494dc",
+      "file_modified_utc": "2026-10-15T05:32:43.749930+00:00"
+    },
+    {
+      "path": "homepage.jpg",
+      "bytes": 96709,
+      "sha256": "b98e59fc62d08b6198c52d30aad7b6f84a9fa7b37575128252888ecefbb89ba0",
+      "file_modified_utc": "2026-10-15T05:31:28.663054+00:00"
+    },
+    {
+      "path": "page-index.json",
+      "bytes": 2234,
+      "sha256": "192eaae381a1da1fd7addca40c22400334900a02d858cf9a90fbc5ed173164e3",
+      "file_modified_utc": "2026-10-15T05:34:42.080593+00:00"
+    },
+    {
+      "path": "pricing-dom.txt",
+      "bytes": 9530,
+      "sha256": "5d32236344d6fa4e888927274d283447ad35718a77fa572d5a63154b55479f4d",
+      "file_modified_utc": "2026-10-15T05:34:40.238887+00:00"
+    },
+    {
+      "path": "privacy-dom.txt",
+      "bytes": 8938,
+      "sha256": "cb59440ffcb24039246fe9be88b2ea215792415e887da4d72096546477bf9e34",
+      "file_modified_utc": "2026-10-15T05:33:09.595398+00:00"
+    },
+    {
+      "path": "privacy-links.json",
+      "bytes": 2866,
+      "sha256": "c87fc4c2232a349611964ee8158100584696ffa83cdfb92a336b217d8aa60527",
+      "file_modified_utc": "2026-10-15T05:33:09.668173+00:00"
+    },
+    {
+      "path": "rea-analysis-summary.json",
+      "bytes": 57564,
+      "sha256": "5b9b958162e791435c995424f3933e2694293d3d3f48ccf177e5f0ad4b23cbe4",
+      "file_modified_utc": "2026-10-15T05:36:52.500823+00:00"
+    },
+    {
+      "path": "security-dom.txt",
+      "bytes": 2162,
+      "sha256": "e23f8542508e0a9a571ca7c2b47dde8524ede7774212d3b217fd81b100106e6d",
+      "file_modified_utc": "2026-10-15T05:33:10.292615+00:00"
+    },
+    {
+      "path": "security-links.json",
+      "bytes": 2594,
+      "sha256": "38dbc65b73d1c47e9ac1ef03ffb1b77cb4fad9b2db0481aecb922c5c7e740a3f",
+      "file_modified_utc": "2026-10-15T05:33:10.327745+00:00"
+    },
+    {
+      "path": "terms-dom.txt",
+      "bytes": 9508,
+      "sha256": "53930779a16e4e37d3b4a00a02d5e34c8460041aa0fb6efae0ad20710257ca2a",
+      "file_modified_utc": "2026-10-15T05:33:09.948808+00:00"
+    },
+    {
+      "path": "terms-links.json",
+      "bytes": 2888,
+      "sha256": "726f39070b44adb8d4a94013a1c384b63bc9ec48c3aec626dd6d17c2c82681c1",
+      "file_modified_utc": "2026-10-15T05:33:09.987865+00:00"
+    },
+    {
+      "path": "tutorial-dom.txt",
+      "bytes": 9368,
+      "sha256": "e537974812c9bb982c5a08b42767eec824283e171010f772f670d9284caddd54",
+      "file_modified_utc": "2026-10-15T05:34:39.812305+00:00"
+    }
+  ]
+}

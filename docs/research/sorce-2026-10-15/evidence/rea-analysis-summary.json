@@ -1,0 +1,1949 @@
+{
+  "note": "Derived projection of the unchanged REA Evidence archived in homepage-rea.json.gz, not a new REA Evidence record.",
+  "evidence_id": "ev_757134b24bd5bb9cf4fead305eee8ab42de4068e13bd87175fe7bdd85327c77d",
+  "rea_version": "6.5.0",
+  "skill_version": "42",
+  "rea_repository_commit": "cf0a38ad9774ee9acff3164052688f7a58a1c72c",
+  "command": "npx --yes rea-agents@6.5.0 analyze-javascript-application captured-homepage --max-semantic-nodes 40000 --max-semantic-nodes-per-file 8000 --analysis-timeout-ms 60000 --json",
+  "root_artifact_sha256": "1659cc8651dbb08de162f7b00d58f00c8896be7e0a329be26471c62dee74eede",
+  "statistics": {
+    "relevant_files": 25,
+    "nested_asar_containers": 0,
+    "text_bytes_read": 1023950,
+    "invalid_utf8_files": 0,
+    "parsed_javascript_files": 25,
+    "visited_ast_nodes": 295260,
+    "findings": 772,
+    "modules": 292,
+    "parse_failures": 0
+  },
+  "graph_coverage": {
+    "status": "partial",
+    "truncated": false,
+    "omitted_count": null,
+    "limits": []
+  },
+  "graph_node_kinds": {
+    "javascript-module": 457,
+    "javascript-chunk": 25,
+    "storage": 16,
+    "javascript-asset": 25,
+    "endpoint": 9,
+    "artifact": 1
+  },
+  "graph_edge_kinds": {
+    "imports": 716,
+    "persists_to": 20,
+    "contains": 367,
+    "loads": 1,
+    "exposes": 3,
+    "calls": 8
+  },
+  "semantic_coverage": {
+    "status": "partial",
+    "truncated": true,
+    "omitted_nodes": null,
+    "omitted_relations": null,
+    "limits": [
+      {
+        "name": "semantic_graph_file_node_ceiling",
+        "value": 8000,
+        "unit": "items"
+      },
+      {
+        "name": "semantic_graph_node_ceiling",
+        "value": 40000,
+        "unit": "items"
+      }
+    ]
+  },
+  "limitations": [
+    "CommonJS and ESM binding relationships were recovered from inert syntax and resolved only within the inventoried artifact container.",
+    "Graph coverage is incomplete; unavailable facts remain explicit and must not be read as absence.",
+    "JavaScript and HTML were parsed as inert text; bundle bootstrap code was never executed.",
+    "Static imports, entrypoints, workers, endpoints, and storage relationships do not prove runtime execution.",
+    "Static paths and relationships may remain unresolved when expressions are dynamic or obfuscated.",
+    "Webpack/Rspack factories were recovered from AST literals; REA did not invoke push handlers or bundle bootstrap code."
+  ],
+  "nodes": [
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_010c4dafdfce85c64b43ba857e4735e115059a3dc68200860f556530b06abfc8",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:5878",
+          "properties": {
+            "path": "9da6db1e-f850445e77132b1c.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "5878"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": null,
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 0,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 1
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "9da6db1e-f850445e77132b1c.js",
+              "start": {
+                "line": 1,
+                "column": 13
+              },
+              "end": {
+                "line": 1,
+                "column": 193623
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "storage",
+      "node_id": "jag_node_06d9dde9bb6bb291534c467cb8fc2ea41dcf090234cbece4e2f52608a7f563ea",
+      "observations": [
+        {
+          "label": "local-storage",
+          "properties": {
+            "storage_kind": "local-storage",
+            "name": null,
+            "mechanism": "call:localStorage.removeItem"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "9da6db1e-f850445e77132b1c.js",
+              "start": {
+                "line": 1,
+                "column": 127086
+              },
+              "end": {
+                "line": 1,
+                "column": 127112
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_0daa2d5a498d3896644e578a98001e94c7f560aef7062e379759c71c3a7dfe56",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:6618",
+          "properties": {
+            "path": "6618-98875bea5f99f771.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "6618"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": null,
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 0,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 2
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "6618-98875bea5f99f771.js",
+              "start": {
+                "line": 1,
+                "column": 13
+              },
+              "end": {
+                "line": 1,
+                "column": 21620
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "endpoint",
+      "node_id": "jag_node_0f0064b7e52b89fde70561ffaca30df9b0b3a8788b82652694b747befc1d2208",
+      "observations": [
+        {
+          "label": "/__cookies__",
+          "properties": {
+            "endpoint_kind": "network",
+            "value": "/__cookies__",
+            "mechanism": "call:fetch"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "0d36cfa1-229c8f7b412d3ed5.js",
+              "start": {
+                "line": 1,
+                "column": 58345
+              },
+              "end": {
+                "line": 1,
+                "column": 58384
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "endpoint",
+      "node_id": "jag_node_0f0e969de751c2fce9d569ffa2b552eacf7b8a7d46e72f4465ed684efc0b9ab6",
+      "observations": [
+        {
+          "label": "utm_source",
+          "properties": {
+            "endpoint_kind": "network",
+            "value": "utm_source",
+            "mechanism": "call:e.get",
+            "interpretation": "candidate"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "4196-937ffd378891ec7e.js",
+              "start": {
+                "line": 1,
+                "column": 449
+              },
+              "end": {
+                "line": 1,
+                "column": 468
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "storage",
+      "node_id": "jag_node_0f1f0126224e8b334246cb8d08d5324f8f6434579a3975a75c7e3e6f93b89760",
+      "observations": [
+        {
+          "label": "session-storage",
+          "properties": {
+            "storage_kind": "session-storage",
+            "name": null,
+            "mechanism": "call:window.sessionStorage.getItem"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "layout-1a140042fadad6a2.js",
+              "start": {
+                "line": 1,
+                "column": 1717
+              },
+              "end": {
+                "line": 1,
+                "column": 1749
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_1377732c51a5d1c9407404ef663a29f6585a0e3aa27b1e0443bfdfc3a2adf9f0",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:8685",
+          "properties": {
+            "path": "8685-d38ac681de0feaaf.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "8685"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": null,
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 0,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 8
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "8685-d38ac681de0feaaf.js",
+              "start": {
+                "line": 1,
+                "column": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 30695
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_13aae3983fde3bd0fcb734c03fe8d47beb643dd7bd7ad3ca34b36d02efcef8e1",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:405",
+          "properties": {
+            "path": "page-584b2873d760ef34.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "405"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": "e",
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 1,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 4
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "page-584b2873d760ef34.js",
+              "start": {
+                "line": 1,
+                "column": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 5593
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_19bf3f37f39ecf478e480d45b97a47e13a16a10e80f8e99d6f76e7641db9a456",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:3464",
+          "properties": {
+            "path": "3464-97662804f4b56150.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "3464"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": null,
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 0,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 2
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "3464-97662804f4b56150.js",
+              "start": {
+                "line": 1,
+                "column": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 58876
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_1a910a50c497c21bc67aeb6a535ffe5260e7ae11f2ddffd64537b107d900df0b",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:7819",
+          "properties": {
+            "path": "7819-7e6b97dc6cb02dde.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "7819"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": null,
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 0,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 75
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "7819-7e6b97dc6cb02dde.js",
+              "start": {
+                "line": 1,
+                "column": 13
+              },
+              "end": {
+                "line": 1,
+                "column": 125412
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "endpoint",
+      "node_id": "jag_node_1d0cd7f47bbd0a97853fd0e00d04dd9982cda5631ae79a2cf27f162012d591ca",
+      "observations": [
+        {
+          "label": "[]",
+          "properties": {
+            "endpoint_kind": "network",
+            "value": "[]",
+            "mechanism": "call:children.get",
+            "interpretation": "candidate"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "2972-b07fe05c65815063.js",
+              "start": {
+                "line": 1,
+                "column": 21373
+              },
+              "end": {
+                "line": 1,
+                "column": 21396
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_21616e332cf8bc591505399d0887c24d085aae455598a3c09d9a5bc9dfa9561a",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:1455",
+          "properties": {
+            "path": "1455-50b82a56d579ca40.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "1455"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": null,
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 0,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 1
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "1455-50b82a56d579ca40.js",
+              "start": {
+                "line": 1,
+                "column": 13
+              },
+              "end": {
+                "line": 1,
+                "column": 19405
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_2a78acaba9b0e1489e56e285d45c564100cc6f33005cac2f57255c3c8b83fad6",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:6744",
+          "properties": {
+            "path": "6744-9654e9677fe94af8.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "6744"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": null,
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 0,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 5
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "6744-9654e9677fe94af8.js",
+              "start": {
+                "line": 1,
+                "column": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 9103
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "storage",
+      "node_id": "jag_node_2cec08c5d7ac625a5328d9e30ca7b460fce7f7b9bf277239b584ce4e4a95f0bb",
+      "observations": [
+        {
+          "label": "local-storage",
+          "properties": {
+            "storage_kind": "local-storage",
+            "name": null,
+            "mechanism": "call:o.localStorage.setItem"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "9da6db1e-f850445e77132b1c.js",
+              "start": {
+                "line": 1,
+                "column": 23984
+              },
+              "end": {
+                "line": 1,
+                "column": 24027
+              }
+            }
+          }
+        },
+        {
+          "label": "local-storage",
+          "properties": {
+            "storage_kind": "local-storage",
+            "name": null,
+            "mechanism": "call:o.localStorage.setItem"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "9da6db1e-f850445e77132b1c.js",
+              "start": {
+                "line": 1,
+                "column": 74351
+              },
+              "end": {
+                "line": 1,
+                "column": 74423
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "storage",
+      "node_id": "jag_node_2e6f1e1ffa3ab138d5a44e2dcb08930d92d117260c2b9db2abcdc899293a6ffe",
+      "observations": [
+        {
+          "label": "local-storage",
+          "properties": {
+            "storage_kind": "local-storage",
+            "name": null,
+            "mechanism": "call:localStorage.key"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "9da6db1e-f850445e77132b1c.js",
+              "start": {
+                "line": 1,
+                "column": 126994
+              },
+              "end": {
+                "line": 1,
+                "column": 127013
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "storage",
+      "node_id": "jag_node_3a30c9f2fae78ddf90506ab6e8ad14f8364a70e0e3cc4c19733a6a41f37da037",
+      "observations": [
+        {
+          "label": "indexed-db",
+          "properties": {
+            "storage_kind": "indexed-db",
+            "name": null,
+            "mechanism": "call:indexedDB.open"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "8685-d38ac681de0feaaf.js",
+              "start": {
+                "line": 1,
+                "column": 18758
+              },
+              "end": {
+                "line": 1,
+                "column": 18777
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_3f1f86df39970409123fca1dbb1e918c85dfa2d13fa8d0d6f7b5d64fde071961",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:2790",
+          "properties": {
+            "path": "2790-3d8c8455dd7922c1.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "2790"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": null,
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 0,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 10
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "2790-3d8c8455dd7922c1.js",
+              "start": {
+                "line": 1,
+                "column": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 13541
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_42bcbeae04e351bd320e19bcb6af5d5f8f234d543355c99300a316cf967bfada",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:3185",
+          "properties": {
+            "path": "layout-1a140042fadad6a2.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "3185"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": "e",
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 1,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 7
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "layout-1a140042fadad6a2.js",
+              "start": {
+                "line": 1,
+                "column": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 4107
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_43fa528d3145213dacaf589b686c0a0ac38290a60264a8062f8b901996216448",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:2117",
+          "properties": {
+            "path": "2117-033d1436328a5aa0.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "2117"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": null,
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 0,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 1,
+            "module_count": 112
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "2117-033d1436328a5aa0.js",
+              "start": {
+                "line": 1,
+                "column": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 33741
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_4fc46a1a47826bcbfdcaeee1c1bcfcf0ea577a0b4deb987ccac790d5c4f33253",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:1744",
+          "properties": {
+            "path": "main-app-9312aa7f29a48aee.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "1744"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": "e",
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 1,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 1
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "main-app-9312aa7f29a48aee.js",
+              "start": {
+                "line": 1,
+                "column": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 470
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "storage",
+      "node_id": "jag_node_5b173ce923da541e207a0a5fdb15dff7016a40ae5c6d082d7ebef73b34063c25",
+      "observations": [
+        {
+          "label": "indexed-db",
+          "properties": {
+            "storage_kind": "indexed-db",
+            "name": null,
+            "mechanism": "call:self.indexedDB.open"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "8685-d38ac681de0feaaf.js",
+              "start": {
+                "line": 1,
+                "column": 5881
+              },
+              "end": {
+                "line": 1,
+                "column": 5903
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_63252d1caa7b8e69b6896dfc51d326a4038ed92ca90d578ad909ae2d1249c555",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:4196",
+          "properties": {
+            "path": "4196-937ffd378891ec7e.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "4196"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": null,
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 0,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 6
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "4196-937ffd378891ec7e.js",
+              "start": {
+                "line": 1,
+                "column": 13
+              },
+              "end": {
+                "line": 1,
+                "column": 13605
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "storage",
+      "node_id": "jag_node_73b50f40c8dc8b1c5482d2467b4b96c6c7a307a3ee7ec5f6f5954c8c0c8692de",
+      "observations": [
+        {
+          "label": "ph_debug",
+          "properties": {
+            "storage_kind": "local-storage",
+            "name": "ph_debug",
+            "mechanism": "call:localStorage.setItem"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "9da6db1e-f850445e77132b1c.js",
+              "start": {
+                "line": 1,
+                "column": 192305
+              },
+              "end": {
+                "line": 1,
+                "column": 192344
+              }
+            }
+          }
+        },
+        {
+          "label": "ph_debug",
+          "properties": {
+            "storage_kind": "local-storage",
+            "name": "ph_debug",
+            "mechanism": "call:localStorage.removeItem"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "9da6db1e-f850445e77132b1c.js",
+              "start": {
+                "line": 1,
+                "column": 192069
+              },
+              "end": {
+                "line": 1,
+                "column": 192104
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_7494dac9eab3ee181c4a21bdff4cedcc9250bdefe9ef2b415288a75dddcb5b30",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:2971",
+          "properties": {
+            "path": "fd9d1056-41ce205d8e0c6ad6.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "2971"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": null,
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 0,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 1
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "fd9d1056-41ce205d8e0c6ad6.js",
+              "start": {
+                "line": 1,
+                "column": 13
+              },
+              "end": {
+                "line": 1,
+                "column": 172836
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_7a69ed8b08c1be93363dadca0e1b6f3f369e6376f3a46a0ffe9079959b312d52",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:2833",
+          "properties": {
+            "path": "2833-a88bddd96678ad30.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "2833"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": null,
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 0,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 1
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "2833-a88bddd96678ad30.js",
+              "start": {
+                "line": 1,
+                "column": 13
+              },
+              "end": {
+                "line": 1,
+                "column": 13081
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_7c7897b63debb9a45d7bbe1129d42e440a9b09d9220570a3073f11f0aebd3ed6",
+      "observations": [
+        {
+          "label": "webpack-bootstrap@83:bootstrap@83",
+          "properties": {
+            "path": "3464-97662804f4b56150.js",
+            "bundler": "webpack",
+            "runtime": "webpack-bootstrap@83",
+            "chunk_keys": [
+              "bootstrap@83"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": "n",
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [
+              "72"
+            ],
+            "unknown_entry_module_keys": 0,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 3
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "3464-97662804f4b56150.js",
+              "start": {
+                "line": 1,
+                "column": 83
+              },
+              "end": {
+                "line": 1,
+                "column": 22633
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_7e3aad99ccdca1663bac90d50757556a5e11c94ccefd3af6a88e430cc21ac8e7",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:2972",
+          "properties": {
+            "path": "2972-b07fe05c65815063.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "2972"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": null,
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 0,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 20
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "2972-b07fe05c65815063.js",
+              "start": {
+                "line": 1,
+                "column": 13
+              },
+              "end": {
+                "line": 1,
+                "column": 26119
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_87ba4fbde30c52c165508a1b94e12278527e3b7f39d2a88021828223f46a140f",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:2843,2876,4341,6222,772,7906,8259,9160,9266",
+          "properties": {
+            "path": "not-found-ac739c7426e41d69.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "2843",
+              "2876",
+              "4341",
+              "6222",
+              "772",
+              "7906",
+              "8259",
+              "9160",
+              "9266"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": "n",
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 1,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 1
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "not-found-ac739c7426e41d69.js",
+              "start": {
+                "line": 1,
+                "column": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 258
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "endpoint",
+      "node_id": "jag_node_90e972e78d9a161ed06901209b6e11d7f1386ac30bb7d2aef0d89f24ec6e54be",
+      "observations": [
+        {
+          "label": "ph_debug",
+          "properties": {
+            "endpoint_kind": "network",
+            "value": "ph_debug",
+            "mechanism": "call:tO.get",
+            "interpretation": "candidate"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "9da6db1e-f850445e77132b1c.js",
+              "start": {
+                "line": 1,
+                "column": 186083
+              },
+              "end": {
+                "line": 1,
+                "column": 186101
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "storage",
+      "node_id": "jag_node_921527a95de917112f488f27d89a107186e97e7b392a699fb7707cd900e377aa",
+      "observations": [
+        {
+          "label": "test",
+          "properties": {
+            "storage_kind": "local-storage",
+            "name": "test",
+            "mechanism": "call:o.localStorage.removeItem"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "9da6db1e-f850445e77132b1c.js",
+              "start": {
+                "line": 1,
+                "column": 73306
+              },
+              "end": {
+                "line": 1,
+                "column": 73339
+              }
+            }
+          }
+        },
+        {
+          "label": "test",
+          "properties": {
+            "storage_kind": "local-storage",
+            "name": "test",
+            "mechanism": "call:o.localStorage.setItem"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "9da6db1e-f850445e77132b1c.js",
+              "start": {
+                "line": 1,
+                "column": 73268
+              },
+              "end": {
+                "line": 1,
+                "column": 73305
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "storage",
+      "node_id": "jag_node_9694bc52d8cf2569e3b99106cf5ba614cbd9be6f5931bbb9c4c6e5555958e847",
+      "observations": [
+        {
+          "label": "indexed-db",
+          "properties": {
+            "storage_kind": "indexed-db",
+            "name": null,
+            "mechanism": "call:indexedDB.open"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "0d36cfa1-229c8f7b412d3ed5.js",
+              "start": {
+                "line": 1,
+                "column": 62011
+              },
+              "end": {
+                "line": 1,
+                "column": 62031
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_9fa661fcffed7c5887fe4b80ca42984cd3afcc2e8ec206c75036167fee6076c5",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:447",
+          "properties": {
+            "path": "447-fefec5dcb6e6d277.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "447"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": null,
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 0,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 8
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "447-fefec5dcb6e6d277.js",
+              "start": {
+                "line": 1,
+                "column": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 24594
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_a2b804762eba846fad697eeb7fee307310a66d1b6855e4574fe490b5f3783d54",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:6137",
+          "properties": {
+            "path": "6137-03d2cd0024eec2f8.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "6137"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": null,
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 0,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 2
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "6137-03d2cd0024eec2f8.js",
+              "start": {
+                "line": 1,
+                "column": 13
+              },
+              "end": {
+                "line": 1,
+                "column": 20183
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "endpoint",
+      "node_id": "jag_node_a7295f73291922c393f01e68e249ad94333f19e243fd5ae7a092f8d54db35ab3",
+      "observations": [
+        {
+          "label": "/_next/image",
+          "properties": {
+            "endpoint_kind": "route",
+            "value": "/_next/image",
+            "mechanism": "property:path"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "6157-80ffe98dd051ba11.js",
+              "start": {
+                "line": 1,
+                "column": 1601
+              },
+              "end": {
+                "line": 1,
+                "column": 1620
+              }
+            }
+          }
+        },
+        {
+          "label": "/_next/image",
+          "properties": {
+            "endpoint_kind": "route",
+            "value": "/_next/image",
+            "mechanism": "property:path"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "6157-80ffe98dd051ba11.js",
+              "start": {
+                "line": 1,
+                "column": 13647
+              },
+              "end": {
+                "line": 1,
+                "column": 13666
+              }
+            }
+          }
+        },
+        {
+          "label": "/_next/image",
+          "properties": {
+            "endpoint_kind": "route",
+            "value": "/_next/image",
+            "mechanism": "property:path"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "6157-80ffe98dd051ba11.js",
+              "start": {
+                "line": 1,
+                "column": 12876
+              },
+              "end": {
+                "line": 1,
+                "column": 12895
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "endpoint",
+      "node_id": "jag_node_a96af19b90beb81f9516ef6a4092528dfa0769df9467ad51e9aecca1445c317d",
+      "observations": [
+        {
+          "label": "[...]",
+          "properties": {
+            "endpoint_kind": "network",
+            "value": "[...]",
+            "mechanism": "call:children.get",
+            "interpretation": "candidate"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "2972-b07fe05c65815063.js",
+              "start": {
+                "line": 1,
+                "column": 21730
+              },
+              "end": {
+                "line": 1,
+                "column": 21756
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_b803e8fdbac19550e273260e84ed62de1adaac30e17923b73a592a0bde479f7b",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:2982",
+          "properties": {
+            "path": "0d36cfa1-229c8f7b412d3ed5.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "2982"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": null,
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 0,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 1
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "0d36cfa1-229c8f7b412d3ed5.js",
+              "start": {
+                "line": 1,
+                "column": 13
+              },
+              "end": {
+                "line": 1,
+                "column": 88701
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_b893afe9670bc95f06b5ea6316fd6ab3757f86f0835fa0802b3e690308285cbd",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:175",
+          "properties": {
+            "path": "175-e6eb4932356761c6.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "175"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": null,
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 0,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 4
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "175-e6eb4932356761c6.js",
+              "start": {
+                "line": 1,
+                "column": 13
+              },
+              "end": {
+                "line": 1,
+                "column": 26909
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "storage",
+      "node_id": "jag_node_bf3fb68fb38847fc517e95223dd85d979cf1889088dffce2e077e487522ef173",
+      "observations": [
+        {
+          "label": "lastSeenSurveyDate",
+          "properties": {
+            "storage_kind": "local-storage",
+            "name": "lastSeenSurveyDate",
+            "mechanism": "call:localStorage.removeItem"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "9da6db1e-f850445e77132b1c.js",
+              "start": {
+                "line": 1,
+                "column": 126892
+              },
+              "end": {
+                "line": 1,
+                "column": 126937
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "endpoint",
+      "node_id": "jag_node_c6ca12b6ae7c9798ddeac02d8093f107e6b0a169dc99d8e1e4d3b2c6f8934004",
+      "observations": [
+        {
+          "label": "[[...]]",
+          "properties": {
+            "endpoint_kind": "network",
+            "value": "[[...]]",
+            "mechanism": "call:children.get",
+            "interpretation": "candidate"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "2972-b07fe05c65815063.js",
+              "start": {
+                "line": 1,
+                "column": 21843
+              },
+              "end": {
+                "line": 1,
+                "column": 21871
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "storage",
+      "node_id": "jag_node_c8fd9d6d76e52eb27cd1db937ead247f15f8b298682676c872d6f7265702acae",
+      "observations": [
+        {
+          "label": "session-storage",
+          "properties": {
+            "storage_kind": "session-storage",
+            "name": null,
+            "mechanism": "call:o.sessionStorage.setItem"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "9da6db1e-f850445e77132b1c.js",
+              "start": {
+                "line": 1,
+                "column": 25295
+              },
+              "end": {
+                "line": 1,
+                "column": 25340
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_c94877b0d8c2ea16d7eead9e801207e37f848dc505da91ae15945683fe2687a3",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:6157",
+          "properties": {
+            "path": "6157-80ffe98dd051ba11.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "6157"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": null,
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 0,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 13
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "6157-80ffe98dd051ba11.js",
+              "start": {
+                "line": 1,
+                "column": 13
+              },
+              "end": {
+                "line": 1,
+                "column": 15124
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_c9eea83d1d2df577d9795626d199d0b199d899138a7998c1bf655582d32f1f58",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:7043",
+          "properties": {
+            "path": "7043-063ab398cfaf690d.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "7043"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": null,
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 0,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 1
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "7043-063ab398cfaf690d.js",
+              "start": {
+                "line": 1,
+                "column": 13
+              },
+              "end": {
+                "line": 1,
+                "column": 6928
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "endpoint",
+      "node_id": "jag_node_dbfde6e2944d85ca56c94127991b5197c5dc11fc0d5d7128e01d7f04de419d93",
+      "observations": [
+        {
+          "label": null,
+          "properties": {
+            "endpoint_kind": "network",
+            "value": "",
+            "mechanism": "call:fetch"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "2117-033d1436328a5aa0.js",
+              "start": {
+                "line": 1,
+                "column": 69054
+              },
+              "end": {
+                "line": 1,
+                "column": 69296
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "storage",
+      "node_id": "jag_node_e0403c16112bae45452f06909fef6a18e4d838524a110957fcdb258048aa3f94",
+      "observations": [
+        {
+          "label": "session-storage",
+          "properties": {
+            "storage_kind": "session-storage",
+            "name": null,
+            "mechanism": "call:o.sessionStorage.removeItem"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "9da6db1e-f850445e77132b1c.js",
+              "start": {
+                "line": 1,
+                "column": 25396
+              },
+              "end": {
+                "line": 1,
+                "column": 25426
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "endpoint",
+      "node_id": "jag_node_e3ebca4f4f48f2ab3c9107917699d129db1294d393c02f84469debf686d911f3",
+      "observations": [
+        {
+          "label": "set-cookie",
+          "properties": {
+            "endpoint_kind": "network",
+            "value": "set-cookie",
+            "mechanism": "call:get",
+            "interpretation": "candidate"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "3464-97662804f4b56150.js",
+              "start": {
+                "line": 1,
+                "column": 39287
+              },
+              "end": {
+                "line": 1,
+                "column": 39309
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "storage",
+      "node_id": "jag_node_eb76d4b5f51ddafa88bd447ba75ba24c750d35b7ab3d1affac65e2c96bec2342",
+      "observations": [
+        {
+          "label": "local-storage",
+          "properties": {
+            "storage_kind": "local-storage",
+            "name": null,
+            "mechanism": "call:o.localStorage.removeItem"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "9da6db1e-f850445e77132b1c.js",
+              "start": {
+                "line": 1,
+                "column": 24534
+              },
+              "end": {
+                "line": 1,
+                "column": 24562
+              }
+            }
+          }
+        },
+        {
+          "label": "local-storage",
+          "properties": {
+            "storage_kind": "local-storage",
+            "name": null,
+            "mechanism": "call:o.localStorage.removeItem"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "9da6db1e-f850445e77132b1c.js",
+              "start": {
+                "line": 1,
+                "column": 24083
+              },
+              "end": {
+                "line": 1,
+                "column": 24111
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-chunk",
+      "node_id": "jag_node_f5e16c21000af52963b064c596a5cc5c66b7d513610ce030535b207368f024d1",
+      "observations": [
+        {
+          "label": "webpackChunk_N_E:8575",
+          "properties": {
+            "path": "8575-0cfffd821edadf7f.js",
+            "bundler": "webpack",
+            "runtime": "webpackChunk_N_E",
+            "chunk_keys": [
+              "8575"
+            ],
+            "unknown_chunk_keys": 0,
+            "runtime_require_name": null,
+            "runtime_module_cache_status": "not-observed",
+            "entry_module_keys": [],
+            "unknown_entry_module_keys": 0,
+            "async_chunk_keys": [],
+            "unknown_async_chunk_keys": 0,
+            "module_count": 3
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "8575-0cfffd821edadf7f.js",
+              "start": {
+                "line": 1,
+                "column": 13
+              },
+              "end": {
+                "line": 1,
+                "column": 3437
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "storage",
+      "node_id": "jag_node_fa40916f445262949be5a9ad0e015f5a2de3fe087c66d153746f580978f58305",
+      "observations": [
+        {
+          "label": "session-storage",
+          "properties": {
+            "storage_kind": "session-storage",
+            "name": null,
+            "mechanism": "call:window.sessionStorage.setItem"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "layout-1a140042fadad6a2.js",
+              "start": {
+                "line": 1,
+                "column": 1835
+              },
+              "end": {
+                "line": 1,
+                "column": 1886
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "storage",
+      "node_id": "jag_node_fd99749ce1ab08f99c0a9fdc14f077a3e3c48df08e818f08615265d3f47a5eb1",
+      "observations": [
+        {
+          "label": "local-storage",
+          "properties": {
+            "storage_kind": "local-storage",
+            "name": null,
+            "mechanism": "call:o.localStorage.getItem"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "9da6db1e-f850445e77132b1c.js",
+              "start": {
+                "line": 1,
+                "column": 23815
+              },
+              "end": {
+                "line": 1,
+                "column": 23840
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "storage",
+      "node_id": "jag_node_ff2dbbf5d4566800c3952d962c716ba63c50c0164c3ef8830de3575478a7f32d",
+      "observations": [
+        {
+          "label": "session-storage",
+          "properties": {
+            "storage_kind": "session-storage",
+            "name": null,
+            "mechanism": "call:o.sessionStorage.getItem"
+          },
+          "location": {
+            "available": true,
+            "value": {
+              "kind": "source-range",
+              "source": "9da6db1e-f850445e77132b1c.js",
+              "start": {
+                "line": 1,
+                "column": 25122
+              },
+              "end": {
+                "line": 1,
+                "column": 25149
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

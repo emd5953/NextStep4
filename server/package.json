@@ -5,20 +5,20 @@
   "scripts": {
     "start": "npx nodemon server.jsx",
     "dev": "npx nodemon server.jsx",
-    "test": "jest --detectOpenHandles --forceExit",
+    "test": "jest --runInBand --silent && node --test tests/supabase-schema.test.mjs",
     "test:coverage": "jest --coverage --detectOpenHandles --forceExit",
     "docs": "jsdoc -c jsdoc.json",
-    "create-indexes": "node scripts/createIndexes.js",
     "ingest": "node scripts/ingest-documents.jsx",
-    "ingest:docs": "node scripts/ingest-documents.jsx ./docs",
+    "ingest:docs": "node scripts/ingest-documents.jsx ./help",
     "clear-vector-store": "node scripts/clear-vector-store.jsx",
     "feedback-report": "node scripts/feedback-report.jsx",
-    "setup-migration": "node scripts/setup-migration.jsx",
-    "backup-db": "node scripts/backup-database.jsx",
-    "migrate-db": "node scripts/migrate-database.jsx",
-    "verify-migration": "node scripts/migrate-database.jsx verify",
-    "cleanup-fake-jobs": "node scripts/cleanup-fake-jobs.jsx",
-    "verify-job-api": "node scripts/cleanup-fake-jobs.jsx verify-api"
+    "verify-job-api": "node scripts/check-jsearch.js",
+    "check:jsearch": "node scripts/check-jsearch.js",
+    "check:jobs": "node scripts/check-jsearch.js",
+    "check:gemini": "node tests/test-gemini-api.jsx",
+    "test:gemini": "jest --runInBand --testMatch \"**/gemini*.test.jsx\"",
+    "test:supabase": "jest --runInBand --testMatch \"**/supabase.test.jsx\" && node --test tests/supabase-schema.test.mjs",
+    "check:supabase": "node scripts/check-supabase.js"
   },
   "keywords": [],
   "author": "",
@@ -27,10 +27,10 @@
   "dependencies": {
     "@chroma-core/default-embed": "^0.1.9",
     "@google/genai": "^1.30.0",
-    "@google/generative-ai": "^0.24.1",
     "@langchain/google-genai": "^2.0.0",
     "@langchain/textsplitters": "^1.0.1",
     "@react-oauth/google": "^0.12.1",
+    "@supabase/supabase-js": "^2.118.0",
     "axios": "^1.8.4",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^3.0.2",
@@ -45,14 +45,21 @@
     "langchain": "^1.1.1",
     "mongoose": "^8.10.0",
     "multer": "^2.0.2",
-    "openai": "^4.95.0",
     "passport": "^0.7.0",
     "twilio": "^5.4.5"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.10",
+    "@electric-sql/pglite-pgvector": "^0.0.11",
     "jest": "^29.7.0",
     "jsdoc": "^4.0.2",
     "nodemon": "^3.1.9",
     "supertest": "^6.3.4"
+  },
+  "jest": {
+    "testMatch": [
+      "**/?(*.)+(spec|test).jsx",
+      "**/?(*.)+(spec|test).js"
+    ]
   }
 }

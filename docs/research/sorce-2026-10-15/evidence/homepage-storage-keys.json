@@ -1,0 +1,10 @@
+[
+  {
+    "storage": "local",
+    "error": "Error: This method is not supported through raw CDP."
+  },
+  {
+    "storage": "session",
+    "error": "Error: This method is not supported through raw CDP."
+  }
+]

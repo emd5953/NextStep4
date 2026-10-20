@@ -71,13 +71,18 @@ const YourJobs = () => {
     setEditedNote("");
   };
 
-  const handleSave = (id) => {
-    setMyApplications(myApplications.map(job => job.jobDetails._id === id ? { ...job, notes: editedNote, isEditing: false } : job));
-    setEditedNote("");
+  const handleSave = async (id) => {
+    const row = myApplications.find(job => job.jobDetails._id === id);
+    if (!row) return;
+    try {
+      await axios.patch(API_SERVER + '/applications/' + row._id, { notes: editedNote }, { headers: { Authorization: 'Bearer ' + token } });
+      setMyApplications(items => items.map(job => job._id === row._id ? { ...job, notes: editedNote, isEditing: false } : job));
+      setEditedNote('');
+    } catch (err) { setError(err.response?.data?.error || 'Could not save notes.'); }
   };
 
   const handleWithdraw = async (applicationId, jobTitle) => {
-    if (!window.confirm(`Are you sure you want to withdraw your application for "${jobTitle}"? This action cannot be undone.`)) {
+    if (!window.confirm(`Remove this saved job from your active list: "${jobTitle}"? This does not withdraw any application with the employer.`)) {
       return;
     }
 
@@ -88,7 +93,7 @@ const YourJobs = () => {
       });
       
       setMyApplications(myApplications.filter(app => app._id !== applicationId));
-      setMessage("Application withdrawn successfully");
+      setMessage("Removed from your active saved jobs");
     } catch (error) {
       console.error('Error withdrawing application:', error);
       setError(error.response?.data?.error || "Failed to withdraw application. Please try again.");
@@ -108,7 +113,7 @@ const YourJobs = () => {
           className={`tab ${activeTab === 'applied' ? 'active' : ''}`}
           onClick={() => setActiveTab('applied')}
         >
-          Applied ({myApplications.length})
+          Saved ({myApplications.length})
         </button>
         <button 
           className={`tab ${activeTab === 'rejected' ? 'active' : ''}`}
@@ -120,13 +125,13 @@ const YourJobs = () => {
 
       {activeTab === 'applied' && (
         <>
-          <p>Track and update your job applications below:</p>
+          <p>Saved jobs appear below. Open a job link to apply on the employer’s website; saving here does not submit an application.</p>
           <table className="jobs-table">
         <thead>
           <tr>
             <th>Job Title</th>
             <th>Company</th>
-            <th>Date Applied</th>
+            <th>Date Saved</th>
             <th>Status</th>
             <th>Notes</th>
             <th>Actions</th>
@@ -135,7 +140,7 @@ const YourJobs = () => {
         <tbody>
           {myApplications.map(job => (
             <tr key={job.jobDetails._id}>
-              <td>{job.jobDetails.title}</td>
+              <td>{/^https?:\/\//i.test(job.jobDetails.jobUrl || "") ? <a href={job.jobDetails.jobUrl} target="_blank" rel="noopener noreferrer">{job.jobDetails.title} ↗</a> : job.jobDetails.title}</td>
               <td>{job.companyDetails.name}</td>
               <td>{formatDate(job.date_applied)}</td>
               <td>{job.status}</td>
@@ -149,14 +154,14 @@ const YourJobs = () => {
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
                           saveInitiated.current = true;
-                          handleSave(job.id);
+                          handleSave(job.jobDetails._id);
                         }
                       }}
                       onBlur={() => {
                         if (saveInitiated.current) {
                           saveInitiated.current = false;
                         } else {
-                          handleCancel(job.id);
+                          handleCancel(job.jobDetails._id);
                         }
                       }}
                     />
@@ -174,7 +179,7 @@ const YourJobs = () => {
                   onClick={() => handleWithdraw(job._id, job.jobDetails.title)}
                   disabled={withdrawingId === job._id}
                 >
-                  {withdrawingId === job._id ? 'Withdrawing...' : 'Withdraw'}
+                  {withdrawingId === job._id ? 'Removing...' : 'Remove'}
                 </button>
               </td>
             </tr>

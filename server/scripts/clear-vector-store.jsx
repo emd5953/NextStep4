@@ -10,7 +10,7 @@
  *   npm run clear-vector-store
  */
 
-const VectorStoreService = require('../services/vectorStoreService');
+const VectorStoreService = require('../services/vectorStoreService.jsx');
 require('dotenv').config();
 
 // ANSI color codes

@@ -7,7 +7,7 @@
  * Validates: Requirements 1.1, 1.2, 1.3, 4.1, 4.3
  */
 
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+const { generateText } = require('./geminiService.js');
 const ragConfig = require('../config/ragConfig.jsx');
 
 class RAGService {
@@ -17,14 +17,7 @@ class RAGService {
    */
   constructor(vectorStore) {
     this.vectorStore = vectorStore;
-    this.genAI = new GoogleGenerativeAI(ragConfig.geminiApiKey);
-    this.model = this.genAI.getGenerativeModel({ 
-      model: ragConfig.generationModel,
-      generationConfig: {
-        temperature: 0.7,
-        maxOutputTokens: 500,
-      }
-    });
+    this.model = ragConfig.generationModel;
     this.similarityThreshold = ragConfig.similarityThreshold;
     this.maxConversationHistory = ragConfig.maxConversationHistory;
     
@@ -97,8 +90,8 @@ class RAGService {
 This seems like casual conversation, not a question about NextStep. 
 Respond naturally and friendly, then guide them to ask about NextStep features. Keep it brief (1-2 sentences).`;
 
-          const result = await this.model.generateContent(smallTalkPrompt);
-          const response = result.response.text();
+          this.apiCallCount++;
+          const response = await generateText(smallTalkPrompt, { model: this.model });
 
           return {
             response: response,
@@ -123,16 +116,7 @@ Respond naturally and friendly, then guide them to ask about NextStep features. 
       console.log('Generating AI response...');
       this.apiCallCount++;
       
-      const timeoutPromise = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Gemini API timeout')), 15000)
-      );
-      
-      const result = await Promise.race([
-        this.model.generateContent(prompt),
-        timeoutPromise
-      ]);
-      
-      const response = result.response.text();
+      const response = await generateText(prompt, { model: this.model, temperature: 0.7 });
       console.log(`✅ Gemini API call #${this.apiCallCount} completed`);
 
       // Format sources
@@ -153,7 +137,7 @@ Respond naturally and friendly, then guide them to ask about NextStep features. 
       
     } catch (error) {
       console.error('Error generating RAG response:', error);
-      throw new Error(`Failed to generate response: ${error.message}`);
+      throw error;
     }
   }
 
@@ -192,6 +176,7 @@ Respond naturally and friendly, then guide them to ask about NextStep features. 
       return results;
     } catch (error) {
       console.error('Error retrieving documents:', error);
+      if (error.status) throw error;
       throw new Error(`Failed to retrieve documents: ${error.message}`);
     }
   }
@@ -216,21 +201,21 @@ Respond naturally and friendly, then guide them to ask about NextStep features. 
     if (documents && documents.length > 0) {
       prompt += 'CONTEXT:\n';
       documents.forEach((doc, index) => {
-        prompt += `${index + 1}. ${doc.document}\n\n`;
+        prompt += `${index + 1}. [${doc.metadata?.source || "Help"}] ${doc.document}\n\n`;
       });
     }
 
     // Add conversation history (only if present)
     if (history && history.length > 0) {
-      prompt += 'HISTORY:\n';
+      prompt += 'CONVERSATION HISTORY:\n';
       history.forEach(msg => {
-        prompt += `${msg.role === 'user' ? 'User' : 'Bot'}: ${msg.content}\n`;
+        prompt += `${msg.role === 'user' ? 'User' : 'Assistant'}: ${msg.content}\n`;
       });
       prompt += '\n';
     }
 
     // Add current query
-    prompt += `Question: ${query}\n\nAnswer:`;
+    prompt += `User Question: ${query}\n\nAnswer:`;
 
     return prompt;
   }
@@ -308,88 +293,8 @@ Respond naturally and friendly, then guide them to ask about NextStep features. 
    * @private
    */
   async _getOptimalRetrievalStrategy(query) {
-    try {
-      // Try to get MongoDB connection from vector store
-      const db = this.vectorStore?.collection?.client?.db;
-      
-      if (!db) {
-        // No database access, use default strategy
-        return {
-          name: 'default',
-          documentCount: ragConfig.retrievalCount,
-          expandedQuery: null
-        };
-      }
-
-      const feedbackCollection = db.collection('rag_feedback');
-      
-      // Check for similar queries with negative feedback in last 30 days
-      const thirtyDaysAgo = new Date(Date.now() - 30*24*60*60*1000);
-      
-      const negativeFeedback = await feedbackCollection.findOne({
-        query: { $regex: this._createFuzzyRegex(query), $options: 'i' },
-        feedback: 'negative',
-        timestamp: { $gte: thirtyDaysAgo }
-      });
-
-      if (negativeFeedback) {
-        // This query (or similar) has gotten negative feedback
-        // Use enhanced retrieval strategy
-        console.log('⚠️  Query has negative feedback history - using enhanced retrieval');
-        
-        return {
-          name: 'enhanced',
-          documentCount: ragConfig.retrievalCount * 2, // Retrieve more documents
-          expandedQuery: this._expandQuery(query), // Expand query terms
-          reason: 'negative_feedback_history'
-        };
-      }
-
-      // Check overall success rate for this type of query
-      const totalFeedback = await feedbackCollection.countDocuments({
-        query: { $regex: this._createFuzzyRegex(query), $options: 'i' },
-        timestamp: { $gte: thirtyDaysAgo }
-      });
-
-      if (totalFeedback >= 3) {
-        const positiveFeedback = await feedbackCollection.countDocuments({
-          query: { $regex: this._createFuzzyRegex(query), $options: 'i' },
-          feedback: 'positive',
-          timestamp: { $gte: thirtyDaysAgo }
-        });
-
-        const successRate = positiveFeedback / totalFeedback;
-
-        if (successRate < 0.6) {
-          // Low success rate, use enhanced strategy
-          console.log(`⚠️  Query type has low success rate (${(successRate*100).toFixed(0)}%) - using enhanced retrieval`);
-          
-          return {
-            name: 'enhanced',
-            documentCount: ragConfig.retrievalCount * 2,
-            expandedQuery: this._expandQuery(query),
-            reason: 'low_success_rate',
-            successRate: successRate
-          };
-        }
-      }
-
-      // Default strategy - everything is working well
-      return {
-        name: 'default',
-        documentCount: ragConfig.retrievalCount,
-        expandedQuery: null
-      };
-
-    } catch (error) {
-      console.error('Error determining retrieval strategy:', error);
-      // Fallback to default on error
-      return {
-        name: 'default',
-        documentCount: ragConfig.retrievalCount,
-        expandedQuery: null
-      };
-    }
+    // Retrieval uses public help documentation; private feedback is never sent to the model.
+    return { name: 'default', documentCount: ragConfig.retrievalCount, expandedQuery: null };
   }
 
   /**
